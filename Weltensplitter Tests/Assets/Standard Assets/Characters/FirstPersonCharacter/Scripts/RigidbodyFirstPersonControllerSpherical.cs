@@ -79,7 +79,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         public Camera cam;
         public MovementSettings movementSettings = new MovementSettings();
-        public MouseLook mouseLook = new MouseLook();
+        public MouseLookSpherical mouseLook = new MouseLookSpherical();
         public AdvancedSettings advancedSettings = new AdvancedSettings();
 
 
@@ -157,7 +157,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 // always move along the camera forward as it is the direction that it being aimed at
                 Vector3 desiredMove = cam.transform.forward*input.y + cam.transform.right*input.x;
 				//Vector3 desiredMoveJetpack = (desiredMove.normalized) * movementSettings.CurrentTargetSpeed;
-                desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
+                desiredMove = m_Fly ? desiredMove.normalized : Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
 
                 desiredMove.x = desiredMove.x*movementSettings.CurrentTargetSpeed;
                 desiredMove.z = desiredMove.z*movementSettings.CurrentTargetSpeed;
@@ -175,10 +175,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 			if (m_Fly){
 				//m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, Mathf.Min(m_RigidBody.velocity.y + 30*Time.fixedDeltaTime, 3), m_RigidBody.velocity.z);
-				m_RigidBody.velocity = m_RigidBody.velocity + Vector3.up * Mathf.Min(30*Time.fixedDeltaTime, 3 - m_RigidBody.velocity.y);
+				//m_RigidBody.velocity = m_RigidBody.velocity + Vector3.up * Mathf.Min(30*Time.fixedDeltaTime, 3 - m_RigidBody.velocity.y);
 				//transformation below is incorrect!! check!!
 				//m_RigidBody.velocity = m_RigidBody.velocity + Vector3.up * Mathf.Min(30*Time.fixedDeltaTime, 3 - Vector3.Project(m_RigidBody.velocity, Vector3.up).magnitude);
 				//m_RigidBody.velocity = m_RigidBody.velocity + transform.up * Mathf.Min(30*Time.fixedDeltaTime, 3 - Vector3.Project(m_RigidBody.velocity, transform.up).magnitude);
+
+				Vector3 vel = m_RigidBody.velocity;
+				Vector3 upV = transform.up;
+				Vector3 velUp = Vector3.Project(vel, transform.up);
+				float factorUp = (velUp.x != 0 && upV.x != 0) ? (velUp.x/upV.x) : ( (velUp.y != 0 && upV.y != 0) ? (velUp.y/upV.y) : (velUp.z/upV.z) );
+				vel += upV * Mathf.Min(30*Time.fixedDeltaTime, 3 - factorUp);
+				m_RigidBody.velocity = vel;
+
 				m_JetpackCurFlightDuration += Time.fixedDeltaTime;
 				if(m_JetpackCurFlightDuration > movementSettings.JetpackMaxFlightDuration){
 					m_Fly = false;
@@ -193,9 +201,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 if (m_Jump)
                 {
                     m_RigidBody.drag = 0f;
-                    m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, 0f, m_RigidBody.velocity.z);
+                    //m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, 0f, m_RigidBody.velocity.z);
+					m_RigidBody.velocity -= Vector3.Project(m_RigidBody.velocity, transform.up);
                     //m_RigidBody.AddForce(new Vector3(0f, movementSettings.JumpForce, 0f), ForceMode.Impulse);
-					m_RigidBody.AddForce(m_RigidBody.position.normalized * movementSettings.JumpForce, ForceMode.Impulse);
+					//m_RigidBody.AddForce(m_RigidBody.position.normalized * movementSettings.JumpForce, ForceMode.Impulse);
+					m_RigidBody.AddForce(transform.up * movementSettings.JumpForce, ForceMode.Impulse);
                     m_Jumping = true;
                 }
 
@@ -256,17 +266,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
             //avoids the mouse looking if the game is effectively paused
             if (Mathf.Abs(Time.timeScale) < float.Epsilon) return;
 
-			transform.up = transform.position;
+			transform.up = transform.position.normalized;
 
             // get the rotation before it's changed
-            float oldYRotation = transform.eulerAngles.y;
+			//float oldYRotation = transform.eulerAngles.y;
+			float oldYRotation = mouseLook.yAngleCur;
 
             mouseLook.LookRotation (transform, cam.transform);
 
             if (m_IsGrounded || advancedSettings.airControl || m_Fly)
             {
                 // Rotate the rigidbody velocity to match the new direction that the character is looking
-                Quaternion velRotation = Quaternion.AngleAxis(transform.eulerAngles.y - oldYRotation, transform.up);
+                //Quaternion velRotation = Quaternion.AngleAxis(transform.eulerAngles.y - oldYRotation, transform.up);
+				Quaternion velRotation = Quaternion.AngleAxis(mouseLook.yAngleCur - oldYRotation, transform.up);
                 m_RigidBody.velocity = velRotation*m_RigidBody.velocity;
             }
         }
@@ -286,7 +298,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             else
             {
                 m_IsGrounded = false;
-                m_GroundContactNormal = Vector3.up;
+                m_GroundContactNormal = transform.up;
             }
             if (!m_PreviouslyGrounded && m_IsGrounded && m_Jumping)
             {

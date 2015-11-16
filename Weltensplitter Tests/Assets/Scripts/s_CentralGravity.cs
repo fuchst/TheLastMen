@@ -5,6 +5,7 @@ using System.Collections;
 public class s_CentralGravity : MonoBehaviour {
 	private Rigidbody rb;
 	private float gravityMagnitude;
+	public float factor = 1;
 
 	void Start () {
 		rb = GetComponent<Rigidbody> ();
@@ -12,6 +13,6 @@ public class s_CentralGravity : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		rb.AddForce (-rb.position.normalized * gravityMagnitude, ForceMode.Acceleration);
+		rb.AddForce (-rb.position.normalized * gravityMagnitude * factor, ForceMode.Acceleration);
 	}
 }
