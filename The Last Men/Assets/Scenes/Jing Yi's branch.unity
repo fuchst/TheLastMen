@@ -255,10 +255,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1378452258}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c570811465cc714fa1257d9d1ce72bf, type: 3}
+  m_Script: {fileID: 11500000, guid: aa56258917ba1a841aa6f90e542761fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icoVertices: []
+  radius: 30
+  cycles: 4
+  islandParent: {fileID: 0}
 --- !u!4 &1378452260
 Transform:
   m_ObjectHideFlags: 0
