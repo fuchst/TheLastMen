@@ -4,41 +4,29 @@ using System.Collections.Generic;
 public class WorldGeneration : MonoBehaviour {
 
     private string islandModel = "IslandSimple";
-    private Icosphere icoSphere;
+    private IcoSphere icoSphere;
     public float radius = 5.0f;
     public int cycles = 2;
-    public Transform islandParent;
 
-    void Awake() {
-        islandParent = new GameObject("Islands").transform;
-    }
+    private Vector3[] vertices;
 
     void Start() {
-        icoSphere = new Icosphere(radius, cycles);
+        icoSphere = new IcoSphere(radius, cycles);
+        vertices = icoSphere.verticesList.ToArray();
 
-        List<Icosphere.TriangleIndices> faces = icoSphere.faces;
-        List<Vector3> verticesList = icoSphere.verticesList;
-
-        //create cubes
-        faces.ForEach(delegate (Icosphere.TriangleIndices triangle) {
-            GameObject go = Instantiate(Resources.Load(islandModel, typeof(GameObject)), verticesList[triangle.v1], Quaternion.identity) as GameObject;
-            go.transform.up = go.transform.position - new Vector3(0, 0, 0);
-            go.transform.parent = islandParent;
-            go = Instantiate(Resources.Load(islandModel, typeof(GameObject)), verticesList[triangle.v2], Quaternion.identity) as GameObject;
-            go.transform.up = go.transform.position - new Vector3(0, 0, 0);
-            go.transform.parent = islandParent;
-            go = Instantiate(Resources.Load(islandModel, typeof(GameObject)), verticesList[triangle.v3], Quaternion.identity) as GameObject;
-            go.transform.up = go.transform.position - new Vector3(0, 0, 0);
-            go.transform.parent = islandParent;
-        });
+        //create islands
+        Transform islandParent = new GameObject("Islands").transform;
+        foreach(Vector3 v in vertices) {
+            GameObject GO = Instantiate(Resources.Load(islandModel, typeof(GameObject)), v, Quaternion.identity) as GameObject;
+            GO.transform.up = GO.transform.position - new Vector3(0, 0, 0);
+            GO.transform.parent = islandParent;
+        }
     }
 }
 
-class Icosphere {
-
+class IcoSphere {
     private int cycles;
     private float radius;
-    private List<Vector3> wireframeEdges = new List<Vector3>(); //for debugging only
     public List<TriangleIndices> faces = new List<TriangleIndices>();
     public List<Vector3> verticesList = new List<Vector3>();
 
@@ -54,11 +42,9 @@ class Icosphere {
         }
     }
 
-    public Icosphere(float radius, int complexityLevel) {
+    public IcoSphere(float radius, int complexityLevel) {
 
         this.cycles = complexityLevel;
-
-
         Dictionary<long, int> middlePointIndexCache = new Dictionary<long, int>();
 
         float t = (1f + Mathf.Sqrt(5f)) / 2f;
