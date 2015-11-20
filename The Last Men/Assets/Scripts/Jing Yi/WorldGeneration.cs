@@ -3,31 +3,132 @@ using System.Collections.Generic;
 
 public class WorldGeneration : MonoBehaviour {
 
-    private string islandModel = "IslandSimple";
-    private IcoSphere icoSphere;
     public float radius = 5.0f;
     public int cycles = 2;
+    public int randomSeed = 1337;
+
+    private string islandModel = "IslandSimple";
+    //private IcoSphere icoSphere;
 
     private Vector3[] vertices;
+    private Vector2[] edges;
+    private int[,] edgesMatrix;
+    private List<int> importantIslands = new List<int>();
+
+    private Transform islandParent;
 
     void Start() {
-        icoSphere = new IcoSphere(radius, cycles);
-        vertices = icoSphere.verticesList.ToArray();
+        Random.seed = randomSeed;
+        new IcoSphere(radius, cycles, ref vertices, ref edges);
+        CreateEdgeMatrix();
+        CreateIslands();
+        CreateBase();
+        int[] artifacts = new int[4];
+        CreateArtifacts(ref artifacts);
+        CreateArtifactPaths(ref artifacts);
+        CreateAdditionalIslands();
+        DeleteNonIslands();
+
+
+        //TODO:
+        //select 4 vertices (artifacts) spread roughly equal distributed over the world
+        //optional: calc shortest path to base for each vertex
+
+        //create paths from artifacts to base which is a bit longer than shortest path
+        //mark paths, base, points surrounding base and artifacts as do not delete
+        //choose some random points remove them + surrounding points (wholes in the sphere)
+        //put rest of points in a bag. delete 1/3 of the points
+        //done
 
         //create islands
-        Transform islandParent = new GameObject("Islands").transform;
-        foreach(Vector3 v in vertices) {
+
+    }
+    void CreateIslands() {
+        islandParent = new GameObject("Islands").transform;
+        foreach (Vector3 v in vertices) {
             GameObject GO = Instantiate(Resources.Load(islandModel, typeof(GameObject)), v, Quaternion.identity) as GameObject;
             GO.transform.up = GO.transform.position - new Vector3(0, 0, 0);
             GO.transform.parent = islandParent;
         }
     }
+
+    void CreateBase() {
+        importantIslands.Add(0);
+        GameObject baseIsland = islandParent.GetChild(0).gameObject;
+        baseIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
+    }
+
+    void CreateEdgeMatrix() {
+        edgesMatrix = new int[edges.Length, edges.Length];
+        foreach (Vector2 e in edges) {
+            int x = (int)e.x;
+            int y = (int)e.y;
+            edgesMatrix[x, y] = 1;
+            edgesMatrix[y, x] = 1;
+        }
+    }
+
+    void CreateArtifacts(ref int[] artifacts) {
+        artifacts[0] = Random.Range(1, (vertices.Length / 4) - 1);
+        artifacts[1] = Random.Range((vertices.Length / 4), (vertices.Length / 2) - 1);
+        artifacts[2] = Random.Range((vertices.Length / 2), ((vertices.Length / 4) * 3) - 1);
+        artifacts[3] = Random.Range(((vertices.Length / 4) * 3), vertices.Length - 1);
+        foreach (int x in artifacts) {
+            GameObject artifactIsland = islandParent.GetChild(x).gameObject;
+            artifactIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/ArtifactSimple", typeof(Material)) as Material;
+            importantIslands.Add(x);
+        }
+    }
+
+    void CreateArtifactPaths(ref int[] artifacts) {
+        Vector3 origin = islandParent.GetChild(0).transform.position;
+        for (int i = 0; i < 2; i++) {
+            //create a path of islands from artifact isle to base isle
+            //List<int> path = new List<int>();
+            int current = artifacts[i];
+            // reminder: base index is 0
+
+            while(current != 0) {
+                //find neighbors
+                List<int> neighbors = new List<int>();
+                int count = 0;
+                int j = 0;
+                while (count < 3 || j > vertices.Length) {
+                    if (edgesMatrix[current, j] == 1) {
+                        count++;
+                        neighbors.Add(j);
+                    }
+                    j++;
+                }
+                //get closes neighbor
+                for (int a = 0; a < 2; a++) {
+                    if (Vector3.Distance(vertices[neighbors[0]], origin) < Vector3.Distance(vertices[neighbors[1]], origin)) {
+                        neighbors.RemoveAt(1);
+                    }
+                    else {
+                        neighbors.RemoveAt(0);
+                    }
+                }
+                current = neighbors[0];
+                if (importantIslands.Contains(current) == false) {
+                    importantIslands.Add(current);
+                    GameObject pathIsland = islandParent.GetChild(current).gameObject;
+                    pathIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
+                }
+            }
+        }
+    }
+
+    void CreateAdditionalIslands() {
+
+    }
+    void DeleteNonIslands() {
+
+    }
 }
 
 class IcoSphere {
-    private int cycles;
     private float radius;
-    public List<TriangleIndices> faces = new List<TriangleIndices>();
     public List<Vector3> verticesList = new List<Vector3>();
 
     public struct TriangleIndices {
@@ -42,11 +143,9 @@ class IcoSphere {
         }
     }
 
-    public IcoSphere(float radius, int complexityLevel) {
-
-        this.cycles = complexityLevel;
+    public IcoSphere(float radius, int cycles, ref Vector3[] vertices, ref Vector2[] edges) {
         Dictionary<long, int> middlePointIndexCache = new Dictionary<long, int>();
-
+        List<TriangleIndices> faces = new List<TriangleIndices>();
         float t = (1f + Mathf.Sqrt(5f)) / 2f;
 
         verticesList.Add(new Vector3(-1f, t, 0f).normalized * radius);
@@ -64,8 +163,6 @@ class IcoSphere {
         verticesList.Add(new Vector3(-t, 0f, -1f).normalized * radius);
         verticesList.Add(new Vector3(-t, 0f, 1f).normalized * radius);
 
-
-
         // 5 faces around point 0
         faces.Add(new TriangleIndices(0, 11, 5));
         faces.Add(new TriangleIndices(0, 5, 1));
@@ -80,6 +177,13 @@ class IcoSphere {
         faces.Add(new TriangleIndices(10, 7, 6));
         faces.Add(new TriangleIndices(7, 1, 8));
 
+        // 5 neighbour faces
+        faces.Add(new TriangleIndices(4, 9, 5));
+        faces.Add(new TriangleIndices(2, 4, 11));
+        faces.Add(new TriangleIndices(6, 2, 10));
+        faces.Add(new TriangleIndices(8, 6, 7));
+        faces.Add(new TriangleIndices(9, 8, 1));
+
         // 5 faces around point 3
         faces.Add(new TriangleIndices(3, 9, 4));
         faces.Add(new TriangleIndices(3, 4, 2));
@@ -87,15 +191,8 @@ class IcoSphere {
         faces.Add(new TriangleIndices(3, 6, 8));
         faces.Add(new TriangleIndices(3, 8, 9));
 
-        // 5 adjacent faces
-        faces.Add(new TriangleIndices(4, 9, 5));
-        faces.Add(new TriangleIndices(2, 4, 11));
-        faces.Add(new TriangleIndices(6, 2, 10));
-        faces.Add(new TriangleIndices(8, 6, 7));
-        faces.Add(new TriangleIndices(9, 8, 1));
-
         // refine triangles
-        for (int i = 0; i < complexityLevel; i++) {
+        for (int i = 0; i < cycles; i++) {
             List<TriangleIndices> faces2 = new List<TriangleIndices>();
             foreach (var tri in faces) {
                 // replace triangle by 4 triangles
@@ -110,6 +207,38 @@ class IcoSphere {
             }
             faces = faces2;
         }
+
+        //at this point the sphere is already generated.
+        //more information is created which are needed for modifying the sphere
+        //TODO: optimize this part. its horrible
+        vertices = verticesList.ToArray();
+        List<Vector2> edgesList = new List<Vector2>();
+        faces.ForEach(delegate (TriangleIndices tri) {
+            Vector2[] triEdges = new Vector2[3];
+            triEdges[0] = new Vector2(tri.v1, tri.v2);
+            triEdges[1] = new Vector2(tri.v2, tri.v3);
+            triEdges[2] = new Vector2(tri.v1, tri.v3);
+            for (int i = 0; i < 3; i++) {
+                if (triEdges[i].x > triEdges[i].y) {
+                    triEdges[i] = new Vector2(triEdges[i].y, triEdges[i].x);
+                }
+            }
+
+            bool[] contains = { false, false, false };
+            edgesList.ForEach(delegate (Vector2 existingEdge) {
+                for (int i = 0; i < 3; i++) {
+                    if (existingEdge == triEdges[i]) {
+                        contains[i] = true;
+                    }
+                }
+            });
+            for (int i = 0; i < 3; i++) {
+                if (contains[i] == false) {
+                    edgesList.Add(triEdges[i]);
+                }
+            }
+        });
+        edges = edgesList.ToArray();
     }
 
     // return index of point in the middle of p1 and p2
