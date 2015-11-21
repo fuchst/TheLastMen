@@ -43,12 +43,20 @@ public class WorldGeneration : MonoBehaviour {
         //create islands
 
     }
+
+    void Update() {
+        foreach(Vector2 e in edges) {
+            Debug.DrawLine(vertices[(int)e.x], vertices[(int)e.y]);
+        }
+    }
+
     void CreateIslands() {
         islandParent = new GameObject("Islands").transform;
-        foreach (Vector3 v in vertices) {
-            GameObject GO = Instantiate(Resources.Load(islandModel, typeof(GameObject)), v, Quaternion.identity) as GameObject;
+        for(int i = 0; i< vertices.Length; i++) {
+            GameObject GO = Instantiate(Resources.Load(islandModel, typeof(GameObject)), vertices[i], Quaternion.identity) as GameObject;
             GO.transform.up = GO.transform.position - new Vector3(0, 0, 0);
             GO.transform.parent = islandParent;
+            GO.name = i.ToString();
         }
     }
 
@@ -82,18 +90,17 @@ public class WorldGeneration : MonoBehaviour {
 
     void CreateArtifactPaths(ref int[] artifacts) {
         Vector3 origin = islandParent.GetChild(0).transform.position;
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < artifacts.Length; i++) {
             //create a path of islands from artifact isle to base isle
             //List<int> path = new List<int>();
             int current = artifacts[i];
             // reminder: base index is 0
-
-            while(current != 0) {
+            while (current != 0) {
                 //find neighbors
                 List<int> neighbors = new List<int>();
                 int count = 0;
                 int j = 0;
-                while (count < 3 || j > vertices.Length) {
+                while (count < 5 || j > vertices.Length) {
                     if (edgesMatrix[current, j] == 1) {
                         count++;
                         neighbors.Add(j);
@@ -101,7 +108,7 @@ public class WorldGeneration : MonoBehaviour {
                     j++;
                 }
                 //get closes neighbor
-                for (int a = 0; a < 2; a++) {
+                while(neighbors.Count > 1) {
                     if (Vector3.Distance(vertices[neighbors[0]], origin) < Vector3.Distance(vertices[neighbors[1]], origin)) {
                         neighbors.RemoveAt(1);
                     }
@@ -116,6 +123,7 @@ public class WorldGeneration : MonoBehaviour {
                     pathIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
                 }
             }
+            Debug.Log(current);
         }
     }
 
