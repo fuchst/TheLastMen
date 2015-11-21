@@ -6,6 +6,7 @@ public class WorldGeneration : MonoBehaviour {
     public float radius = 5.0f;
     public int cycles = 2;
     public int randomSeed = 1337;
+    public int numberOfArtifacts = 8;
 
     private string islandModel = "IslandSimple";
     //private IcoSphere icoSphere;
@@ -23,7 +24,7 @@ public class WorldGeneration : MonoBehaviour {
         CreateEdgeMatrix();
         CreateIslands();
         CreateBase();
-        int[] artifacts = new int[4];
+        int[] artifacts = new int[numberOfArtifacts];
         CreateArtifacts(ref artifacts);
         CreateArtifactPaths(ref artifacts);
         CreateAdditionalIslands();
@@ -77,10 +78,13 @@ public class WorldGeneration : MonoBehaviour {
     }
 
     void CreateArtifacts(ref int[] artifacts) {
-        artifacts[0] = Random.Range(1, (vertices.Length / 4) - 1);
-        artifacts[1] = Random.Range((vertices.Length / 4), (vertices.Length / 2) - 1);
-        artifacts[2] = Random.Range((vertices.Length / 2), ((vertices.Length / 4) * 3) - 1);
-        artifacts[3] = Random.Range(((vertices.Length / 4) * 3), vertices.Length - 1);
+        //artifacts[0] = Random.Range(1, (vertices.Length / 4) - 1);
+        //artifacts[1] = Random.Range((vertices.Length / 4), (vertices.Length / 2) - 1);
+        //artifacts[2] = Random.Range((vertices.Length / 2), ((vertices.Length / 4) * 3) - 1);
+        //artifacts[3] = Random.Range(((vertices.Length / 4) * 3), vertices.Length - 1);
+        for(int i = 0; i < artifacts.Length; i++) {
+            artifacts[i] = Random.Range(1, vertices.Length);
+        }
         foreach (int x in artifacts) {
             GameObject artifactIsland = islandParent.GetChild(x).gameObject;
             artifactIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/ArtifactSimple", typeof(Material)) as Material;
