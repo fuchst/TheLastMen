@@ -11,7 +11,7 @@ public class s_GenerateIslandsSpherical : MonoBehaviour {
 	//islands
 	public List<GameObject> prefabs = new List<GameObject>();
 	public float radius = 100;
-	public int amount = 25;
+	public int amount = 5;
 	public Vector2 sizeMinMax = new Vector2(0.25f, 2.5f);
 
 	protected List<GameObject> spawnedIslands = new List<GameObject>();
