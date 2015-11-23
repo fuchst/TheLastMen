@@ -31,12 +31,7 @@ public class WorldGeneration : MonoBehaviour {
         DeleteNonIslands();
 
 
-        //TODO:
-        //select 4 vertices (artifacts) spread roughly equal distributed over the world
-        //optional: calc shortest path to base for each vertex
-
-        //create paths from artifacts to base which is a bit longer than shortest path
-        //mark paths, base, points surrounding base and artifacts as do not delete
+        //points surrounding base and artifacts as do not delete
         //choose some random points remove them + surrounding points (wholes in the sphere)
         //put rest of points in a bag. delete 1/3 of the points
         //done
@@ -46,14 +41,14 @@ public class WorldGeneration : MonoBehaviour {
     }
 
     void Update() {
-        foreach(Vector2 e in edges) {
+        foreach (Vector2 e in edges) {
             Debug.DrawLine(vertices[(int)e.x], vertices[(int)e.y]);
         }
     }
 
     void CreateIslands() {
         islandParent = new GameObject("Islands").transform;
-        for(int i = 0; i< vertices.Length; i++) {
+        for (int i = 0; i < vertices.Length; i++) {
             GameObject GO = Instantiate(Resources.Load(islandModel, typeof(GameObject)), vertices[i], Quaternion.identity) as GameObject;
             GO.transform.up = GO.transform.position - new Vector3(0, 0, 0);
             GO.transform.parent = islandParent;
@@ -65,6 +60,14 @@ public class WorldGeneration : MonoBehaviour {
         importantIslands.Add(0);
         GameObject baseIsland = islandParent.GetChild(0).gameObject;
         baseIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
+        //Optimize: break look after 5 neighbors has been found
+        for (int i = 1; i < edgesMatrix.GetLength(0); i++) {
+            if (edgesMatrix[0, i] == 1) {
+                importantIslands.Add(i);
+                GameObject neighborIsland = islandParent.GetChild(i).gameObject;
+                neighborIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
+            }
+        }
     }
 
     void CreateEdgeMatrix() {
@@ -78,11 +81,8 @@ public class WorldGeneration : MonoBehaviour {
     }
 
     void CreateArtifacts(ref int[] artifacts) {
-        //artifacts[0] = Random.Range(1, (vertices.Length / 4) - 1);
-        //artifacts[1] = Random.Range((vertices.Length / 4), (vertices.Length / 2) - 1);
-        //artifacts[2] = Random.Range((vertices.Length / 2), ((vertices.Length / 4) * 3) - 1);
-        //artifacts[3] = Random.Range(((vertices.Length / 4) * 3), vertices.Length - 1);
-        for(int i = 0; i < artifacts.Length; i++) {
+        //random distribution not good enough
+        for (int i = 0; i < artifacts.Length; i++) {
             artifacts[i] = Random.Range(1, vertices.Length);
         }
         foreach (int x in artifacts) {
@@ -112,7 +112,7 @@ public class WorldGeneration : MonoBehaviour {
                     j++;
                 }
                 //get closes neighbor
-                while(neighbors.Count > 1) {
+                while (neighbors.Count > 1) {
                     if (Vector3.Distance(vertices[neighbors[0]], origin) < Vector3.Distance(vertices[neighbors[1]], origin)) {
                         neighbors.RemoveAt(1);
                     }
@@ -127,7 +127,6 @@ public class WorldGeneration : MonoBehaviour {
                     pathIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
                 }
             }
-            Debug.Log(current);
         }
     }
 
