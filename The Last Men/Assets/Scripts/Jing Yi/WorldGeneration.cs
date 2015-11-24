@@ -7,9 +7,9 @@ public class WorldGeneration : MonoBehaviour {
     public int cycles = 2;
     public int randomSeed = 1337;
     public int numberOfArtifacts = 8;
+    public float destructionLevel = 0.6f;
 
     private string islandModel = "IslandSimple";
-    //private IcoSphere icoSphere;
 
     private Vector3[] vertices;
     private Vector2[] edges;
@@ -27,20 +27,11 @@ public class WorldGeneration : MonoBehaviour {
         int[] artifacts = new int[numberOfArtifacts];
         CreateArtifacts(ref artifacts);
         CreateArtifactPaths(ref artifacts);
-        CreateAdditionalIslands();
-        DeleteNonIslands();
-
-
-        //points surrounding base and artifacts as do not delete
-        //choose some random points remove them + surrounding points (wholes in the sphere)
-        //put rest of points in a bag. delete 1/3 of the points
-        //done
-
-        //create islands
-
+        DestroyUnneededIslands();
     }
 
     void Update() {
+        //show grid
         foreach (Vector2 e in edges) {
             Debug.DrawLine(vertices[(int)e.x], vertices[(int)e.y]);
         }
@@ -123,18 +114,33 @@ public class WorldGeneration : MonoBehaviour {
                 current = neighbors[0];
                 if (importantIslands.Contains(current) == false) {
                     importantIslands.Add(current);
-                    GameObject pathIsland = islandParent.GetChild(current).gameObject;
-                    pathIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
+                    islandParent.GetChild(current).gameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
                 }
             }
         }
     }
 
-    void CreateAdditionalIslands() {
+    void DestroyUnneededIslands() {
+        importantIslands.Sort();
+        int numberDeleted = 0;
+        //remove doubles
+        for (int i = importantIslands.Count - 2; i > -1; i--) {
+            if (importantIslands[i] == importantIslands[i + 1]) {
+                importantIslands.RemoveAt(i + 1);
+                numberDeleted++;
+            }
+        }
+        //remove islands
+        int islands = vertices.Length;
+        for (int i = islands - 1; i > -1; i--) {
+            if (importantIslands.Contains(i) == false) {
+                float randomNumber = Random.Range(0f, 1.0f);
+                if (randomNumber < destructionLevel) {
+                    Destroy(islandParent.GetChild(i).gameObject);
+                }
 
-    }
-    void DeleteNonIslands() {
-
+            }
+        }
     }
 }
 

@@ -334,6 +334,8 @@ MonoBehaviour:
   radius: 10
   cycles: 3
   randomSeed: 1337
+  numberOfArtifacts: 8
+  destructionLevel: .600000024
 --- !u!4 &1378452260
 Transform:
   m_ObjectHideFlags: 0
