@@ -15,10 +15,11 @@ public class WorldGeneration : MonoBehaviour {
     private Vector2[] edges;
     private int[,] edgesMatrix;
     private List<int> importantIslands = new List<int>();
+    private Vector3 basePos;
 
     private Transform islandParent;
 
-    void Start() {
+    public void CreateWorld() {
         Random.seed = randomSeed;
         new IcoSphere(radius, cycles, ref vertices, ref edges);
         CreateEdgeMatrix();
@@ -30,15 +31,19 @@ public class WorldGeneration : MonoBehaviour {
         DestroyUnneededIslands();
     }
 
-    void Update() {
-        //show grid
-        foreach (Vector2 e in edges) {
-            Debug.DrawLine(vertices[(int)e.x], vertices[(int)e.y]);
-        }
-    }
+    //void Update() {
+    //    //show grid
+    //    foreach (Vector2 e in edges) {
+    //        Debug.DrawLine(vertices[(int)e.x], vertices[(int)e.y]);
+    //    }
+    //}
 
     void CreateIslands() {
         islandParent = new GameObject("Islands").transform;
+        Rigidbody rb = islandParent.gameObject.AddComponent<Rigidbody>() as Rigidbody;
+        rb.isKinematic = true;
+        rb.useGravity = false;
+
         for (int i = 0; i < vertices.Length; i++) {
             GameObject GO = Instantiate(Resources.Load(islandModel, typeof(GameObject)), vertices[i], Quaternion.identity) as GameObject;
             GO.transform.up = GO.transform.position - new Vector3(0, 0, 0);
@@ -50,6 +55,7 @@ public class WorldGeneration : MonoBehaviour {
     void CreateBase() {
         importantIslands.Add(0);
         GameObject baseIsland = islandParent.GetChild(0).gameObject;
+        basePos = baseIsland.transform.position;
         baseIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
         //Optimize: break look after 5 neighbors has been found
         for (int i = 1; i < edgesMatrix.GetLength(0); i++) {
@@ -138,9 +144,13 @@ public class WorldGeneration : MonoBehaviour {
                 if (randomNumber < destructionLevel) {
                     Destroy(islandParent.GetChild(i).gameObject);
                 }
-
             }
         }
+    }
+
+    public Vector3 GetBasePosition() {
+        //not transform.GetChild(0).position because we may change that in a future commit
+        return basePos;
     }
 }
 
