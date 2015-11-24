@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
         gameWorld.CreateWorld();
         Vector3 spawnPos = gameWorld.GetBasePosition();
         spawnPos += spawnPos.normalized;
-        GameObject playerInstance = Instantiate(player, spawnPos, Quaternion.identity) as GameObject;
+        Instantiate(player, spawnPos, Quaternion.identity);
         Destroy(worldCam.gameObject);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Linq;
 using System.Collections.Generic;
 
 public class WorldGeneration : MonoBehaviour {
@@ -9,170 +10,132 @@ public class WorldGeneration : MonoBehaviour {
     public int numberOfArtifacts = 8;
     public float destructionLevel = 0.6f;
 
+    //island prefab
     private string islandModel = "IslandSimple";
 
-    private Vector3[] vertices;
-    private Vector2[] edges;
-    private int[,] edgesMatrix;
-    private List<int> importantIslands = new List<int>();
-    private Vector3 basePos;
-
+    private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
     private Transform islandParent;
 
     public void CreateWorld() {
         Random.seed = randomSeed;
-        new IcoSphere(radius, cycles, ref vertices, ref edges);
-        CreateEdgeMatrix();
+        IcoSphere(radius, cycles, ref islandDictionary);
+
         CreateIslands();
         CreateBase();
-        int[] artifacts = new int[numberOfArtifacts];
-        CreateArtifacts(ref artifacts);
-        CreateArtifactPaths(ref artifacts);
+        CreateArtifacts();
+        CreateArtifactPaths();
         DestroyUnneededIslands();
     }
 
-    //void Update() {
-    //    //show grid
-    //    foreach (Vector2 e in edges) {
-    //        Debug.DrawLine(vertices[(int)e.x], vertices[(int)e.y]);
-    //    }
-    //}
+    void Update() {
+        foreach (Island island in islandDictionary.Values) {
+            foreach (int v in island.neighbors) {
+                Island target;
+                islandDictionary.TryGetValue(v, out target);
+                Debug.DrawLine(island.position, target.position);
+            }
+        }
+    }
 
     void CreateIslands() {
         islandParent = new GameObject("Islands").transform;
-        Rigidbody rb = islandParent.gameObject.AddComponent<Rigidbody>() as Rigidbody;
-        rb.isKinematic = true;
-        rb.useGravity = false;
+        foreach (KeyValuePair<int, Island> entry in islandDictionary) {
+            GameObject newIsland = Instantiate(Resources.Load(islandModel, typeof(GameObject)), entry.Value.position, Quaternion.identity) as GameObject;
+            newIsland.name = entry.Key.ToString();
+            newIsland.transform.up = newIsland.transform.position;
+            newIsland.transform.parent = islandParent;
 
-        for (int i = 0; i < vertices.Length; i++) {
-            GameObject GO = Instantiate(Resources.Load(islandModel, typeof(GameObject)), vertices[i], Quaternion.identity) as GameObject;
-            GO.transform.up = GO.transform.position - new Vector3(0, 0, 0);
-            GO.transform.parent = islandParent;
-            GO.name = i.ToString();
+            entry.Value.linkedGameObject = newIsland;
         }
     }
 
     void CreateBase() {
-        importantIslands.Add(0);
-        GameObject baseIsland = islandParent.GetChild(0).gameObject;
-        basePos = baseIsland.transform.position;
-        baseIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
-        //Optimize: break look after 5 neighbors has been found
-        for (int i = 1; i < edgesMatrix.GetLength(0); i++) {
-            if (edgesMatrix[0, i] == 1) {
-                importantIslands.Add(i);
-                GameObject neighborIsland = islandParent.GetChild(i).gameObject;
-                neighborIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
+        Island baseIsland;
+        islandDictionary.TryGetValue(0, out baseIsland);
+        baseIsland.islandType = 1; //base
+        baseIsland.linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
+        foreach (int neighborKey in baseIsland.neighbors) {
+            islandDictionary.TryGetValue(neighborKey, out baseIsland);
+            baseIsland.islandType = 2; //islands surrounding the base
+            baseIsland.linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
+        }
+    }
+
+    void CreateArtifacts() {
+        for (int i = 0; i < 8; i++) {
+            //grab a random island
+            Island artifactIsland = islandDictionary.ElementAt(Random.Range(0, islandDictionary.Count)).Value;
+            if (artifactIsland.islandType > 0) {
+                //reroll in case the island is already used for something else
+                i--;
+                continue;
+            }
+            artifactIsland.islandType = 3;
+            artifactIsland.linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/ArtifactSimple", typeof(Material)) as Material;
+        }
+    }
+
+    void CreateArtifactPaths() {
+        Vector3 origin = islandDictionary[0].position;
+        foreach (KeyValuePair<int, Island> item in islandDictionary.Where(item => item.Value.islandType == 3)) {
+            Island currentIsland = item.Value;
+            while (currentIsland.islandType != 1) {
+                int neighborClosestToBase = 0;
+                float lastDistance = Vector3.Distance(islandDictionary[currentIsland.neighbors[0]].position, origin);
+                for (int i = 1; i < currentIsland.neighbors.Count; i++) {
+                    if (lastDistance > Vector3.Distance(islandDictionary[currentIsland.neighbors[i]].position, origin)) {
+                        lastDistance = Vector3.Distance(islandDictionary[currentIsland.neighbors[i]].position, origin);
+                        neighborClosestToBase = i;
+                    }
+                }
+                islandDictionary[currentIsland.neighbors[neighborClosestToBase]].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
+                currentIsland.islandType = 2;
+                currentIsland = islandDictionary[currentIsland.neighbors[neighborClosestToBase]];
             }
         }
-    }
-
-    void CreateEdgeMatrix() {
-        edgesMatrix = new int[edges.Length, edges.Length];
-        foreach (Vector2 e in edges) {
-            int x = (int)e.x;
-            int y = (int)e.y;
-            edgesMatrix[x, y] = 1;
-            edgesMatrix[y, x] = 1;
-        }
-    }
-
-    void CreateArtifacts(ref int[] artifacts) {
-        //random distribution not good enough
-        for (int i = 0; i < artifacts.Length; i++) {
-            artifacts[i] = Random.Range(1, vertices.Length);
-        }
-        foreach (int x in artifacts) {
-            GameObject artifactIsland = islandParent.GetChild(x).gameObject;
-            artifactIsland.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/ArtifactSimple", typeof(Material)) as Material;
-            importantIslands.Add(x);
-        }
-    }
-
-    void CreateArtifactPaths(ref int[] artifacts) {
-        Vector3 origin = islandParent.GetChild(0).transform.position;
-        for (int i = 0; i < artifacts.Length; i++) {
-            //create a path of islands from artifact isle to base isle
-            //List<int> path = new List<int>();
-            int current = artifacts[i];
-            // reminder: base index is 0
-            while (current != 0) {
-                //find neighbors
-                List<int> neighbors = new List<int>();
-                int count = 0;
-                int j = 0;
-                while (count < 5 || j > vertices.Length) {
-                    if (edgesMatrix[current, j] == 1) {
-                        count++;
-                        neighbors.Add(j);
-                    }
-                    j++;
-                }
-                //get closes neighbor
-                while (neighbors.Count > 1) {
-                    if (Vector3.Distance(vertices[neighbors[0]], origin) < Vector3.Distance(vertices[neighbors[1]], origin)) {
-                        neighbors.RemoveAt(1);
-                    }
-                    else {
-                        neighbors.RemoveAt(0);
-                    }
-                }
-                current = neighbors[0];
-                if (importantIslands.Contains(current) == false) {
-                    importantIslands.Add(current);
-                    islandParent.GetChild(current).gameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
-                }
-            }
-        }
+        //base color is propably overpaint so re repaint the base island
+        islandDictionary[0].islandType = 1;
+        islandDictionary[0].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
     }
 
     void DestroyUnneededIslands() {
-        importantIslands.Sort();
-        int numberDeleted = 0;
-        //remove doubles
-        for (int i = importantIslands.Count - 2; i > -1; i--) {
-            if (importantIslands[i] == importantIslands[i + 1]) {
-                importantIslands.RemoveAt(i + 1);
-                numberDeleted++;
-            }
-        }
-        //remove islands
-        int islands = vertices.Length;
-        for (int i = islands - 1; i > -1; i--) {
-            if (importantIslands.Contains(i) == false) {
+        Stack<int> deleteStack = new Stack<int>();
+        foreach (KeyValuePair<int, Island> item in islandDictionary) {
+            if (item.Value.islandType == 0) {
                 float randomNumber = Random.Range(0f, 1.0f);
                 if (randomNumber < destructionLevel) {
-                    Destroy(islandParent.GetChild(i).gameObject);
+                    deleteStack.Push(item.Key);
                 }
             }
+        }
+        while (deleteStack.Count > 0) {
+            int key = deleteStack.Pop();
+            foreach (int neighbor in islandDictionary[key].neighbors) {
+                islandDictionary[neighbor].neighbors.Remove(key);
+            }
+            Destroy(islandDictionary[key].linkedGameObject);
+            islandDictionary.Remove(key);
         }
     }
 
     public Vector3 GetBasePosition() {
         //not transform.GetChild(0).position because we may change that in a future commit
-        return basePos;
+        return islandDictionary[0].position;
     }
-}
 
-class IcoSphere {
-    private float radius;
-    public List<Vector3> verticesList = new List<Vector3>();
-
-    public struct TriangleIndices {
-        public int v1;
-        public int v2;
-        public int v3;
+    struct TriangleIndices {
+        public int[] v;
 
         public TriangleIndices(int v1, int v2, int v3) {
-            this.v1 = v1;
-            this.v2 = v2;
-            this.v3 = v3;
+            v = new int[] { v1, v2, v3 };
         }
     }
 
-    public IcoSphere(float radius, int cycles, ref Vector3[] vertices, ref Vector2[] edges) {
+    private void IcoSphere(float radius, int cycles, ref SortedDictionary<int, Island> islandDictionary) {
         Dictionary<long, int> middlePointIndexCache = new Dictionary<long, int>();
         List<TriangleIndices> faces = new List<TriangleIndices>();
+        List<Vector3> verticesList = new List<Vector3>();
+
         float t = (1f + Mathf.Sqrt(5f)) / 2f;
 
         verticesList.Add(new Vector3(-1f, t, 0f).normalized * radius);
@@ -218,58 +181,45 @@ class IcoSphere {
         faces.Add(new TriangleIndices(3, 6, 8));
         faces.Add(new TriangleIndices(3, 8, 9));
 
-        // refine triangles
+        // subdivide
         for (int i = 0; i < cycles; i++) {
             List<TriangleIndices> faces2 = new List<TriangleIndices>();
             foreach (var tri in faces) {
                 // replace triangle by 4 triangles
-                int a = getMiddlePoint(tri.v1, tri.v2, ref verticesList, ref middlePointIndexCache, radius);
-                int b = getMiddlePoint(tri.v2, tri.v3, ref verticesList, ref middlePointIndexCache, radius);
-                int c = getMiddlePoint(tri.v3, tri.v1, ref verticesList, ref middlePointIndexCache, radius);
+                int a = getMiddlePoint(tri.v[0], tri.v[1], ref verticesList, ref middlePointIndexCache, radius);
+                int b = getMiddlePoint(tri.v[1], tri.v[2], ref verticesList, ref middlePointIndexCache, radius);
+                int c = getMiddlePoint(tri.v[2], tri.v[0], ref verticesList, ref middlePointIndexCache, radius);
 
-                faces2.Add(new TriangleIndices(tri.v1, a, c));
-                faces2.Add(new TriangleIndices(tri.v2, b, a));
-                faces2.Add(new TriangleIndices(tri.v3, c, b));
+                faces2.Add(new TriangleIndices(tri.v[0], a, c));
+                faces2.Add(new TriangleIndices(tri.v[1], b, a));
+                faces2.Add(new TriangleIndices(tri.v[2], c, b));
                 faces2.Add(new TriangleIndices(a, b, c));
             }
             faces = faces2;
         }
 
-        //at this point the sphere is already generated.
-        //more information is created which are needed for modifying the sphere
-        //TODO: optimize this part. its horrible
-        vertices = verticesList.ToArray();
-        List<Vector2> edgesList = new List<Vector2>();
-        faces.ForEach(delegate (TriangleIndices tri) {
-            Vector2[] triEdges = new Vector2[3];
-            triEdges[0] = new Vector2(tri.v1, tri.v2);
-            triEdges[1] = new Vector2(tri.v2, tri.v3);
-            triEdges[2] = new Vector2(tri.v1, tri.v3);
-            for (int i = 0; i < 3; i++) {
-                if (triEdges[i].x > triEdges[i].y) {
-                    triEdges[i] = new Vector2(triEdges[i].y, triEdges[i].x);
+        //we dont want to store the sphere in faces.
+        //instead we need a graph of nodes with its neighbors
+        //lets map faces into a dictionary of islands where each island knows its neigbors
+        for (int i = 0; i < faces.Count; i++) {
+            for (int j = 0; j < 3; j++) {
+                Island island;
+                if (islandDictionary.TryGetValue(faces[i].v[j], out island) == false) {
+                    island = new Island();
+                    island.position = verticesList[faces[i].v[j]];
+                    islandDictionary.Add(faces[i].v[j], island);
                 }
-            }
-
-            bool[] contains = { false, false, false };
-            edgesList.ForEach(delegate (Vector2 existingEdge) {
-                for (int i = 0; i < 3; i++) {
-                    if (existingEdge == triEdges[i]) {
-                        contains[i] = true;
+                for (int k = 0; k < 3; k++) {
+                    if (k != j) {
+                        if (island.neighbors.Contains(faces[i].v[k]) == false) {
+                            island.neighbors.Add(faces[i].v[k]);
+                        }
                     }
                 }
-            });
-            for (int i = 0; i < 3; i++) {
-                if (contains[i] == false) {
-                    edgesList.Add(triEdges[i]);
-                }
             }
-        });
-        edges = edgesList.ToArray();
+        }
     }
-
-    // return index of point in the middle of p1 and p2
-    private static int getMiddlePoint(int p1, int p2, ref List<Vector3> vertices, ref Dictionary<long, int> cache, float radius) {
+    private int getMiddlePoint(int p1, int p2, ref List<Vector3> vertices, ref Dictionary<long, int> cache, float radius) {
         // first check if we have it already
         bool firstIsSmaller = p1 < p2;
         long smallerIndex = firstIsSmaller ? p1 : p2;
@@ -300,4 +250,18 @@ class IcoSphere {
 
         return i;
     }
+}
+
+class Island {
+    /*
+    islandType
+    0: unassigned
+    1: base
+    2: main path
+    3: artifact
+    */
+    public List<int> neighbors = new List<int>();
+    public int islandType = 0;
+    public GameObject linkedGameObject;
+    public Vector3 position;
 }
