@@ -112,7 +112,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ae6cf9f5b84b3c4a8d273250f0596f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gizmoPrefab: {fileID: 141958, guid: b143822807968cd44ab00748e2f58a2d, type: 2}
   obst: []
 --- !u!4 &454763035
 Transform:

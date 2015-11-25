@@ -3,7 +3,7 @@ using System.Collections;
 
 public class NavigationMesh : MonoBehaviour {
 
-    public GameObject gizmoPrefab;
+    private GameObject gizmoPrefab;
     public static Material[] materials;
 
     public GameObject[] obst;
@@ -13,6 +13,10 @@ public class NavigationMesh : MonoBehaviour {
 
     private NavigationNode[,] nodes = new NavigationNode[sizeX,sizeY];
     private GameObject island;
+
+    public void Awake() {
+        gizmoPrefab = Resources.Load("Node", typeof(GameObject)) as GameObject;
+    }
 
     public void createMesh(float stepSize)
     {
