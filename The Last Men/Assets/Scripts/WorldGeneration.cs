@@ -28,6 +28,7 @@ public class WorldGeneration : MonoBehaviour {
         DestroyUnneededIslands();
 
         SetIslandHeights();
+        CreateIslandsBetweenNodes();
     }
 
     void Update() {
@@ -122,13 +123,29 @@ public class WorldGeneration : MonoBehaviour {
     }
 
     void SetIslandHeights() {
-        foreach(Island island in islandDictionary.Values) {
+        foreach (Island island in islandDictionary.Values) {
             //we dont want to reset height of base or islands surrounding base
-            if(island.islandType != 1 && island.neighbors.Contains(0) == false) {
-                int offset = Random.Range(-1, 1);
-                if(offset != 0) {
+            if (island.islandType != 1 && island.neighbors.Contains(0) == false) {
+                int offset = Random.Range(-1, 2);
+                if (offset != 0) {
                     island.position = island.position + island.position.normalized * (offset * heightOffset);
                     island.linkedGameObject.transform.position = island.position;
+                }
+            }
+        }
+    }
+
+    void CreateIslandsBetweenNodes() {
+        foreach (KeyValuePair<int, Island> item in islandDictionary) {
+            foreach (int neighbor in item.Value.neighbors) {
+                if (neighbor > item.Key) {
+                    Vector3 newPos = islandDictionary[neighbor].position + 0.5f * (item.Value.position - islandDictionary[neighbor].position);
+                    GameObject newIsland = Instantiate(Resources.Load("IslandSmallSimple", typeof(GameObject)), newPos, Quaternion.identity) as GameObject;
+                    newIsland.transform.up = newIsland.transform.position;
+                    int rand = Random.Range(0, 2);
+                    if (rand == 0) {
+                        newIsland.transform.position = newIsland.transform.position + newIsland.transform.position.normalized * (1.5f * heightOffset);
+                    }
                 }
             }
         }
@@ -257,7 +274,7 @@ public class WorldGeneration : MonoBehaviour {
             (point1.y + point2.y) / 2f,
             (point1.z + point2.z) / 2f
         );
-        
+
         int i = vertices.Count;
         vertices.Add(middle.normalized * radius);
         cache.Add(key, i);

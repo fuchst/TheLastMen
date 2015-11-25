@@ -332,11 +332,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa56258917ba1a841aa6f90e542761fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 150
+  radius: 900
   cycles: 3
   randomSeed: 1337
   numberOfArtifacts: 8
   destructionLevel: .600000024
+  heightOffset: 50
 --- !u!4 &1378452260
 Transform:
   m_ObjectHideFlags: 0
