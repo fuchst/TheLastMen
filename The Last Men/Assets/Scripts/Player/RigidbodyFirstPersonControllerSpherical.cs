@@ -2,8 +2,7 @@ using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-namespace UnityStandardAssets.Characters.FirstPerson
-{
+namespace UnityStandardAssets.Characters.FirstPerson {
     [RequireComponent(typeof (Rigidbody))]
     [RequireComponent(typeof (CapsuleCollider))]
     public class RigidbodyFirstPersonControllerSpherical : MonoBehaviour
@@ -73,7 +72,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float groundCheckDistance = 0.01f; // distance for checking if the controller is grounded ( 0.01f seems to work best for this )
             public float stickToGroundHelperDistance = 0.5f; // stops the character
             public float slowDownRate = 20f; // rate at which the controller comes to a stop when there is no input
-            public bool airControl; // can the user control the direction that is being moved in the air
+            public bool airControl = true; // can the user control the direction that is being moved in the air
         }
 
 
@@ -91,6 +90,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		
 		private bool m_Fly;
 		private float m_JetpackCurFlightDuration = 0;
+        public bool m_Hooked;
 
 
         public Vector3 Velocity
@@ -126,6 +126,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
             mouseLook.Init (transform, cam.transform);
+            m_Hooked = false;
         }
 
 
@@ -144,6 +145,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			else if (CrossPlatformInputManager.GetButtonUp ("Jetpack") && m_Fly) {
 				m_Fly = false;
 			}
+           
+          
         }
 
 
@@ -152,7 +155,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             GroundCheck();
             Vector2 input = GetInput();
 
-			if ((Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded) || m_Fly)
+			if ((Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded) || m_Fly || m_Hooked)
             {
                 // always move along the camera forward as it is the direction that it being aimed at
                 Vector3 desiredMove = cam.transform.forward*input.y + cam.transform.right*input.x;
@@ -217,7 +220,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             else
             {
                 m_RigidBody.drag = 0.5f;
-                if (m_PreviouslyGrounded && !m_Jumping)
+                if (m_PreviouslyGrounded && !(m_Jumping || m_Fly))
                 {
                     StickToGroundHelper();
                 }
