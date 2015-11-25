@@ -4,11 +4,12 @@ using System.Collections.Generic;
 
 public class WorldGeneration : MonoBehaviour {
 
-    public float radius = 5.0f;
-    public int cycles = 2;
+    public float radius = 150.0f;
+    public int cycles = 3;
     public int randomSeed = 1337;
     public int numberOfArtifacts = 8;
     public float destructionLevel = 0.6f;
+    public float heightOffset = 20.0f;
 
     //island prefab
     private string islandModel = "IslandSimple";
@@ -25,6 +26,8 @@ public class WorldGeneration : MonoBehaviour {
         CreateArtifacts();
         CreateArtifactPaths();
         DestroyUnneededIslands();
+
+        SetIslandHeights();
     }
 
     void Update() {
@@ -62,7 +65,7 @@ public class WorldGeneration : MonoBehaviour {
     }
 
     void CreateArtifacts() {
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < numberOfArtifacts; i++) {
             //grab a random island
             Island artifactIsland = islandDictionary.ElementAt(Random.Range(0, islandDictionary.Count)).Value;
             if (artifactIsland.islandType > 0) {
@@ -118,8 +121,20 @@ public class WorldGeneration : MonoBehaviour {
         }
     }
 
+    void SetIslandHeights() {
+        foreach(Island island in islandDictionary.Values) {
+            //we dont want to reset height of base or islands surrounding base
+            if(island.islandType != 1 && island.neighbors.Contains(0) == false) {
+                int offset = Random.Range(-1, 1);
+                if(offset != 0) {
+                    island.position = island.position + island.position.normalized * (offset * heightOffset);
+                    island.linkedGameObject.transform.position = island.position;
+                }
+            }
+        }
+    }
+
     public Vector3 GetBasePosition() {
-        //not transform.GetChild(0).position because we may change that in a future commit
         return islandDictionary[0].position;
     }
 
@@ -219,8 +234,10 @@ public class WorldGeneration : MonoBehaviour {
             }
         }
     }
+
+    //helper method for icosphere subdivision
     private int getMiddlePoint(int p1, int p2, ref List<Vector3> vertices, ref Dictionary<long, int> cache, float radius) {
-        // first check if we have it already
+        //first check if we have it already
         bool firstIsSmaller = p1 < p2;
         long smallerIndex = firstIsSmaller ? p1 : p2;
         long greaterIndex = firstIsSmaller ? p2 : p1;
@@ -231,7 +248,7 @@ public class WorldGeneration : MonoBehaviour {
             return ret;
         }
 
-        // not in cache, calculate it
+        //not in cache, calculate it
         Vector3 point1 = vertices[p1];
         Vector3 point2 = vertices[p2];
         Vector3 middle = new Vector3
@@ -240,14 +257,10 @@ public class WorldGeneration : MonoBehaviour {
             (point1.y + point2.y) / 2f,
             (point1.z + point2.z) / 2f
         );
-
-        // add vertex makes sure point is on unit sphere
+        
         int i = vertices.Count;
         vertices.Add(middle.normalized * radius);
-
-        // store it, return index
         cache.Add(key, i);
-
         return i;
     }
 }
