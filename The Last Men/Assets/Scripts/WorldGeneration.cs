@@ -10,6 +10,7 @@ public class WorldGeneration : MonoBehaviour {
     public int numberOfArtifacts = 8;
     public float destructionLevel = 0.6f;
     public float heightOffset = 20.0f;
+    public float grapplingIslandExtraheight;
 
     //island prefab
     private string islandModel = "IslandSimple";
@@ -144,7 +145,7 @@ public class WorldGeneration : MonoBehaviour {
                     newIsland.transform.up = newIsland.transform.position;
                     int rand = Random.Range(0, 2);
                     if (rand == 0) {
-                        newIsland.transform.position = newIsland.transform.position + newIsland.transform.position.normalized * (1.5f * heightOffset);
+                        newIsland.transform.position = newIsland.transform.position + newIsland.transform.position.normalized * grapplingIslandExtraheight;
                     }
                 }
             }
@@ -280,18 +281,19 @@ public class WorldGeneration : MonoBehaviour {
         cache.Add(key, i);
         return i;
     }
+
+    class Island {
+        /*
+        islandType
+        0: unassigned
+        1: base
+        2: main path
+        3: artifact
+        */
+        public List<int> neighbors = new List<int>();
+        public int islandType = 0;
+        public GameObject linkedGameObject;
+        public Vector3 position;
+    }
 }
 
-class Island {
-    /*
-    islandType
-    0: unassigned
-    1: base
-    2: main path
-    3: artifact
-    */
-    public List<int> neighbors = new List<int>();
-    public int islandType = 0;
-    public GameObject linkedGameObject;
-    public Vector3 position;
-}

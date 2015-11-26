@@ -37,7 +37,7 @@ public class s_FireHook : MonoBehaviour {
             
             //rope.anchor = transform.position;
             //rope.connectedAnchor = a_hook.transform.position;
-            Debug.Log("pressed_Hook");
+            //Debug.Log("pressed_Hook");
             fired = true;
             lr.enabled = true;
         }
@@ -47,7 +47,7 @@ public class s_FireHook : MonoBehaviour {
             set = false;
             lr.enabled = false;
             Destroy(a_hook);
-            Debug.Log("Defired Hook");
+            //Debug.Log("Defired Hook");
             controller.m_Hooked = false;
         }
         else if(fired)
@@ -69,7 +69,7 @@ public class s_FireHook : MonoBehaviour {
                 lr.enabled = true;
                 
                 controller.m_Hooked = true;
-                Debug.Log("set");
+                //Debug.Log("set");
             }
             if(distance > 20 && flyingtmp)
             {
@@ -80,7 +80,7 @@ public class s_FireHook : MonoBehaviour {
                 flyingtmp = false;
                 controller.m_Hooked = true;
                 Destroy(a_hook);
-                Debug.Log("Hook out of range");
+                //Debug.Log("Hook out of range");
             }
             //Debug.Log("flying: " + flyingtmp);
             
