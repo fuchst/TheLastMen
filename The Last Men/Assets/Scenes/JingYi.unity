@@ -207,7 +207,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -240,7 +242,7 @@ Transform:
   m_GameObject: {fileID: 520409051}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 600, y: 600, z: 600}
+  m_LocalScale: {x: 200, y: 200, z: 200}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -312,8 +314,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1378452260}
-  - 114: {fileID: 1378452259}
   - 114: {fileID: 1378452261}
+  - 114: {fileID: 1378452259}
   m_Layer: 0
   m_Name: Scripts
   m_TagString: Untagged
@@ -329,16 +331,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1378452258}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa56258917ba1a841aa6f90e542761fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 1c7f4e393f9fefa4f8ff17fb440f6475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 800
-  cycles: 3
-  randomSeed: 23456743
-  numberOfArtifacts: 8
-  destructionLevel: .600000024
-  heightOffset: 50
-  grapplingIslandExtraheight: 50
+  rngSeed: 1337
+  levelVariables:
+  - radius: 200
+    cycles: 1
+    numberOfArtifacts: 4
+    destructionLevel: 0
+    heightOffset: 5
+    grapplingIslandExtraHeight: 15
+  - radius: 600
+    cycles: 2
+    numberOfArtifacts: 8
+    destructionLevel: .5
+    heightOffset: 20
+    grapplingIslandExtraHeight: 30
+  - radius: 800
+    cycles: 3
+    numberOfArtifacts: 8
+    destructionLevel: .5
+    heightOffset: 30
+    grapplingIslandExtraHeight: 30
 --- !u!4 &1378452260
 Transform:
   m_ObjectHideFlags: 0

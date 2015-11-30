@@ -1,21 +1,23 @@
 ﻿using UnityEngine;
 
-public class GameManager : MonoBehaviour {
-    WorldGeneration gameWorld;
+public class GameManager : MonoBehaviour
+{
+    LevelManager levelManager;
     GameObject player;
-    Camera worldCam;
+    Camera worldCam;    //Used for a future feature
+    string playerPrefabPath = "Player";
 
-    void Awake() {
+    void Awake()
+    {
+        levelManager = GetComponent<LevelManager>();
         worldCam = Camera.main;
-        gameWorld = GetComponent<WorldGeneration>();
-        player = Resources.Load("Player", typeof(GameObject)) as GameObject;
+        player = Resources.Load(playerPrefabPath, typeof(GameObject)) as GameObject;
     }
 
-    void Start() {
-        gameWorld.CreateWorld();
-        Vector3 spawnPos = gameWorld.GetBasePosition();
-        spawnPos += spawnPos.normalized;
-        Instantiate(player, spawnPos, Quaternion.identity);
+    void Start()
+    {
+        levelManager.CreateLevel();
+        levelManager.StartLevel(player);
         Destroy(worldCam.gameObject);
     }
 }

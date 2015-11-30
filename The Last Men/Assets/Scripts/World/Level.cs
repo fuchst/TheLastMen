@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Collections.Generic;
 
-public class WorldGeneration : MonoBehaviour {
+public class Level : MonoBehaviour
+{
+    public enum IslandType { None, Base, Path, Artifact };
 
     public float radius = 150.0f;
     public int cycles = 3;
@@ -12,13 +14,14 @@ public class WorldGeneration : MonoBehaviour {
     public float heightOffset = 20.0f;
     public float grapplingIslandExtraheight;
 
-    //island prefab
+    //island prefab name
     private string islandModel = "IslandSimple";
 
     private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
     private Transform islandParent;
 
-    public void CreateWorld() {
+    public void CreateWorld()
+    {
         Random.seed = randomSeed;
         IcoSphere(radius, cycles, ref islandDictionary);
 
@@ -32,9 +35,12 @@ public class WorldGeneration : MonoBehaviour {
         CreateIslandsBetweenNodes();
     }
 
-    void Update() {
-        foreach (Island island in islandDictionary.Values) {
-            foreach (int v in island.neighbors) {
+    void Update()
+    {
+        foreach (Island island in islandDictionary.Values)
+        {
+            foreach (int v in island.neighbors)
+            {
                 Island target;
                 islandDictionary.TryGetValue(v, out target);
                 Debug.DrawLine(island.position, target.position);
@@ -42,80 +48,96 @@ public class WorldGeneration : MonoBehaviour {
         }
     }
 
-    void CreateIslands() {
+    void CreateIslands()
+    {
         islandParent = new GameObject("Islands").transform;
-        foreach (KeyValuePair<int, Island> entry in islandDictionary) {
+        foreach (KeyValuePair<int, Island> entry in islandDictionary)
+        {
             GameObject newIsland = Instantiate(Resources.Load(islandModel, typeof(GameObject)), entry.Value.position, Quaternion.identity) as GameObject;
             newIsland.name = entry.Key.ToString();
             newIsland.transform.up = newIsland.transform.position;
             newIsland.transform.parent = islandParent;
 
             entry.Value.linkedGameObject = newIsland;
+            entry.Value.islandType = IslandType.None;
         }
     }
 
-    void CreateBase() {
-        Island baseIsland;
-        islandDictionary.TryGetValue(0, out baseIsland);
-        baseIsland.islandType = 1; //base
-        baseIsland.linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
-        foreach (int neighborKey in baseIsland.neighbors) {
-            islandDictionary.TryGetValue(neighborKey, out baseIsland);
-            baseIsland.islandType = 2; //islands surrounding the base
-            baseIsland.linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
+    void CreateBase()
+    {
+        Island island;
+        islandDictionary.TryGetValue(0, out island);
+        island.islandType = IslandType.Base; //base
+
+        foreach (int neighborKey in island.neighbors)
+        {
+            islandDictionary.TryGetValue(neighborKey, out island);
+            island.islandType = IslandType.Path; //islands surrounding the base
         }
     }
 
-    void CreateArtifacts() {
-        for (int i = 0; i < numberOfArtifacts; i++) {
+    void CreateArtifacts()
+    {
+        for (int i = 0; i < numberOfArtifacts; i++)
+        {
             //grab a random island
             Island artifactIsland = islandDictionary.ElementAt(Random.Range(0, islandDictionary.Count)).Value;
-            if (artifactIsland.islandType > 0) {
+            if (artifactIsland.islandType > 0)
+            {
                 //reroll in case the island is already used for something else
                 i--;
                 continue;
             }
-            artifactIsland.islandType = 3;
-            artifactIsland.linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/ArtifactSimple", typeof(Material)) as Material;
+            artifactIsland.islandType = IslandType.Artifact;
         }
     }
 
-    void CreateArtifactPaths() {
+    void CreateArtifactPaths()
+    {
         Vector3 origin = islandDictionary[0].position;
-        foreach (KeyValuePair<int, Island> item in islandDictionary.Where(item => item.Value.islandType == 3)) {
+        foreach (KeyValuePair<int, Island> item in islandDictionary.Where(item => item.Value.islandType == IslandType.Artifact))
+        {
             Island currentIsland = item.Value;
-            while (currentIsland.islandType != 1) {
+            while (currentIsland.islandType != IslandType.Base)
+            {
                 int neighborClosestToBase = 0;
                 float lastDistance = Vector3.Distance(islandDictionary[currentIsland.neighbors[0]].position, origin);
-                for (int i = 1; i < currentIsland.neighbors.Count; i++) {
-                    if (lastDistance > Vector3.Distance(islandDictionary[currentIsland.neighbors[i]].position, origin)) {
+                for (int i = 1; i < currentIsland.neighbors.Count; i++)
+                {
+                    if (lastDistance > Vector3.Distance(islandDictionary[currentIsland.neighbors[i]].position, origin))
+                    {
                         lastDistance = Vector3.Distance(islandDictionary[currentIsland.neighbors[i]].position, origin);
                         neighborClosestToBase = i;
                     }
                 }
-                islandDictionary[currentIsland.neighbors[neighborClosestToBase]].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
-                currentIsland.islandType = 2;
+                if (currentIsland.islandType == IslandType.None)
+                {
+                    currentIsland.islandType = IslandType.Path;
+                }
                 currentIsland = islandDictionary[currentIsland.neighbors[neighborClosestToBase]];
             }
         }
-        //base color is propably overpaint so re repaint the base island
-        islandDictionary[0].islandType = 1;
-        islandDictionary[0].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
     }
 
-    void DestroyUnneededIslands() {
+    void DestroyUnneededIslands()
+    {
         Stack<int> deleteStack = new Stack<int>();
-        foreach (KeyValuePair<int, Island> item in islandDictionary) {
-            if (item.Value.islandType == 0) {
+        foreach (KeyValuePair<int, Island> item in islandDictionary)
+        {
+            if (item.Value.islandType == 0)
+            {
                 float randomNumber = Random.Range(0f, 1.0f);
-                if (randomNumber < destructionLevel) {
+                if (randomNumber < destructionLevel)
+                {
                     deleteStack.Push(item.Key);
                 }
             }
         }
-        while (deleteStack.Count > 0) {
+        while (deleteStack.Count > 0)
+        {
             int key = deleteStack.Pop();
-            foreach (int neighbor in islandDictionary[key].neighbors) {
+            foreach (int neighbor in islandDictionary[key].neighbors)
+            {
                 islandDictionary[neighbor].neighbors.Remove(key);
             }
             Destroy(islandDictionary[key].linkedGameObject);
@@ -123,12 +145,16 @@ public class WorldGeneration : MonoBehaviour {
         }
     }
 
-    void SetIslandHeights() {
-        foreach (Island island in islandDictionary.Values) {
+    void SetIslandHeights()
+    {
+        foreach (Island island in islandDictionary.Values)
+        {
             //we dont want to reset height of base or islands surrounding base
-            if (island.islandType != 1 && island.neighbors.Contains(0) == false) {
+            if (island.islandType != IslandType.Base && island.neighbors.Contains(0) == false)
+            {
                 int offset = Random.Range(-1, 2);
-                if (offset != 0) {
+                if (offset != 0)
+                {
                     island.position = island.position + island.position.normalized * (offset * heightOffset);
                     island.linkedGameObject.transform.position = island.position;
                 }
@@ -136,37 +162,45 @@ public class WorldGeneration : MonoBehaviour {
         }
     }
 
-    void CreateIslandsBetweenNodes() {
-        foreach (KeyValuePair<int, Island> item in islandDictionary) {
-            foreach (int neighbor in item.Value.neighbors) {
-                if (neighbor > item.Key) {
-                    Vector3 newPos = islandDictionary[neighbor].position + 0.5f * (item.Value.position - islandDictionary[neighbor].position);
+    void CreateIslandsBetweenNodes()
+    {
+        foreach (KeyValuePair<int, Island> item in islandDictionary)
+        {
+            for (int i = 0; i < item.Value.neighbors.Count; i++)
+            {
+                if (item.Value.neighbors[i] > item.Key)
+                {
+                    Vector3 newPos = islandDictionary[item.Value.neighbors[i]].position + 0.5f * (item.Value.position - islandDictionary[item.Value.neighbors[i]].position);
                     GameObject newIsland = Instantiate(Resources.Load("IslandSmallSimple", typeof(GameObject)), newPos, Quaternion.identity) as GameObject;
                     newIsland.transform.parent = islandParent;
                     newIsland.transform.up = newIsland.transform.position;
                     int rand = Random.Range(0, 2);
-                    if (rand == 0) {
+                    if (rand == 0)
+                    {
                         newIsland.transform.position = newIsland.transform.position + newIsland.transform.position.normalized * grapplingIslandExtraheight;
-                        
                     }
                 }
             }
         }
     }
 
-    public Vector3 GetBasePosition() {
+    public Vector3 GetBasePosition()
+    {
         return islandDictionary[0].position;
     }
 
-    struct TriangleIndices {
+    struct TriangleIndices
+    {
         public int[] v;
 
-        public TriangleIndices(int v1, int v2, int v3) {
+        public TriangleIndices(int v1, int v2, int v3)
+        {
             v = new int[] { v1, v2, v3 };
         }
     }
 
-    private void IcoSphere(float radius, int cycles, ref SortedDictionary<int, Island> islandDictionary) {
+    private void IcoSphere(float radius, int cycles, ref SortedDictionary<int, Island> islandDictionary)
+    {
         Dictionary<long, int> middlePointIndexCache = new Dictionary<long, int>();
         List<TriangleIndices> faces = new List<TriangleIndices>();
         List<Vector3> verticesList = new List<Vector3>();
@@ -217,9 +251,11 @@ public class WorldGeneration : MonoBehaviour {
         faces.Add(new TriangleIndices(3, 8, 9));
 
         // subdivide
-        for (int i = 0; i < cycles; i++) {
+        for (int i = 0; i < cycles; i++)
+        {
             List<TriangleIndices> faces2 = new List<TriangleIndices>();
-            foreach (var tri in faces) {
+            foreach (var tri in faces)
+            {
                 // replace triangle by 4 triangles
                 int a = getMiddlePoint(tri.v[0], tri.v[1], ref verticesList, ref middlePointIndexCache, radius);
                 int b = getMiddlePoint(tri.v[1], tri.v[2], ref verticesList, ref middlePointIndexCache, radius);
@@ -236,17 +272,23 @@ public class WorldGeneration : MonoBehaviour {
         //we dont want to store the sphere in faces.
         //instead we need a graph of nodes with its neighbors
         //lets map faces into a dictionary of islands where each island knows its neigbors
-        for (int i = 0; i < faces.Count; i++) {
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < faces.Count; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
                 Island island;
-                if (islandDictionary.TryGetValue(faces[i].v[j], out island) == false) {
+                if (islandDictionary.TryGetValue(faces[i].v[j], out island) == false)
+                {
                     island = new Island();
                     island.position = verticesList[faces[i].v[j]];
                     islandDictionary.Add(faces[i].v[j], island);
                 }
-                for (int k = 0; k < 3; k++) {
-                    if (k != j) {
-                        if (island.neighbors.Contains(faces[i].v[k]) == false) {
+                for (int k = 0; k < 3; k++)
+                {
+                    if (k != j)
+                    {
+                        if (island.neighbors.Contains(faces[i].v[k]) == false)
+                        {
                             island.neighbors.Add(faces[i].v[k]);
                         }
                     }
@@ -256,7 +298,8 @@ public class WorldGeneration : MonoBehaviour {
     }
 
     //helper method for icosphere subdivision
-    private int getMiddlePoint(int p1, int p2, ref List<Vector3> vertices, ref Dictionary<long, int> cache, float radius) {
+    private int getMiddlePoint(int p1, int p2, ref List<Vector3> vertices, ref Dictionary<long, int> cache, float radius)
+    {
         //first check if we have it already
         bool firstIsSmaller = p1 < p2;
         long smallerIndex = firstIsSmaller ? p1 : p2;
@@ -264,7 +307,8 @@ public class WorldGeneration : MonoBehaviour {
         long key = (smallerIndex << 32) + greaterIndex;
 
         int ret;
-        if (cache.TryGetValue(key, out ret)) {
+        if (cache.TryGetValue(key, out ret))
+        {
             return ret;
         }
 
@@ -284,18 +328,42 @@ public class WorldGeneration : MonoBehaviour {
         return i;
     }
 
-    class Island {
-        /*
-        islandType
-        0: unassigned
-        1: base
-        2: main path
-        3: artifact
-        */
+    class Island
+    {
+        public IslandType islandType;
         public List<int> neighbors = new List<int>();
-        public int islandType = 0;
         public GameObject linkedGameObject;
         public Vector3 position;
+    }
+
+    public void ColorizeIslands()
+    {
+        for(int i = 0; i < islandDictionary.Count; i++)
+        {
+            IslandType islandType = islandDictionary[i].islandType;
+            switch (islandType)
+            {
+                case IslandType.Base:
+                    islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
+                    break;
+                case IslandType.Path:
+                    islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
+                    break;
+                case IslandType.Artifact:
+                    islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/ArtifactSimple", typeof(Material)) as Material;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public void DarkenIslands()
+    {
+        for (int i = 0; i < islandParent.childCount; i++)
+        {
+            islandParent.GetChild(i).GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/NextLevelIsland", typeof(Material)) as Material;
+        }
     }
 }
 
