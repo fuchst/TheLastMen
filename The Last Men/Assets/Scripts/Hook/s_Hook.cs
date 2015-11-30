@@ -1,41 +1,36 @@
 ﻿using UnityEngine;
-using System.Collections;
-using UnityStandardAssets.CrossPlatformInput;
 
-public class s_Hook : MonoBehaviour {
-
+public class s_Hook : MonoBehaviour
+{
     public Vector3 direction;
     private Rigidbody rb;
     private GameObject go;
     public SpringJoint spring;
-    //private HingeJoint pendulum;
-    // private LineRenderer lr;
-    private float speed = 50;
+    private float speed;
     public bool flying;
     public Rigidbody parentRB;
 
-    void Start() {
+    void Awake()
+    {
         rb = GetComponent<Rigidbody>();
         flying = true;
-        //go = GetComponent<GameObject>();
-        //spring = GetComponent<SpringJoint>();
-        // lr = GetComponent<LineRenderer>();
-        //pendulum = GetComponent<HingeJoint>();
-        //lr.enabled = false;
     }
 
-    void Update() {
+    void Update()
+    {
         // Debug.Log("hookFlying: " + flying);
-        if (flying) {
+        if (flying)
+        {
             float way = speed * Time.deltaTime;
             transform.forward = direction;
             transform.Translate(Vector3.forward * way);
         }
-        else {
-            Vector3 v1 = transform.position;
-            Vector3 v2 = parentRB.transform.position;
-            //Debug.Log("Distance: " +  Mathf.Sqrt(Mathf.Pow((v1.x - v2.x), 2) + Mathf.Pow((v1.x - v2.x), 2) + Mathf.Pow((v1.x - v2.x), 2)) + 5);
-        }
+        //else
+        //{
+        //    Vector3 v1 = transform.position;
+        //    Vector3 v2 = parentRB.transform.position;
+        //    //Debug.Log("Distance: " +  Mathf.Sqrt(Mathf.Pow((v1.x - v2.x), 2) + Mathf.Pow((v1.x - v2.x), 2) + Mathf.Pow((v1.x - v2.x), 2)) + 5);
+        //}
         // lr.SetPosition(0, transform.position);
         // lr.SetPosition(1, parentRB.transform.position);
         //pendulum.anchor = transform.position;
@@ -45,7 +40,7 @@ public class s_Hook : MonoBehaviour {
         //}
 
     }
-    
+
     /*void FixedUpdate () {
         if (flying)
         {
@@ -54,9 +49,12 @@ public class s_Hook : MonoBehaviour {
         }
 	}*/
 
-    void OnCollisionEnter(Collision col) {
-        if (col.gameObject.tag.Equals("Island")) {
-            if (flying) {
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag.Equals("Island"))
+        {
+            if (flying)
+            {
                 flying = false;
                 //Debug.Log("Hit something");
                 rb.velocity = new Vector3(0, 0, 0);
@@ -81,11 +79,16 @@ public class s_Hook : MonoBehaviour {
                 //render line
                 // lr.enabled = true;
                 // Debug.Log("Position:" + transform.position);
-
-
                 // Destroy(rb);
             }
         }
+    }
 
+    public float Speed
+    {
+        set
+        {
+            speed = value;
+        }
     }
 }

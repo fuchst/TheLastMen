@@ -240,15 +240,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1f0ed87b724384cb631b60baae128c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SubdivideRope: 1
+  hookThrowSpeed: 50
   hookLength: 50
+  SubdivideRope: 0
+  subDivAmount: 10
   m_hook: {fileID: 112044, guid: 6c9a2159c3a36f346b2015160af45ed6, type: 2}
   m_ropeElement: {fileID: 129742, guid: b3d605cbfec2a20478ae3d38cc534548, type: 2}
   cam: {fileID: 2058828}
-  a_hook: {fileID: 0}
   ropeElements: []
-  subDivAmount: 10
-  ropeThickness: .200000003
 --- !u!120 &12007580
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -401,7 +400,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: SubdivideRope
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Parameters.startWidth
@@ -415,6 +414,10 @@ Prefab:
       propertyPath: subDivAmount
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_hook
+      value: 
+      objectReference: {fileID: 112044, guid: 6c9a2159c3a36f346b2015160af45ed6, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 136356}

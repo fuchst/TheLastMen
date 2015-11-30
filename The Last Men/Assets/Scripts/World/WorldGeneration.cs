@@ -142,10 +142,12 @@ public class WorldGeneration : MonoBehaviour {
                 if (neighbor > item.Key) {
                     Vector3 newPos = islandDictionary[neighbor].position + 0.5f * (item.Value.position - islandDictionary[neighbor].position);
                     GameObject newIsland = Instantiate(Resources.Load("IslandSmallSimple", typeof(GameObject)), newPos, Quaternion.identity) as GameObject;
+                    newIsland.transform.parent = islandParent;
                     newIsland.transform.up = newIsland.transform.position;
                     int rand = Random.Range(0, 2);
                     if (rand == 0) {
                         newIsland.transform.position = newIsland.transform.position + newIsland.transform.position.normalized * grapplingIslandExtraheight;
+                        
                     }
                 }
             }
