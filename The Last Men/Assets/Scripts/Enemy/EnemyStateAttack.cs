@@ -14,6 +14,8 @@ public class EnemyStateAttack : EnemyState {
 
     public override void action()
     {
+        Debug.Log(enemy.island.findPath(enemy.island.GetClosestNode(enemy.transform.position), enemy.island.GetClosestNode(enemy.player.transform.position)));
+
         Vector3 playerPos = enemy.player.transform.position;
         enemy.transform.LookAt(playerPos);
         enemy.transform.Translate(enemy.transform.forward * Time.deltaTime);

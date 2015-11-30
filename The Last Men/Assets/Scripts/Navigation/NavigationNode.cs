@@ -1,17 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
-public struct Vector2i
-{
-    public int x;
-    public int y;
-
-    public Vector2i(int _x, int _y)
-    {
-        x = _x;
-        y = _y;
-    }
-};
+using System;
 
 public class NavigationNode {
     
@@ -55,5 +44,10 @@ public class NavigationNode {
     public Vector2i GetGridIndices()
     {
         return gridIndices;
+    }
+
+    public static int GetManhattenDistance(NavigationNode lhs, NavigationNode rhs)
+    {
+        return Math.Abs(lhs.gridIndices.x - rhs.gridIndices.x) + Math.Abs(lhs.gridIndices.y - rhs.gridIndices.y);
     }
 }
