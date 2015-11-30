@@ -9,14 +9,14 @@ public class s_GenerateIslandsSpherical : MonoBehaviour {
 	public Transform floatingIslandParent;
 
 	//islands
-	public List<GameObject> prefabs = new List<GameObject>();
+	public List<GameObject> prefabsRegular = new List<GameObject>();
+	public List<GameObject> prefabsSpecial = new List<GameObject>();
 	public float radius = 100;
 	public int amount = 25;
+	public float specialPercentage = 0.05f;
 	public Vector2 sizeMinMax = new Vector2(0.25f, 2.5f);
 
 	protected List<GameObject> spawnedIslands = new List<GameObject>();
-
-	//grid
 
 
 	void Awake () {
@@ -41,9 +41,11 @@ public class s_GenerateIslandsSpherical : MonoBehaviour {
 		for (int i = 0; i < amount; i++) {
 			Vector3 tmpPos = Random.insideUnitSphere * radius;
 			Quaternion tmpRot = Quaternion.AngleAxis(Random.value*360, Vector3.up);
-			GameObject tmpObj = Instantiate(prefabs[Random.Range(0, prefabs.Count)], tmpPos, tmpRot) as GameObject;
+			bool selectSpecial = Random.value < specialPercentage;
+			GameObject selectedPrefab = (selectSpecial ? prefabsSpecial[Random.Range(0, prefabsSpecial.Count)] : prefabsRegular[Random.Range(0, prefabsRegular.Count)]);
+			GameObject tmpObj = Instantiate(selectedPrefab, tmpPos, tmpRot) as GameObject;
 			tmpObj.transform.up = tmpPos;
-			float scalingFactor = Random.Range(sizeMinMax.x, sizeMinMax.y);
+			float scalingFactor = selectSpecial ? Random.Range(1, 2) : Random.Range(sizeMinMax.x, sizeMinMax.y);
 			tmpObj.transform.localScale *= scalingFactor;
 			tmpObj.GetComponent<Rigidbody>().mass = 1000 * Mathf.Pow(scalingFactor, 3);
 			tmpObj.transform.SetParent(floatingIslandParent);
@@ -62,7 +64,7 @@ public class s_GenerateIslandsSpherical : MonoBehaviour {
 			
 			Vector3 tmpPos = 0.5f*(island1.transform.position + island2.transform.position);
 			Quaternion tmpRot = Quaternion.AngleAxis(Random.value*360, Vector3.up);
-			GameObject tmpObj = Instantiate(prefabs[Random.Range(0, prefabs.Count)], tmpPos, tmpRot) as GameObject;
+			GameObject tmpObj = Instantiate(prefabsRegular[Random.Range(0, prefabsRegular.Count)], tmpPos, tmpRot) as GameObject;
 			tmpObj.transform.up = tmpPos;
 			rb3 = tmpObj.GetComponent<Rigidbody> ();
 			rb3.mass = rb1.mass + rb2.mass;
