@@ -78,7 +78,7 @@ public class PriorityQueue<T> {
     {
         foreach(PriorityQueueElement e in m_Items)
         {
-            if(e.m_value.Equals(value))
+            if(EqualityComparer<T>.Default.Equals(e.m_value, value))
             {
                 elem = e;
                 return true;
@@ -93,7 +93,7 @@ public class PriorityQueue<T> {
     {
         foreach (PriorityQueueElement e in m_Items)
         {
-            if (e.m_value.Equals(value))
+            if (EqualityComparer<T>.Default.Equals(e.m_value, value))
             {
                 return true;
             }

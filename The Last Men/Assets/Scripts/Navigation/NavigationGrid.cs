@@ -5,7 +5,7 @@ using System;
 
 public class NavigationGrid : MonoBehaviour {
 
-    class PathNode : IEqualityComparer<PathNode>
+    class PathNode : IEquatable<PathNode>
     {
         public NavigationNode node { get; set; }
         public PathNode predecessor;
@@ -16,16 +16,6 @@ public class NavigationGrid : MonoBehaviour {
             this.node = _node;
             this.cost = _cost;
             this.predecessor = _predecessor;
-        }
-
-        public bool Equals(PathNode x, PathNode y)
-        {
-            return (x.node == y.node);
-        }
-
-        public int GetHashCode(PathNode obj)
-        {
-            return obj.node.GetHashCode();
         }
 
         // Returns path of NavigationNodes
@@ -46,6 +36,15 @@ public class NavigationGrid : MonoBehaviour {
             path.Reverse();
 
             return path;
+        }
+        
+        public override int GetHashCode()
+        {
+            return this.node.Index1D;
+        }
+        public bool Equals(PathNode other)
+        {
+            return (this.node.Index1D == other.node.Index1D);
         }
     };
 
@@ -135,20 +134,26 @@ public class NavigationGrid : MonoBehaviour {
         PathNode[] successors = new PathNode[8];
 
         openlist.Enqueue(0, new PathNode(start, null, 0));
-
+        
         while(!openlist.IsEmpty())
         {
             PriorityQueue<PathNode>.PriorityQueueElement curr = openlist.Dequeue();
+
             if ( curr.m_value.node == end )
             {
                 return curr.m_value.GetPath();
             }
-
+            
             closedlist.Add(curr.m_value);
 
             // Expand to neighbouring cells
             Vector2i indices = curr.m_value.node.GetGridIndices();
             
+            for(int i = 0; i < 8; i++)
+            {
+                successors[i] = null;
+            }
+
             // Top
             if (IndicesOnGrid(indices.x - 1, indices.y + 1))
             {
@@ -187,38 +192,30 @@ public class NavigationGrid : MonoBehaviour {
 
             foreach (PathNode successor in successors)
             {
-                if(!closedlist.Contains(successor))
+                if (successor != null && !closedlist.Contains(successor))
                 {
-                    if(successor.node.GetNodeType() == NavigationNode.nodeTypes.Restricted)
+                    if (successor.node.GetNodeType() == NavigationNode.nodeTypes.Obst)
                     {
                         closedlist.Add(successor);
                         continue;
                     }
-
                     int tentative_cost = curr.m_value.cost + edgeCost;
 
                     PriorityQueue<PathNode>.PriorityQueueElement elem;
 
-                    if(openlist.Contains(successor, out elem) && tentative_cost >= elem.m_value.cost)
+                    if (openlist.Contains(successor, out elem))
                     {
-                        continue;
+                        if (tentative_cost < elem.m_value.cost)
+                        {
+                            elem.m_value.cost = tentative_cost;
+                            openlist.UpdateElement(elem);
+                        }
                     }
                     else
                     {
-                        elem = new PriorityQueue<PathNode>.PriorityQueueElement(0, successor);
-                    }
-
-                    elem.m_value.predecessor = curr.m_value;
-                    elem.m_value.cost = tentative_cost;
-                    elem.m_key = tentative_cost + NavigationNode.GetManhattenDistance(elem.m_value.node, end);
-
-                    if(openlist.Contains(successor))
-                    {
-                        openlist.UpdateElement(elem);
-                    }
-                    else
-                    {
-                        openlist.Enqueue(elem);
+                        successor.predecessor = curr.m_value;
+                        successor.cost = tentative_cost;
+                        openlist.Enqueue(new PriorityQueue<PathNode>.PriorityQueueElement(successor.cost + curr.m_value.cost, successor));
                     }
                 }
             }

@@ -19,10 +19,14 @@ public class EnemyStateAttack : EnemyState {
         if(path == null)
         {
             path = enemy.island.findPath(enemy.island.GetClosestNode(enemy.transform.position), enemy.island.GetClosestNode(enemy.player.transform.position));
-            foreach(NavigationNode n in path)
+
+            if(path != null)
             {
-                Debug.Log(n.GetGridIndices().x + " " + n.GetGridIndices().y);
-            }
+                foreach (NavigationNode n in path)
+                {
+                    Debug.Log(n.GetGridIndices().x + " " + n.GetGridIndices().y);
+                }
+            }   
         }
 
         Vector3 playerPos = enemy.player.transform.position;

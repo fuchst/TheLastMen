@@ -25,9 +25,17 @@ public class NavigationNode {
 
     private Vector2i gridIndices;
 
+    private int index1D = 0;
+    public int Index1D
+    {
+        get { return index1D; }
+        protected set { index1D = value; }
+    }
+
     public NavigationNode(Vector2i indices)
     {
         gridIndices = indices;
+        index1D = indices.x + 16 * indices.y; // TODO: Change to be dependent on NavigationGrid Size!!!
         SetNodeType(nodeTypes.None);
     }
 
