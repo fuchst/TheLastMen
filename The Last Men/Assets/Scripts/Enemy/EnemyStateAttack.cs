@@ -5,6 +5,8 @@ public class EnemyStateAttack : EnemyState {
 
     const stateIDs id = stateIDs.Attack;
 
+    ArrayList path;
+
     public EnemyStateAttack(Enemy _enemy) 
         : base(_enemy)
     {
@@ -14,7 +16,14 @@ public class EnemyStateAttack : EnemyState {
 
     public override void action()
     {
-        Debug.Log(enemy.island.findPath(enemy.island.GetClosestNode(enemy.transform.position), enemy.island.GetClosestNode(enemy.player.transform.position)));
+        if(path == null)
+        {
+            path = enemy.island.findPath(enemy.island.GetClosestNode(enemy.transform.position), enemy.island.GetClosestNode(enemy.player.transform.position));
+            foreach(NavigationNode n in path)
+            {
+                Debug.Log(n.GetGridIndices().x + " " + n.GetGridIndices().y);
+            }
+        }
 
         Vector3 playerPos = enemy.player.transform.position;
         enemy.transform.LookAt(playerPos);

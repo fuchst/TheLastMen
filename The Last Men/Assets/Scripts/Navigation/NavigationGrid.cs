@@ -1,8 +1,53 @@
 ﻿using UnityEngine;
 using System.Collections;
-using C5;
+using System.Collections.Generic;
+using System;
 
 public class NavigationGrid : MonoBehaviour {
+
+    class PathNode : IEqualityComparer<PathNode>
+    {
+        public NavigationNode node { get; set; }
+        public PathNode predecessor;
+        public int cost { get; set; }
+
+        public PathNode(NavigationNode _node, PathNode _predecessor, int _cost)
+        {
+            this.node = _node;
+            this.cost = _cost;
+            this.predecessor = _predecessor;
+        }
+
+        public bool Equals(PathNode x, PathNode y)
+        {
+            return (x.node == y.node);
+        }
+
+        public int GetHashCode(PathNode obj)
+        {
+            return obj.node.GetHashCode();
+        }
+
+        // Returns path of NavigationNodes
+        public ArrayList GetPath()
+        {
+            ArrayList path = new ArrayList();
+
+            PathNode curr = this;
+
+            path.Add(curr.node);
+
+            while(curr.predecessor != null)
+            {
+                curr = curr.predecessor;
+                path.Add(curr.node);
+            }
+
+            path.Reverse();
+
+            return path;
+        }
+    };
 
     public GameObject[] obst;
 
@@ -10,6 +55,7 @@ public class NavigationGrid : MonoBehaviour {
     private const int sizeY = 16;
 
     public float stepSize = 2.0f;
+    public int edgeCost = 1;
     public float maxHeight = 100.0f;
 
     private NavigationNode[,] nodes;
@@ -77,50 +123,86 @@ public class NavigationGrid : MonoBehaviour {
         return result;
     }
 
-    public bool findPath(NavigationNode start, NavigationNode end)
+    public ArrayList findPath(NavigationNode start, NavigationNode end)
     {
-        PriorityQueue<NavigationNode> openlist = new PriorityQueue<NavigationNode>();
-        HashSet<NavigationNode> closedlist = new HashSet<NavigationNode>();
+        PriorityQueue<PathNode> openlist = new PriorityQueue<PathNode>();
+        HashSet<PathNode> closedlist = new HashSet<PathNode>();
 
-        openlist.Enqueue(NavigationNode.GetManhattenDistance(start, end), start);
+        // 0 = left, 1 = right, 2 = up, 3 = down
+        PathNode[] successors = new PathNode[4];
+
+        openlist.Enqueue(0, new PathNode(start, null, 0));
 
         while(!openlist.IsEmpty())
         {
-            PriorityQueue<NavigationNode>.PriorityQueueElement curr = openlist.Dequeue();
-            if ( curr.value == end )
+            PriorityQueue<PathNode>.PriorityQueueElement curr = openlist.Dequeue();
+            if ( curr.m_value.node == end )
             {
-                return true;
+                return curr.m_value.GetPath();
             }
 
-            closedlist.Add(curr.value);
+            closedlist.Add(curr.m_value);
 
-            // Add neighbouring cells to openlist
-            Vector2i indices = curr.value.GetGridIndices();
-
-            // Left
-            if (IndicesOnGrid(indices.x - 1, indices.y) && !closedlist.Contains(nodes[indices.x - 1, indices.y]))
+            // Expand to neighbouring cells
+            Vector2i indices = curr.m_value.node.GetGridIndices();
+            
+            if (IndicesOnGrid(indices.x - 1, indices.y))
             {
-                openlist.Enqueue(NavigationNode.GetManhattenDistance(nodes[indices.x - 1, indices.y], end) + curr.key, nodes[indices.x - 1, indices.y]);
+                successors[0] = new PathNode(nodes[indices.x - 1, indices.y], null, 0);
             }
-            // Right
-            if (IndicesOnGrid(indices.x + 1, indices.y) && !closedlist.Contains(nodes[indices.x + 1, indices.y]))
+            if (IndicesOnGrid(indices.x + 1, indices.y) && !closedlist.Contains(new PathNode(nodes[indices.x + 1, indices.y], null, 0)))
             {
-                openlist.Enqueue(NavigationNode.GetManhattenDistance(nodes[indices.x + 1, indices.y], end) + curr.key, nodes[indices.x + 1, indices.y]);
+                successors[1] = new PathNode(nodes[indices.x + 1, indices.y], null, 0);
             }
-            // Top
-            if (IndicesOnGrid(indices.x, indices.y + 1) && !closedlist.Contains(nodes[indices.x, indices.y + 1]))
+            if (IndicesOnGrid(indices.x, indices.y + 1) && !closedlist.Contains(new PathNode(nodes[indices.x, indices.y + 1], null, 0)))
             {
-                openlist.Enqueue(NavigationNode.GetManhattenDistance(nodes[indices.x, indices.y + 1], end) + curr.key, nodes[indices.x, indices.y + 1]);
+                successors[2] = new PathNode(nodes[indices.x, indices.y + 1], null, 0);
             }
-            // Bottom
-            if (IndicesOnGrid(indices.x, indices.y - 1) && !closedlist.Contains(nodes[indices.x, indices.y - 1]))
+            if (IndicesOnGrid(indices.x, indices.y - 1) && !closedlist.Contains(new PathNode(nodes[indices.x, indices.y - 1], null, 0)))
             {
-                openlist.Enqueue(NavigationNode.GetManhattenDistance(nodes[indices.x, indices.y - 1], end) + curr.key, nodes[indices.x, indices.y - 1]);
+                successors[3] = new PathNode(nodes[indices.x, indices.y - 1], null, 0);
             }
 
+            foreach (PathNode successor in successors)
+            {
+                if(!closedlist.Contains(successor))
+                {
+                    if(successor.node.GetNodeType() == NavigationNode.nodeTypes.Restricted)
+                    {
+                        closedlist.Add(successor);
+                        continue;
+                    }
+
+                    int tentative_cost = curr.m_value.cost + edgeCost;
+
+                    PriorityQueue<PathNode>.PriorityQueueElement elem;
+
+                    if(openlist.Contains(successor, out elem) && tentative_cost >= elem.m_value.cost)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        elem = new PriorityQueue<PathNode>.PriorityQueueElement(0, successor);
+                    }
+
+                    elem.m_value.predecessor = curr.m_value;
+                    elem.m_value.cost = tentative_cost;
+                    elem.m_key = tentative_cost + NavigationNode.GetManhattenDistance(elem.m_value.node, end);
+
+                    if(openlist.Contains(successor))
+                    {
+                        openlist.UpdateElement(elem);
+                    }
+                    else
+                    {
+                        openlist.Enqueue(elem);
+                    }
+                }
+            }
         }
 
-        return false;
+        return null;
 
     }
 
@@ -138,12 +220,12 @@ public class NavigationGrid : MonoBehaviour {
 
         if(!IndicesOnGrid(indexRight, indexForward))
         {
-            Debug.Log("Position not on NavigationGrid");
+            //Debug.Log("Position not on NavigationGrid");
             return null;
         }
         else
         {
-            Debug.Log("Position on NavigationGrid (" + indexRight + "," + indexForward + ")");
+            //Debug.Log("Position on NavigationGrid (" + indexRight + "," + indexForward + ")");
             return nodes[indexRight, indexForward];
         }
     }
