@@ -8,7 +8,7 @@ public class NavigationGrid : MonoBehaviour {
     class PathNode : IEquatable<PathNode>
     {
         public NavigationNode node { get; set; }
-        public PathNode predecessor;
+        public PathNode predecessor { get; set; }
         public int cost { get; set; }
 
         public PathNode(NavigationNode _node, PathNode _predecessor, int _cost)
@@ -38,6 +38,7 @@ public class NavigationGrid : MonoBehaviour {
             return path;
         }
         
+        // Interface implementation
         public override int GetHashCode()
         {
             return this.node.Index1D;

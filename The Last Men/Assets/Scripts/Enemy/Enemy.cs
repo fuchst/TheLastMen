@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour {
 
     private EnemyState state;
 
+    public ArrayList path { get; set; }
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -52,5 +54,18 @@ public class Enemy : MonoBehaviour {
                     break;
             }
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        if(path != null)
+        {
+            Gizmos.color = new Color(0.0f, 1.0f, 0.0f, 1.0f);
+
+            for (int i = 0; i < path.Count - 1; i++)
+            {
+                Gizmos.DrawLine(island.GetNodeWorldPos((NavigationNode)path[i]), island.GetNodeWorldPos((NavigationNode)path[i + 1]));
+            }
+        }       
     }
 }
