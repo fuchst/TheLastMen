@@ -51,8 +51,8 @@ public class NavigationGrid : MonoBehaviour {
 
     public GameObject[] obst;
 
-    private const int sizeX = 16;
-    private const int sizeY = 16;
+    public const int sizeX = 16;
+    public const int sizeY = 16;
 
     public float stepSize = 2.0f;
     public int edgeCost = 1;
@@ -195,7 +195,7 @@ public class NavigationGrid : MonoBehaviour {
             {
                 if (successor != null && !closedlist.Contains(successor))
                 {
-                    if (successor.node.GetNodeType() == NavigationNode.nodeTypes.Obst)
+                    if (successor.node.GetNodeType() == NavigationNode.nodeTypes.Obst || successor.node.GetNodeType() == NavigationNode.nodeTypes.Restricted)
                     {
                         closedlist.Add(successor);
                         continue;
@@ -248,6 +248,16 @@ public class NavigationGrid : MonoBehaviour {
             //Debug.Log("Position on NavigationGrid (" + indexRight + "," + indexForward + ")");
             return nodes[indexRight, indexForward];
         }
+    }
+
+    public NavigationNode GetNodeAtIndices(int x, int y)
+    {
+        if(IndicesOnGrid(x, y))
+        {
+            return nodes[x, y];
+        }
+
+        return null;
     }
 
     public bool IndicesOnGrid(int x, int y)
