@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour {
     public int hp;
 
     public GameObject player;
+    public NavigationGrid island;
     public float fov;
 
     private EnemyState state;

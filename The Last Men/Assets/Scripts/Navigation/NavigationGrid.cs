@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using C5;
 
 public class NavigationGrid : MonoBehaviour {
 
@@ -76,9 +77,51 @@ public class NavigationGrid : MonoBehaviour {
         return result;
     }
 
-    public NavigationNode[] findPath(NavigationNode start, NavigationNode end)
+    public bool findPath(NavigationNode start, NavigationNode end)
     {
-        return null;
+        PriorityQueue<NavigationNode> openlist = new PriorityQueue<NavigationNode>();
+        HashSet<NavigationNode> closedlist = new HashSet<NavigationNode>();
+
+        openlist.Enqueue(NavigationNode.GetManhattenDistance(start, end), start);
+
+        while(!openlist.IsEmpty())
+        {
+            PriorityQueue<NavigationNode>.PriorityQueueElement curr = openlist.Dequeue();
+            if ( curr.value == end )
+            {
+                return true;
+            }
+
+            closedlist.Add(curr.value);
+
+            // Add neighbouring cells to openlist
+            Vector2i indices = curr.value.GetGridIndices();
+
+            // Left
+            if (IndicesOnGrid(indices.x - 1, indices.y) && !closedlist.Contains(nodes[indices.x - 1, indices.y]))
+            {
+                openlist.Enqueue(NavigationNode.GetManhattenDistance(nodes[indices.x - 1, indices.y], end) + curr.key, nodes[indices.x - 1, indices.y]);
+            }
+            // Right
+            if (IndicesOnGrid(indices.x + 1, indices.y) && !closedlist.Contains(nodes[indices.x + 1, indices.y]))
+            {
+                openlist.Enqueue(NavigationNode.GetManhattenDistance(nodes[indices.x + 1, indices.y], end) + curr.key, nodes[indices.x + 1, indices.y]);
+            }
+            // Top
+            if (IndicesOnGrid(indices.x, indices.y + 1) && !closedlist.Contains(nodes[indices.x, indices.y + 1]))
+            {
+                openlist.Enqueue(NavigationNode.GetManhattenDistance(nodes[indices.x, indices.y + 1], end) + curr.key, nodes[indices.x, indices.y + 1]);
+            }
+            // Bottom
+            if (IndicesOnGrid(indices.x, indices.y - 1) && !closedlist.Contains(nodes[indices.x, indices.y - 1]))
+            {
+                openlist.Enqueue(NavigationNode.GetManhattenDistance(nodes[indices.x, indices.y - 1], end) + curr.key, nodes[indices.x, indices.y - 1]);
+            }
+
+        }
+
+        return false;
+
     }
 
     public NavigationNode GetClosestNode(Vector3 position)
@@ -93,7 +136,7 @@ public class NavigationGrid : MonoBehaviour {
         int indexRight = (int)(distRight / stepSize);
         int indexForward = (int)(distForward / stepSize);
 
-        if(indexRight < 0 || indexRight > sizeX - 1 || indexForward < 0 || indexForward > sizeY - 1 )
+        if(!IndicesOnGrid(indexRight, indexForward))
         {
             Debug.Log("Position not on NavigationGrid");
             return null;
@@ -103,6 +146,14 @@ public class NavigationGrid : MonoBehaviour {
             Debug.Log("Position on NavigationGrid (" + indexRight + "," + indexForward + ")");
             return nodes[indexRight, indexForward];
         }
+    }
+
+    public bool IndicesOnGrid(int x, int y)
+    {
+        if (x >= sizeX || x < 0 || y >= sizeY || y < 0)
+            return false;
+        else
+            return true;
     }
 
     public Vector3 GetNodeWorldPos(NavigationNode node)
