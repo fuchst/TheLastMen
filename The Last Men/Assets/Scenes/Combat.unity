@@ -114,6 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obst: []
   stepSize: 2
+  edgeCost: 1
   maxHeight: 100
 --- !u!4 &454763035
 Transform:

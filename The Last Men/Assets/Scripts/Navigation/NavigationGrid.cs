@@ -128,8 +128,11 @@ public class NavigationGrid : MonoBehaviour {
         PriorityQueue<PathNode> openlist = new PriorityQueue<PathNode>();
         HashSet<PathNode> closedlist = new HashSet<PathNode>();
 
-        // 0 = left, 1 = right, 2 = up, 3 = down
-        PathNode[] successors = new PathNode[4];
+        // 8 nodes arround current node
+        // 0 1 2
+        // 3 x 4
+        // 5 6 7
+        PathNode[] successors = new PathNode[8];
 
         openlist.Enqueue(0, new PathNode(start, null, 0));
 
@@ -146,21 +149,40 @@ public class NavigationGrid : MonoBehaviour {
             // Expand to neighbouring cells
             Vector2i indices = curr.m_value.node.GetGridIndices();
             
+            // Top
+            if (IndicesOnGrid(indices.x - 1, indices.y + 1))
+            {
+                successors[0] = new PathNode(nodes[indices.x - 1, indices.y + 1], null, 0);
+            }
+            if (IndicesOnGrid(indices.x, indices.y + 1))
+            {
+                successors[1] = new PathNode(nodes[indices.x, indices.y + 1], null, 0);
+            }
+            if (IndicesOnGrid(indices.x + 1, indices.y + 1))
+            {
+                successors[2] = new PathNode(nodes[indices.x + 1, indices.y + 1], null, 0);
+            }
+            // Middle
             if (IndicesOnGrid(indices.x - 1, indices.y))
             {
-                successors[0] = new PathNode(nodes[indices.x - 1, indices.y], null, 0);
+                successors[3] = new PathNode(nodes[indices.x - 1, indices.y], null, 0);
             }
-            if (IndicesOnGrid(indices.x + 1, indices.y) && !closedlist.Contains(new PathNode(nodes[indices.x + 1, indices.y], null, 0)))
+            if (IndicesOnGrid(indices.x + 1, indices.y))
             {
-                successors[1] = new PathNode(nodes[indices.x + 1, indices.y], null, 0);
+                successors[4] = new PathNode(nodes[indices.x + 1, indices.y], null, 0);
             }
-            if (IndicesOnGrid(indices.x, indices.y + 1) && !closedlist.Contains(new PathNode(nodes[indices.x, indices.y + 1], null, 0)))
+            // Bottom
+            if (IndicesOnGrid(indices.x - 1, indices.y - 1))
             {
-                successors[2] = new PathNode(nodes[indices.x, indices.y + 1], null, 0);
+                successors[5] = new PathNode(nodes[indices.x - 1, indices.y - 1], null, 0);
             }
-            if (IndicesOnGrid(indices.x, indices.y - 1) && !closedlist.Contains(new PathNode(nodes[indices.x, indices.y - 1], null, 0)))
+            if (IndicesOnGrid(indices.x, indices.y - 1))
             {
-                successors[3] = new PathNode(nodes[indices.x, indices.y - 1], null, 0);
+                successors[6] = new PathNode(nodes[indices.x, indices.y - 1], null, 0);
+            }
+            if (IndicesOnGrid(indices.x + 1, indices.y - 1))
+            {
+                successors[7] = new PathNode(nodes[indices.x + 1, indices.y - 1], null, 0);
             }
 
             foreach (PathNode successor in successors)
