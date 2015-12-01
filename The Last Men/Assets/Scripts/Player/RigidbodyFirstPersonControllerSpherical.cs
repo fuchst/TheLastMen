@@ -2,7 +2,8 @@ using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-namespace UnityStandardAssets.Characters.FirstPerson {
+namespace UnityStandardAssets.Characters.FirstPerson
+{
     [RequireComponent(typeof (Rigidbody))]
     [RequireComponent(typeof (CapsuleCollider))]
     public class RigidbodyFirstPersonControllerSpherical : MonoBehaviour
@@ -13,9 +14,14 @@ namespace UnityStandardAssets.Characters.FirstPerson {
             public float ForwardSpeed = 8.0f;   // Speed when walking forward
             public float BackwardSpeed = 4.0f;  // Speed when walking backwards
             public float StrafeSpeed = 4.0f;    // Speed when walking sideways
-            public float RunMultiplier = 2.0f;   // Speed when sprinting
-			public float JetpackMaxFlightDuration = 5.0f;
-			//public KeyCode JetpackKey = KeyCode.LeftControl;
+            public float RunMultiplier = 2.5f;  // Speed when sprinting
+
+			public float JetpackMaxFlightDuration = 5.0f;      //Maximum duration of "nonstop" jetpack thrust duration (resets when landing)
+			public float JetpackHorizontalBaseSpeed = 8.0f;    //Base speed for horizontal flight (scaled by flight direction input)
+			public float JetpackMaxVerticalSpeed = 8.0f;       //Maximum speed for vertical flight
+			public float JetpackVerticalAcceleration = 30.0f;  //Vertical acceleration for the jetpack
+			public bool  JetpackFlyInLookingDir = false;
+
 			public KeyCode RunKey = KeyCode.LeftShift;
             public float JumpForce = 30f;
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
@@ -27,33 +33,30 @@ namespace UnityStandardAssets.Characters.FirstPerson {
 
             public void UpdateDesiredTargetSpeed(Vector2 input)
             {
-	            if (input == Vector2.zero) return;
-				if (input.x > 0 || input.x < 0)
-				{
-					//strafe
-					CurrentTargetSpeed = StrafeSpeed;
-				}
-				if (input.y < 0)
-				{
-					//backwards
-					CurrentTargetSpeed = BackwardSpeed;
-				}
-				if (input.y > 0)
-				{
-					//forwards
-					//handled last as if strafing and moving forward at the same time forwards speed should take precedence
-					CurrentTargetSpeed = ForwardSpeed;
+				if (input != Vector2.zero){
+					if (input.y > 0){
+						//forwards
+						CurrentTargetSpeed = ForwardSpeed;
+					}
+					else if (input.y < 0){
+						//backwards
+						CurrentTargetSpeed = BackwardSpeed;
+					}
+					else if (input.x > 0 || input.x < 0){
+						//strafe
+						CurrentTargetSpeed = StrafeSpeed;
+					}
 				}
 #if !MOBILE_INPUT
-	            if (Input.GetKey(RunKey))
-	            {
-		            CurrentTargetSpeed *= RunMultiplier;
-		            m_Running = true;
-	            }
-	            else
-	            {
-		            m_Running = false;
-	            }
+				if (Input.GetKey(RunKey))
+				{
+					CurrentTargetSpeed *= RunMultiplier;
+					m_Running = true;
+				}
+				else
+				{
+					m_Running = false;
+				}
 #endif
             }
 
@@ -72,7 +75,7 @@ namespace UnityStandardAssets.Characters.FirstPerson {
             public float groundCheckDistance = 0.01f; // distance for checking if the controller is grounded ( 0.01f seems to work best for this )
             public float stickToGroundHelperDistance = 0.5f; // stops the character
             public float slowDownRate = 20f; // rate at which the controller comes to a stop when there is no input
-            public bool airControl = true; // can the user control the direction that is being moved in the air
+            public bool airControl; // can the user control the direction that is being moved in the air
         }
 
 
@@ -84,13 +87,13 @@ namespace UnityStandardAssets.Characters.FirstPerson {
 
         private Rigidbody m_RigidBody;
         private CapsuleCollider m_Capsule;
-        private float m_YRotation;
+        //private float m_YRotation;
         private Vector3 m_GroundContactNormal;
         private bool m_Jump, m_PreviouslyGrounded, m_Jumping, m_IsGrounded;
 		
 		private bool m_Fly;
 		private float m_JetpackCurFlightDuration = 0;
-        public bool m_Hooked;
+		public bool m_Hooked;
 
 
         public Vector3 Velocity
@@ -126,7 +129,7 @@ namespace UnityStandardAssets.Characters.FirstPerson {
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
             mouseLook.Init (transform, cam.transform);
-            m_Hooked = false;
+			m_Hooked = false;
         }
 
 
@@ -145,8 +148,6 @@ namespace UnityStandardAssets.Characters.FirstPerson {
 			else if (CrossPlatformInputManager.GetButtonUp ("Jetpack") && m_Fly) {
 				m_Fly = false;
 			}
-           
-          
         }
 
 
@@ -154,41 +155,70 @@ namespace UnityStandardAssets.Characters.FirstPerson {
         {
             GroundCheck();
             Vector2 input = GetInput();
+			float energyCost = 0;
 
-			if ((Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded) || m_Fly || m_Hooked)
+			if (!m_Fly && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded || m_Hooked))
             {
                 // always move along the camera forward as it is the direction that it being aimed at
                 Vector3 desiredMove = cam.transform.forward*input.y + cam.transform.right*input.x;
 				//Vector3 desiredMoveJetpack = (desiredMove.normalized) * movementSettings.CurrentTargetSpeed;
-                desiredMove = m_Fly ? desiredMove.normalized : Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
+                desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
+				desiredMove *= movementSettings.CurrentTargetSpeed * SlopeMultiplier();
 
-                desiredMove.x = desiredMove.x*movementSettings.CurrentTargetSpeed;
-                desiredMove.z = desiredMove.z*movementSettings.CurrentTargetSpeed;
-                desiredMove.y = desiredMove.y*movementSettings.CurrentTargetSpeed;
+                //desiredMove.x = desiredMove.x*movementSettings.CurrentTargetSpeed;
+                //desiredMove.z = desiredMove.z*movementSettings.CurrentTargetSpeed;
+                //desiredMove.y = desiredMove.y*movementSettings.CurrentTargetSpeed;
 
-				desiredMove *= m_Fly? 1 : SlopeMultiplier();
+				//desiredMove *= m_Fly ? 1 : SlopeMultiplier();
 
                 if (m_RigidBody.velocity.sqrMagnitude <
-                    (movementSettings.CurrentTargetSpeed*movementSettings.CurrentTargetSpeed) ||
-				     m_RigidBody.velocity.sqrMagnitude > (m_RigidBody.velocity + desiredMove/m_RigidBody.mass).sqrMagnitude)
+                    (movementSettings.CurrentTargetSpeed*movementSettings.CurrentTargetSpeed))
                 {
-					m_RigidBody.AddForce(desiredMove, ForceMode.Impulse);
+					m_RigidBody.AddForce(5*Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
                 }
             }
 
 			if (m_Fly){
+				float curRunMultiplier = movementSettings.Running ? movementSettings.RunMultiplier : 1;
+				Vector3 desiredMove, force = Vector3.zero;
+				if(movementSettings.JetpackFlyInLookingDir){
+					desiredMove = cam.transform.forward;
+				}
+				else{
+					//desiredMove = (cam.transform.forward*input.y + cam.transform.right*input.x).normalized;
+					//desiredMove = (transform.forward*input.y + transform.right*input.x).normalized;
+					Vector2 modifiedInput = input.normalized;
+					modifiedInput.x *= 0.5f;
+					modifiedInput.y *= modifiedInput.y > 0 ? 1.5f : 0.25f;
+					desiredMove = transform.forward*input.y + transform.right*input.x;
+				}
+				float curJetpackSpeed = movementSettings.JetpackHorizontalBaseSpeed * curRunMultiplier;
+				desiredMove *= curJetpackSpeed;
+
+				Vector3 horVel = Vector3.ProjectOnPlane(m_RigidBody.velocity, transform.up);
+				if (horVel.sqrMagnitude < (curJetpackSpeed * curJetpackSpeed) ||
+				    horVel.sqrMagnitude > (horVel + 5*Time.fixedDeltaTime * desiredMove).sqrMagnitude)
+				{
+					force += 5*Time.fixedDeltaTime * desiredMove;
+					//m_RigidBody.AddForce(5*Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+					//energyCost += desiredMove.magnitude;
+				}
+
 				//m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, Mathf.Min(m_RigidBody.velocity.y + 30*Time.fixedDeltaTime, 3), m_RigidBody.velocity.z);
 				//m_RigidBody.velocity = m_RigidBody.velocity + Vector3.up * Mathf.Min(30*Time.fixedDeltaTime, 3 - m_RigidBody.velocity.y);
-				//transformation below is incorrect!! check!!
-				//m_RigidBody.velocity = m_RigidBody.velocity + Vector3.up * Mathf.Min(30*Time.fixedDeltaTime, 3 - Vector3.Project(m_RigidBody.velocity, Vector3.up).magnitude);
-				//m_RigidBody.velocity = m_RigidBody.velocity + transform.up * Mathf.Min(30*Time.fixedDeltaTime, 3 - Vector3.Project(m_RigidBody.velocity, transform.up).magnitude);
 
-				Vector3 vel = m_RigidBody.velocity;
 				Vector3 upV = transform.up;
-				Vector3 velUp = Vector3.Project(vel, transform.up);
-				float factorUp = (velUp.x != 0 && upV.x != 0) ? (velUp.x/upV.x) : ( (velUp.y != 0 && upV.y != 0) ? (velUp.y/upV.y) : (velUp.z/upV.z) );
-				vel += upV * Mathf.Min(30*Time.fixedDeltaTime, 3 - factorUp);
-				m_RigidBody.velocity = vel;
+				Vector3 velUp = Vector3.Project(m_RigidBody.velocity + force, transform.up);
+				//compute the "upwards" (away from world center) speed - compare current upwards direction vector with the projected velocity component-wise
+				//for computing a meaningful factor, you need to pick a component (if possible) that is not 0 for both vectors - (velUp.x != 0 && upV.x != 0) or shorter (velUp.x * upV.x != 0)
+				float factorUp = (velUp.x * upV.x != 0) ? (velUp.x / upV.x) : ( (velUp.y * upV.y != 0) ? (velUp.y / upV.y) : ( (velUp.z * upV.z != 0) ? (velUp.z / upV.z) : 0) );
+				float maxUpSpeed = movementSettings.JetpackMaxVerticalSpeed * curRunMultiplier;
+				float upDelta = Mathf.Min(+movementSettings.JetpackVerticalAcceleration * Time.fixedDeltaTime, maxUpSpeed - factorUp);
+				//m_RigidBody.velocity += upV * upDelta;
+				//energyCost += Mathf.Max (upDelta, 0);
+				m_RigidBody.AddForce(upV * upDelta + force, ForceMode.VelocityChange);
+
+				energyCost += (force + (upDelta > 0 ? upV*upDelta : Vector3.zero)).magnitude;
 
 				m_JetpackCurFlightDuration += Time.fixedDeltaTime;
 				if(m_JetpackCurFlightDuration > movementSettings.JetpackMaxFlightDuration){
@@ -203,16 +233,16 @@ namespace UnityStandardAssets.Characters.FirstPerson {
 
                 if (m_Jump)
                 {
-                    m_RigidBody.drag = 0f;
+                    m_RigidBody.drag = 0.5f;
                     //m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, 0f, m_RigidBody.velocity.z);
 					m_RigidBody.velocity -= Vector3.Project(m_RigidBody.velocity, transform.up);
                     //m_RigidBody.AddForce(new Vector3(0f, movementSettings.JumpForce, 0f), ForceMode.Impulse);
 					//m_RigidBody.AddForce(m_RigidBody.position.normalized * movementSettings.JumpForce, ForceMode.Impulse);
-					m_RigidBody.AddForce(transform.up * movementSettings.JumpForce, ForceMode.Impulse);
+					m_RigidBody.AddForce(transform.up * 5*Time.fixedDeltaTime * movementSettings.JumpForce, ForceMode.VelocityChange);
                     m_Jumping = true;
                 }
 
-                if (!m_Jumping && Mathf.Abs(input.x) < float.Epsilon && Mathf.Abs(input.y) < float.Epsilon && m_RigidBody.velocity.magnitude < 1f)
+                if (!m_Fly && !m_Jumping && Mathf.Abs(input.x) < float.Epsilon && Mathf.Abs(input.y) < float.Epsilon && m_RigidBody.velocity.magnitude < 1f)
                 {
                     m_RigidBody.Sleep();
                 }
@@ -220,12 +250,15 @@ namespace UnityStandardAssets.Characters.FirstPerson {
             else
             {
                 m_RigidBody.drag = 0.5f;
-                if (m_PreviouslyGrounded && !(m_Jumping || m_Fly))
-                {
+                if (m_PreviouslyGrounded && !(m_Jumping || m_Fly)) {
                     StickToGroundHelper();
                 }
             }
             m_Jump = false;
+
+			if (energyCost > 0) {
+				Debug.Log("consumed " + energyCost + " energy in this fixedUpdate");
+			}
         }
 
 
@@ -269,7 +302,7 @@ namespace UnityStandardAssets.Characters.FirstPerson {
             //avoids the mouse looking if the game is effectively paused
             if (Mathf.Abs(Time.timeScale) < float.Epsilon) return;
 
-			transform.up = transform.position.normalized;
+			//transform.up = transform.position.normalized;
 
             // get the rotation before it's changed
 			//float oldYRotation = transform.eulerAngles.y;

@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-    WorldGeneration gameWorld;
-    GameObject player;
+	
+	public GameObject player;
+	WorldGeneration gameWorld;
     Camera worldCam;
 
     void Awake() {
         worldCam = Camera.main;
         gameWorld = GetComponent<WorldGeneration>();
-        player = Resources.Load("Player", typeof(GameObject)) as GameObject;
+        if (!player) {
+			player = Resources.Load ("Player", typeof(GameObject)) as GameObject;
+		}
     }
 
     void Start() {

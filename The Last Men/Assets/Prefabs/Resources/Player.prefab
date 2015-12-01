@@ -96,7 +96,6 @@ Camera:
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
-  m_TargetEye: 3
   m_HDR: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
@@ -170,7 +169,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 136356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fd2015e29547f74f80b6ceb2c80301b, type: 3}
+  m_Script: {fileID: 11500000, guid: d099f3da20bf5834e88fe869815490ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 2058828}
@@ -180,8 +179,12 @@ MonoBehaviour:
     StrafeSpeed: 4
     RunMultiplier: 2.5
     JetpackMaxFlightDuration: 5
+    JetpackHorizontalBaseSpeed: 8
+    JetpackMaxVerticalSpeed: 8
+    JetpackVerticalAcceleration: 30
+    JetpackFlyInLookingDir: 0
     RunKey: 304
-    JumpForce: 70
+    JumpForce: 30
     SlopeCurveModifier:
       serializedVersion: 2
       m_Curve:
@@ -214,7 +217,7 @@ MonoBehaviour:
   advancedSettings:
     groundCheckDistance: .00999999978
     stickToGroundHelperDistance: .5
-    slowDownRate: 0
+    slowDownRate: 20
     airControl: 0
   m_Hooked: 0
 --- !u!114 &11450480
@@ -418,6 +421,10 @@ Prefab:
       propertyPath: m_hook
       value: 
       objectReference: {fileID: 112044, guid: 6c9a2159c3a36f346b2015160af45ed6, type: 2}
+    - target: {fileID: 0}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 2058828}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 136356}
