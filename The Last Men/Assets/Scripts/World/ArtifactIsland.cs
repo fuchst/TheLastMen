@@ -10,7 +10,7 @@ public class ArtifactIsland : MonoBehaviour {
         if(collision.gameObject.tag == "Player" && collected == false)
         {
             collected = true;
-            GameObject.FindGameObjectWithTag("Scripts").GetComponent<LevelManager>().ArtifactCollected();
+            collision.gameObject.SendMessage("AddArtifact");
             gameObject.GetComponent<MeshRenderer>().material = Resources.Load(baseMaterial, typeof(Material)) as Material;
         }
     }
