@@ -318,7 +318,7 @@ GameObject:
   - 114: {fileID: 1378452259}
   m_Layer: 0
   m_Name: Scripts
-  m_TagString: Untagged
+  m_TagString: Scripts
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -341,7 +341,7 @@ MonoBehaviour:
     numberOfArtifacts: 4
     destructionLevel: 0
     heightOffset: 5
-    grapplingIslandExtraHeight: 15
+    grapplingIslandExtraHeight: 40
   - radius: 600
     cycles: 2
     numberOfArtifacts: 8

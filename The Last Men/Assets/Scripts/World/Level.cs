@@ -14,6 +14,8 @@ public class Level : MonoBehaviour
     public float heightOffset = 20.0f;
     public float grapplingIslandExtraheight;
 
+    private bool pseudoIsland = false;
+
     //island prefab name
     private string islandModel = "IslandSimple";
 
@@ -89,6 +91,10 @@ public class Level : MonoBehaviour
                 continue;
             }
             artifactIsland.islandType = IslandType.Artifact;
+            if(pseudoIsland == false)
+            {
+                artifactIsland.linkedGameObject.AddComponent<ArtifactIsland>();
+            }
         }
     }
 
@@ -364,6 +370,11 @@ public class Level : MonoBehaviour
         {
             islandParent.GetChild(i).GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/NextLevelIsland", typeof(Material)) as Material;
         }
+    }
+
+    public void PseudoIsland()
+    {
+        pseudoIsland = true;
     }
 }
 

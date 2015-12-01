@@ -8,6 +8,8 @@ public class LevelManager : MonoBehaviour
     private Level[] levels = new Level[3];
     private int currentLevel = 0;
 
+    private int artifactsLeft = 0;
+
     public void CreateLevel()
     {
         levels[currentLevel] = gameObject.AddComponent<Level>() as Level;
@@ -16,6 +18,7 @@ public class LevelManager : MonoBehaviour
         levels[currentLevel].cycles = levelVariables[currentLevel].cycles;
         levels[currentLevel].destructionLevel = levelVariables[currentLevel].destructionLevel;
         levels[currentLevel].numberOfArtifacts = levelVariables[currentLevel].numberOfArtifacts;
+        artifactsLeft = levelVariables[currentLevel].numberOfArtifacts;
         levels[currentLevel].heightOffset = levelVariables[currentLevel].heightOffset;
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
         levels[currentLevel].CreateWorld();
@@ -33,6 +36,7 @@ public class LevelManager : MonoBehaviour
             levels[nextLevel].numberOfArtifacts = levelVariables[nextLevel].numberOfArtifacts;
             levels[nextLevel].heightOffset = levelVariables[nextLevel].heightOffset;
             levels[nextLevel].grapplingIslandExtraheight = levelVariables[nextLevel].grapplingIslandExtraHeight;
+            levels[nextLevel].PseudoIsland();
             levels[nextLevel].CreateWorld();
             levels[nextLevel].DarkenIslands();
         }
@@ -54,5 +58,10 @@ public class LevelManager : MonoBehaviour
         public float destructionLevel;
         public float heightOffset;
         public float grapplingIslandExtraHeight;
+    }
+
+    public void ArtifactCollected()
+    {
+        artifactsLeft--;
     }
 }
