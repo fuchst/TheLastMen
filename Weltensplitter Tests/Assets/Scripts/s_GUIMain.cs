@@ -29,6 +29,10 @@ public class s_GUIMain : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		canvasRT = canvas.GetComponent<RectTransform> ();
+		if(!bastionTransform){
+			bastionTransform = new GameObject("bastion").transform;
+			bastionTransform.position = playerTransform.position;
+		}
 	}
 	
 	// Update is called once per frame
