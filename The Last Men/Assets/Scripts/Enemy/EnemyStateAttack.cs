@@ -15,7 +15,17 @@ public class EnemyStateAttack : EnemyState {
     public override void action()
     {
         Vector3 playerPos = enemy.player.transform.position;
-        enemy.transform.LookAt(playerPos);
-        enemy.transform.Translate(enemy.transform.forward * Time.deltaTime);
+
+        float dist = Vector3.Distance(playerPos, enemy.transform.position);
+
+        if (dist <= enemy.attackRange)
+        {
+            enemy.path.Clear();
+            // TODO: damage
+        }
+        else if (enemy.path == null || enemy.island.GetClosestNode(playerPos) != enemy.path[enemy.path.Count - 1])
+        {
+            enemy.path = enemy.island.findPath(enemy.island.GetClosestNode(enemy.transform.position), enemy.island.GetClosestNode(playerPos));
+        }     
     }
 }
