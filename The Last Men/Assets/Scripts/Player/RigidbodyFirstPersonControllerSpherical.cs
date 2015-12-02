@@ -256,9 +256,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             m_Jump = false;
 
-			if (energyCost > 0) {
-				Debug.Log("consumed " + energyCost + " energy in this fixedUpdate");
-			}
+			//if (energyCost > 0) {
+			//	Debug.Log("consumed " + energyCost + " energy in this fixedUpdate");
+			//}
         }
 
 
@@ -286,7 +286,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private Vector2 GetInput()
         {
-            
             Vector2 input = new Vector2
                 {
                     x = CrossPlatformInputManager.GetAxis("Horizontal"),

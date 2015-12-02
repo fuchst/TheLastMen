@@ -54,7 +54,8 @@ public class NavigationGrid : MonoBehaviour {
     public int sizeY = 32;
 
     public float stepSize = 0.5f;
-    public int edgeCost = 1;
+    public int edgeCost = 2;
+    public int edgeCostDiag = 3;
     public float maxHeight = 100.0f;
 
     public NavigationNode[,] nodes;
@@ -152,7 +153,7 @@ public class NavigationGrid : MonoBehaviour {
             // Expand to neighbouring cells
             Vector2i indices = curr.m_value.node.GetGridIndices();
             
-            for(int i = 0; i < 8; i++)
+            for(int i = 0; i < successors.Length; i++)
             {
                 successors[i] = null;
             }
@@ -193,8 +194,10 @@ public class NavigationGrid : MonoBehaviour {
                 successors[7] = new PathNode(nodes[indices.x + 1, indices.y - 1], null, 0);
             }
 
-            foreach (PathNode successor in successors)
+            //foreach (PathNode successor in successors)
+            for(int i = 0; i < successors.Length; i++)
             {
+                PathNode successor = successors[i];
                 if (successor != null && !closedlist.Contains(successor))
                 {
                     if (successor.node.nodeType == NavigationNode.nodeTypes.Obst || successor.node.nodeType == NavigationNode.nodeTypes.None)
@@ -202,7 +205,15 @@ public class NavigationGrid : MonoBehaviour {
                         closedlist.Add(successor);
                         continue;
                     }
-                    int tentative_cost = curr.m_value.cost + edgeCost;
+
+                    int tentative_cost;
+
+                    if (i == 0 || i == 2 || i == 5 || i == 7) {
+                        tentative_cost = curr.m_value.cost + edgeCostDiag;
+                    }
+                    else {
+                        tentative_cost = curr.m_value.cost + edgeCost;
+                    }
 
                     PriorityQueue<PathNode>.PriorityQueueElement elem;
 

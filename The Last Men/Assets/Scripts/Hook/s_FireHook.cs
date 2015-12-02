@@ -185,18 +185,12 @@ public class s_FireHook : MonoBehaviour
             return;
         }
 
-        lr.SetPosition(0, transform.position - transform.up + transform.forward * 0.5f);
+        lr.SetPosition(0, transform.position);
 
         if (ropeElements.Count == 0)
         {
-
-            lr.SetPosition(0, transform.position);
-            Debug.Log(subDivAmount);
-            for (int i = 1; i < subDivAmount + 2; i++)
-            {
-                //Debug.Log(i);
-                lr.SetPosition(i, a_hook.transform.position);
-            }
+            lr.SetPosition(0,transform.position);
+            lr.SetPosition(1, a_hook.transform.position);
         }
         else
         {

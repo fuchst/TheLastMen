@@ -8,7 +8,7 @@ public class EnemyStateIdle : EnemyState {
     public EnemyStateIdle(Enemy _enemy) 
         : base(_enemy)
     {
-        Debug.Log("Idle state");
+        //Debug.Log("Idle state");
         _enemy.GetComponent<Renderer>().material = _enemy.materials[0];
     }
 

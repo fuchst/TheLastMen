@@ -13,20 +13,19 @@ public class GameManager : MonoBehaviour {
 
     void Awake()
     {
-        if (UIInventory == null)
-        {
-            UIInventory = GameObject.Find("UIInventory");
-            if(UIInventory == null)
-            {
-                Debug.LogError("No UIInventory found");
-            }
-        }
+        
         levelManager = GetComponent<LevelManager>();
         worldCam = Camera.main;
     }
 
     void Start()
     {
+        if (UIInventory == null) {
+            UIInventory = GameObject.Find("UIInventory");
+            if (UIInventory == null) {
+                Debug.LogError("No UIInventory found");
+            }
+        }
         //Create Game World
         levelManager.CreateLevel();
 

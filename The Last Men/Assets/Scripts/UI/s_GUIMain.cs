@@ -30,6 +30,7 @@ public class s_GUIMain : MonoBehaviour {
 	void Start () {
 		canvasRT = canvas.GetComponent<RectTransform> ();
 		if(!bastionTransform){
+
 			bastionTransform = new GameObject("bastion").transform;
 			bastionTransform.position = playerTransform.position;
 		}
