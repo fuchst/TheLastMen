@@ -23,9 +23,13 @@ public class EnemyStateAttack : EnemyState {
             enemy.path.Clear();
             // TODO: damage
         }
-        else if (enemy.path == null || enemy.island.GetClosestNode(playerPos) != enemy.path[enemy.path.Count - 1])
+        else if ( dist > enemy.senseRange )
         {
-            enemy.path = enemy.island.findPath(enemy.island.GetClosestNode(enemy.transform.position), enemy.island.GetClosestNode(playerPos));
+            enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
+        }
+        else if (enemy.path == null || enemy.navGrid.GetClosestNode(playerPos) != enemy.path[enemy.path.Count - 1])
+        {
+            enemy.path = enemy.navGrid.findPath(enemy.navGrid.GetClosestNode(enemy.transform.position), enemy.navGrid.GetClosestNode(playerPos));
         }     
     }
 }

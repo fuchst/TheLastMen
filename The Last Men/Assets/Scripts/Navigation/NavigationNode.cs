@@ -21,7 +21,7 @@ public class NavigationNode {
         new Color(0.5f, 0.5f, 0.5f, 1.0f),
     };
 
-    private nodeTypes type;
+    public nodeTypes nodeType { get; set; }
 
     private Vector2i gridIndices;
 
@@ -39,14 +39,9 @@ public class NavigationNode {
         SetNodeType(nodeTypes.None);
     }
 
-    public nodeTypes GetNodeType()
-    {
-        return type;
-    }
-
     public void SetNodeType(nodeTypes type)
     {
-        this.type = type;
+        this.nodeType = type;
     }
 
     public Vector2i GetGridIndices()

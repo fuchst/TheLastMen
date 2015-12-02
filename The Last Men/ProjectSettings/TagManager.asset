@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Island
   - Scripts
+  - Enemy
+  - Obstacle
   layers:
   - Default
   - TransparentFX

@@ -49,21 +49,23 @@ public class NavigationGrid : MonoBehaviour {
         }
     };
 
-    public GameObject[] obst;
+    // Change value in prefab
+    public int sizeX = 32;
+    public int sizeY = 32;
 
-    public const int sizeX = 16;
-    public const int sizeY = 16;
-
-    public float stepSize = 2.0f;
+    public float stepSize = 0.5f;
     public int edgeCost = 1;
     public float maxHeight = 100.0f;
 
-    private NavigationNode[,] nodes;
+    public NavigationNode[,] nodes;
     private GameObject island;
+    private GameObject[] obstacles;
 
     public void createGrid()
     {
-        nodes = new NavigationNode[sizeX, sizeY];
+        this.obstacles = Helper.FindChildrenWithTag(island, "Obstacle");
+
+        this.nodes = new NavigationNode[sizeX, sizeY];
 
         RaycastHit hit;
 
@@ -82,9 +84,9 @@ public class NavigationGrid : MonoBehaviour {
         this.transform.position -= island.transform.forward * shiftY * stepSize;
         this.transform.position -= island.transform.right * shiftX * stepSize;
 
-        for (int i = 0; i < 16; i++)
+        for (int i = 0; i < sizeX; i++)
         {
-            for (int j = 0; j < 16; j++)
+            for (int j = 0; j < sizeY; j++)
             {
                 nodes[i, j] = new NavigationNode(new Vector2i(i, j));
 
@@ -94,9 +96,9 @@ public class NavigationGrid : MonoBehaviour {
                     nodes[i, j].SetNodeType(NavigationNode.nodeTypes.Free);
 
                     // Check if inside of obstacle
-                    for (int k = 0; k < obst.Length; k++)
+                    for (int k = 0; k < obstacles.Length; k++)
                     {
-                        if(!isInside(GetNodeWorldPos(nodes[i, j]), obst[k].gameObject.GetComponent<Collider>()))
+                        if(!isInside(GetNodeWorldPos(nodes[i, j]), obstacles[k].gameObject.GetComponent<Collider>()))
                         {
                             nodes[i, j].SetNodeType(NavigationNode.nodeTypes.Obst);
                         }
@@ -195,7 +197,7 @@ public class NavigationGrid : MonoBehaviour {
             {
                 if (successor != null && !closedlist.Contains(successor))
                 {
-                    if (successor.node.GetNodeType() == NavigationNode.nodeTypes.Obst || successor.node.GetNodeType() == NavigationNode.nodeTypes.Restricted)
+                    if (successor.node.nodeType == NavigationNode.nodeTypes.Obst || successor.node.nodeType == NavigationNode.nodeTypes.None)
                     {
                         closedlist.Add(successor);
                         continue;
@@ -250,6 +252,22 @@ public class NavigationGrid : MonoBehaviour {
         }
     }
 
+    public NavigationNode GetRandomFreeNode()
+    {
+        for(int i = 0; i < sizeX * sizeY; i++)
+        {
+            int x = UnityEngine.Random.Range(0, sizeX - 1);
+            int y = UnityEngine.Random.Range(0, sizeY - 1);
+
+            if(nodes != null && nodes[x,y].nodeType == NavigationNode.nodeTypes.Free)
+            {
+                return nodes[x,y];
+            }
+        }
+
+        return null;
+    }
+
     public NavigationNode GetNodeAtIndices(int x, int y)
     {
         if(IndicesOnGrid(x, y))
@@ -273,10 +291,10 @@ public class NavigationGrid : MonoBehaviour {
         return this.transform.position + this.transform.forward * node.GetGridIndices().y * stepSize + this.transform.right * node.GetGridIndices().x * stepSize;
     }
 
-    void Start()
+    public void Init()
     {
         this.island = this.transform.parent.gameObject;
-        createGrid();
+        this.createGrid();
     }
 
     void OnDrawGizmos()
@@ -285,7 +303,7 @@ public class NavigationGrid : MonoBehaviour {
         {
             foreach (NavigationNode node in nodes)
             {
-                Gizmos.color = NavigationNode.nodeColors[(int)node.GetNodeType()];
+                Gizmos.color = NavigationNode.nodeColors[(int)node.nodeType];
                 Gizmos.DrawCube(GetNodeWorldPos(node), new Vector3(0.3f, 0.3f, 0.3f));
             }
         }

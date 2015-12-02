@@ -10,8 +10,14 @@ public class Enemy : MonoBehaviour {
     public int damage = 5;
     public float speed = 1.0f;
 
-    public GameObject player;
-    public NavigationGrid island;
+    private GameObject _player;
+    public GameObject player
+    {
+        get { return _player; }
+        private set { _player = value; }
+    }
+
+    public NavigationGrid navGrid { get; set; }
     public float fov = 20.0f;
     public float senseRange = 15.0f;
 
@@ -27,6 +33,7 @@ public class Enemy : MonoBehaviour {
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        navGrid = transform.parent.GetComponentInChildren<NavigationGrid>();
         ChangeState(EnemyState.stateIDs.Idle);
     }
 
@@ -42,7 +49,7 @@ public class Enemy : MonoBehaviour {
         {
             if ( pathIndex < (path.Count - 1) )
             {
-                Vector3 nextNodePos = island.GetNodeWorldPos((NavigationNode)path[pathIndex + 1]);
+                Vector3 nextNodePos = navGrid.GetNodeWorldPos((NavigationNode)path[pathIndex + 1]);
 
                 this.transform.LookAt(nextNodePos);
                 this.transform.Translate(this.transform.forward * speed * Time.deltaTime, Space.World);
@@ -98,7 +105,7 @@ public class Enemy : MonoBehaviour {
 
             for (int i = 0; i < path.Count - 1; i++)
             {
-                Gizmos.DrawLine(island.GetNodeWorldPos((NavigationNode)path[i]), island.GetNodeWorldPos((NavigationNode)path[i + 1]));
+                Gizmos.DrawLine(navGrid.GetNodeWorldPos((NavigationNode)path[i]), navGrid.GetNodeWorldPos((NavigationNode)path[i + 1]));
             }
         }       
     }
