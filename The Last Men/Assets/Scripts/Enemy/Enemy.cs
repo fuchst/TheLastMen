@@ -56,7 +56,7 @@ public class Enemy : MonoBehaviour {
             {
                 Vector3 nextNodePos = navGrid.GetNodeWorldPos((NavigationNode)path[pathIndex + 1]);
 
-                this.transform.LookAt(nextNodePos);
+                this.transform.LookAt(nextNodePos, navGrid.transform.up);
                 this.transform.Translate(this.transform.forward * speed * Time.deltaTime, Space.World);
 
                 if(Vector3.Distance(this.transform.position, nextNodePos) < 0.1f)
