@@ -4,13 +4,25 @@ using System.Collections;
 public class Enemy : MonoBehaviour {
 
     public Material[] materials;
-    public int hp;
+
+    public int hp = 100;
+    public float attackRange = 1.0f;
+    public int damage = 5;
+    public float speed = 1.0f;
 
     public GameObject player;
     public NavigationGrid island;
-    public float fov;
+    public float fov = 20.0f;
+    public float senseRange = 15.0f;
 
     private EnemyState state;
+
+    private int pathIndex;
+    private ArrayList _path;
+    public ArrayList path {
+        get { return _path; }
+        set { _path = value; pathIndex = 0; }
+    }
 
     void Start()
     {
@@ -21,6 +33,30 @@ public class Enemy : MonoBehaviour {
     void FixedUpdate()
     {
         state.action();
+        Move();
+    }
+
+    void Move()
+    {
+        if (path != null)
+        {
+            if ( pathIndex < (path.Count - 1) )
+            {
+                Vector3 nextNodePos = island.GetNodeWorldPos((NavigationNode)path[pathIndex + 1]);
+
+                this.transform.LookAt(nextNodePos);
+                this.transform.Translate(this.transform.forward * speed * Time.deltaTime, Space.World);
+
+                if(Vector3.Distance(this.transform.position, nextNodePos) < 0.1f)
+                {
+                    pathIndex++;
+                }
+            }
+            else
+            {
+                path.Clear();
+            }
+        }
     }
 
     void OnHit(int dmg)
@@ -52,5 +88,18 @@ public class Enemy : MonoBehaviour {
                     break;
             }
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        if(path != null)
+        {
+            Gizmos.color = new Color(0.0f, 1.0f, 0.0f, 1.0f);
+
+            for (int i = 0; i < path.Count - 1; i++)
+            {
+                Gizmos.DrawLine(island.GetNodeWorldPos((NavigationNode)path[i]), island.GetNodeWorldPos((NavigationNode)path[i + 1]));
+            }
+        }       
     }
 }

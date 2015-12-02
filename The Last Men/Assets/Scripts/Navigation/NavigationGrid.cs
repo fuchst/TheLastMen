@@ -1,15 +1,61 @@
 ﻿using UnityEngine;
 using System.Collections;
-using C5;
+using System.Collections.Generic;
+using System;
 
 public class NavigationGrid : MonoBehaviour {
 
+    class PathNode : IEquatable<PathNode>
+    {
+        public NavigationNode node { get; set; }
+        public PathNode predecessor { get; set; }
+        public int cost { get; set; }
+
+        public PathNode(NavigationNode _node, PathNode _predecessor, int _cost)
+        {
+            this.node = _node;
+            this.cost = _cost;
+            this.predecessor = _predecessor;
+        }
+
+        // Returns path of NavigationNodes
+        public ArrayList GetPath()
+        {
+            ArrayList path = new ArrayList();
+
+            PathNode curr = this;
+
+            path.Add(curr.node);
+
+            while(curr.predecessor != null)
+            {
+                curr = curr.predecessor;
+                path.Add(curr.node);
+            }
+
+            path.Reverse();
+
+            return path;
+        }
+        
+        // Interface implementation
+        public override int GetHashCode()
+        {
+            return this.node.Index1D;
+        }
+        public bool Equals(PathNode other)
+        {
+            return (this.node.Index1D == other.node.Index1D);
+        }
+    };
+
     public GameObject[] obst;
 
-    private const int sizeX = 16;
-    private const int sizeY = 16;
+    public const int sizeX = 16;
+    public const int sizeY = 16;
 
     public float stepSize = 2.0f;
+    public int edgeCost = 1;
     public float maxHeight = 100.0f;
 
     private NavigationNode[,] nodes;
@@ -77,50 +123,106 @@ public class NavigationGrid : MonoBehaviour {
         return result;
     }
 
-    public bool findPath(NavigationNode start, NavigationNode end)
+    public ArrayList findPath(NavigationNode start, NavigationNode end)
     {
-        PriorityQueue<NavigationNode> openlist = new PriorityQueue<NavigationNode>();
-        HashSet<NavigationNode> closedlist = new HashSet<NavigationNode>();
+        PriorityQueue<PathNode> openlist = new PriorityQueue<PathNode>();
+        HashSet<PathNode> closedlist = new HashSet<PathNode>();
 
-        openlist.Enqueue(NavigationNode.GetManhattenDistance(start, end), start);
+        // 8 nodes arround current node
+        // 0 1 2
+        // 3 x 4
+        // 5 6 7
+        PathNode[] successors = new PathNode[8];
 
+        openlist.Enqueue(0, new PathNode(start, null, 0));
+        
         while(!openlist.IsEmpty())
         {
-            PriorityQueue<NavigationNode>.PriorityQueueElement curr = openlist.Dequeue();
-            if ( curr.value == end )
+            PriorityQueue<PathNode>.PriorityQueueElement curr = openlist.Dequeue();
+
+            if ( curr.m_value.node == end )
             {
-                return true;
+                return curr.m_value.GetPath();
+            }
+            
+            closedlist.Add(curr.m_value);
+
+            // Expand to neighbouring cells
+            Vector2i indices = curr.m_value.node.GetGridIndices();
+            
+            for(int i = 0; i < 8; i++)
+            {
+                successors[i] = null;
             }
 
-            closedlist.Add(curr.value);
-
-            // Add neighbouring cells to openlist
-            Vector2i indices = curr.value.GetGridIndices();
-
-            // Left
-            if (IndicesOnGrid(indices.x - 1, indices.y) && !closedlist.Contains(nodes[indices.x - 1, indices.y]))
-            {
-                openlist.Enqueue(NavigationNode.GetManhattenDistance(nodes[indices.x - 1, indices.y], end) + curr.key, nodes[indices.x - 1, indices.y]);
-            }
-            // Right
-            if (IndicesOnGrid(indices.x + 1, indices.y) && !closedlist.Contains(nodes[indices.x + 1, indices.y]))
-            {
-                openlist.Enqueue(NavigationNode.GetManhattenDistance(nodes[indices.x + 1, indices.y], end) + curr.key, nodes[indices.x + 1, indices.y]);
-            }
             // Top
-            if (IndicesOnGrid(indices.x, indices.y + 1) && !closedlist.Contains(nodes[indices.x, indices.y + 1]))
+            if (IndicesOnGrid(indices.x - 1, indices.y + 1))
             {
-                openlist.Enqueue(NavigationNode.GetManhattenDistance(nodes[indices.x, indices.y + 1], end) + curr.key, nodes[indices.x, indices.y + 1]);
+                successors[0] = new PathNode(nodes[indices.x - 1, indices.y + 1], null, 0);
+            }
+            if (IndicesOnGrid(indices.x, indices.y + 1))
+            {
+                successors[1] = new PathNode(nodes[indices.x, indices.y + 1], null, 0);
+            }
+            if (IndicesOnGrid(indices.x + 1, indices.y + 1))
+            {
+                successors[2] = new PathNode(nodes[indices.x + 1, indices.y + 1], null, 0);
+            }
+            // Middle
+            if (IndicesOnGrid(indices.x - 1, indices.y))
+            {
+                successors[3] = new PathNode(nodes[indices.x - 1, indices.y], null, 0);
+            }
+            if (IndicesOnGrid(indices.x + 1, indices.y))
+            {
+                successors[4] = new PathNode(nodes[indices.x + 1, indices.y], null, 0);
             }
             // Bottom
-            if (IndicesOnGrid(indices.x, indices.y - 1) && !closedlist.Contains(nodes[indices.x, indices.y - 1]))
+            if (IndicesOnGrid(indices.x - 1, indices.y - 1))
             {
-                openlist.Enqueue(NavigationNode.GetManhattenDistance(nodes[indices.x, indices.y - 1], end) + curr.key, nodes[indices.x, indices.y - 1]);
+                successors[5] = new PathNode(nodes[indices.x - 1, indices.y - 1], null, 0);
+            }
+            if (IndicesOnGrid(indices.x, indices.y - 1))
+            {
+                successors[6] = new PathNode(nodes[indices.x, indices.y - 1], null, 0);
+            }
+            if (IndicesOnGrid(indices.x + 1, indices.y - 1))
+            {
+                successors[7] = new PathNode(nodes[indices.x + 1, indices.y - 1], null, 0);
             }
 
+            foreach (PathNode successor in successors)
+            {
+                if (successor != null && !closedlist.Contains(successor))
+                {
+                    if (successor.node.GetNodeType() == NavigationNode.nodeTypes.Obst || successor.node.GetNodeType() == NavigationNode.nodeTypes.Restricted)
+                    {
+                        closedlist.Add(successor);
+                        continue;
+                    }
+                    int tentative_cost = curr.m_value.cost + edgeCost;
+
+                    PriorityQueue<PathNode>.PriorityQueueElement elem;
+
+                    if (openlist.Contains(successor, out elem))
+                    {
+                        if (tentative_cost < elem.m_value.cost)
+                        {
+                            elem.m_value.cost = tentative_cost;
+                            openlist.UpdateElement(elem);
+                        }
+                    }
+                    else
+                    {
+                        successor.predecessor = curr.m_value;
+                        successor.cost = tentative_cost;
+                        openlist.Enqueue(new PriorityQueue<PathNode>.PriorityQueueElement(successor.cost + curr.m_value.cost, successor));
+                    }
+                }
+            }
         }
 
-        return false;
+        return null;
 
     }
 
@@ -138,14 +240,24 @@ public class NavigationGrid : MonoBehaviour {
 
         if(!IndicesOnGrid(indexRight, indexForward))
         {
-            Debug.Log("Position not on NavigationGrid");
+            //Debug.Log("Position not on NavigationGrid");
             return null;
         }
         else
         {
-            Debug.Log("Position on NavigationGrid (" + indexRight + "," + indexForward + ")");
+            //Debug.Log("Position on NavigationGrid (" + indexRight + "," + indexForward + ")");
             return nodes[indexRight, indexForward];
         }
+    }
+
+    public NavigationNode GetNodeAtIndices(int x, int y)
+    {
+        if(IndicesOnGrid(x, y))
+        {
+            return nodes[x, y];
+        }
+
+        return null;
     }
 
     public bool IndicesOnGrid(int x, int y)

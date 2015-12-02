@@ -441,15 +441,12 @@ Prefab:
       value: 
       objectReference: {fileID: 112044, guid: 6c9a2159c3a36f346b2015160af45ed6, type: 2}
     - target: {fileID: 0}
-<<<<<<< HEAD
       propertyPath: cam
       value: 
       objectReference: {fileID: 2058828}
-=======
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
->>>>>>> origin/master
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 136356}

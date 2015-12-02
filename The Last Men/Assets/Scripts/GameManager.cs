@@ -2,23 +2,40 @@
 
 public class GameManager : MonoBehaviour {
 	
+	public GameObject UIInventory;
 	public GameObject player;
+	LevelManager levelManager;
 	WorldGeneration gameWorld;
-    Camera worldCam;
 
-    void Awake() {
+    Camera worldCam;    //Used for a future feature#
+
+    string playerPrefabPath = "Player";
+
+    void Awake()
+    {
+        if (UIInventory == null)
+        {
+            UIInventory = GameObject.Find("UIInventory");
+            if(UIInventory == null)
+            {
+                Debug.LogError("No UIInventory found");
+            }
+        }
+        levelManager = GetComponent<LevelManager>();
         worldCam = Camera.main;
-        gameWorld = GetComponent<WorldGeneration>();
-        if (!player) {
-			player = Resources.Load ("Player", typeof(GameObject)) as GameObject;
-		}
     }
 
-    void Start() {
-        gameWorld.CreateWorld();
-        Vector3 spawnPos = gameWorld.GetBasePosition();
-        spawnPos += spawnPos.normalized;
-        Instantiate(player, spawnPos, Quaternion.identity);
+    void Start()
+    {
+        //Create Game World
+        levelManager.CreateLevel();
+
+        //Setup Player
+        if (!player){
+            player = Resources.Load(playerPrefabPath, typeof(GameObject)) as GameObject;
+        }
+        levelManager.StartLevel(player);
+        player.GetComponent<Inventory>().SetUIInventory(UIInventory);
         Destroy(worldCam.gameObject);
     }
 }
