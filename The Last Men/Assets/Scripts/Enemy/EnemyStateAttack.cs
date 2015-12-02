@@ -18,6 +18,8 @@ public class EnemyStateAttack : EnemyState {
 
         float dist = Vector3.Distance(playerPos, enemy.transform.position);
 
+        Debug.Log(dist);
+
         if (dist <= enemy.attackRange)
         {
             enemy.path.Clear();
@@ -27,7 +29,7 @@ public class EnemyStateAttack : EnemyState {
         {
             enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
         }
-        else if (enemy.path == null || enemy.navGrid.GetClosestNode(playerPos) != enemy.path[enemy.path.Count - 1])
+        else if (enemy.path == null || enemy.path.Count == 0 || enemy.navGrid.GetClosestNode(playerPos) != enemy.path[enemy.path.Count - 1])
         {
             enemy.path = enemy.navGrid.findPath(enemy.navGrid.GetClosestNode(enemy.transform.position), enemy.navGrid.GetClosestNode(playerPos));
         }     

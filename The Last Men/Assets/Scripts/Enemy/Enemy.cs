@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour {
     public Material[] materials;
 
     public int hp = 100;
-    public float attackRange = 1.0f;
+    public float attackRange = 2.0f;
     public int damage = 5;
     public float speed = 1.0f;
 
@@ -30,10 +30,15 @@ public class Enemy : MonoBehaviour {
         set { _path = value; pathIndex = 0; }
     }
 
+    public void Init(NavigationGrid _navGrid)
+    {
+        navGrid = _navGrid;
+    }
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        navGrid = transform.parent.GetComponentInChildren<NavigationGrid>();
+        //navGrid = transform.parent.GetComponentInChildren<NavigationGrid>();
         ChangeState(EnemyState.stateIDs.Idle);
     }
 

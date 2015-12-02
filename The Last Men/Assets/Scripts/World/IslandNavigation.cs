@@ -33,7 +33,7 @@ public class IslandNavigation : MonoBehaviour {
             if(node != null)
             {
                 GameObject obj = Instantiate(enemyPrefab, navGridInstance.GetNodeWorldPos(node), this.transform.rotation) as GameObject;
-                obj.transform.parent = this.transform;
+                obj.GetComponent<Enemy>().Init(navGridInstance);
                 enemies.Add(obj);
             }        
         }

@@ -79,7 +79,9 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -120,8 +122,11 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 51f13e6011c74c2489d929ed12b8f6df, type: 2}
   - {fileID: 2100000, guid: a28d98fe72283d540ae0007a806b3533, type: 2}
   hp: 100
-  player: {fileID: 0}
+  attackRange: 1.5
+  damage: 5
+  speed: 1
   fov: 20
+  senseRange: 15
 --- !u!114 &11490704
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -159,6 +164,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackRange
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
