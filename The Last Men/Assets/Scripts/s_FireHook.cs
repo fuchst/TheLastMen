@@ -34,6 +34,11 @@ public class s_FireHook : MonoBehaviour {
         {
             lr.SetVertexCount(subDivAmount + 2);
         }
+        else
+        {
+            subDivAmount = 0;
+            lr.SetVertexCount(2);
+        }
     }
 
     void Update() {
@@ -193,8 +198,10 @@ public class s_FireHook : MonoBehaviour {
         if(ropeElements.Count == 0)
         {
             lr.SetPosition(0, transform.position);
+            Debug.Log(subDivAmount);
             for (int i = 1; i < subDivAmount + 2; i++)
             {
+                //Debug.Log(i);
                 lr.SetPosition(i, a_hook.transform.position);
             }
         }
