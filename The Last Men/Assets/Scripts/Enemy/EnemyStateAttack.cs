@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class EnemyStateAttack : EnemyState {
 
@@ -10,7 +9,7 @@ public class EnemyStateAttack : EnemyState {
     public EnemyStateAttack(Enemy _enemy) 
         : base(_enemy)
     {
-        Debug.Log("Attack state");
+        //Debug.Log("Attack state");
         _enemy.GetComponent<Renderer>().material = _enemy.materials[2];
     }
 

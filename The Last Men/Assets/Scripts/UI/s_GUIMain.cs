@@ -1,6 +1,5 @@
-﻿                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public class s_GUIMain : MonoBehaviour {
 	[SerializeField]protected Canvas canvas;
@@ -40,8 +39,8 @@ public class s_GUIMain : MonoBehaviour {
 	void Update () {
 		int remainingTime = (int)(s_GameManager.Instance.endTime - Time.time);
 		textRemainingTime.text =  remainingTime/60 + ":" + remainingTime%60;
-
-
+        textPlayerArtifacts.text = s_GameManager.Instance.artifactCount.ToString();
+        textPlayerHealth.text = s_GameManager.Instance.healthpoints.ToString();
 
 		Vector3 bastionViewpointPos = playerCamera.WorldToViewportPoint (bastionTransform.position);
 

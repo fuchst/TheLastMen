@@ -8,6 +8,7 @@ TagManager:
   - Scripts
   - Enemy
   - Obstacle
+  - Canvas
   layers:
   - Default
   - TransparentFX

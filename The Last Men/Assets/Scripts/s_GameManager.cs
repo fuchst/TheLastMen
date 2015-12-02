@@ -1,9 +1,16 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class s_GameManager : MonoBehaviour {
 
-	private static s_GameManager instance;
+    public GameObject player;
+
+    private LevelManager levelManager;
+    private Camera worldCam;
+
+    public int artifactCount = 0;
+    public int healthpoints = 100;
+
+    private static s_GameManager instance;
 
 	public static s_GameManager Instance { get { return instance; } }
 
@@ -13,17 +20,26 @@ public class s_GameManager : MonoBehaviour {
 		} else {
 			instance = this;
 		}
-	}
 
-	public float roundDuration = 300.0f;
+        levelManager = GetComponent<LevelManager>();
+        worldCam = Camera.main;
+    }
+
+    public float roundDuration = 300.0f;
 	public float endTime;
 
 	void Start () {
 		endTime = Time.time + roundDuration;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+        //Create Game World
+        levelManager.CreateLevel();
+
+        //Setup Player
+        if (!player)
+        {
+            player = Resources.Load("Player", typeof(GameObject)) as GameObject;
+        }
+        levelManager.StartLevel(player);
+        Destroy(worldCam.gameObject);
+    }
 }

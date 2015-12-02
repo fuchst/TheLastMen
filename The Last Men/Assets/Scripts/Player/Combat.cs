@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityStandardAssets.CrossPlatformInput;
 
 public class Combat : MonoBehaviour {
-
-    public int hp = 100;
+    
     public float bulletSpeed;
     public float bulletGravity;
     public static int damage = 20;
@@ -18,8 +16,8 @@ public class Combat : MonoBehaviour {
 
     void OnHit(int dmg)
     {
-        hp -= dmg;
-        if (hp <= 0)
+        s_GameManager.Instance.healthpoints -= dmg;
+        if (s_GameManager.Instance.healthpoints <= 0)
         {
              Debug.Log("Player died");
         }
