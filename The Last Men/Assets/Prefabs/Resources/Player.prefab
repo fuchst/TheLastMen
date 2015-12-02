@@ -120,9 +120,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -176,6 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ArtifactID: 666
+  UIInventory: {fileID: 0}
 --- !u!114 &11446238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -284,9 +283,7 @@ LineRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -351,12 +348,10 @@ SpringJoint:
   m_Anchor: {x: 0, y: 1, z: 0}
   m_AutoConfigureConnectedAnchor: 0
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  serializedVersion: 2
   m_Spring: 0
   m_Damper: .5
   m_MinDistance: 0
   m_MaxDistance: 0
-  m_Tolerance: .0250000004
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
@@ -441,15 +436,9 @@ Prefab:
       value: 
       objectReference: {fileID: 112044, guid: 6c9a2159c3a36f346b2015160af45ed6, type: 2}
     - target: {fileID: 0}
-<<<<<<< HEAD
       propertyPath: cam
       value: 
       objectReference: {fileID: 2058828}
-=======
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
->>>>>>> origin/master
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 136356}

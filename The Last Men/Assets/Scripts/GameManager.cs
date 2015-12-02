@@ -5,7 +5,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject UIInventory;
 	public GameObject player;
 	LevelManager levelManager;
-	WorldGeneration gameWorld;
+	//WorldGeneration gameWorld;
 
     Camera worldCam;    //Used for a future feature#
 
