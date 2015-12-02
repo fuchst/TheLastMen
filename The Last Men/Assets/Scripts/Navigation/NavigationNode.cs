@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class NavigationNode {
-
-    public GameObject gizmo;
-
+    
     public enum nodeTypes
     {
         None,
@@ -14,33 +13,49 @@ public class NavigationNode {
         Cover
     };
 
+    public static Color[] nodeColors = {
+        new Color(0.0f, 0.0f, 0.0f, 1.0f),
+        new Color(1.0f, 1.0f, 1.0f, 1.0f),
+        new Color(1.0f, 0.0f, 0.0f, 1.0f),
+        new Color(1.0f, 1.0f, 0.0f, 1.0f),
+        new Color(0.5f, 0.5f, 0.5f, 1.0f),
+    };
+
     private nodeTypes type;
 
-    private static Color[] colors = { new Color(0.0f, 0.0f, 0.0f, 1.0f), new Color(1.0f, 1.0f, 1.0f, 1.0f), new Color(1.0f, 0.0f, 0.0f, 1.0f) };
+    private Vector2i gridIndices;
 
-    public Vector3 position;
-
-    public NavigationNode()
+    private int index1D = 0;
+    public int Index1D
     {
-   
+        get { return index1D; }
+        protected set { index1D = value; }
     }
 
-    public nodeTypes getNodeType()
+    public NavigationNode(Vector2i indices)
+    {
+        gridIndices = indices;
+        index1D = indices.x + 16 * indices.y; // TODO: Change to be dependent on NavigationGrid Size!!!
+        SetNodeType(nodeTypes.None);
+    }
+
+    public nodeTypes GetNodeType()
     {
         return type;
     }
 
-    public void setType(nodeTypes type)
+    public void SetNodeType(nodeTypes type)
     {
         this.type = type;
-        if(gizmo != null)
-        {
-            gizmo.GetComponent<Renderer>().material.color = colors[(int)this.type];
-        }      
     }
 
-    public void toggleRendering()
+    public Vector2i GetGridIndices()
     {
-        gizmo.SetActive(!gizmo.activeSelf);
+        return gridIndices;
+    }
+
+    public static int GetManhattenDistance(NavigationNode lhs, NavigationNode rhs)
+    {
+        return Math.Abs(lhs.gridIndices.x - rhs.gridIndices.x) + Math.Abs(lhs.gridIndices.y - rhs.gridIndices.y);
     }
 }
