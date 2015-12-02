@@ -104,14 +104,17 @@ public class Enemy : MonoBehaviour {
 
     void OnDrawGizmos()
     {
-        if(path != null)
+        if (Camera.current.name == "MainCamera")
         {
-            Gizmos.color = new Color(0.0f, 1.0f, 0.0f, 1.0f);
-
-            for (int i = 0; i < path.Count - 1; i++)
+            if (path != null)
             {
-                Gizmos.DrawLine(navGrid.GetNodeWorldPos((NavigationNode)path[i]), navGrid.GetNodeWorldPos((NavigationNode)path[i + 1]));
+                Gizmos.color = new Color(0.0f, 1.0f, 0.0f, 1.0f);
+
+                for (int i = 0; i < path.Count - 1; i++)
+                {
+                    Gizmos.DrawLine(navGrid.GetNodeWorldPos((NavigationNode)path[i]), navGrid.GetNodeWorldPos((NavigationNode)path[i + 1]));
+                }
             }
-        }       
+        }      
     }
 }

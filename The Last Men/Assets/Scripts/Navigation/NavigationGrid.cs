@@ -299,13 +299,16 @@ public class NavigationGrid : MonoBehaviour {
 
     void OnDrawGizmos()
     {
-        if(nodes != null)
+        if(Camera.current.name == "MainCamera")
         {
-            foreach (NavigationNode node in nodes)
+            if (nodes != null)
             {
-                Gizmos.color = NavigationNode.nodeColors[(int)node.nodeType];
-                Gizmos.DrawCube(GetNodeWorldPos(node), new Vector3(0.3f, 0.3f, 0.3f));
+                foreach (NavigationNode node in nodes)
+                {
+                    Gizmos.color = NavigationNode.nodeColors[(int)node.nodeType];
+                    Gizmos.DrawCube(GetNodeWorldPos(node), new Vector3(0.3f, 0.3f, 0.3f));
+                }
             }
-        }
+        }      
     }
 }
