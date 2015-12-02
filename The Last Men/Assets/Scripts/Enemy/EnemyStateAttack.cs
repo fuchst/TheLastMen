@@ -5,6 +5,8 @@ public class EnemyStateAttack : EnemyState {
 
     const stateIDs id = stateIDs.Attack;
 
+    float timeSinceAttack = 0;
+
     public EnemyStateAttack(Enemy _enemy) 
         : base(_enemy)
     {
@@ -18,12 +20,19 @@ public class EnemyStateAttack : EnemyState {
 
         float dist = Vector3.Distance(playerPos, enemy.transform.position);
 
-        Debug.Log(dist);
-
         if (dist <= enemy.attackRange)
         {
+            enemy.transform.LookAt(playerPos, enemy.navGrid.transform.up);
+
+            timeSinceAttack += Time.fixedDeltaTime;
+
+            if(timeSinceAttack > enemy.attackSpeed)
+            {
+                enemy.player.transform.SendMessage("OnHit", enemy.damage);
+                timeSinceAttack = 0.0f;
+            }
+            
             enemy.path.Clear();
-            // TODO: damage
         }
         else if ( dist > enemy.senseRange )
         {

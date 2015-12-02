@@ -8,7 +8,8 @@ public class Enemy : MonoBehaviour {
     public int hp = 100;
     public float attackRange = 2.0f;
     public int damage = 5;
-    public float speed = 1.0f;
+    public float moveSpeed = 1.0f;
+    public float attackSpeed = 1.0f;
 
     private GameObject _player;
     public GameObject player
@@ -57,7 +58,7 @@ public class Enemy : MonoBehaviour {
                 Vector3 nextNodePos = navGrid.GetNodeWorldPos((NavigationNode)path[pathIndex + 1]);
 
                 this.transform.LookAt(nextNodePos, navGrid.transform.up);
-                this.transform.Translate(this.transform.forward * speed * Time.deltaTime, Space.World);
+                this.transform.Translate(this.transform.forward * moveSpeed * Time.deltaTime, Space.World);
 
                 if(Vector3.Distance(this.transform.position, nextNodePos) < 0.1f)
                 {
