@@ -177,7 +177,10 @@ public class Level : MonoBehaviour
                 if (item.Value.neighbors[i] > item.Key)
                 {
                     Vector3 newPos = islandDictionary[item.Value.neighbors[i]].position + 0.5f * (item.Value.position - islandDictionary[item.Value.neighbors[i]].position);
-                    GameObject newIsland = Instantiate(Resources.Load("IslandSmallSimple", typeof(GameObject)), newPos, Quaternion.identity) as GameObject;
+                    //GameObject newIsland = Instantiate(Resources.Load("IslandSmallSimple", typeof(GameObject)), newPos, Quaternion.identity) as GameObject;
+					GameObject newIsland = Instantiate(Resources.Load("FloatingIsland", typeof(GameObject)), newPos, Quaternion.identity) as GameObject;
+					newIsland.transform.localScale *= 0.5f * 2;
+					newIsland.GetComponent<Rigidbody>().mass *= 0.125f;
                     newIsland.transform.parent = islandParent;
                     newIsland.transform.up = newIsland.transform.position;
                     int rand = Random.Range(0, 2);
@@ -192,7 +195,7 @@ public class Level : MonoBehaviour
 
     public Vector3 GetBasePosition()
     {
-        return islandDictionary[0].position;
+        return islandDictionary[0].position + islandDictionary[0].position.normalized * 10;
     }
 
     struct TriangleIndices
@@ -347,16 +350,39 @@ public class Level : MonoBehaviour
         for(int i = 0; i < islandDictionary.Count; i++)
         {
             IslandType islandType = islandDictionary[i].islandType;
+			GameObject tmp;
             switch (islandType)
             {
+				case IslandType.None:
+					tmp = (islandDictionary[i].linkedGameObject);
+					islandDictionary[i].linkedGameObject = Instantiate(Resources.Load("FloatingIsland", typeof(GameObject)), tmp.transform.position, tmp.transform.rotation) as GameObject;
+					islandDictionary[i].linkedGameObject.transform.parent = islandParent;
+					islandDictionary[i].linkedGameObject.transform.localScale *= 2;
+					Destroy(tmp);
+					break;
                 case IslandType.Base:
-                    islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
+                    //islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
+					tmp = (islandDictionary[i].linkedGameObject);
+					islandDictionary[i].linkedGameObject = Instantiate(Resources.Load("FloatingIsland", typeof(GameObject)), tmp.transform.position, tmp.transform.rotation) as GameObject;
+					islandDictionary[i].linkedGameObject.transform.parent = islandParent;
+					islandDictionary[i].linkedGameObject.transform.localScale *= 2;
+					Destroy(tmp);
                     break;
                 case IslandType.Path:
-                    islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
+                    //islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
+					tmp = (islandDictionary[i].linkedGameObject);
+					islandDictionary[i].linkedGameObject = Instantiate(Resources.Load("FloatingIsland", typeof(GameObject)), tmp.transform.position, tmp.transform.rotation) as GameObject;
+					islandDictionary[i].linkedGameObject.transform.parent = islandParent;
+					islandDictionary[i].linkedGameObject.transform.localScale *= 2;
+					Destroy(tmp);
                     break;
                 case IslandType.Artifact:
-                    islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/ArtifactSimple", typeof(Material)) as Material;
+                    //islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/ArtifactSimple", typeof(Material)) as Material;
+					tmp = (islandDictionary[i].linkedGameObject);
+					islandDictionary[i].linkedGameObject = Instantiate(Resources.Load("FloatingIslandArtifact", typeof(GameObject)), tmp.transform.position, tmp.transform.rotation) as GameObject;
+					islandDictionary[i].linkedGameObject.transform.parent = islandParent;
+					islandDictionary[i].linkedGameObject.transform.localScale *= 2;
+					Destroy(tmp);
                     break;
                 default:
                     break;
@@ -368,7 +394,7 @@ public class Level : MonoBehaviour
     {
         for (int i = 0; i < islandParent.childCount; i++)
         {
-            islandParent.GetChild(i).GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/NextLevelIsland", typeof(Material)) as Material;
+            //islandParent.GetChild(i).GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/NextLevelIsland", typeof(Material)) as Material;
         }
     }
 

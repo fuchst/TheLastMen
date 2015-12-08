@@ -45,8 +45,12 @@ public class Enemy : MonoBehaviour {
 
     void FixedUpdate()
     {
-        state.action();
-        Move();
+		if (!player) {
+			player = GameObject.FindGameObjectWithTag ("Player");
+		} else {
+			state.action ();
+			Move ();
+		}
     }
 
     void Move()

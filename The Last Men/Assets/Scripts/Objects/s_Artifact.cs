@@ -7,6 +7,7 @@ public class s_Artifact : MonoBehaviour {
 		if (other.tag.Equals ("Player")) {
 			//other.GetComponent<s_Player>().AddArtifact();
 			Debug.Log("Artifact found!");
+			s_GameManager.Instance.artifactCount++;
 			GetComponent<Collider>().enabled = false;
 			foreach(MeshRenderer r in GetComponentsInChildren<MeshRenderer>()){
 				r.enabled = false;
