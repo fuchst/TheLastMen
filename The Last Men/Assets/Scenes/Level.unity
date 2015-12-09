@@ -322,7 +322,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1378452258}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.26561403, y: 4.27987576, z: -2.7950263}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bd907b9ce51bff4f8ce3c48afe016aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 101566, guid: dcd12b06df9d3e2449be98d67037999c, type: 2}
+  player: {fileID: 134912, guid: 77aabcd55167d5741bd78caf69a3c893, type: 2}
   artifactCount: 0
   healthpoints: 100
   roundDuration: 300

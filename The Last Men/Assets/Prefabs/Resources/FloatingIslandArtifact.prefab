@@ -140,7 +140,7 @@ GameObject:
   - 33: {fileID: 3335380}
   - 135: {fileID: 13589532}
   - 23: {fileID: 2322782}
-  - 114: {fileID: 11479422}
+  - 114: {fileID: 11457064}
   m_Layer: 0
   m_Name: ArtifactSphere (1)
   m_TagString: Untagged
@@ -1437,7 +1437,7 @@ GameObject:
   - 135: {fileID: 13576492}
   - 23: {fileID: 2357164}
   - 114: {fileID: 11434552}
-  - 114: {fileID: 11475848}
+  - 114: {fileID: 11497532}
   m_Layer: 0
   m_Name: ArtifactSphere
   m_TagString: Untagged
@@ -4231,7 +4231,7 @@ Rigidbody:
   m_Drag: 2
   m_AngularDrag: .5
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -4560,7 +4560,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 132140}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fb39e41bf3784ec48ad3d1cf88c1a47f, type: 3}
   m_Name: 
@@ -4568,22 +4568,7 @@ MonoBehaviour:
   movementAmplitudeY: 1
   movementPeriodLength: 10
   angularAlignSpeedDegree: 2
---- !u!114 &11475848
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 193190}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84772bd234428bc4588cf5cdddad7eaa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  to_rotate:
-  - {fileID: 455114}
-  rotation_axis: 1
-  rotation_speed: 15
---- !u!114 &11479422
+--- !u!114 &11457064
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -4591,13 +4576,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 106314}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84772bd234428bc4588cf5cdddad7eaa, type: 3}
+  m_Script: {fileID: 11500000, guid: 253ce5c8b1dce834687ec31321df5a61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  to_rotate:
+  affectedObjects:
   - {fileID: 485432}
-  rotation_axis: 1
-  rotation_speed: -25
+  rotationSpeed: -25
+  rotationAxis: {x: 0, y: 1, z: 0}
 --- !u!114 &11493034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4611,6 +4596,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityRange: 5
   gravityConstant: 1
+--- !u!114 &11497532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 193190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 253ce5c8b1dce834687ec31321df5a61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affectedObjects:
+  - {fileID: 455114}
+  rotationSpeed: 15
+  rotationAxis: {x: 0, y: 1, z: 0}
 --- !u!135 &13504736
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -6502,10 +6502,6 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Enabled
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_IsKinematic
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
