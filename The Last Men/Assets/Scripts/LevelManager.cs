@@ -2,11 +2,31 @@
 
 public class LevelManager : MonoBehaviour
 {
+    private static LevelManager instance;
+    public static LevelManager Instance { get { return instance; } }
+
     public int rngSeed = 1337;
     public LevelVariables[] levelVariables = new LevelVariables[3];
 
     private Level[] levels = new Level[3];
     private int currentLevel = 0;
+
+    public GameObject islandBasic;
+    public GameObject islandBase;
+    public GameObject islandArtifact;
+    public GameObject islandGrappling;
+
+    void Awake()
+    {
+        if (instance)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     public void CreateLevel()
     {
