@@ -19,13 +19,19 @@ public class LevelManager : MonoBehaviour
     void Awake()
     {
         if (instance)
-        {
             Destroy(this);
-        }
         else
-        {
             instance = this;
-        }
+
+        //if prefab references are not set
+        if(islandBasic == null)
+            islandBasic = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
+        if (islandBase == null)
+            islandBase = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
+        if (islandArtifact == null)
+            islandArtifact = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
+        if (islandGrappling == null)
+            islandGrappling = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
     }
 
     public void CreateLevel()
