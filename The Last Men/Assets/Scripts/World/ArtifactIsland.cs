@@ -10,7 +10,7 @@ public class ArtifactIsland : MonoBehaviour {
         if(collision.gameObject.tag == "Player" && collected == false)
         {
             collected = true;
-            s_GameManager.Instance.artifactCount++;
+            s_GameManager.Instance.artifactCountCur++;
             gameObject.GetComponent<MeshRenderer>().material = Resources.Load(baseMaterial, typeof(Material)) as Material;
         }
     }
