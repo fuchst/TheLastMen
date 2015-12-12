@@ -2697,7 +2697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceFog: 1
-  excludeFarPixels: 0
+  excludeFarPixels: 1
   useRadialDistance: 1
   heightFog: 0
   height: 1
@@ -3981,6 +3981,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: CenteredHook
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: excludeFarPixels
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
