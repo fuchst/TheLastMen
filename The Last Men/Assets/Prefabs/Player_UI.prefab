@@ -2314,7 +2314,8 @@ MonoBehaviour:
   hookThrowSpeed: 50
   hookLength: 50
   SubdivideRope: 0
-  subDivAmount: 10
+  subDivAmount: 2
+  CenteredHook: 1
   m_hook: {fileID: 112044, guid: 6c9a2159c3a36f346b2015160af45ed6, type: 2}
   m_ropeElement: {fileID: 129742, guid: b3d605cbfec2a20478ae3d38cc534548, type: 2}
   cam: {fileID: 2019940}
@@ -3963,15 +3964,23 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
-      propertyPath: heightFog
+      propertyPath: SubdivideRope
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: excludeFarPixels
-      value: 0
+      propertyPath: m_Axis.y
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: useRadialDistance
+      propertyPath: m_Axis.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: subDivAmount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: CenteredHook
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

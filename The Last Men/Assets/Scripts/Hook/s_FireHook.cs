@@ -10,6 +10,8 @@ public class s_FireHook : MonoBehaviour
     public bool SubdivideRope = false;
     public int subDivAmount = 10;
 
+    public bool CenteredHook = false;
+
     public GameObject m_hook;
     public GameObject m_ropeElement;
     public Camera cam;
@@ -45,9 +47,28 @@ public class s_FireHook : MonoBehaviour
             a_hook = Instantiate(m_hook, transform.position, transform.rotation) as GameObject;
             s_Hook HookScript = a_hook.GetComponent<s_Hook>();
             HookScript.Speed = hookThrowSpeed;
-            HookScript.direction = cam.transform.forward;
+            if (!CenteredHook)
+            {
+                HookScript.direction = cam.transform.forward;
+            }
+            else
+            {
+                RaycastHit hit;
+                Physics.Raycast(transform.position, cam.transform.forward,out hit);
+                Vector3 dir;
+                if (hit.collider == null)
+                {
+                    dir = cam.transform.forward;
+                }
+                else
+                {
+                   dir = hit.collider.transform.position -  transform.position;
+                }
+                HookScript.direction = dir;
+            }
             HookScript.parentRB = GetComponent<Rigidbody>();
             rope.connectedBody = a_hook.GetComponent<Rigidbody>();
+
 
             fired = true;
             lr.enabled = true;
@@ -64,7 +85,11 @@ public class s_FireHook : MonoBehaviour
             Vector3 v1 = transform.position;
             Vector3 v2 = a_hook.transform.position;
             float distance = Mathf.Sqrt(Mathf.Pow((v1.x - v2.x), 2) + Mathf.Pow((v1.y - v2.y), 2) + Mathf.Pow((v1.z - v2.z), 2));
-
+            //debug rope length for subdiv
+           /* Vector3 v3 =  ropeElements[0].transform.position;
+            Vector3 v4 = ropeElements[1].transform.position;
+            float distance2 = Mathf.Sqrt(Mathf.Pow((v3.x - v4.x), 2) + Mathf.Pow((v3.y - v4.y), 2) + Mathf.Pow((v3.z - v4.z), 2));
+            Debug.Log("whole: " + distance + "inter: " + distance2);*/
             UpdateLine();
             /*   lr.SetPosition(0, transform.position);
                lr.SetPosition(1, a_hook.transform.position);
@@ -126,7 +151,7 @@ public class s_FireHook : MonoBehaviour
         if (SubdivideRope)
         {
             Vector3 v1 = transform.position;
-            Vector3 v2 = a_hook.transform.position;
+            Vector3 v2 = a_hook.transform.parent.position;
             float distance = Mathf.Sqrt(Mathf.Pow((v1.x - v2.x), 2) + Mathf.Pow((v1.y - v2.y), 2) + Mathf.Pow((v1.z - v2.z), 2));
             rope.spring = float.PositiveInfinity;
             //  rope.damper = 3.402823e+15F;          
@@ -136,10 +161,13 @@ public class s_FireHook : MonoBehaviour
             GameObject go;
             GameObject previousElement = this.gameObject;
             Vector3 direction = v2 - v1;
+            Debug.Log(direction);
             int total = subDivAmount + 2;
             for (int i = 1; i <= subDivAmount; i++)
             {
-                go = Instantiate(m_ropeElement, transform.position + direction * ((1 / total) * i), transform.rotation) as GameObject;
+               
+               //Version for Springs 
+                go = Instantiate(m_ropeElement, transform.position + direction * ((1.0F / total) * i), transform.rotation) as GameObject;
                 go.name = "Element" + i;
                 SpringJoint sj = go.GetComponent<SpringJoint>();
                 sj.anchor = new Vector3(0, 0, 0);
@@ -150,12 +178,42 @@ public class s_FireHook : MonoBehaviour
                 sj.maxDistance = distance / total;
                 sj.minDistance = distance / total;
                 // ropeElements[i] = go;
+
                 previousElement = go;
                 //lr.SetPosition(i, go.transform.position);
+                //go.transform.parent = a_hook.transform;
                 if (i == subDivAmount)
                     go.GetComponent<SpringJoint>().connectedBody = a_hook.GetComponent<Rigidbody>();
                 ropeElements.Add(go);
+
+                //Version for hinges
+                /*go = Instantiate(m_ropeElement, transform.position + direction * ((1 / total) * i), transform.rotation) as GameObject;
+                go.name = "Element" + i;
+                HingeJoint hj = go.GetComponent<HingeJoint>();
+                hj.anchor = new Vector3(0, 0, 0);
+                hj.connectedAnchor = new Vector3(0, 0, 0);
+                if(i==1)
+                {
+                    previousElement.GetComponent<SpringJoint>().connectedBody = go.GetComponent<Rigidbody>();
+                    SpringJoint sj = previousElement.GetComponent<SpringJoint>();
+                    sj.spring = 1000;
+                    sj.maxDistance = distance / total;
+                    sj.minDistance = distance / total;
+                }
+                else
+                {
+                    previousElement.GetComponent<HingeJoint>().connectedBody = go.GetComponent<Rigidbody>();
+                }
+              
+
+                previousElement = go;
+                //lr.SetPosition(i, go.transform.position);
+                go.transform.parent = a_hook.transform;
+                if (i == subDivAmount)
+                    go.GetComponent<HingeJoint>().connectedBody = a_hook.GetComponent<Rigidbody>();
+                ropeElements.Add(go);*/
             }
+            
             //lr.SetPosition(0, transform.position);
             //lr.SetPosition(4, a_hook.transform.position);
 
@@ -165,6 +223,10 @@ public class s_FireHook : MonoBehaviour
             {
                 ropeElements[i].GetComponent<SpringJoint>().spring = 1000;
             }*/
+            Vector3 v3 = ropeElements[0].transform.position;
+            Vector3 v4 = ropeElements[1].transform.position;
+            float distance2 = Mathf.Sqrt(Mathf.Pow((v3.x - v4.x), 2) + Mathf.Pow((v3.y - v4.y), 2) + Mathf.Pow((v3.z - v4.z), 2));
+           // Debug.Log("whole: " + distance + "inter: " + distance2);
         }
         else
         {
@@ -189,7 +251,7 @@ public class s_FireHook : MonoBehaviour
 
         if (ropeElements.Count == 0)
         {
-            lr.SetPosition(0,transform.position);
+            lr.SetPosition(0, transform.position);
             lr.SetPosition(1, a_hook.transform.position);
         }
         else

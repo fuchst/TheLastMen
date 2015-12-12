@@ -2,11 +2,37 @@
 
 public class LevelManager : MonoBehaviour
 {
+    private static LevelManager instance;
+    public static LevelManager Instance { get { return instance; } }
+
     public int rngSeed = 1337;
     public LevelVariables[] levelVariables = new LevelVariables[3];
 
     private Level[] levels = new Level[3];
     private int currentLevel = 0;
+
+    public GameObject islandBasic;
+    public GameObject islandBase;
+    public GameObject islandArtifact;
+    public GameObject islandGrappling;
+
+    void Awake()
+    {
+        if (instance)
+            Destroy(this);
+        else
+            instance = this;
+
+        //if prefab references are not set
+        if(islandBasic == null)
+            islandBasic = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
+        if (islandBase == null)
+            islandBase = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
+        if (islandArtifact == null)
+            islandArtifact = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
+        if (islandGrappling == null)
+            islandGrappling = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
+    }
 
     public void CreateLevel()
     {

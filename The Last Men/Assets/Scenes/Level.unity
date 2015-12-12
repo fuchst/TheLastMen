@@ -375,3 +375,7 @@ MonoBehaviour:
     destructionLevel: .5
     heightOffset: 30
     grapplingIslandExtraHeight: 30
+  islandBasic: {fileID: 141154, guid: 49e6c5c9ec887574d98ab439d6a615ba, type: 2}
+  islandBase: {fileID: 141154, guid: 49e6c5c9ec887574d98ab439d6a615ba, type: 2}
+  islandArtifact: {fileID: 141154, guid: 49e6c5c9ec887574d98ab439d6a615ba, type: 2}
+  islandGrappling: {fileID: 141154, guid: 49e6c5c9ec887574d98ab439d6a615ba, type: 2}
