@@ -12,7 +12,7 @@ public class LevelManager : MonoBehaviour
     private int currentLevel = 0;
 
     public GameObject islandBasic;
-    public GameObject islandBase;
+    public GameObject islandBastion;
     public GameObject islandArtifact;
     public GameObject islandGrappling;
 
@@ -26,8 +26,8 @@ public class LevelManager : MonoBehaviour
         //if prefab references are not set
         if(islandBasic == null)
             islandBasic = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
-        if (islandBase == null)
-            islandBase = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
+        if (islandBastion == null)
+            islandBastion = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
         if (islandArtifact == null)
             islandArtifact = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
         if (islandGrappling == null)
@@ -46,6 +46,7 @@ public class LevelManager : MonoBehaviour
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
         levels[currentLevel].CreateWorld();
         levels[currentLevel].ColorizeIslands();
+        s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
         int nextLevel = currentLevel + 1;
 
         if (nextLevel < levels.Length)
@@ -81,5 +82,10 @@ public class LevelManager : MonoBehaviour
         public float destructionLevel;
         public float heightOffset;
         public float grapplingIslandExtraHeight;
+    }
+
+    public void AdvanceLevel()
+    {
+
     }
 }

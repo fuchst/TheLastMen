@@ -335,9 +335,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_IsGrounded = false;
                 m_GroundContactNormal = transform.up;
             }
+            //Player landed
             if (!m_PreviouslyGrounded && m_IsGrounded && m_Jumping)
             {
                 m_Jumping = false;
+
+                Bastion bastion = hitInfo.collider.GetComponent<Bastion>();
+                if(bastion != null)
+                {
+                    bastion.PlayerLanded();
+                }
             }
         }
     }

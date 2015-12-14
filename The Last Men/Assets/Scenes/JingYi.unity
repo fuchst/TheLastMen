@@ -171,7 +171,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!45 &337550516
 Skybox:
   m_ObjectHideFlags: 0
@@ -424,7 +424,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1 &1378452258
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +457,7 @@ MonoBehaviour:
   levelVariables:
   - radius: 200
     cycles: 1
-    numberOfArtifacts: 4
+    numberOfArtifacts: 1
     destructionLevel: 0
     heightOffset: 5
     grapplingIslandExtraHeight: 40
@@ -473,10 +473,10 @@ MonoBehaviour:
     destructionLevel: .5
     heightOffset: 30
     grapplingIslandExtraHeight: 30
-  islandBasic: {fileID: 0}
-  islandBase: {fileID: 0}
-  islandArtifact: {fileID: 0}
-  islandGrappling: {fileID: 0}
+  islandBasic: {fileID: 190128, guid: 1df55f82e7f26c64b920dd17c3874377, type: 2}
+  islandBastion: {fileID: 184768, guid: 1a31b3d9f040be149afc096f242c778e, type: 2}
+  islandArtifact: {fileID: 132140, guid: d2c3ffe75a1ecf64e937002f17573d0e, type: 2}
+  islandGrappling: {fileID: 155048, guid: 12ca767de8fa07f4ebe0f77883b46a65, type: 2}
 --- !u!4 &1378452260
 Transform:
   m_ObjectHideFlags: 0
@@ -488,7 +488,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
 --- !u!114 &1378452261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,9 +500,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bd907b9ce51bff4f8ce3c48afe016aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 134912, guid: 77aabcd55167d5741bd78caf69a3c893, type: 2}
-  artifactCountCur: 4
-  artifactCountMax: 10
+  player: {fileID: 116496, guid: 394c7746ee7702b478295ba0e87b7fca, type: 2}
+  artifactCountCur: 0
+  artifactCountMax: 4
   healthpoints: 100
   roundDuration: 300
   endTime: 0

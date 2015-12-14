@@ -360,7 +360,7 @@ public class Level : MonoBehaviour
                 case IslandType.Base:
                     //islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
 					tmp = (islandDictionary[i].linkedGameObject);
-					islandDictionary[i].linkedGameObject = Instantiate(LevelManager.Instance.islandBasic, tmp.transform.position, tmp.transform.rotation) as GameObject;
+					islandDictionary[i].linkedGameObject = Instantiate(LevelManager.Instance.islandBastion, tmp.transform.position, tmp.transform.rotation) as GameObject;
 					islandDictionary[i].linkedGameObject.transform.parent = islandParent;
 					islandDictionary[i].linkedGameObject.transform.localScale *= 2;
 					Destroy(tmp);
