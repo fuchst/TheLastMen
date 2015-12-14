@@ -2315,8 +2315,8 @@ MonoBehaviour:
   hookLength: 50
   SubdivideRope: 0
   subDivAmount: 2
-  CenteredHook: 1
-  m_hook: {fileID: 112044, guid: 6c9a2159c3a36f346b2015160af45ed6, type: 2}
+  CenteredHook: 0
+  m_hook: {fileID: 127974, guid: 589941a621aada54c9d8b90ab1d5593b, type: 2}
   m_ropeElement: {fileID: 129742, guid: b3d605cbfec2a20478ae3d38cc534548, type: 2}
   cam: {fileID: 2019940}
   ropeElements: []
@@ -2714,7 +2714,7 @@ LineRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: be1aad829a20d1349b859a17b35511e2, type: 2}
+  - {fileID: 2100000, guid: 757c4560484089344a51e9cedb50b999, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -3981,12 +3981,20 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: CenteredHook
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: excludeFarPixels
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_hook
+      value: 
+      objectReference: {fileID: 127974, guid: 589941a621aada54c9d8b90ab1d5593b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 757c4560484089344a51e9cedb50b999, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 134912}
