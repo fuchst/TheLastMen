@@ -10,6 +10,8 @@ public class s_FireHook : MonoBehaviour
     public bool SubdivideRope = false;
     public int subDivAmount = 10;
 
+    public bool CenteredHook = false;
+
     public GameObject m_hook;
     public GameObject m_ropeElement;
     public Camera cam;
@@ -45,9 +47,28 @@ public class s_FireHook : MonoBehaviour
             a_hook = Instantiate(m_hook, transform.position, transform.rotation) as GameObject;
             s_Hook HookScript = a_hook.GetComponent<s_Hook>();
             HookScript.Speed = hookThrowSpeed;
-            HookScript.direction = cam.transform.forward;
+            if (!CenteredHook)
+            {
+                HookScript.direction = cam.transform.forward;
+            }
+            else
+            {
+                RaycastHit hit;
+                Physics.Raycast(transform.position, cam.transform.forward,out hit);
+                Vector3 dir;
+                if (hit.collider == null)
+                {
+                    dir = cam.transform.forward;
+                }
+                else
+                {
+                   dir = hit.collider.transform.position -  transform.position;
+                }
+                HookScript.direction = dir;
+            }
             HookScript.parentRB = GetComponent<Rigidbody>();
             rope.connectedBody = a_hook.GetComponent<Rigidbody>();
+
 
             fired = true;
             lr.enabled = true;
