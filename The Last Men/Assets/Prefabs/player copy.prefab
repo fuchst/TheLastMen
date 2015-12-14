@@ -642,7 +642,7 @@ Skybox:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 119412}
   m_Enabled: 1
-  m_CustomSkybox: {fileID: 2100000, guid: 8eedddf1d3bdda8418e50c2d057d8e3e, type: 2}
+  m_CustomSkybox: {fileID: 0}
 --- !u!54 &5479856
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -2326,7 +2326,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_CustomSkybox
       value: 
-      objectReference: {fileID: 2100000, guid: 8eedddf1d3bdda8418e50c2d057d8e3e, type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 116496}
