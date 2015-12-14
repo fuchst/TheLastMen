@@ -500,8 +500,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bd907b9ce51bff4f8ce3c48afe016aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 116496, guid: 394c7746ee7702b478295ba0e87b7fca, type: 2}
-  artifactCount: 0
+  player: {fileID: 134912, guid: 77aabcd55167d5741bd78caf69a3c893, type: 2}
+  artifactCountCur: 4
+  artifactCountMax: 10
   healthpoints: 100
   roundDuration: 300
   endTime: 0
