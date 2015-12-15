@@ -453,29 +453,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7f4e393f9fefa4f8ff17fb440f6475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 116496, guid: 394c7746ee7702b478295ba0e87b7fca, type: 2}
   rngSeed: 1337
   levelVariables:
-  - radius: 200
+  - radius: 150
     cycles: 1
     numberOfArtifacts: 1
     destructionLevel: 0
     heightOffset: 5
-    grapplingIslandExtraHeight: 40
+    grapplingIslandExtraHeight: 30
   - radius: 600
     cycles: 2
     numberOfArtifacts: 8
-    destructionLevel: .5
+    destructionLevel: 0
     heightOffset: 20
     grapplingIslandExtraHeight: 30
   - radius: 800
-    cycles: 3
+    cycles: 2
     numberOfArtifacts: 8
     destructionLevel: .5
     heightOffset: 30
     grapplingIslandExtraHeight: 30
-  islandBasic: {fileID: 190128, guid: 1df55f82e7f26c64b920dd17c3874377, type: 2}
-  islandBastion: {fileID: 184768, guid: 1a31b3d9f040be149afc096f242c778e, type: 2}
-  islandArtifact: {fileID: 132140, guid: d2c3ffe75a1ecf64e937002f17573d0e, type: 2}
+  islandBasic: {fileID: 157320, guid: 98ae4c476ad55154e9fec120c56508cd, type: 2}
+  islandBastion: {fileID: 187574, guid: b1e734aa98ad53a4a926cfcc768b35c2, type: 2}
+  islandArtifact: {fileID: 192514, guid: 6673ac3bdbf02dd4e8de9d3ea04fea2d, type: 2}
   islandGrappling: {fileID: 155048, guid: 12ca767de8fa07f4ebe0f77883b46a65, type: 2}
 --- !u!4 &1378452260
 Transform:
@@ -500,7 +501,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bd907b9ce51bff4f8ce3c48afe016aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 116496, guid: 394c7746ee7702b478295ba0e87b7fca, type: 2}
   artifactCountCur: 0
   artifactCountMax: 4
   healthpoints: 100

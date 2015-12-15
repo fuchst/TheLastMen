@@ -1246,7 +1246,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 119412}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76b5ec6153a1d55438228df10fe66844, type: 3}
   m_Name: 
@@ -2352,12 +2352,12 @@ MonoBehaviour:
     ForwardSpeed: 8
     BackwardSpeed: 4
     StrafeSpeed: 4
-    RunMultiplier: 2.5
+    RunMultiplier: 2
     JetpackMaxFlightDuration: 5
-    JetpackHorizontalBaseSpeed: 8
-    JetpackMaxVerticalSpeed: 8
-    JetpackVerticalAcceleration: 30
-    JetpackFlyInLookingDir: 0
+    JetpackHorizontalBaseSpeed: 4
+    JetpackMaxVerticalSpeed: 4
+    JetpackVerticalAcceleration: 15
+    JetpackFlyInLookingDir: 1
     RunKey: 304
     JumpForce: 100
     SlopeCurveModifier:
@@ -3966,6 +3966,30 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_CustomSkybox
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.RunMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.JetpackHorizontalBaseSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.JetpackMaxVerticalSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.JetpackVerticalAcceleration
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.JetpackFlyInLookingDir
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

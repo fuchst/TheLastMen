@@ -5,6 +5,9 @@ public class LevelManager : MonoBehaviour
     private static LevelManager instance;
     public static LevelManager Instance { get { return instance; } }
 
+    public GameObject player;
+    private Camera worldCam;
+
     public int rngSeed = 1337;
     public LevelVariables[] levelVariables = new LevelVariables[3];
 
@@ -23,8 +26,16 @@ public class LevelManager : MonoBehaviour
         else
             instance = this;
 
+        worldCam = Camera.main;
+        //Setup Player
+        if (!player)
+        {
+            player = Resources.Load("Player", typeof(GameObject)) as GameObject;
+        }
+
+
         //if prefab references are not set
-        if(islandBasic == null)
+        if (islandBasic == null)
             islandBasic = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
         if (islandBastion == null)
             islandBastion = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
@@ -34,7 +45,20 @@ public class LevelManager : MonoBehaviour
             islandGrappling = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
     }
 
-    public void CreateLevel()
+    public void LoadLevel()
+    {
+        CreateLevel();
+        if (worldCam != null)
+        {
+            Destroy(worldCam.gameObject);
+        }
+        if (currentLevel == 0)
+        {
+            StartLevel();
+        }
+    }
+
+    void CreateLevel()
     {
         levels[currentLevel] = gameObject.AddComponent<Level>() as Level;
         levels[currentLevel].randomSeed = rngSeed;
@@ -45,32 +69,38 @@ public class LevelManager : MonoBehaviour
         levels[currentLevel].heightOffset = levelVariables[currentLevel].heightOffset;
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
         levels[currentLevel].CreateWorld();
-        levels[currentLevel].ColorizeIslands();
+        //levels[currentLevel].ColorizeIslands();
         s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
-        int nextLevel = currentLevel + 1;
 
-        if (nextLevel < levels.Length)
-        {
-            //Create the next layer for visuals only
-            levels[nextLevel] = gameObject.AddComponent<Level>() as Level;
-            levels[nextLevel].randomSeed = rngSeed;
-            levels[nextLevel].radius = levelVariables[nextLevel].radius;
-            levels[nextLevel].cycles = levelVariables[nextLevel].cycles;
-            levels[nextLevel].destructionLevel = levelVariables[nextLevel].destructionLevel;
-            levels[nextLevel].numberOfArtifacts = levelVariables[nextLevel].numberOfArtifacts;
-            levels[nextLevel].heightOffset = levelVariables[nextLevel].heightOffset;
-            levels[nextLevel].grapplingIslandExtraheight = levelVariables[nextLevel].grapplingIslandExtraHeight;
-            levels[nextLevel].PseudoIsland();
-            levels[nextLevel].CreateWorld();
-            levels[nextLevel].DarkenIslands();
-        }
+        //int nextLevel = currentLevel + 1;
+        //if (nextLevel < levels.Length)
+        //{
+        //    //Create the next layer for visuals only
+        //    levels[nextLevel] = gameObject.AddComponent<Level>() as Level;
+        //    levels[nextLevel].randomSeed = rngSeed;
+        //    levels[nextLevel].radius = levelVariables[nextLevel].radius;
+        //    levels[nextLevel].cycles = levelVariables[nextLevel].cycles;
+        //    levels[nextLevel].destructionLevel = levelVariables[nextLevel].destructionLevel;
+        //    levels[nextLevel].numberOfArtifacts = levelVariables[nextLevel].numberOfArtifacts;
+        //    levels[nextLevel].heightOffset = levelVariables[nextLevel].heightOffset;
+        //    levels[nextLevel].grapplingIslandExtraheight = levelVariables[nextLevel].grapplingIslandExtraHeight;
+        //    levels[nextLevel].CreateWorld();
+        //}
     }
 
-    public void StartLevel(GameObject player)
+    public void StartLevel()
     {
         Vector3 spawnPos = levels[currentLevel].GetBasePosition();
         spawnPos += spawnPos.normalized;
-        Instantiate(player, spawnPos, Quaternion.identity);
+        if (currentLevel == 0)
+        {
+            player = Instantiate(player, spawnPos, Quaternion.identity) as GameObject;
+
+        }
+        else
+        {
+            player.transform.position = spawnPos;
+        }
     }
 
     [System.Serializable]
@@ -86,6 +116,14 @@ public class LevelManager : MonoBehaviour
 
     public void AdvanceLevel()
     {
-
+        levels[currentLevel].Delete();
+        Destroy(levels[currentLevel]);
+        if (currentLevel < levels.Length)
+        {
+            levels[currentLevel + 1].Delete();
+            Destroy(levels[currentLevel + 1]);
+            currentLevel++;
+            LoadLevel();
+        }
     }
 }

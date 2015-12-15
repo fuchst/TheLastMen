@@ -2,11 +2,8 @@
 
 public class s_GameManager : MonoBehaviour {
 
-    public GameObject player;
-
     private LevelManager levelManager;
-    private Camera worldCam;
-
+    
     public int artifactCountCur = 0;
     public int artifactCountMax = 10;
     public int healthpoints = 100;
@@ -23,7 +20,6 @@ public class s_GameManager : MonoBehaviour {
 		}
 
         levelManager = GetComponent<LevelManager>();
-        worldCam = Camera.main;
     }
 
     public float roundDuration = 300.0f;
@@ -31,16 +27,7 @@ public class s_GameManager : MonoBehaviour {
 
 	void Start () {
 		endTime = Time.time + roundDuration;
-
-        //Create Game World
-        levelManager.CreateLevel();
-
-        //Setup Player
-        if (!player)
-        {
-            player = Resources.Load("Player", typeof(GameObject)) as GameObject;
-        }
-        levelManager.StartLevel(player);
-        Destroy(worldCam.gameObject);
+        
+        levelManager.LoadLevel();
     }
 }
