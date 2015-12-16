@@ -458,7 +458,7 @@ MonoBehaviour:
   levelVariables:
   - radius: 150
     cycles: 1
-    numberOfArtifacts: 1
+    numberOfArtifacts: 4
     destructionLevel: 0
     heightOffset: 5
     grapplingIslandExtraHeight: 30
@@ -475,8 +475,8 @@ MonoBehaviour:
     heightOffset: 30
     grapplingIslandExtraHeight: 30
   islandBasic: {fileID: 162260, guid: bed5f5dd8ff1076498527df0f2ba76a3, type: 2}
-  islandBastion: {fileID: 187574, guid: b1e734aa98ad53a4a926cfcc768b35c2, type: 2}
-  islandArtifact: {fileID: 192514, guid: 6673ac3bdbf02dd4e8de9d3ea04fea2d, type: 2}
+  islandBastion: {fileID: 148396, guid: 5a67ff7e2a31cf445af56355b3741770, type: 2}
+  islandArtifact: {fileID: 178000, guid: f175005541846ad49894e18690cf5b88, type: 2}
   islandGrappling: {fileID: 181206, guid: 2f36a6892e48ea841b2873941216d446, type: 2}
 --- !u!4 &1378452260
 Transform:

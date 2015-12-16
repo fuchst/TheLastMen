@@ -7,6 +7,7 @@ public class Level : MonoBehaviour
 {
     public enum IslandType { None, Bastion, Path, Artifact, Grappling };
 
+    public bool drawConnectionAsGizmo = false;
     public float radius = 150.0f;
     public int cycles = 3;
     public int randomSeed = 1337;
@@ -34,16 +35,19 @@ public class Level : MonoBehaviour
         SetupGrapplingIslands();
         InstantiateIslands();
     }
-    
+
     void Update()
     {
-        foreach (Island island in islandDictionary.Values)
+        if (drawConnectionAsGizmo == true)
         {
-            foreach (int v in island.neighbors)
+            foreach (Island island in islandDictionary.Values)
             {
-                Island target;
-                islandDictionary.TryGetValue(v, out target);
-                Debug.DrawLine(island.position, target.position);
+                foreach (int v in island.neighbors)
+                {
+                    Island target;
+                    islandDictionary.TryGetValue(v, out target);
+                    Debug.DrawLine(island.position, target.position);
+                }
             }
         }
     }
@@ -389,7 +393,7 @@ public class Level : MonoBehaviour
     {
         public IslandType islandType;
         public List<int> neighbors = new List<int>();
-        public GameObject linkedGameObject;
+        //public GameObject linkedGameObject;
         public Vector3 position;
     }
 
