@@ -474,10 +474,10 @@ MonoBehaviour:
     destructionLevel: .5
     heightOffset: 30
     grapplingIslandExtraHeight: 30
-  islandBasic: {fileID: 157320, guid: 98ae4c476ad55154e9fec120c56508cd, type: 2}
+  islandBasic: {fileID: 162260, guid: bed5f5dd8ff1076498527df0f2ba76a3, type: 2}
   islandBastion: {fileID: 187574, guid: b1e734aa98ad53a4a926cfcc768b35c2, type: 2}
   islandArtifact: {fileID: 192514, guid: 6673ac3bdbf02dd4e8de9d3ea04fea2d, type: 2}
-  islandGrappling: {fileID: 155048, guid: 12ca767de8fa07f4ebe0f77883b46a65, type: 2}
+  islandGrappling: {fileID: 181206, guid: 2f36a6892e48ea841b2873941216d446, type: 2}
 --- !u!4 &1378452260
 Transform:
   m_ObjectHideFlags: 0
@@ -486,7 +486,7 @@ Transform:
   m_GameObject: {fileID: 1378452258}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.26561403, y: 4.27987576, z: -2.7950263}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
