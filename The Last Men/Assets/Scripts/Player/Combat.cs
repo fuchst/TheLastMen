@@ -2,17 +2,9 @@
 using UnityStandardAssets.CrossPlatformInput;
 
 public class Combat : MonoBehaviour {
-    
-    public float bulletSpeed;
-    public float bulletGravity;
-    public static int damage = 20;
 
-    GameObject bulletPrefab;
-
-    void Awake()
-    {
-        bulletPrefab = Resources.Load("Bullet") as GameObject;
-    }
+    Weapon[] weapons = { new Pistol(), new Shotgun() };
+    protected int activeWeaponIdx = 0;
 
     void OnHit(int dmg)
     {
@@ -27,11 +19,24 @@ public class Combat : MonoBehaviour {
     {
         if (CrossPlatformInputManager.GetButtonDown("Shoot"))
         {
-            Transform cam = this.transform.GetChild(0);
+            Transform frame = this.transform.GetChild(0);
 
-            GameObject bullet = Instantiate(bulletPrefab, cam.position + cam.forward, cam.rotation) as GameObject;
-            bullet.GetComponent<Bullet>().gravity = bulletGravity;
-            bullet.GetComponent<Rigidbody>().AddForce(cam.forward * bulletSpeed, ForceMode.Impulse);
+            weapons[activeWeaponIdx].shootNVI(frame);
+        }
+
+        if (CrossPlatformInputManager.GetButtonDown("Reload"))
+        {
+            weapons[activeWeaponIdx].reload();
+        }
+
+        if (CrossPlatformInputManager.GetButtonDown("NextWeapon"))
+        {
+            activeWeaponIdx = (activeWeaponIdx + 1) % weapons.Length;
+        }
+
+        if (CrossPlatformInputManager.GetButtonDown("PrevWeapon"))
+        {
+            activeWeaponIdx = (activeWeaponIdx + weapons.Length - 1) % weapons.Length;
         }
     }
 }

@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Obstacle
   - Canvas
+  - Bullet
   layers:
   - Default
   - TransparentFX
