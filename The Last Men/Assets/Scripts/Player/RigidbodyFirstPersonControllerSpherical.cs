@@ -22,6 +22,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			public float JetpackVerticalAcceleration = 30.0f;  //Vertical acceleration for the jetpack
 			public bool  JetpackFlyInLookingDir = false;
 
+
 			public KeyCode RunKey = KeyCode.LeftShift;
             public float JumpForce = 30f;
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
@@ -94,6 +95,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		private bool m_Fly;
 		private float m_JetpackCurFlightDuration = 0;
 		public bool m_Hooked;
+        private bool m_swingimpuls;
+        private float m_swingImpulsTimer = 0;
 
 
         public Vector3 Velocity
@@ -130,6 +133,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Capsule = GetComponent<CapsuleCollider>();
             mouseLook.Init (transform, cam.transform);
 			m_Hooked = false;
+            m_swingimpuls = true;
         }
 
 
@@ -157,7 +161,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             Vector2 input = GetInput();
 			float energyCost = 0;
 
-			if (!m_Fly && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded || m_Hooked))
+			if (!m_Fly && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded ))
             {
                 // always move along the camera forward as it is the direction that it being aimed at
                 Vector3 desiredMove = cam.transform.forward*input.y + cam.transform.right*input.x;
@@ -176,6 +180,44 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 {
 					m_RigidBody.AddForce(5*Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
                 }
+            }
+
+            if (m_Hooked && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon))
+            {
+                // always move along the camera forward as it is the direction that it being aimed at
+                Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
+                //Vector3 desiredMoveJetpack = (desiredMove.normalized) * movementSettings.CurrentTargetSpeed;
+                desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
+                desiredMove *= movementSettings.CurrentTargetSpeed * SlopeMultiplier();
+
+                //compute angel between vector from hook to person and hook to center of world.
+                SpringJoint sj = GetComponent<SpringJoint>();
+                Vector3 hookpos = sj.connectedBody.transform.position;
+                Vector3 htp = hookpos - transform.position;
+                float angle = Vector3.Angle(hookpos, htp);
+                Debug.Log("Angle: " + angle);
+                //Give impuls only if we want to swing
+                if(angle < 5)
+                {
+                    m_RigidBody.AddForce(10 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+                    m_swingimpuls = false;
+                   // Debug.Log("Swingimpuls given");
+                    m_swingImpulsTimer += Time.fixedDeltaTime;
+                }
+
+                
+                
+                //desiredMove.x = desiredMove.x*movementSettings.CurrentTargetSpeed;
+                //desiredMove.z = desiredMove.z*movementSettings.CurrentTargetSpeed;
+                //desiredMove.y = desiredMove.y*movementSettings.CurrentTargetSpeed;
+
+                //desiredMove *= m_Fly ? 1 : SlopeMultiplier();
+
+                /*if (m_RigidBody.velocity.sqrMagnitude <
+                    (movementSettings.CurrentTargetSpeed * movementSettings.CurrentTargetSpeed))
+                {
+                    m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+                }*/
             }
 
 			if (m_Fly){
