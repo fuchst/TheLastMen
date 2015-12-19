@@ -195,7 +195,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 Vector3 hookpos = sj.connectedBody.transform.position;
                 Vector3 htp = hookpos - transform.position;
                 float angle = Vector3.Angle(hookpos, htp);
-                Debug.Log("Angle: " + angle);
+                //Debug.Log("Angle: " + angle);
                 //Give impuls only if we want to swing
                 if(angle < 5)
                 {

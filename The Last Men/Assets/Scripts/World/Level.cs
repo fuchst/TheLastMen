@@ -12,7 +12,7 @@ public class Level : MonoBehaviour
     public int randomSeed = 1337;
     public int artifactCount = 8;
     public float destructionLevel = 0.6f;
-    public float heightOffset = 20.0f;
+    public float layerHeightOffset = 200.0f;
     public float grapplingIslandExtraheight;
 
     private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
@@ -27,7 +27,7 @@ public class Level : MonoBehaviour
         SetupArtifacts();
         MarkArtifactPaths();
         //DestroyUnneededIslands();
-        //SetIslandHeights();
+        SetupLayers();
         SetupGrapplingIslands();
         InstantiateIslands();
     }
@@ -46,7 +46,7 @@ public class Level : MonoBehaviour
             }
         }
     }
-    
+
     private void SetupBastion()
     {
         Island island = islandDictionary[0];
@@ -131,22 +131,21 @@ public class Level : MonoBehaviour
     //    }
     //}
 
-    //void SetIslandHeights()
-    //{
-    //    foreach (Island island in islandDictionary.Values)
-    //    {
-    //        //we dont want to reset height of base or islands surrounding base
-    //        if (island.islandType != IslandType.Bastion && island.neighbors.Contains(0) == false)
-    //        {
-    //            int offset = Random.Range(-1, 2);
-    //            if (offset != 0)
-    //            {
-    //                island.position = island.position + island.position.normalized * (offset * heightOffset);
-    //                island.linkedGameObject.transform.position = island.position;
-    //            }
-    //        }
-    //    }
-    //}
+    void SetupLayers()
+    {
+        foreach (Island island in islandDictionary.Values)
+        {
+            //we dont want to reset height of base or islands surrounding base
+            if (island.islandType != IslandType.Bastion && island.neighbors.Contains(0) == false)
+            {
+                island.layer = (short)Random.Range(-1, 2);
+                if (island.layer != 0)
+                {
+                    island.position += island.position.normalized * island.layer * layerHeightOffset;
+                }
+            }
+        }
+    }
 
     void SetupGrapplingIslands()
     {
@@ -161,13 +160,24 @@ public class Level : MonoBehaviour
                     Island neighbor = islandDictionary[item.Value.neighbors[i]];
                     Island[] grapplingIslands = new Island[2];
 
-                    for(int j = 0; j < grapplingIslands.Length; j++)
+                    for (int j = 0; j < grapplingIslands.Length; j++)
                     {
                         grapplingIslands[j] = new Island();
 
+                        //Set grappling island between big islands
                         Vector3 start = island.position + (neighbor.position - island.position).normalized * baseIslandSize;
                         Vector3 end = neighbor.position + (island.position - neighbor.position).normalized * baseIslandSize;
                         Vector3 newPos = (end + 0.333f * (j + 1) * (start - end)).normalized * radius;
+
+                        //Set correct height of grappling islands
+                        if(island.layer != neighbor.layer)
+                        {
+                            newPos = newPos.normalized * neighbor.position.magnitude + newPos.normalized * (island.position.magnitude - neighbor.position.magnitude) * 0.333f * (j + 1);
+                        }
+                        else
+                        {
+                            newPos += newPos.normalized * island.layer * layerHeightOffset;
+                        }
 
                         grapplingIslands[j].position = newPos;
                         grapplingIslands[j].islandType = IslandType.Small;
@@ -175,17 +185,14 @@ public class Level : MonoBehaviour
                         newIslandStack.Push(new KeyValuePair<int, Island>(int.Parse(name), grapplingIslands[j]));
                     }
 
-                    //if (island.layer == neighbor.layer)
-                    //{
-                    //    //if (Random.Range(0, 2) == 0)
-                    //    //{
-                    //    //    grapplingIsland.position = newPos + newPos.normalized * grapplingIslandExtraheight;
-                    //    //}
-                    //}
-                    //else
-                    //{
-
-                    //}
+                    if (island.layer == neighbor.layer)
+                    {
+                        int x = Random.Range(0, 3);
+                        if (x < 2)
+                        {
+                            grapplingIslands[x].position += grapplingIslands[x].position.normalized * grapplingIslandExtraheight;
+                        }
+                    }
                 }
             }
         }

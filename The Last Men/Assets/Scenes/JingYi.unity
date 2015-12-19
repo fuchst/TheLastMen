@@ -460,8 +460,8 @@ MonoBehaviour:
     cycles: 1
     numberOfArtifacts: 4
     destructionLevel: 0
-    heightOffset: 5
-    grapplingIslandExtraHeight: 30
+    heightOffset: 20
+    grapplingIslandExtraHeight: 20
   - radius: 600
     cycles: 2
     numberOfArtifacts: 8

@@ -59,7 +59,7 @@ public class LevelManager : MonoBehaviour
         levels[currentLevel].cycles = levelVariables[currentLevel].cycles;
         levels[currentLevel].destructionLevel = levelVariables[currentLevel].destructionLevel;
         levels[currentLevel].artifactCount = levelVariables[currentLevel].numberOfArtifacts;
-        levels[currentLevel].heightOffset = levelVariables[currentLevel].heightOffset;
+        levels[currentLevel].layerHeightOffset = levelVariables[currentLevel].heightOffset;
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
         levels[currentLevel].CreateWorld();
         //levels[currentLevel].ColorizeIslands();
