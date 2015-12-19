@@ -1,17 +1,16 @@
 ﻿using UnityEngine;
-using System;
 using System.Linq;
 using System.Collections.Generic;
 
 public class Level : MonoBehaviour
 {
-    public enum IslandType { None, Bastion, Path, Artifact, Grappling };
+    private enum IslandType { None, Bastion, Path, Artifact, Grappling, Small };
 
-    public bool drawConnectionAsGizmo = false;
+    public float baseIslandSize = 10f;
     public float radius = 150.0f;
     public int cycles = 3;
     public int randomSeed = 1337;
-    public int numberOfArtifacts = 8;
+    public int artifactCount = 8;
     public float destructionLevel = 0.6f;
     public float heightOffset = 20.0f;
     public float grapplingIslandExtraheight;
@@ -21,15 +20,12 @@ public class Level : MonoBehaviour
 
     public void CreateWorld()
     {
-        UnityEngine.Random.seed = randomSeed;
+        Random.seed = randomSeed;
         IcoSphere(radius, cycles, ref islandDictionary);
-
         islandParent = new GameObject("Islands").transform;
-
-        //CreateIslands();
-        CreateBase();
-        CreateArtifacts();
-        CreateArtifactPaths();
+        SetupBastion();
+        SetupArtifacts();
+        MarkArtifactPaths();
         //DestroyUnneededIslands();
         //SetIslandHeights();
         SetupGrapplingIslands();
@@ -38,71 +34,54 @@ public class Level : MonoBehaviour
 
     void Update()
     {
-        if (drawConnectionAsGizmo == true)
+        if (LevelManager.Instance.showPaths == true)
         {
             foreach (Island island in islandDictionary.Values)
             {
-                foreach (int v in island.neighbors)
+                foreach (int key in island.neighbors)
                 {
-                    Island target;
-                    islandDictionary.TryGetValue(v, out target);
+                    Island target = islandDictionary[key];
                     Debug.DrawLine(island.position, target.position);
                 }
             }
         }
     }
-
-    //void CreateIslands()
-    //{
-
-    //    foreach (KeyValuePair<int, Island> entry in islandDictionary)
-    //    {
-    //        GameObject newIsland = Instantiate(LevelManager.Instance.islandBasic, entry.Value.position, Quaternion.identity) as GameObject;
-    //        newIsland.name = entry.Key.ToString();
-    //        newIsland.transform.up = newIsland.transform.position;
-    //        newIsland.transform.parent = islandParent;
-
-    //        entry.Value.linkedGameObject = newIsland;
-    //        entry.Value.islandType = IslandType.None;
-    //    }
-    //}
-
-    void CreateBase()
+    
+    private void SetupBastion()
     {
         Island island = islandDictionary[0];
         island.islandType = IslandType.Bastion;
+        island.layer = 0;
 
-        foreach (int neighborKey in island.neighbors)
+        //mark islands surrounding the base
+        foreach (int key in island.neighbors)
         {
-            islandDictionary.TryGetValue(neighborKey, out island);
-            island.islandType = IslandType.Path; //islands surrounding the base
+            Island neighbor = islandDictionary[key];
+            neighbor.islandType = IslandType.Path;
+            neighbor.layer = 0;
         }
     }
 
-    void CreateArtifacts()
+    private void SetupArtifacts()
     {
-        for (int i = 0; i < numberOfArtifacts; i++)
+        for (int i = 0; i < artifactCount; i++)
         {
-            //grab a random island
-            Island artifactIsland = islandDictionary.ElementAt(UnityEngine.Random.Range(0, islandDictionary.Count)).Value;
+            Island artifactIsland = islandDictionary.ElementAt(Random.Range(0, islandDictionary.Count)).Value;  //grab a random island;
+            //reroll in case the island is already used for something else
             if (artifactIsland.islandType != IslandType.None)
             {
-                //reroll in case the island is already used for something else
                 i--;
                 continue;
             }
             artifactIsland.islandType = IslandType.Artifact;
-            //if(pseudoIsland == false)
-            //{
-            //    artifactIsland.linkedGameObject.AddComponent<ArtifactIsland>();
-            //}
+            artifactIsland.layer = 1;
         }
     }
 
-    void CreateArtifactPaths()
+    void MarkArtifactPaths()
     {
         Vector3 origin = islandDictionary[0].position;
-        foreach (KeyValuePair<int, Island> item in islandDictionary.Where(item => item.Value.islandType == IslandType.Artifact)) //I<3LINQ
+        foreach (KeyValuePair<int, Island> item in islandDictionary.Where(item => item.Value.islandType == IslandType.Artifact))
         {
             Island currentIsland = item.Value;
             while (currentIsland.islandType != IslandType.Bastion)
@@ -178,23 +157,35 @@ public class Level : MonoBehaviour
             {
                 if (item.Value.neighbors[i] > item.Key)
                 {
-                    Vector3 newPos = islandDictionary[item.Value.neighbors[i]].position + 0.5f * (item.Value.position - islandDictionary[item.Value.neighbors[i]].position);
-                    //GameObject newIsland = Instantiate(LevelManager.Instance.islandGrappling, newPos, Quaternion.identity) as GameObject;
-                    //GameObject newIsland = Instantiate(Resources.Load("FloatingIsland", typeof(GameObject)), newPos, Quaternion.identity) as GameObject;
-                    //newIsland.transform.localScale *= 0.5f * 2;
-                    //newIsland.GetComponent<Rigidbody>().mass *= 0.125f;
-                    //               newIsland.transform.parent = islandParent;
-                    //               newIsland.transform.up = newIsland.transform.position;
-                    int rand = UnityEngine.Random.Range(0, 2);
-                    if (rand == 0)
+                    Island island = item.Value;
+                    Island neighbor = islandDictionary[item.Value.neighbors[i]];
+                    Island[] grapplingIslands = new Island[2];
+
+                    for(int j = 0; j < grapplingIslands.Length; j++)
                     {
-                        Island grapplingIsland = new Island();
-                        grapplingIsland.islandType = IslandType.Grappling;
-                        grapplingIsland.position = newPos + newPos.normalized * grapplingIslandExtraheight;
-                        string name = item.Key.ToString() + "99999" + item.Value.neighbors[i].ToString();
-                        newIslandStack.Push(new KeyValuePair<int, Island>(Int32.Parse(name), grapplingIsland));
-                        //newIsland.transform.position = newIsland.transform.position + newIsland.transform.position.normalized * grapplingIslandExtraheight;
+                        grapplingIslands[j] = new Island();
+
+                        Vector3 start = island.position + (neighbor.position - island.position).normalized * baseIslandSize;
+                        Vector3 end = neighbor.position + (island.position - neighbor.position).normalized * baseIslandSize;
+                        Vector3 newPos = (end + 0.333f * (j + 1) * (start - end)).normalized * radius;
+
+                        grapplingIslands[j].position = newPos;
+                        grapplingIslands[j].islandType = IslandType.Small;
+                        string name = item.Key.ToString() + "99" + j.ToString() + "99" + island.neighbors[i].ToString();
+                        newIslandStack.Push(new KeyValuePair<int, Island>(int.Parse(name), grapplingIslands[j]));
                     }
+
+                    //if (island.layer == neighbor.layer)
+                    //{
+                    //    //if (Random.Range(0, 2) == 0)
+                    //    //{
+                    //    //    grapplingIsland.position = newPos + newPos.normalized * grapplingIslandExtraheight;
+                    //    //}
+                    //}
+                    //else
+                    //{
+
+                    //}
                 }
             }
         }
@@ -209,34 +200,10 @@ public class Level : MonoBehaviour
     {
         foreach (KeyValuePair<int, Island> item in islandDictionary)
         {
-            GameObject islandPrefab;
-            switch (item.Value.islandType)
-            {
-                case IslandType.Bastion:
-                    islandPrefab = LevelManager.Instance.islandBastion;
-                    break;
-                case IslandType.Artifact:
-                    islandPrefab = LevelManager.Instance.islandArtifact;
-                    break;
-                case IslandType.Grappling:
-                    islandPrefab = LevelManager.Instance.islandGrappling;
-                    break;
-                default:
-                    islandPrefab = LevelManager.Instance.islandBasic;
-                    break;
-            }
-            GameObject islandGameObject = Instantiate(islandPrefab, item.Value.position, Quaternion.identity) as GameObject;
-            islandGameObject.name = item.Key.ToString();
+            GameObject islandGameObject = Instantiate(LevelManager.Instance.islandPrefabs[(int)item.Value.islandType], item.Value.position, Quaternion.identity) as GameObject;
+            islandGameObject.name = item.Key.ToString() + item.Value.islandType.ToString();
             islandGameObject.transform.up = islandGameObject.transform.position;
             islandGameObject.transform.parent = islandParent;
-
-            //        GameObject newIsland = Instantiate(LevelManager.Instance.islandBasic, entry.Value.position, Quaternion.identity) as GameObject;
-            //        newIsland.name = entry.Key.ToString();
-            //        newIsland.transform.up = newIsland.transform.position;
-            //        newIsland.transform.parent = islandParent;
-
-            //        entry.Value.linkedGameObject = newIsland;
-            //        entry.Value.islandType = IslandType.None;
         }
     }
 
@@ -389,60 +356,16 @@ public class Level : MonoBehaviour
         return i;
     }
 
-    class Island
+    private class Island
     {
         public IslandType islandType;
         public List<int> neighbors = new List<int>();
-        //public GameObject linkedGameObject;
+        public short layer;
         public Vector3 position;
+
     }
 
-    //public void ColorizeIslands()
-    //{
-    //    for (int i = 0; i < islandDictionary.Count; i++)
-    //    {
-    //        IslandType islandType = islandDictionary[i].islandType;
-    //        GameObject tmp;
-    //        switch (islandType)
-    //        {
-    //            case IslandType.None:
-    //                tmp = (islandDictionary[i].linkedGameObject);
-    //                islandDictionary[i].linkedGameObject = Instantiate(LevelManager.Instance.islandBasic, tmp.transform.position, tmp.transform.rotation) as GameObject;
-    //                islandDictionary[i].linkedGameObject.transform.parent = islandParent;
-    //                islandDictionary[i].linkedGameObject.transform.localScale *= 2;
-    //                Destroy(tmp);
-    //                break;
-    //            case IslandType.Bastion:
-    //                //islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/BaseSimple", typeof(Material)) as Material;
-    //                tmp = (islandDictionary[i].linkedGameObject);
-    //                islandDictionary[i].linkedGameObject = Instantiate(LevelManager.Instance.islandBastion, tmp.transform.position, tmp.transform.rotation) as GameObject;
-    //                islandDictionary[i].linkedGameObject.transform.parent = islandParent;
-    //                islandDictionary[i].linkedGameObject.transform.localScale *= 2;
-    //                Destroy(tmp);
-    //                break;
-    //            case IslandType.Path:
-    //                //islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/MainPathSimple", typeof(Material)) as Material;
-    //                tmp = (islandDictionary[i].linkedGameObject);
-    //                islandDictionary[i].linkedGameObject = Instantiate(LevelManager.Instance.islandBasic, tmp.transform.position, tmp.transform.rotation) as GameObject;
-    //                islandDictionary[i].linkedGameObject.transform.parent = islandParent;
-    //                islandDictionary[i].linkedGameObject.transform.localScale *= 2;
-    //                Destroy(tmp);
-    //                break;
-    //            case IslandType.Artifact:
-    //                //islandDictionary[i].linkedGameObject.GetComponent<MeshRenderer>().material = Resources.Load("SimpleMats/ArtifactSimple", typeof(Material)) as Material;
-    //                tmp = (islandDictionary[i].linkedGameObject);
-    //                islandDictionary[i].linkedGameObject = Instantiate(LevelManager.Instance.islandArtifact, tmp.transform.position, tmp.transform.rotation) as GameObject;
-    //                islandDictionary[i].linkedGameObject.transform.parent = islandParent;
-    //                islandDictionary[i].linkedGameObject.transform.localScale *= 2;
-    //                Destroy(tmp);
-    //                break;
-    //            default:
-    //                break;
-    //        }
-    //    }
-    //}
-
-    public void Delete()
+    public void DestroyLevel()
     {
         Destroy(islandParent.gameObject);
     }

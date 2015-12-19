@@ -2,22 +2,23 @@
 
 public class LevelManager : MonoBehaviour
 {
-    private static LevelManager instance;
     public static LevelManager Instance { get { return instance; } }
-
-    public GameObject player;
-    private Camera worldCam;
-
     public int rngSeed = 1337;
+    public GameObject player;
     public LevelVariables[] levelVariables = new LevelVariables[3];
 
-    private Level[] levels = new Level[3];
-    private int currentLevel = 0;
-
+    public bool showPaths = false;
     public GameObject islandBasic;
     public GameObject islandBastion;
     public GameObject islandArtifact;
     public GameObject islandGrappling;
+    public GameObject islandSmall;
+    [HideInInspector] public GameObject[] islandPrefabs;
+
+    private static LevelManager instance;
+    private Camera worldCam;
+    private Level[] levels = new Level[4];
+    private int currentLevel = 0;
 
     void Awake()
     {
@@ -27,22 +28,14 @@ public class LevelManager : MonoBehaviour
             instance = this;
 
         worldCam = Camera.main;
-        //Setup Player
-        if (!player)
-        {
-            player = Resources.Load("Player", typeof(GameObject)) as GameObject;
-        }
-
-
-        //if prefab references are not set
-        if (islandBasic == null)
-            islandBasic = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
-        if (islandBastion == null)
-            islandBastion = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
-        if (islandArtifact == null)
-            islandArtifact = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
-        if (islandGrappling == null)
-            islandGrappling = Resources.Load("IslandSimple", typeof(GameObject)) as GameObject;
+        //This must match with enum Islandtype
+        islandPrefabs = new GameObject[6];
+        islandPrefabs[0] = islandBasic;
+        islandPrefabs[1] = islandBastion;
+        islandPrefabs[2] = islandBasic;
+        islandPrefabs[3] = islandArtifact;
+        islandPrefabs[4] = islandGrappling;
+        islandPrefabs[5] = islandSmall;
     }
 
     public void LoadLevel()
@@ -65,7 +58,7 @@ public class LevelManager : MonoBehaviour
         levels[currentLevel].radius = levelVariables[currentLevel].radius;
         levels[currentLevel].cycles = levelVariables[currentLevel].cycles;
         levels[currentLevel].destructionLevel = levelVariables[currentLevel].destructionLevel;
-        levels[currentLevel].numberOfArtifacts = levelVariables[currentLevel].numberOfArtifacts;
+        levels[currentLevel].artifactCount = levelVariables[currentLevel].numberOfArtifacts;
         levels[currentLevel].heightOffset = levelVariables[currentLevel].heightOffset;
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
         levels[currentLevel].CreateWorld();
@@ -116,11 +109,11 @@ public class LevelManager : MonoBehaviour
 
     public void AdvanceLevel()
     {
-        levels[currentLevel].Delete();
+        levels[currentLevel].DestroyLevel();
         Destroy(levels[currentLevel]);
         if (currentLevel < levels.Length)
         {
-            levels[currentLevel + 1].Delete();
+            levels[currentLevel + 1].DestroyLevel();
             Destroy(levels[currentLevel + 1]);
             currentLevel++;
             LoadLevel();

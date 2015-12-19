@@ -453,8 +453,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7f4e393f9fefa4f8ff17fb440f6475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 116496, guid: 394c7746ee7702b478295ba0e87b7fca, type: 2}
   rngSeed: 1337
+  player: {fileID: 116496, guid: 394c7746ee7702b478295ba0e87b7fca, type: 2}
   levelVariables:
   - radius: 150
     cycles: 1
@@ -474,10 +474,13 @@ MonoBehaviour:
     destructionLevel: .5
     heightOffset: 30
     grapplingIslandExtraHeight: 30
+  showPaths: 1
   islandBasic: {fileID: 162260, guid: bed5f5dd8ff1076498527df0f2ba76a3, type: 2}
   islandBastion: {fileID: 148396, guid: 5a67ff7e2a31cf445af56355b3741770, type: 2}
   islandArtifact: {fileID: 178000, guid: f175005541846ad49894e18690cf5b88, type: 2}
   islandGrappling: {fileID: 181206, guid: 2f36a6892e48ea841b2873941216d446, type: 2}
+  islandSmall: {fileID: 181206, guid: 2f36a6892e48ea841b2873941216d446, type: 2}
+  islandPrefabs: []
 --- !u!4 &1378452260
 Transform:
   m_ObjectHideFlags: 0
