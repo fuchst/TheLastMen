@@ -8,12 +8,13 @@ public class LevelManager : MonoBehaviour
     public LevelVariables[] levelVariables = new LevelVariables[3];
 
     public bool showPaths = false;
+
+    public GameObject[] bigIslands;
     public GameObject islandBasic;
     public GameObject islandBastion;
     public GameObject islandArtifact;
     public GameObject islandGrappling;
     public GameObject islandSmall;
-    [HideInInspector] public GameObject[] islandPrefabs;
 
     private static LevelManager instance;
     private Camera worldCam;
@@ -28,14 +29,6 @@ public class LevelManager : MonoBehaviour
             instance = this;
 
         worldCam = Camera.main;
-        //This must match with enum Islandtype
-        islandPrefabs = new GameObject[6];
-        islandPrefabs[0] = islandBasic;
-        islandPrefabs[1] = islandBastion;
-        islandPrefabs[2] = islandBasic;
-        islandPrefabs[3] = islandArtifact;
-        islandPrefabs[4] = islandGrappling;
-        islandPrefabs[5] = islandSmall;
     }
 
     public void LoadLevel()

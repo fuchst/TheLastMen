@@ -170,7 +170,7 @@ public class Level : MonoBehaviour
                         Vector3 newPos = (end + 0.333f * (j + 1) * (start - end)).normalized * radius;
 
                         //Set correct height of grappling islands
-                        if(island.layer != neighbor.layer)
+                        if (island.layer != neighbor.layer)
                         {
                             newPos = newPos.normalized * neighbor.position.magnitude + newPos.normalized * (island.position.magnitude - neighbor.position.magnitude) * 0.333f * (j + 1);
                         }
@@ -207,7 +207,30 @@ public class Level : MonoBehaviour
     {
         foreach (KeyValuePair<int, Island> item in islandDictionary)
         {
-            GameObject islandGameObject = Instantiate(LevelManager.Instance.islandPrefabs[(int)item.Value.islandType], item.Value.position, Quaternion.identity) as GameObject;
+            GameObject islandGameObject;
+            switch (item.Value.islandType)
+            {
+                case IslandType.Bastion:
+                    islandGameObject = Instantiate(LevelManager.Instance.islandBastion, item.Value.position, Quaternion.identity) as GameObject;
+                    break;
+                case IslandType.Artifact:
+                    islandGameObject = Instantiate(LevelManager.Instance.islandArtifact, item.Value.position, Quaternion.identity) as GameObject;
+                    break;
+                case IslandType.Grappling:
+                case IslandType.Small:
+                    islandGameObject = Instantiate(LevelManager.Instance.islandSmall, item.Value.position, Quaternion.identity) as GameObject;
+                    break;
+                default:
+                    if (Random.Range(0, 12) == 0)
+                    {
+                        islandGameObject = Instantiate(LevelManager.Instance.bigIslands[1], item.Value.position, Quaternion.identity) as GameObject;
+                    }
+                    else
+                    {
+                        islandGameObject = Instantiate(LevelManager.Instance.bigIslands[0], item.Value.position, Quaternion.identity) as GameObject;
+                    }
+                    break;
+            }
             islandGameObject.name = item.Key.ToString() + item.Value.islandType.ToString();
             islandGameObject.transform.up = islandGameObject.transform.position;
             islandGameObject.transform.parent = islandParent;
