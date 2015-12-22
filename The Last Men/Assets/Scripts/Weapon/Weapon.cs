@@ -15,7 +15,7 @@ public abstract class Weapon : MonoBehaviour {
 
     static protected GameObject bulletPrefab;
 
-    public Weapon()
+    void Awake()
     {
         if(bulletPrefab == null)
         {
