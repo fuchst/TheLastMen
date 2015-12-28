@@ -7,8 +7,11 @@ public class s_GameManager : MonoBehaviour {
     private LevelManager levelManager;
     private Camera worldCam;
 
-    public int artifactCountCur = 0;
+    public int artifact1CountCur = 0;
+    public int artifact2CountCur = 0;
     public int artifactCountMax = 10;
+    public float energyCur = 0;
+    public float energyMax = 10;
     public int healthpoints = 100;
 
     private static s_GameManager instance;

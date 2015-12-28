@@ -793,7 +793,6 @@ GameObject:
   - 33: {fileID: 3335362}
   - 23: {fileID: 2326080}
   - 64: {fileID: 6487536}
-  - 95: {fileID: 9521006}
   m_Layer: 0
   m_Name: PoO_Table
   m_TagString: Untagged
@@ -4379,23 +4378,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!95 &9521006
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144824}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 4b1a80939dbe44bd1904df80692b4e58, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &9559864
 Animator:
   serializedVersion: 3
@@ -4457,8 +4439,8 @@ Light:
   serializedVersion: 6
   m_Type: 2
   m_Color: {r: 1, g: .738339245, b: .324729443, a: 1}
-  m_Intensity: 4
-  m_Range: 15
+  m_Intensity: 5
+  m_Range: 20
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -4489,8 +4471,8 @@ Light:
   serializedVersion: 6
   m_Type: 2
   m_Color: {r: 1, g: .738339245, b: .324729443, a: 1}
-  m_Intensity: 4
-  m_Range: 15
+  m_Intensity: 5
+  m_Range: 20
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -4521,8 +4503,8 @@ Light:
   serializedVersion: 6
   m_Type: 2
   m_Color: {r: 1, g: .738339245, b: .324729443, a: 1}
-  m_Intensity: 4
-  m_Range: 15
+  m_Intensity: 5
+  m_Range: 20
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -4554,6 +4536,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c23106a5020ee5244bc4d321cc7ba059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destructionDelay: 2
+  artifactType: 0
 --- !u!114 &11436410
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,18 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class s_Artifact : MonoBehaviour {
+public class s_Artifact : s_Collectible {
+    
+    [Range(0, 2)] public int artifactType;
 
-	void OnTriggerEnter (Collider other) {
-		if (other.tag.Equals ("Player")) {
-			//other.GetComponent<s_Player>().AddArtifact();
-			Debug.Log("Artifact found!");
-			s_GameManager.Instance.artifactCountCur++;
-			GetComponent<Collider>().enabled = false;
-			foreach(MeshRenderer r in GetComponentsInChildren<MeshRenderer>()){
-				r.enabled = false;
-			}
-			Destroy(gameObject, 2.0f);
-		}
-	}
+    void Awake () {
+        if(0 == artifactType) {
+            artifactType = Random.Range(1, 3); //3 is exclusive to the range for int!
+        }
+    }
+
+	protected override void Collect () {
+        if(artifactType == 1)
+            s_GameManager.Instance.artifact1CountCur++;
+        else if(artifactType == 2)
+            s_GameManager.Instance.artifact2CountCur++;
+    }
 }

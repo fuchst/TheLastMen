@@ -5,16 +5,18 @@ public class s_GUIMain : MonoBehaviour {
 	[SerializeField]protected Canvas canvas;
 	protected RectTransform canvasRT;
 
-	[SerializeField]protected Image iconPlayerBastion;
-    [SerializeField]protected Image iconPlayerBastionDirection;
-    [SerializeField]protected Image iconPlayerBastionFrame;
+	[SerializeField]protected Image iconBastion;
+    [SerializeField]protected Image iconBastionDirection;
+    [SerializeField]protected Image iconBastionFrame;
+    [SerializeField]protected RectTransform textBastionDirDisplayParent;
+    [SerializeField]protected Text textBastionDirDisplay;
     [SerializeField]protected int screenBorderThreshold = 50;
     [SerializeField]protected float lerpingSpeedFactor = 5.0f;
     [SerializeField]protected Color colorBastionNear;
     [SerializeField]protected Color colorBastionFar;
     [Tooltip("color reaches \"far\" value at distances of distanceBastionFar and above")]
     [SerializeField]protected float distanceBastionFar = 250.0f; //color reaches "far" value at distances of distanceBastionFar and above
-
+    
     //use radial or straight fill of icon, or bar around icon, or just text values?
     [SerializeField]protected Image iconPlayerHealth;
 	[SerializeField]protected Image iconPlayerEnergy;
@@ -56,7 +58,7 @@ public class s_GUIMain : MonoBehaviour {
 			bastionTransform.position = playerTransform.position - playerTransform.up * 0.99f * playerTransform.localScale.y;
             bastionTransform.rotation = playerTransform.rotation;
             bastionTransform.gameObject.AddComponent<SpriteRenderer>();
-            bastionTransform.gameObject.GetComponent<SpriteRenderer>().sprite = iconPlayerBastion.sprite;
+            bastionTransform.gameObject.GetComponent<SpriteRenderer>().sprite = iconBastion.sprite;
         }
 
         min = 0 + screenBorderThreshold;
@@ -70,8 +72,10 @@ public class s_GUIMain : MonoBehaviour {
 		textRemainingTime.text =  remainingTime/60 + ":" + remainingTime%60;
 
         //TODO: only update when changing?
-        textArtifacts1.text = s_GameManager.Instance.artifactCountCur.ToString();
-        iconArtifacts1.fillAmount = s_GameManager.Instance.artifactCountCur / s_GameManager.Instance.artifactCountMax;
+        textArtifacts1.text = s_GameManager.Instance.artifact1CountCur.ToString();
+        iconArtifacts1.fillAmount = s_GameManager.Instance.artifact1CountCur / s_GameManager.Instance.artifactCountMax;
+        textArtifacts2.text = s_GameManager.Instance.artifact2CountCur.ToString();
+        iconArtifacts2.fillAmount = s_GameManager.Instance.artifact2CountCur / s_GameManager.Instance.artifactCountMax;
         textPlayerHealth.text = s_GameManager.Instance.healthpoints.ToString();
 
         UpdateBastionDirectionIcon();
@@ -81,35 +85,70 @@ public class s_GUIMain : MonoBehaviour {
     void UpdateBastionDirectionIcon () {
         offscreen = false;
 
+        //get screen position of bastion
         Vector3 bastionScreenPos = playerCamera.WorldToScreenPoint (bastionTransform.position);
-        
-        if(bastionScreenPos.z < 0)
-        {
+
+        Vector3 testDir = (bastionTransform.position - playerCamera.transform.position).normalized;
+        testDir = Vector3.ProjectOnPlane(testDir, playerCamera.transform.forward);
+        Debug.DrawRay(playerCamera.transform.position, testDir * 1000, Color.magenta);
+
+        //if it is behind us, flip position
+        if (bastionScreenPos.z < 0) {
             bastionScreenPos *= -1;
             offscreen = true;
         }
 
+        //save original screen space position for later, and clamp it to fit on screen
         Vector2 originalScreenPos = bastionScreenPos;
         bastionScreenPos.x = Mathf.Clamp(bastionScreenPos.x, min, maxX);
         bastionScreenPos.y = Mathf.Clamp(bastionScreenPos.y, min, maxY);
-        if (originalScreenPos != (Vector2) bastionScreenPos)
-        {
+
+        if (originalScreenPos != (Vector2) bastionScreenPos) {
             offscreen = true;
         }
 
+        //convert to coordinate space of canvas
         Vector2 bastionCanvasPos = ScreenToCanvasSpace(bastionScreenPos, canvasRT.sizeDelta);
 
         //lerp bastion icon to avoid jittering
-        iconPlayerBastion.rectTransform.anchoredPosition = Vector2.Lerp(iconPlayerBastion.rectTransform.anchoredPosition, bastionCanvasPos, lerpingSpeedFactor * Time.deltaTime);
+        iconBastion.rectTransform.anchoredPosition = Vector2.Lerp(iconBastion.rectTransform.anchoredPosition, bastionCanvasPos, lerpingSpeedFactor * Time.deltaTime);
 
+        //change color of icon frame based on distance
+        float distanceToBastion = (playerTransform.position - bastionTransform.position).magnitude;
+        float lerpParameter = distanceToBastion / distanceBastionFar;
+        iconBastionFrame.color = Colorx.Slerp(colorBastionNear, colorBastionFar, lerpParameter);
+        
         //show direction arrow
-        iconPlayerBastionDirection.enabled = offscreen;
-        float angle = -90 + Mathf.Rad2Deg * Mathf.Atan2(x:originalScreenPos.x, y:originalScreenPos.y);
-        iconPlayerBastionDirection.rectTransform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        iconBastionDirection.enabled = offscreen;
 
-        //change color based on distance
-        float lerpParameter = (playerTransform.position - bastionTransform.position).sqrMagnitude / (distanceBastionFar * distanceBastionFar); 
-        iconPlayerBastionFrame.color = Colorx.Slerp(colorBastionNear, colorBastionFar, lerpParameter);
+        if(offscreen) {
+            float angle = 0;
+            //if x is within screen boundaries, show arrow up/down
+            if (bastionScreenPos.x == originalScreenPos.x) {
+                angle = -90 + 90 * Mathf.Sign(originalScreenPos.y - min);
+            }
+            //if y is within screen boundaries, show arrow left/right
+            else if (bastionScreenPos.y == originalScreenPos.y) {
+                angle = -180 + 90 * Mathf.Sign(originalScreenPos.x - min);
+            }
+            else {
+                angle = -90 + Mathf.Rad2Deg * Mathf.Atan2(x: originalScreenPos.x, y: originalScreenPos.y);
+            }
+            iconBastionDirection.rectTransform.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            //update distance text
+            textBastionDirDisplay.text = distanceToBastion.ToString("0") + "m";
+            textBastionDirDisplayParent.localRotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            textBastionDirDisplay.rectTransform.localRotation = Quaternion.AngleAxis(-angle, Vector3.forward);
+            textBastionDirDisplay.rectTransform.anchoredPosition = (-3 * textBastionDirDisplay.text.Length) * Vector3.up * (Mathf.Abs(Mathf.Sin(Mathf.Deg2Rad * (angle))));
+        }
+        else {
+            //update distance text
+            textBastionDirDisplay.text = distanceToBastion.ToString("0") + "m";
+            textBastionDirDisplayParent.localRotation = Quaternion.identity;
+            textBastionDirDisplay.rectTransform.localRotation = Quaternion.identity;
+            textBastionDirDisplay.rectTransform.anchoredPosition = Vector3.zero;
+        }
     }
 
     /*
