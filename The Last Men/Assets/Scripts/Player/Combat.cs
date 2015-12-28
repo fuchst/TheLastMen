@@ -3,8 +3,15 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class Combat : MonoBehaviour {
 
-    Weapon[] weapons = { new Pistol(), new Shotgun() };
+    Weapon[] weapons = new Weapon[2];
     protected int activeWeaponIdx = 0;
+
+    void Awake()
+    {
+        //JingYi: not optimal but atleast we dont have errors anymore.
+        weapons[0] = gameObject.AddComponent<Pistol>();
+        weapons[1] = gameObject.AddComponent<Shotgun>();
+    }
 
     void OnHit(int dmg)
     {

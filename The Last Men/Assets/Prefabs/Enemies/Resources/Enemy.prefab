@@ -94,7 +94,8 @@ MonoBehaviour:
   hp: 100
   attackRange: 2
   damage: 5
-  speed: 1
+  moveSpeed: 1
+  attackSpeed: 1
   fov: 20
   senseRange: 15
 --- !u!1001 &100100000

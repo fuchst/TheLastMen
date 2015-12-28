@@ -223,9 +223,9 @@ public class s_FireHook : MonoBehaviour
             {
                 ropeElements[i].GetComponent<SpringJoint>().spring = 1000;
             }*/
-            Vector3 v3 = ropeElements[0].transform.position;
-            Vector3 v4 = ropeElements[1].transform.position;
-            float distance2 = Mathf.Sqrt(Mathf.Pow((v3.x - v4.x), 2) + Mathf.Pow((v3.y - v4.y), 2) + Mathf.Pow((v3.z - v4.z), 2));
+            //Vector3 v3 = ropeElements[0].transform.position;
+            //Vector3 v4 = ropeElements[1].transform.position;
+            //float distance2 = Mathf.Sqrt(Mathf.Pow((v3.x - v4.x), 2) + Mathf.Pow((v3.y - v4.y), 2) + Mathf.Pow((v3.z - v4.z), 2));
            // Debug.Log("whole: " + distance + "inter: " + distance2);
         }
         else

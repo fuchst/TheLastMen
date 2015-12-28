@@ -4,21 +4,21 @@ using System.Collections.Generic;
 
 public class Level : MonoBehaviour
 {
-    private enum IslandType { None, Bastion, Path, Artifact, Grappling, Small };
-
     public float baseIslandSize = 10f;
-    public float radius = 150.0f;
-    public int cycles = 3;
-    public int randomSeed = 1337;
-    public int artifactCount = 8;
-    public float destructionLevel = 0.6f;
-    public float layerHeightOffset = 200.0f;
-    public float grapplingIslandExtraheight;
+    [HideInInspector] public float radius = 150.0f;
+    [HideInInspector] public int cycles = 3;
+    [HideInInspector] public int randomSeed = 1337;
+    [HideInInspector] public int artifactCount = 8;
+    [HideInInspector] public float destructionLevel = 0.6f;
+    [HideInInspector] public float layerHeightOffset = 200.0f;
+    [HideInInspector] public float grapplingIslandExtraheight;
 
+    private enum IslandType { None, Bastion, Path, Artifact, Grappling, Small };
     private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
+    private SortedDictionary<string, Island> grapplingIslandDictionary = new SortedDictionary<string, Island>();
     private Transform islandParent;
 
-    public void CreateWorld()
+    public void CreateLevel()
     {
         Random.seed = randomSeed;
         IcoSphere(radius, cycles, ref islandDictionary);
@@ -30,6 +30,11 @@ public class Level : MonoBehaviour
         SetupLayers();
         SetupGrapplingIslands();
         InstantiateIslands();
+    }
+
+    public void DestroyLevel()
+    {
+        Destroy(islandParent.gameObject);
     }
 
     void Update()
@@ -149,7 +154,7 @@ public class Level : MonoBehaviour
 
     void SetupGrapplingIslands()
     {
-        Stack<KeyValuePair<int, Island>> newIslandStack = new Stack<KeyValuePair<int, Island>>();
+        Stack<KeyValuePair<string, Island>> newIslandStack = new Stack<KeyValuePair<string, Island>>();
         foreach (KeyValuePair<int, Island> item in islandDictionary)
         {
             for (int i = 0; i < item.Value.neighbors.Count; i++)
@@ -158,13 +163,13 @@ public class Level : MonoBehaviour
                 {
                     Island island = item.Value;
                     Island neighbor = islandDictionary[item.Value.neighbors[i]];
-                    Island[] grapplingIslands = new Island[2];
+                    Island[] smallIslands = new Island[2];
 
-                    for (int j = 0; j < grapplingIslands.Length; j++)
+                    for (int j = 0; j < smallIslands.Length; j++)
                     {
-                        grapplingIslands[j] = new Island();
+                        smallIslands[j] = new Island();
 
-                        //Set grappling island between big islands
+                        //Set small island between big islands
                         Vector3 start = island.position + (neighbor.position - island.position).normalized * baseIslandSize;
                         Vector3 end = neighbor.position + (island.position - neighbor.position).normalized * baseIslandSize;
                         Vector3 newPos = (end + 0.333f * (j + 1) * (start - end)).normalized * radius;
@@ -179,10 +184,10 @@ public class Level : MonoBehaviour
                             newPos += newPos.normalized * island.layer * layerHeightOffset;
                         }
 
-                        grapplingIslands[j].position = newPos;
-                        grapplingIslands[j].islandType = IslandType.Small;
-                        string name = item.Key.ToString() + "99" + j.ToString() + "99" + island.neighbors[i].ToString();
-                        newIslandStack.Push(new KeyValuePair<int, Island>(int.Parse(name), grapplingIslands[j]));
+                        smallIslands[j].position = newPos;
+                        smallIslands[j].islandType = IslandType.Grappling;
+                        string name = item.Key.ToString() + "-to-" + island.neighbors[i].ToString() + j.ToString();
+                        newIslandStack.Push(new KeyValuePair<string, Island>(name, smallIslands[j]));
                     }
 
                     if (island.layer == neighbor.layer)
@@ -190,7 +195,8 @@ public class Level : MonoBehaviour
                         int x = Random.Range(0, 3);
                         if (x < 2)
                         {
-                            grapplingIslands[x].position += grapplingIslands[x].position.normalized * grapplingIslandExtraheight;
+                            smallIslands[x].position += smallIslands[x].position.normalized * grapplingIslandExtraheight;
+                            smallIslands[x].islandType = IslandType.Small;
                         }
                     }
                 }
@@ -198,8 +204,8 @@ public class Level : MonoBehaviour
         }
         while (newIslandStack.Count > 0)
         {
-            KeyValuePair<int, Island> item = newIslandStack.Pop();
-            islandDictionary.Add(item.Key, item.Value);
+            KeyValuePair<string, Island> item = newIslandStack.Pop();
+            grapplingIslandDictionary.Add(item.Key, item.Value);
         }
     }
 
@@ -232,6 +238,30 @@ public class Level : MonoBehaviour
                     break;
             }
             islandGameObject.name = item.Key.ToString() + item.Value.islandType.ToString();
+            islandGameObject.transform.up = islandGameObject.transform.position;
+            islandGameObject.transform.parent = islandParent;
+        }
+        foreach (KeyValuePair<string, Island> item in grapplingIslandDictionary)
+        {
+            GameObject islandGameObject;
+            switch (item.Value.islandType)
+            {
+                case IslandType.Grappling:
+                case IslandType.Small:
+                    islandGameObject = Instantiate(LevelManager.Instance.islandSmall, item.Value.position, Quaternion.identity) as GameObject;
+                    break;
+                default:
+                    if (Random.Range(0, 12) == 0)
+                    {
+                        islandGameObject = Instantiate(LevelManager.Instance.bigIslands[1], item.Value.position, Quaternion.identity) as GameObject;
+                    }
+                    else
+                    {
+                        islandGameObject = Instantiate(LevelManager.Instance.bigIslands[0], item.Value.position, Quaternion.identity) as GameObject;
+                    }
+                    break;
+            }
+            islandGameObject.name = item.Key + item.Value.islandType.ToString();
             islandGameObject.transform.up = islandGameObject.transform.position;
             islandGameObject.transform.parent = islandParent;
         }
@@ -395,9 +425,6 @@ public class Level : MonoBehaviour
 
     }
 
-    public void DestroyLevel()
-    {
-        Destroy(islandParent.gameObject);
-    }
+
 }
 

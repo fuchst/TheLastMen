@@ -33,19 +33,6 @@ public class LevelManager : MonoBehaviour
 
     public void LoadLevel()
     {
-        CreateLevel();
-        if (worldCam != null)
-        {
-            Destroy(worldCam.gameObject);
-        }
-        if (currentLevel == 0)
-        {
-            StartLevel();
-        }
-    }
-
-    void CreateLevel()
-    {
         levels[currentLevel] = gameObject.AddComponent<Level>() as Level;
         levels[currentLevel].randomSeed = rngSeed;
         levels[currentLevel].radius = levelVariables[currentLevel].radius;
@@ -54,24 +41,14 @@ public class LevelManager : MonoBehaviour
         levels[currentLevel].artifactCount = levelVariables[currentLevel].numberOfArtifacts;
         levels[currentLevel].layerHeightOffset = levelVariables[currentLevel].heightOffset;
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
-        levels[currentLevel].CreateWorld();
-        //levels[currentLevel].ColorizeIslands();
+        levels[currentLevel].CreateLevel();
         s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
-
-        //int nextLevel = currentLevel + 1;
-        //if (nextLevel < levels.Length)
-        //{
-        //    //Create the next layer for visuals only
-        //    levels[nextLevel] = gameObject.AddComponent<Level>() as Level;
-        //    levels[nextLevel].randomSeed = rngSeed;
-        //    levels[nextLevel].radius = levelVariables[nextLevel].radius;
-        //    levels[nextLevel].cycles = levelVariables[nextLevel].cycles;
-        //    levels[nextLevel].destructionLevel = levelVariables[nextLevel].destructionLevel;
-        //    levels[nextLevel].numberOfArtifacts = levelVariables[nextLevel].numberOfArtifacts;
-        //    levels[nextLevel].heightOffset = levelVariables[nextLevel].heightOffset;
-        //    levels[nextLevel].grapplingIslandExtraheight = levelVariables[nextLevel].grapplingIslandExtraHeight;
-        //    levels[nextLevel].CreateWorld();
-        //}
+        
+        if (worldCam != null)
+        {
+            Destroy(worldCam.gameObject);
+        }
+        StartLevel();
     }
 
     public void StartLevel()
@@ -81,11 +58,11 @@ public class LevelManager : MonoBehaviour
         if (currentLevel == 0)
         {
             player = Instantiate(player, spawnPos, Quaternion.identity) as GameObject;
-
         }
         else
         {
             player.transform.position = spawnPos;
+            player.SetActive(true);
         }
     }
 
@@ -102,12 +79,13 @@ public class LevelManager : MonoBehaviour
 
     public void AdvanceLevel()
     {
+        player.SetActive(false);
         levels[currentLevel].DestroyLevel();
         Destroy(levels[currentLevel]);
         if (currentLevel < levels.Length)
         {
-            levels[currentLevel + 1].DestroyLevel();
-            Destroy(levels[currentLevel + 1]);
+            //levels[currentLevel + 1].DestroyLevel();
+            //Destroy(levels[currentLevel + 1]);
             currentLevel++;
             LoadLevel();
         }
