@@ -1,39 +1,43 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class Bullet : MonoBehaviour {
 
     public float gravity { get; set; }
+    public float damage { get; set; }
 
     public float destDistMax = 1000.0f;
     public float destDistMin = 10.0f;
 
-	// Use this for initialization
-	void Start () {
+    public GameObject bulletHole;
 
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-        Vector3 gravityDir = -this.transform.position.normalized;
+    // Update is called once per frame
+    void FixedUpdate () {
+        Vector3 gravityDir = -transform.position.normalized;
 
-        this.GetComponent<Rigidbody>().AddForce(gravityDir * gravity, ForceMode.Acceleration);
+        GetComponent<Rigidbody>().AddForce(gravityDir * gravity, ForceMode.Acceleration);
 
         if(!(transform.position.magnitude < destDistMax && transform.position.magnitude > destDistMin))
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision coll)
     {
         // Debug.Log("Hit" + other.tag);
 
-        if(other.tag == "Enemy")
+        if(coll.transform.tag != "Bullet")
         {
-            other.transform.SendMessage("OnHit", Combat.damage);
-        }
+            if(coll.transform.tag == "Enemy")
+            {
+                coll.transform.SendMessage("OnHit", damage);
+            }
+            else if(coll.transform.tag == "Island")
+            {
+                Instantiate(bulletHole, coll.contacts[0].point + coll.contacts[0].normal * 0.05f, Quaternion.FromToRotation(Vector3.up, coll.contacts[0].normal));
+            }
 
-        Destroy(this.gameObject);
+            Destroy(gameObject);
+        }
     }
 }

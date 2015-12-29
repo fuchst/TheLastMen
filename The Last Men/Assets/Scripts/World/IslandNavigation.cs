@@ -37,4 +37,13 @@ public class IslandNavigation : MonoBehaviour {
             }        
         }
 	}
+
+    void OnDestroy()
+    {
+        while(enemies.Count != 0)
+        {
+            Destroy(enemies[0]);
+            enemies.RemoveAt(0);
+        }
+    }
 }

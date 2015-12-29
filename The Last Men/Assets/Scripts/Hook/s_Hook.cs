@@ -59,7 +59,13 @@ public class s_Hook : MonoBehaviour
                 //Debug.Log("Hit something");
                 rb.velocity = new Vector3(0, 0, 0);
                 rb.angularVelocity = new Vector3(0, 0, 0);
+                //Vector3 ps = col.transform.localScale;
+                //Vector3 ps = col.transform.lossyScale;
+                //transform.rotation = col.transform.rotation;
+                //transform.LookAt(col.transform.position);
                 transform.parent = col.transform;
+                //transform.localScale = new Vector3(0.5F / ps.x, 0.5F / ps.y, 0.5F / ps.z);
+                //transform.localScale = new Vector3(0.5F,0.5F,0.5F);
                 rb.isKinematic = true;
                 // spring.spring = 10;
                 //spawn Spring joint between collision point and parentRB (player)
