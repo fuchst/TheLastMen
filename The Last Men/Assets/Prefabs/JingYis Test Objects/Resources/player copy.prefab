@@ -2084,8 +2084,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2267b4de061b03a4e825542d2080081d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 50
-  bulletGravity: 9.81000042
 --- !u!114 &11456670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2357,7 +2355,7 @@ MonoBehaviour:
     JetpackHorizontalBaseSpeed: 4
     JetpackMaxVerticalSpeed: 4
     JetpackVerticalAcceleration: 15
-    JetpackFlyInLookingDir: 1
+    JetpackFlyInLookingDir: 0
     RunKey: 304
     JumpForce: 100
     SlopeCurveModifier:
@@ -3989,7 +3987,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementSettings.JetpackFlyInLookingDir
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

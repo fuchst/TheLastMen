@@ -10,7 +10,6 @@ public class LevelManager : MonoBehaviour
     public bool showPaths = false;
 
     public GameObject[] bigIslands;
-    public GameObject islandBasic;
     public GameObject islandBastion;
     public GameObject islandArtifact;
     public GameObject islandGrappling;
