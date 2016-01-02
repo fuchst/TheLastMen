@@ -211,29 +211,32 @@ public class Level : MonoBehaviour
 
     private void InstantiateIslands()
     {
+        LevelManager.IslandPrefabs islandPrefabs = LevelManager.Instance.islandPrefabs;
         int bigIsland = 0;
         foreach (KeyValuePair<int, Island> item in islandDictionary)
         {
+            
             GameObject islandGameObject;
             switch (item.Value.islandType)
             {
                 case IslandType.Bastion:
-                    islandGameObject = Instantiate(LevelManager.Instance.islandBastion, item.Value.position, Quaternion.identity) as GameObject;
+                    islandGameObject = Instantiate(islandPrefabs.Bastion, item.Value.position, Quaternion.identity) as GameObject;
                     bastion = islandGameObject;
                     break;
                 case IslandType.Artifact:
-                    islandGameObject = Instantiate(LevelManager.Instance.islandArtifact, item.Value.position, Quaternion.identity) as GameObject;
+                    islandGameObject = Instantiate(islandPrefabs.AritfactIsland, item.Value.position, Quaternion.identity) as GameObject;
                     break;
                 default:
-                    islandGameObject = Instantiate(LevelManager.Instance.bigIslands[bigIsland], item.Value.position, Quaternion.identity) as GameObject;
+                    islandGameObject = Instantiate(islandPrefabs.BigIslands[bigIsland], item.Value.position, Quaternion.identity) as GameObject;
                     bigIsland++;
-                    bigIsland %= LevelManager.Instance.bigIslands.Length;
+                    bigIsland %= islandPrefabs.BigIslands.Length;
                     break;
             }
             islandGameObject.name = item.Key.ToString() + item.Value.islandType.ToString();
             islandGameObject.transform.up = islandGameObject.transform.position;
             islandGameObject.transform.parent = islandParent;
         }
+        int smallIsland = 0;
         foreach (KeyValuePair<string, Island> item in grapplingIslandDictionary)
         {
             GameObject islandGameObject;
@@ -241,17 +244,20 @@ public class Level : MonoBehaviour
             {
                 case IslandType.Grappling:
                 case IslandType.Small:
-                    islandGameObject = Instantiate(LevelManager.Instance.islandSmall, item.Value.position, Quaternion.identity) as GameObject;
-                    break;
+                //default:
+                //    if (Random.Range(0, 12) == 0)
+                //    {
+                //        islandGameObject = Instantiate(LevelManager.Instance.bigIslands[1], item.Value.position, Quaternion.identity) as GameObject;
+                //    }
+                //    else
+                //    {
+                //        islandGameObject = Instantiate(LevelManager.Instance.bigIslands[0], item.Value.position, Quaternion.identity) as GameObject;
+                //    }
+                //    break;
                 default:
-                    if (Random.Range(0, 12) == 0)
-                    {
-                        islandGameObject = Instantiate(LevelManager.Instance.bigIslands[1], item.Value.position, Quaternion.identity) as GameObject;
-                    }
-                    else
-                    {
-                        islandGameObject = Instantiate(LevelManager.Instance.bigIslands[0], item.Value.position, Quaternion.identity) as GameObject;
-                    }
+                    islandGameObject = Instantiate(islandPrefabs.SmallIslands[smallIsland], item.Value.position, Quaternion.identity) as GameObject;
+                    smallIsland++;
+                    smallIsland %= islandPrefabs.SmallIslands.Length;
                     break;
             }
             islandGameObject.name = item.Key + item.Value.islandType.ToString();

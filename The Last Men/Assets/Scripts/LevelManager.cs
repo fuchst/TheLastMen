@@ -5,15 +5,10 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get { return instance; } }
     public int rngSeed = 1337;
     public GameObject player;
+    public IslandPrefabs islandPrefabs;
     public LevelVariables[] levelVariables = new LevelVariables[3];
 
     public bool showPaths = false;
-
-    public GameObject[] bigIslands;
-    public GameObject islandBastion;
-    public GameObject islandArtifact;
-    public GameObject islandGrappling;
-    public GameObject islandSmall;
 
     private static LevelManager instance;
     private Camera worldCam;
@@ -22,11 +17,34 @@ public class LevelManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance)
-            Destroy(this);
-        else
-            instance = this;
-
+        if (instance) Destroy(this);
+        else instance = this;
+        bool prefabsSet = true;
+        if(islandPrefabs.Bastion == null || islandPrefabs.AritfactIsland == null)
+        {
+            prefabsSet = false;
+        }
+        foreach(GameObject go in islandPrefabs.BigIslands)
+        {
+            if (go == null)
+            {
+                prefabsSet = false;
+            }
+        }
+        foreach (GameObject go in islandPrefabs.SmallIslands)
+        {
+            if (go == null)
+            {
+                prefabsSet = false;
+            }
+        }
+        if(prefabsSet == false)
+        {
+            Debug.LogError("At least one prefab is not linked to LevelManager");
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        }
         worldCam = Camera.main;
     }
 
@@ -74,6 +92,15 @@ public class LevelManager : MonoBehaviour
         public float destructionLevel;
         public float heightOffset;
         public float grapplingIslandExtraHeight;
+    }
+
+    [System.Serializable]
+    public class IslandPrefabs
+    {
+        public GameObject[] BigIslands;
+        public GameObject[] SmallIslands;
+        public GameObject Bastion;
+        public GameObject AritfactIsland;
     }
 
     public void AdvanceLevel()

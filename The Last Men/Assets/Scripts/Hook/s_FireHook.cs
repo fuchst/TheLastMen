@@ -44,12 +44,13 @@ public class s_FireHook : MonoBehaviour
     {
         if (CrossPlatformInputManager.GetButtonDown("Hook") && !fired)
         {
-            a_hook = Instantiate(m_hook, transform.position, transform.rotation) as GameObject;
+            a_hook = Instantiate(m_hook, cam.gameObject.transform.position, cam.transform.rotation) as GameObject;
             s_Hook HookScript = a_hook.GetComponent<s_Hook>();
             HookScript.Speed = hookThrowSpeed;
             if (!CenteredHook)
             {
-                HookScript.direction = cam.transform.forward;
+                a_hook.transform.forward = cam.transform.forward;
+                //HookScript.direction = cam.transform.forward;
             }
             else
             {
@@ -64,9 +65,10 @@ public class s_FireHook : MonoBehaviour
                 {
                    dir = hit.collider.transform.position -  transform.position;
                 }
-                HookScript.direction = dir;
+                a_hook.transform.forward = dir;
+                //HookScript.direction = dir;
             }
-            HookScript.parentRB = GetComponent<Rigidbody>();
+            //HookScript.parentRB = GetComponent<Rigidbody>();
             rope.connectedBody = a_hook.GetComponent<Rigidbody>();
 
 
