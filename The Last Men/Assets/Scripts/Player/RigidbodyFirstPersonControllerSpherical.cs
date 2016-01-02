@@ -30,7 +30,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float CurrentTargetSpeed = 8f;
 
 #if !MOBILE_INPUT
+            [HideInInspector]
+            public bool m_RunningLock = false;
             private bool m_Running;
+            
 #endif
 
             public void UpdateDesiredTargetSpeed(Vector2 input)
@@ -54,7 +57,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     }
                 }
 #if !MOBILE_INPUT
-                if (Input.GetKey(RunKey))
+                if (!m_RunningLock && Input.GetKey(RunKey))
                 {
                     CurrentTargetSpeed *= RunMultiplier;
                     m_Running = true;
@@ -102,7 +105,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public bool m_Hooked;
         //private bool m_swingimpuls;
         private float m_swingImpulsTimer = 0;
-
+        private bool m_JetpackLock = false;
+#if !MOBILE_INPUT
+        private bool m_RunningLock = false;
+#endif
 
         public Vector3 Velocity
         {
@@ -151,7 +157,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Jump = true;
             }
 
-            if (CrossPlatformInputManager.GetButtonDown("Jetpack") && !m_Fly && m_JetpackCurFlightDuration < movementSettings.JetpackMaxFlightDuration)
+            if (!m_JetpackLock && CrossPlatformInputManager.GetButtonDown("Jetpack") && !m_Fly && m_JetpackCurFlightDuration < movementSettings.JetpackMaxFlightDuration)
             {
                 m_Fly = true;
             }

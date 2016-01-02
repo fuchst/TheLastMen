@@ -78,6 +78,7 @@ public class s_FireHook : MonoBehaviour
         else if (CrossPlatformInputManager.GetButtonDown("Hook") && fired)
         {
             controller.m_Hooked = false;
+            controller.movementSettings.m_RunningLock = false;
             lr.enabled = false;
             DestroyRope();
         }
