@@ -22,7 +22,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float JetpackVerticalAcceleration = 30.0f;  //Vertical acceleration for the jetpack
             public bool JetpackFlyInLookingDir = false;
 
-
             public KeyCode RunKey = KeyCode.LeftShift;
             public float JumpForce = 30f;
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
@@ -30,12 +29,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float CurrentTargetSpeed = 8f;
 
 #if !MOBILE_INPUT
-            [HideInInspector]
-            public bool m_RunningLock = false;
+            [HideInInspector] public bool m_RunningLock = false;    //No running if hooked
             private bool m_Running;
-            
 #endif
-
             public void UpdateDesiredTargetSpeed(Vector2 input)
             {
                 if (input != Vector2.zero)
@@ -76,8 +72,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 #endif
         }
-
-
+        
         [Serializable]
         public class AdvancedSettings
         {
@@ -86,14 +81,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float slowDownRate = 20f; // rate at which the controller comes to a stop when there is no input
             public bool airControl; // can the user control the direction that is being moved in the air
         }
-
-
+        
         public Camera cam;
         public MovementSettings movementSettings = new MovementSettings();
         public MouseLookSpherical mouseLook = new MouseLookSpherical();
         public AdvancedSettings advancedSettings = new AdvancedSettings();
-
-
+        
         private Rigidbody m_RigidBody;
         private CapsuleCollider m_Capsule;
         //private float m_YRotation;
@@ -136,8 +129,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 #endif
             }
         }
-
-
+        
         private void Start()
         {
             m_RigidBody = GetComponent<Rigidbody>();
@@ -146,8 +138,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Hooked = false;
             //m_swingimpuls = true;
         }
-
-
+        
         private void Update()
         {
             RotateView();
@@ -406,6 +397,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     bastion.PlayerLanded();
                 }
             }
+        }
+        public void SetHooked(bool hooked)
+        {
+            m_Hooked = hooked;
+            m_RunningLock = hooked;
+            m_JetpackLock = hooked;
         }
     }
 }

@@ -166,11 +166,11 @@ GameObject:
   - 136: {fileID: 13668256}
   - 114: {fileID: 11468136}
   - 114: {fileID: 11448242}
-  - 114: {fileID: 11439396}
   - 145: {fileID: 14572762}
-  - 120: {fileID: 12061830}
   - 114: {fileID: 11456580}
-  m_Layer: 0
+  - 114: {fileID: 11417054}
+  - 114: {fileID: 11451922}
+  m_Layer: 9
   m_Name: Player (jingyi's copy)
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -671,7 +671,7 @@ GameObject:
   - 114: {fileID: 11457220}
   m_Layer: 0
   m_Name: GUICamera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -949,7 +949,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 116496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 205, z: 0}
+  m_LocalPosition: {x: -.129999995, y: 181.75592, z: .239999995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 498858}
@@ -1343,6 +1343,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11417054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 116496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5e832bf93b5fdb46ac1e78138271da5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hookSpeed: 50
+  hookLength: 50
+  grapplingHookPrefab: {fileID: 118926, guid: 1d2fb06ba6796734a9c36978948e422d, type: 2}
+  cameraTransform: {fileID: 498858}
 --- !u!114 &11420212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1658,26 +1673,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 'Length: 29/35'
---- !u!114 &11439396
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 116496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d1f0ed87b724384cb631b60baae128c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hookThrowSpeed: 50
-  hookLength: 50
-  SubdivideRope: 0
-  subDivAmount: 2
-  CenteredHook: 0
-  m_hook: {fileID: 127974, guid: 589941a621aada54c9d8b90ab1d5593b, type: 2}
-  m_ropeElement: {fileID: 129742, guid: b3d605cbfec2a20478ae3d38cc534548, type: 2}
-  cam: {fileID: 2097684}
-  ropeElements: []
 --- !u!114 &11440628
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1853,6 +1848,17 @@ MonoBehaviour:
   m_EffectColor: {r: 1, g: 1, b: 1, a: .501960814}
   m_EffectDistance: {x: 1, y: -1}
   m_UseGraphicAlpha: 1
+--- !u!114 &11451922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 116496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9da881b7d3eef24484be7843510496b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11452972
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2265,6 +2271,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
     CurrentTargetSpeed: 8
+    m_RunningLock: 0
   mouseLook:
     XSensitivity: 2
     YSensitivity: 2
@@ -2702,61 +2709,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!120 &12061830
-LineRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 116496}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_Materials:
-  - {fileID: 0}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
-  m_ProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  m_Parameters:
-    startWidth: .100000001
-    endWidth: .100000001
-    m_StartColor:
-      serializedVersion: 2
-      rgba: 4279374559
-    m_EndColor:
-      serializedVersion: 2
-      rgba: 4280229694
-  m_UseWorldSpace: 1
 --- !u!124 &12440588
 Behaviour:
   m_ObjectHideFlags: 1
@@ -3993,6 +3945,10 @@ Prefab:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: cf9255b19a1a3364f80af903d0cb8679, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 116496}

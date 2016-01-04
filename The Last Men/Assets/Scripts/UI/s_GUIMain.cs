@@ -64,8 +64,13 @@ public class s_GUIMain : MonoBehaviour {
         maxY = Screen.height - screenBorderThreshold;
     }
 	
-	// Update is called once per frame
 	void Update () {
+        //If we are in a test level and we dont have a GameManager
+        if(s_GameManager.Instance == null)
+        {
+            return;
+        }
+
 		int remainingTime = (int)(s_GameManager.Instance.endTime - Time.time);
 		textRemainingTime.text =  remainingTime/60 + ":" + remainingTime%60;
 
