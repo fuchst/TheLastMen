@@ -6,6 +6,7 @@ public class s_GUIMain : MonoBehaviour {
 	protected RectTransform canvasRT;
 
 	[SerializeField]protected Image iconBastion;
+    [SerializeField]protected Image iconBastionEnergy;
     [SerializeField]protected Image iconBastionDirection;
     [SerializeField]protected Image iconBastionFrame;
     [SerializeField]protected RectTransform textBastionDirDisplayParent;
@@ -17,9 +18,10 @@ public class s_GUIMain : MonoBehaviour {
     [Tooltip("color reaches \"far\" value at distances of distanceBastionFar and above")]
     [SerializeField]protected float distanceBastionFar = 250.0f; //color reaches "far" value at distances of distanceBastionFar and above
     
-    //use radial or straight fill of icon, or bar around icon, or just text values?
+    
     [SerializeField]protected Image iconPlayerHealth;
 	[SerializeField]protected Image iconPlayerEnergy;
+    [SerializeField]protected Image iconPlayerWood;
 
     [SerializeField]protected Image iconArtifacts1; //ancient thrust
     [SerializeField]protected Image iconArtifacts2; //gravitational freeze
@@ -27,15 +29,20 @@ public class s_GUIMain : MonoBehaviour {
 	[SerializeField]protected Image iconRemainingTime;
     [SerializeField]protected Image iconCurrentLayer;
 
+    [SerializeField]protected Image iconSkillCooldownBar;
+    [SerializeField]protected Button buttonPause;
+
 
 	[SerializeField]protected Text textPlayerHealth;
 	[SerializeField]protected Text textPlayerEnergy;
+    [SerializeField]protected Text textPlayerWood;
 
     [SerializeField]protected Text textArtifacts1;
     [SerializeField]protected Text textArtifacts2;
 
 	[SerializeField]protected Text textRemainingTime;
     [SerializeField]protected Text textCurrentLayer;
+
 
     //get from game manager later?
     [SerializeField]protected Transform bastionTransform;
@@ -51,7 +58,15 @@ public class s_GUIMain : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		canvasRT = canvas.GetComponent<RectTransform> ();
-        
+
+        if (!playerTransform) {
+
+        }
+
+        if (!playerCamera) {
+
+        }
+
 		if(!bastionTransform){
 
 			bastionTransform = new GameObject("bastion").transform;
@@ -64,19 +79,33 @@ public class s_GUIMain : MonoBehaviour {
         min = 0 + screenBorderThreshold;
         maxX = Screen.width - screenBorderThreshold;
         maxY = Screen.height - screenBorderThreshold;
+
+        buttonPause.onClick.AddListener(() => { s_GameManager.Instance.SwitchGamePaused(); });
     }
 	
 	// Update is called once per frame
 	void Update () {
-		int remainingTime = (int)(s_GameManager.Instance.endTime - Time.time);
+        s_GameManager game = s_GameManager.Instance;
+
+        int remainingTime = (int)(game.endTime - Time.time);
 		textRemainingTime.text =  remainingTime/60 + ":" + remainingTime%60;
+        iconRemainingTime.fillAmount = (float)remainingTime / game.roundDuration;
 
         //TODO: only update when changing?
-        textArtifacts1.text = s_GameManager.Instance.artifact1CountCur.ToString();
-        iconArtifacts1.fillAmount = s_GameManager.Instance.artifact1CountCur / s_GameManager.Instance.artifactCountMax;
-        textArtifacts2.text = s_GameManager.Instance.artifact2CountCur.ToString();
-        iconArtifacts2.fillAmount = s_GameManager.Instance.artifact2CountCur / s_GameManager.Instance.artifactCountMax;
-        textPlayerHealth.text = s_GameManager.Instance.healthpoints.ToString();
+        textArtifacts1.text = game.artifact1CountCur.ToString();
+        iconArtifacts1.fillAmount = game.artifact1CountCur / game.artifactCountMax;
+        textArtifacts2.text = game.artifact2CountCur.ToString();
+        iconArtifacts2.fillAmount = game.artifact2CountCur / game.artifactCountMax;
+
+        textPlayerHealth.text = game.healthpointsCur.ToString();
+        iconPlayerHealth.fillAmount = (float)game.healthpointsCur / (float)game.healthpointsMax;
+
+        //TODO: put in proper references!! 
+        iconSkillCooldownBar.fillAmount = (0.1f * Time.time) % 1.0f;
+        iconPlayerWood.fillAmount = 0.4f;
+        iconPlayerEnergy.fillAmount = 0.75f;
+        iconBastionEnergy.fillAmount = Mathf.PingPong(0.25f * Time.time, 1.0f);
+        
 
         UpdateBastionDirectionIcon();
 	}
