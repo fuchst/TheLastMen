@@ -43,6 +43,7 @@ MonoBehaviour:
   sizeY: 18
   stepSize: 1
   edgeCost: 1
+  edgeCostDiag: 3
   maxHeight: 100
 --- !u!1001 &100100000
 Prefab:

@@ -13,7 +13,7 @@ GameObject:
   - 114: {fileID: 11410854}
   - 54: {fileID: 5452466}
   - 136: {fileID: 13660090}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HookModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,7 +78,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &11410854
 MonoBehaviour:
@@ -91,10 +91,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d44da943683d324ea0713b012e94d6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0, z: 0}
   spring: {fileID: 0}
   flying: 0
-  parentRB: {fileID: 0}
 --- !u!136 &13660090
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -126,6 +124,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalScale.z
       value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
+      value: 112
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -83,11 +83,14 @@ public class s_GUIMain : MonoBehaviour {
         buttonPause.onClick.AddListener(() => { s_GameManager.Instance.SwitchGamePaused(); });
     }
 	
-	// Update is called once per frame
 	void Update () {
-        s_GameManager game = s_GameManager.Instance;
-
-        int remainingTime = (int)(game.endTime - Time.time);
+        //If we are in a test level and we dont have a GameManager
+        if(s_GameManager.Instance == null) {
+            return;
+        }
+		s_GameManager game = s_GameManager.Instance;
+		
+		int remainingTime = (int)(game.endTime - Time.time);
 		textRemainingTime.text =  remainingTime/60 + ":" + remainingTime%60;
         iconRemainingTime.fillAmount = (float)remainingTime / game.roundDuration;
 

@@ -2,13 +2,13 @@
 
 public class s_Hook : MonoBehaviour
 {
-    public Vector3 direction;
+    //public Vector3 direction;
     private Rigidbody rb;
     private GameObject go;
     public SpringJoint spring;
     private float speed;
     public bool flying;
-    public Rigidbody parentRB;
+    //public Rigidbody parentRB;
 
     void Awake()
     {
@@ -18,12 +18,12 @@ public class s_Hook : MonoBehaviour
 
     void Update()
     {
-        // Debug.Log("hookFlying: " + flying);
         if (flying)
         {
-            float way = speed * Time.deltaTime;
-            transform.forward = direction;
-            transform.Translate(Vector3.forward * way);
+            rb.MovePosition(transform.position + transform.forward * Time.deltaTime * speed);
+            //float way = speed * Time.deltaTime;
+            //transform.forward = direction;
+            //transform.Translate(Vector3.forward * way);
         }
         //else
         //{
@@ -51,8 +51,8 @@ public class s_Hook : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.tag.Equals("Island"))
-        {
+        //if (col.gameObject.tag.Equals("Island"))
+        //{
             if (flying)
             {
                 flying = false;
@@ -87,7 +87,7 @@ public class s_Hook : MonoBehaviour
                 // Debug.Log("Position:" + transform.position);
                 // Destroy(rb);
             }
-        }
+       // }
     }
 
     public float Speed

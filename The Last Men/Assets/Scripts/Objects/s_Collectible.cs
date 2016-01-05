@@ -16,10 +16,11 @@ public abstract class s_Collectible : MonoBehaviour {
     }
 
     protected virtual void Collect () {
-        //do the fance stuff here
+        //do the fancy stuff here
     }
 
     protected void DestroyCollectible () {
+		GetComponent<Collider>().enabled = false;
         foreach(MeshRenderer r in GetComponentsInChildren<MeshRenderer>()){
 			r.enabled = false;
 		}

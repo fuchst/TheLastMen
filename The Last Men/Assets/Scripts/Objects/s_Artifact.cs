@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class s_Artifact : s_Collectible {
     
-    [Range(0, 2)] public int artifactType;
+    [Tooltip("if set to 0, it will be set to 1 or 2 later by script")] [Range(0, 2)] public int artifactType;
 
     void Awake () {
         if(0 == artifactType) {
