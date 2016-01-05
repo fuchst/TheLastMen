@@ -3,6 +3,7 @@
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get { return instance; } }
+    public float islandFallingSpeed = 2.0f;
     public int rngSeed = 1337;
     public GameObject player;
     public IslandPrefabs islandPrefabs;

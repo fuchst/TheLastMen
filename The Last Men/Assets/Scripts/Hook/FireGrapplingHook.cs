@@ -9,7 +9,6 @@ public class FireGrapplingHook : MonoBehaviour
     public GameObject grapplingHookPrefab;
 
     private bool fired = false;
-    private bool hooked = false;
 
     public Transform cameraTransform;
     private SpringJoint springJoint;
@@ -37,7 +36,6 @@ public class FireGrapplingHook : MonoBehaviour
             }
             else
             {
-                controller.SetHooked(false);
                 Destroy(grapplingHook);
                 Unfire();
             }
@@ -47,7 +45,7 @@ public class FireGrapplingHook : MonoBehaviour
     public void Unfire()
     {
         fired = false;
-        hooked = false;
+        controller.SetHooked(false);
     }
 
     public void SetRope()

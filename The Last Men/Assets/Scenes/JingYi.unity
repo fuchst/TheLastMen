@@ -355,6 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7f4e393f9fefa4f8ff17fb440f6475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  islandFallingSpeed: .100000001
   rngSeed: 1337
   player: {fileID: 116496, guid: 394c7746ee7702b478295ba0e87b7fca, type: 2}
   islandPrefabs:
