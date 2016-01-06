@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: .00999999978
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: .211999997, g: .226999998, b: .259000003, a: 1}
+  m_AmbientSkyColor: {r: 0, g: 0, b: 0, a: 1}
   m_AmbientEquatorColor: {r: .114, g: .125, b: .133000001, a: 1}
   m_AmbientGroundColor: {r: .0469999984, g: .0430000015, b: .0350000001, a: 1}
-  m_AmbientIntensity: 0
-  m_AmbientMode: 0
+  m_AmbientIntensity: .469999999
+  m_AmbientMode: 3
   m_SkyboxMaterial: {fileID: 2100000, guid: fb36b4686eabee447bff2ba1fbbb4d04, type: 2}
   m_HaloStrength: .5
   m_FlareStrength: 1
@@ -355,7 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7f4e393f9fefa4f8ff17fb440f6475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  islandFallingSpeed: .100000001
+  islandFallingSpeed: .200000003
   rngSeed: 1337
   player: {fileID: 116496, guid: 394c7746ee7702b478295ba0e87b7fca, type: 2}
   islandPrefabs:
@@ -369,24 +369,25 @@ MonoBehaviour:
     Bastion: {fileID: 177492, guid: 4c9c67fc7c0207e4b9827ba4cb4dfedb, type: 2}
     AritfactIsland: {fileID: 178000, guid: f175005541846ad49894e18690cf5b88, type: 2}
   levelVariables:
-  - radius: 110
+  - radius: 100
     cycles: 0
-    numberOfArtifacts: 2
-    destructionLevel: .699999988
-    heightOffset: 15
-    grapplingIslandExtraHeight: 25
-  - radius: 200
-    cycles: 1
     numberOfArtifacts: 4
-    destructionLevel: 0
+    destructionLevel: 1
     heightOffset: 20
     grapplingIslandExtraHeight: 30
-  - radius: 800
-    cycles: 1
-    numberOfArtifacts: 8
-    destructionLevel: .5
-    heightOffset: 30
-    grapplingIslandExtraHeight: 30
+  - radius: 0
+    cycles: 0
+    numberOfArtifacts: 0
+    destructionLevel: 0
+    heightOffset: 0
+    grapplingIslandExtraHeight: 0
+  - radius: 0
+    cycles: 0
+    numberOfArtifacts: 0
+    destructionLevel: 0
+    heightOffset: 0
+    grapplingIslandExtraHeight: 0
+  bastion: {fileID: 0}
   showPaths: 0
 --- !u!4 &1378452260
 Transform:
@@ -412,7 +413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   artifactCountCur: 0
-  artifactCountMax: 4
+  artifactCountMax: 10
   healthpoints: 100
   roundDuration: 300
   endTime: 0

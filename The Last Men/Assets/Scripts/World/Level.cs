@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class Level : MonoBehaviour
 {
     public float baseIslandSize = 10f;
+    public Transform islandParent;
     [HideInInspector] public float radius = 150.0f;
     [HideInInspector] public int cycles = 3;
     [HideInInspector] public int randomSeed = 1337;
@@ -16,7 +17,7 @@ public class Level : MonoBehaviour
     private enum IslandType { None, Bastion, Path, Artifact, Grappling, Small };
     private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
     private SortedDictionary<string, Island> grapplingIslandDictionary = new SortedDictionary<string, Island>();
-    private Transform islandParent;
+    
     private GameObject bastion;
 
     public void CreateLevel()
@@ -155,6 +156,7 @@ public class Level : MonoBehaviour
     void SetupGrapplingIslands()
     {
         Stack<KeyValuePair<string, Island>> newIslandStack = new Stack<KeyValuePair<string, Island>>();
+
         foreach (KeyValuePair<int, Island> item in islandDictionary)
         {
             for (int i = 0; i < item.Value.neighbors.Count; i++)
@@ -163,6 +165,10 @@ public class Level : MonoBehaviour
                 {
                     Island island = item.Value;
                     Island neighbor = islandDictionary[item.Value.neighbors[i]];
+
+                    int y;
+                    float distanceToBastion = Vector3.Distance(islandDictionary[0].position, item.Value.position);
+
                     Island[] smallIslands = new Island[2];
 
                     for (int j = 0; j < smallIslands.Length; j++)
@@ -186,7 +192,7 @@ public class Level : MonoBehaviour
 
                         smallIslands[j].position = newPos;
                         smallIslands[j].islandType = IslandType.Grappling;
-                        string name = item.Key.ToString() + "-to-" + island.neighbors[i].ToString() + j.ToString();
+                        string name = item.Key.ToString() + " to " + island.neighbors[i].ToString() + " " +  j.ToString();
                         newIslandStack.Push(new KeyValuePair<string, Island>(name, smallIslands[j]));
                     }
 

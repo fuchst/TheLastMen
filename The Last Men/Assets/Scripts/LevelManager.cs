@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     public GameObject player;
     public IslandPrefabs islandPrefabs;
     public LevelVariables[] levelVariables = new LevelVariables[3];
+    [HideInInspector] public GameObject bastion;
 
     public bool showPaths = false;
 
@@ -46,6 +47,7 @@ public class LevelManager : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
         }
+
         worldCam = Camera.main;
     }
 
@@ -66,6 +68,7 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(worldCam.gameObject);
         }
+        bastion = levels[currentLevel].islandParent.GetChild(0).gameObject;
         StartLevel();
     }
 
