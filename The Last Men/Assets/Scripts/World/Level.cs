@@ -205,13 +205,15 @@ public class Level : MonoBehaviour
                 {
                     Island island = item.Value;
                     Island neighbor = islandDictionary[item.Value.neighbors[i]];
-                    
+
                     int numberOfSmallIslands;
-                    if (island.distanceToBastion == 1)
+					int distanceToBastion = Mathf.Min(island.distanceToBastion,neighbor.distanceToBastion);
+
+                    if (distanceToBastion == 1)
                     {
                         numberOfSmallIslands = 3;
                     }
-                    else if (island.distanceToBastion == maxDistanceToBastion)
+                    else if (distanceToBastion == maxDistanceToBastion -1)
                     {
                         numberOfSmallIslands = 1;
                     }
@@ -221,14 +223,14 @@ public class Level : MonoBehaviour
                     }
                     Island[] smallIslands = new Island[numberOfSmallIslands];
 
-                    float islandWidth = 40.0f;
+                    float islandWidth = 30.0f;
 
                     Vector3 start = island.position + (neighbor.position - island.position).normalized * islandWidth;
                     Vector3 end = neighbor.position + (island.position - neighbor.position).normalized * islandWidth;
 
                     for (int j = 0; j < smallIslands.Length; j++)
                     {
-                        float islandOffset = 1.0f / smallIslands.Length;
+                        float islandOffset = 1.0f / smallIslands.Length+1;
 
                         smallIslands[j] = new Island();
                         Vector3 newPos = (end + islandOffset * (j + 1) * (start - end)).normalized * radius;

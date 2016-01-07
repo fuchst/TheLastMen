@@ -52,9 +52,26 @@ public class LevelManager : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
         }
+		GameObject tmp;
+		islandPrefabs.bigIslandWidths = new float[islandPrefabs.BigIslands.Length];
+		for (int i = 0; i< islandPrefabs.bigIslandWidths.Length; i++) {
+			tmp = Instantiate(islandPrefabs.BigIslands[i]) as GameObject;
+			islandPrefabs.bigIslandWidths[i] = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
+			Destroy(tmp);
+		}
+		islandPrefabs.smallIslandWidths = new float[islandPrefabs.SmallIslands.Length];
+		for (int i = 0; i< islandPrefabs.smallIslandWidths.Length; i++) {
+			tmp = Instantiate(islandPrefabs.SmallIslands[i]) as GameObject;
+			islandPrefabs.smallIslandWidths[i] = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
+			Destroy(tmp);
+		}
 
-        islandPrefabs.BigIslandBounds = new Bounds[3];
-        Collider test = islandPrefabs.BigIslands[0].GetComponentInChildren<Collider>();
+		tmp = Instantiate(islandPrefabs.Bastion) as GameObject;
+		islandPrefabs.bastionWidth = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
+		Destroy(tmp);
+		tmp = Instantiate(islandPrefabs.AritfactIsland) as GameObject;
+		islandPrefabs.artifactIslandWidth = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
+		Destroy(tmp);
 
         worldCam = Camera.main;
     }
@@ -110,10 +127,13 @@ public class LevelManager : MonoBehaviour
     public class IslandPrefabs
     {
         public GameObject[] BigIslands;
-        public Bounds[] BigIslandBounds;
+		public float[] bigIslandWidths;
         public GameObject[] SmallIslands;
+		public float[] smallIslandWidths;
         public GameObject Bastion;
+		public float bastionWidth;
         public GameObject AritfactIsland;
+		public float artifactIslandWidth;
     }
 
     public void AdvanceLevel()
