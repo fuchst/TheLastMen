@@ -8,7 +8,8 @@ public class LevelManager : MonoBehaviour
     public GameObject player;
     public IslandPrefabs islandPrefabs;
     public LevelVariables[] levelVariables = new LevelVariables[3];
-    [HideInInspector] public GameObject bastion;
+    [HideInInspector]
+    public GameObject bastion;
 
     public bool showPaths = false;
 
@@ -19,14 +20,18 @@ public class LevelManager : MonoBehaviour
 
     void Awake()
     {
-        if (instance) Destroy(this);
-        else instance = this;
+        if (instance) {
+            Destroy(this);
+        }
+        else {
+            instance = this;
+        }
         bool prefabsSet = true;
-        if(islandPrefabs.Bastion == null || islandPrefabs.AritfactIsland == null)
+        if (islandPrefabs.Bastion == null || islandPrefabs.AritfactIsland == null)
         {
             prefabsSet = false;
         }
-        foreach(GameObject go in islandPrefabs.BigIslands)
+        foreach (GameObject go in islandPrefabs.BigIslands)
         {
             if (go == null)
             {
@@ -40,13 +45,16 @@ public class LevelManager : MonoBehaviour
                 prefabsSet = false;
             }
         }
-        if(prefabsSet == false)
+        if (prefabsSet == false)
         {
             Debug.LogError("At least one prefab is not linked to LevelManager");
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
         }
+
+        islandPrefabs.BigIslandBounds = new Bounds[3];
+        Collider test = islandPrefabs.BigIslands[0].GetComponentInChildren<Collider>();
 
         worldCam = Camera.main;
     }
@@ -63,7 +71,7 @@ public class LevelManager : MonoBehaviour
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
         levels[currentLevel].CreateLevel();
         s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
-        
+
         if (worldCam != null)
         {
             Destroy(worldCam.gameObject);
@@ -102,6 +110,7 @@ public class LevelManager : MonoBehaviour
     public class IslandPrefabs
     {
         public GameObject[] BigIslands;
+        public Bounds[] BigIslandBounds;
         public GameObject[] SmallIslands;
         public GameObject Bastion;
         public GameObject AritfactIsland;

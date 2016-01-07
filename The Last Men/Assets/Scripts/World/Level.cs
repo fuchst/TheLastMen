@@ -6,26 +6,34 @@ public class Level : MonoBehaviour
 {
     public float baseIslandSize = 10f;
     public Transform islandParent;
-    [HideInInspector] public float radius = 150.0f;
-    [HideInInspector] public int cycles = 3;
-    [HideInInspector] public int randomSeed = 1337;
-    [HideInInspector] public int artifactCount = 8;
-    [HideInInspector] public float destructionLevel = 0.6f;
-    [HideInInspector] public float layerHeightOffset = 200.0f;
-    [HideInInspector] public float grapplingIslandExtraheight;
+    [HideInInspector]
+    public float radius = 150.0f;
+    [HideInInspector]
+    public int cycles = 3;
+    [HideInInspector]
+    public int randomSeed = 1337;
+    [HideInInspector]
+    public int artifactCount = 8;
+    [HideInInspector]
+    public float destructionLevel = 0.6f;
+    [HideInInspector]
+    public float layerHeightOffset = 200.0f;
+    [HideInInspector]
+    public float grapplingIslandExtraheight;
 
     private enum IslandType { None, Bastion, Path, Artifact, Grappling, Small };
     private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
     private SortedDictionary<string, Island> grapplingIslandDictionary = new SortedDictionary<string, Island>();
-    
+
     private GameObject bastion;
+    private int maxDistanceToBastion = 0;
 
     public void CreateLevel()
     {
         Random.seed = randomSeed;
         IcoSphere(radius, cycles, ref islandDictionary);
         islandParent = new GameObject("Islands").transform;
-        SetupBastion();
+        SetupBastionAndDistances();
         SetupArtifacts();
         MarkArtifactPaths();
         DestroyUnneededIslands();
@@ -54,19 +62,51 @@ public class Level : MonoBehaviour
         }
     }
 
-    private void SetupBastion()
+    private void SetupBastionAndDistances()
     {
         Island island = islandDictionary[0];
         island.islandType = IslandType.Bastion;
         island.layer = 0;
+        island.distanceToBastion = 0;
+
+        //setup island distances to base
+        Stack<Island> visitNext = new Stack<Island>();
+        visitNext.Push(island);
+        SetDistances(0, visitNext);
 
         //mark islands surrounding the base
-        //foreach (int key in island.neighbors)
-        //{
-        //    Island neighbor = islandDictionary[key];
-        //    neighbor.islandType = IslandType.Path;
-        //    neighbor.layer = 0;
-        //}
+        foreach (int key in island.neighbors)
+        {
+            Island neighbor = islandDictionary[key];
+            neighbor.islandType = IslandType.Path;
+            neighbor.layer = 0;
+        }
+    }
+
+    private void SetDistances(int currentDistancce, Stack<Island> islands)
+    {
+
+        Stack<Island> visitNext = new Stack<Island>();
+        while (islands.Count != 0)
+        {
+            Island island = islands.Pop();
+            for (int i = 0; i < island.neighbors.Count; i++)
+            {
+                if (islandDictionary[island.neighbors[i]].distanceToBastion == -1)
+                {
+                    islandDictionary[island.neighbors[i]].distanceToBastion = currentDistancce + 1;
+                    visitNext.Push(islandDictionary[island.neighbors[i]]);
+                }
+            }
+        }
+        if (currentDistancce > maxDistanceToBastion)
+        {
+            maxDistanceToBastion = currentDistancce;
+        }
+        if (visitNext.Count > 0)
+        {
+            SetDistances(currentDistancce + 1, visitNext);
+        }
     }
 
     private void SetupArtifacts()
@@ -165,25 +205,38 @@ public class Level : MonoBehaviour
                 {
                     Island island = item.Value;
                     Island neighbor = islandDictionary[item.Value.neighbors[i]];
+                    
+                    int numberOfSmallIslands;
+                    if (island.distanceToBastion == 1)
+                    {
+                        numberOfSmallIslands = 3;
+                    }
+                    else if (island.distanceToBastion == maxDistanceToBastion)
+                    {
+                        numberOfSmallIslands = 1;
+                    }
+                    else
+                    {
+                        numberOfSmallIslands = 2;
+                    }
+                    Island[] smallIslands = new Island[numberOfSmallIslands];
 
-                    int y;
-                    float distanceToBastion = Vector3.Distance(islandDictionary[0].position, item.Value.position);
+                    float islandWidth = 40.0f;
 
-                    Island[] smallIslands = new Island[2];
+                    Vector3 start = island.position + (neighbor.position - island.position).normalized * islandWidth;
+                    Vector3 end = neighbor.position + (island.position - neighbor.position).normalized * islandWidth;
 
                     for (int j = 0; j < smallIslands.Length; j++)
                     {
-                        smallIslands[j] = new Island();
+                        float islandOffset = 1.0f / smallIslands.Length;
 
-                        //Set small island between big islands
-                        Vector3 start = island.position + (neighbor.position - island.position).normalized * baseIslandSize;
-                        Vector3 end = neighbor.position + (island.position - neighbor.position).normalized * baseIslandSize;
-                        Vector3 newPos = (end + 0.333f * (j + 1) * (start - end)).normalized * radius;
+                        smallIslands[j] = new Island();
+                        Vector3 newPos = (end + islandOffset * (j + 1) * (start - end)).normalized * radius;
 
                         //Set correct height of grappling islands
                         if (island.layer != neighbor.layer)
                         {
-                            newPos = newPos.normalized * neighbor.position.magnitude + newPos.normalized * (island.position.magnitude - neighbor.position.magnitude) * 0.333f * (j + 1);
+                            newPos = newPos.normalized * neighbor.position.magnitude + newPos.normalized * (island.position.magnitude - neighbor.position.magnitude) * islandOffset * (j + 1);
                         }
                         else
                         {
@@ -192,18 +245,15 @@ public class Level : MonoBehaviour
 
                         smallIslands[j].position = newPos;
                         smallIslands[j].islandType = IslandType.Grappling;
-                        string name = item.Key.ToString() + " to " + island.neighbors[i].ToString() + " " +  j.ToString();
+                        string name = item.Key.ToString() + " to " + island.neighbors[i].ToString() + " " + j.ToString();
                         newIslandStack.Push(new KeyValuePair<string, Island>(name, smallIslands[j]));
                     }
 
                     if (island.layer == neighbor.layer)
                     {
-                        int x = Random.Range(0, 3);
-                        if (x < 2)
-                        {
-                            smallIslands[x].position += smallIslands[x].position.normalized * grapplingIslandExtraheight;
-                            smallIslands[x].islandType = IslandType.Small;
-                        }
+                        int x = Random.Range(0, numberOfSmallIslands);
+                        smallIslands[x].position += smallIslands[x].position.normalized * grapplingIslandExtraheight;
+                        smallIslands[x].islandType = IslandType.Small;
                     }
                 }
             }
@@ -221,7 +271,7 @@ public class Level : MonoBehaviour
         int bigIsland = 0;
         foreach (KeyValuePair<int, Island> item in islandDictionary)
         {
-            
+
             GameObject islandGameObject;
             switch (item.Value.islandType)
             {
@@ -282,7 +332,6 @@ public class Level : MonoBehaviour
 
         Vector3 pos = this.bastion.transform.FindChild("Spawn").transform.position;
         return pos;
-        //return islandDictionary[0].position + islandDictionary[0].position.normalized * 10;
     }
 
     struct TriangleIndices
@@ -431,7 +480,7 @@ public class Level : MonoBehaviour
         public List<int> neighbors = new List<int>();
         public short layer;
         public Vector3 position;
-
+        public int distanceToBastion = -1;
     }
 }
 

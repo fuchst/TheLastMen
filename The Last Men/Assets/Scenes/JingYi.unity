@@ -363,13 +363,14 @@ MonoBehaviour:
     - {fileID: 162260, guid: bed5f5dd8ff1076498527df0f2ba76a3, type: 2}
     - {fileID: 168310, guid: 22fd9800bda1f4545917b7a73af013bf, type: 2}
     - {fileID: 199416, guid: e60a1d2285364d94dbfd76b37f9bcb2c, type: 2}
+    BigIslandBounds: []
     SmallIslands:
     - {fileID: 181206, guid: 2f36a6892e48ea841b2873941216d446, type: 2}
     - {fileID: 128572, guid: 63f327930978f994cbd2f2a4a1b48f88, type: 2}
     Bastion: {fileID: 177492, guid: 4c9c67fc7c0207e4b9827ba4cb4dfedb, type: 2}
     AritfactIsland: {fileID: 178000, guid: f175005541846ad49894e18690cf5b88, type: 2}
   levelVariables:
-  - radius: 100
+  - radius: 200
     cycles: 0
     numberOfArtifacts: 4
     destructionLevel: 1
