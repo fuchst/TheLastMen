@@ -27,9 +27,10 @@ public class GrapplingHook : MonoBehaviour
         lineRenderer.material.mainTextureScale = new Vector2(distance, 1);
 
         //Check distance to player
-        if(distance > fireGrapplingHook.hookLength)
+        if(distance > fireGrapplingHook.maxRopeLength)
         {
             fireGrapplingHook.Unfire();
+            player.GetComponent<FireGrapplingHook>().RemoveRope();
             Destroy(gameObject);
         }
     }

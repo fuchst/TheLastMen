@@ -60,11 +60,11 @@ public class s_GUIMain : MonoBehaviour {
 		canvasRT = canvas.GetComponent<RectTransform> ();
 
         if (!playerTransform) {
-
+            playerTransform = LevelManager.Instance.player.transform;
         }
 
         if (!playerCamera) {
-
+            playerCamera = playerTransform.GetChild(0).GetComponent<Camera>();
         }
 
 		if(!bastionTransform){

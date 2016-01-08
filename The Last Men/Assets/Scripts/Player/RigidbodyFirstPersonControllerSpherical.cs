@@ -194,9 +194,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
                 desiredMove *= movementSettings.CurrentTargetSpeed * SlopeMultiplier();
 
-                //compute angel between vector from hook to person and hook to center of world.
-                SpringJoint sj = GetComponent<SpringJoint>();
-                Vector3 hookpos = sj.connectedBody.transform.position;
+                //compute angle between vector from hook to person and hook to center of world.
+                //SpringJoint joint = GetComponent<SpringJoint>();
+                ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
+                Vector3 hookpos = joint.connectedBody.transform.position;
                 Vector3 htp = hookpos - transform.position;
                 float angle = Vector3.Angle(hookpos, htp);
                 //Debug.Log("Angle: " + angle);
