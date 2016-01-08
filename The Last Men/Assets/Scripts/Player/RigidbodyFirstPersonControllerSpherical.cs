@@ -32,6 +32,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             [HideInInspector] public bool m_RunningLock = false;    //No running if hooked
             private bool m_Running;
 #endif
+            [HideInInspector] public bool m_JetpackLock = false;
+
             public void UpdateDesiredTargetSpeed(Vector2 input)
             {
                 if (input != Vector2.zero)
@@ -96,12 +98,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Fly;
         private float m_JetpackCurFlightDuration = 0;
         public bool m_Hooked;
-        //private bool m_swingimpuls;
-        private float m_swingImpulsTimer = 0;
-        private bool m_JetpackLock = false;
-#if !MOBILE_INPUT
-        private bool m_RunningLock = false;
-#endif
+        //private bool m_swingimpulse;
+        //private float m_swingImpulseTimer = 0;
+        
+//#if !MOBILE_INPUT
+//        private bool m_RunningLock = false;
+//#endif
 
         public Vector3 Velocity
         {
@@ -136,7 +138,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Capsule = GetComponent<CapsuleCollider>();
             mouseLook.Init(transform, cam.transform);
             m_Hooked = false;
-            //m_swingimpuls = true;
+            //m_swingimpulse = true;
         }
         
         private void Update()
@@ -148,7 +150,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Jump = true;
             }
 
-            if (!m_JetpackLock && CrossPlatformInputManager.GetButtonDown("Jetpack") && !m_Fly && m_JetpackCurFlightDuration < movementSettings.JetpackMaxFlightDuration)
+            if (!movementSettings.m_JetpackLock && CrossPlatformInputManager.GetButtonDown("Jetpack") && !m_Fly && m_JetpackCurFlightDuration < movementSettings.JetpackMaxFlightDuration)
             {
                 m_Fly = true;
             }
@@ -158,151 +160,158 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
+        private float Walk (Vector2 input) {
+            // always move along the camera forward as it is the direction that it being aimed at
+            Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
+            //Vector3 desiredMoveJetpack = (desiredMove.normalized) * movementSettings.CurrentTargetSpeed;
+            desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
+            desiredMove *= movementSettings.CurrentTargetSpeed * SlopeMultiplier();
 
-        private void FixedUpdate()
-        {
+            if (m_RigidBody.velocity.sqrMagnitude <
+                (movementSettings.CurrentTargetSpeed * movementSettings.CurrentTargetSpeed))
+            {
+                m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+            }
+            return 0;
+        }
+
+        private float Fly (Vector2 input) {
+            float curRunMultiplier = movementSettings.Running ? movementSettings.RunMultiplier : 1;
+            Vector3 desiredMove, force = Vector3.zero;
+            if (movementSettings.JetpackFlyInLookingDir) {
+                desiredMove = cam.transform.forward;
+            } else {
+                //desiredMove = (cam.transform.forward*input.y + cam.transform.right*input.x).normalized;
+                //desiredMove = (transform.forward*input.y + transform.right*input.x).normalized;
+                Vector2 modifiedInput = input.normalized;
+                modifiedInput.x *= 0.5f;
+                modifiedInput.y *= modifiedInput.y > 0 ? 1.5f : 0.25f;
+                desiredMove = transform.forward * input.y + transform.right * input.x;
+            }
+            float curJetpackSpeed = movementSettings.JetpackHorizontalBaseSpeed * curRunMultiplier;
+            desiredMove *= curJetpackSpeed;
+
+            Vector3 horVel = Vector3.ProjectOnPlane(m_RigidBody.velocity, transform.up);
+            if (horVel.sqrMagnitude < (curJetpackSpeed * curJetpackSpeed) ||
+                horVel.sqrMagnitude > (horVel + 5 * Time.fixedDeltaTime * desiredMove).sqrMagnitude)
+            {
+                force += 5 * Time.fixedDeltaTime * desiredMove;
+                //m_RigidBody.AddForce(5*Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+                //energyCost += desiredMove.magnitude;
+            }
+
+            //m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, Mathf.Min(m_RigidBody.velocity.y + 30*Time.fixedDeltaTime, 3), m_RigidBody.velocity.z);
+            //m_RigidBody.velocity = m_RigidBody.velocity + Vector3.up * Mathf.Min(30*Time.fixedDeltaTime, 3 - m_RigidBody.velocity.y);
+
+            Vector3 upV = transform.up;
+            Vector3 velUp = Vector3.Project(m_RigidBody.velocity + force, transform.up);
+            //compute the "upwards" (away from world center) speed - compare current upwards direction vector with the projected velocity component-wise
+            //for computing a meaningful factor, you need to pick a component (if possible) that is not 0 for both vectors - (velUp.x != 0 && upV.x != 0) or shorter (velUp.x * upV.x != 0)
+            float factorUp = (velUp.x * upV.x != 0) ? (velUp.x / upV.x) : ((velUp.y * upV.y != 0) ? (velUp.y / upV.y) : ((velUp.z * upV.z != 0) ? (velUp.z / upV.z) : 0));
+            float maxUpSpeed = movementSettings.JetpackMaxVerticalSpeed * curRunMultiplier;
+            float upDelta = Mathf.Min(+movementSettings.JetpackVerticalAcceleration * Time.fixedDeltaTime, maxUpSpeed - factorUp);
+            //m_RigidBody.velocity += upV * upDelta;
+            //energyCost += Mathf.Max (upDelta, 0);
+            m_RigidBody.AddForce(upV * upDelta + force, ForceMode.VelocityChange);
+
+            //energyCost += (force + (upDelta > 0 ? upV * upDelta : Vector3.zero)).magnitude;
+
+            m_JetpackCurFlightDuration += Time.fixedDeltaTime;
+            if (m_JetpackCurFlightDuration > movementSettings.JetpackMaxFlightDuration) {
+                m_Fly = false;
+            }
+
+            return (force + (upDelta > 0 ? upV * upDelta : Vector3.zero)).magnitude;
+        }
+
+        private float Swing (Vector2 input) {
+            // always move along the camera forward as it is the direction that it being aimed at
+            Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
+            //Vector3 desiredMoveJetpack = (desiredMove.normalized) * movementSettings.CurrentTargetSpeed;
+            desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
+            desiredMove *= movementSettings.CurrentTargetSpeed * SlopeMultiplier();
+
+            //compute angle between vector from hook to person and hook to center of world.
+            //SpringJoint joint = GetComponent<SpringJoint>();
+            ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
+            Vector3 hookPos = joint.connectedBody.transform.position;
+            Vector3 hookToPlayer = hookPos - transform.position;
+            //float angle = Vector3.Angle(hookPos, hookToPlayer);
+            //Debug.Log("Angle: " + angle);
+
+            /*
+            //Give impulse only if we want to swing
+            //if (angle < 5)
+            if (Vector3.Angle(transform.forward, htp) < 95) {
+                m_RigidBody.AddForce(10 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+                //m_swingimpulse = false;
+                // Debug.Log("Swingimpuls given");
+                m_swingImpulseTimer += Time.fixedDeltaTime;
+            }
+
+            */
+            Vector3 desiredMoveY, desiredMoveX;
+            desiredMoveY = Vector3.ProjectOnPlane(cam.transform.forward, hookToPlayer).normalized * input.y;
+            desiredMoveY *= movementSettings.ForwardSpeed;
+            desiredMoveX = Vector3.ProjectOnPlane(cam.transform.right, hookToPlayer).normalized * input.x;
+            desiredMoveX *= movementSettings.StrafeSpeed;
+
+            //only add swinging forces if we are lower than the hook, 
+            if (Vector3.Angle(transform.up, hookToPlayer) < 90) {
+                    
+                if (Vector3.Angle(Mathf.Sign(input.y) * transform.forward, hookToPlayer) < 95 && input.y > 0) {
+                    m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMoveY, ForceMode.VelocityChange);
+                }
+                
+                if (Vector3.Angle(Mathf.Sign(input.x) * transform.right, hookToPlayer) < 95) {
+                    m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMoveX, ForceMode.VelocityChange);
+                }
+            }
+
+            return 0;
+        }
+
+        public void Jump (bool keepVerticalVelocity = false) {
+            m_RigidBody.drag = 0.5f;
+            if (!keepVerticalVelocity) {
+                m_RigidBody.velocity -= Vector3.Project(m_RigidBody.velocity, transform.up);
+            }
+            m_RigidBody.AddForce(transform.up * 5 * Time.fixedDeltaTime * movementSettings.JumpForce, ForceMode.VelocityChange);
+            m_Jumping = true;
+        }
+
+        private void FixedUpdate () {
             GroundCheck();
             Vector2 input = GetInput();
             float energyCost = 0;
 
-            if (!m_Fly && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon) && (advancedSettings.airControl || m_IsGrounded))
-            {
-                // always move along the camera forward as it is the direction that it being aimed at
-                Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
-                //Vector3 desiredMoveJetpack = (desiredMove.normalized) * movementSettings.CurrentTargetSpeed;
-                desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
-                desiredMove *= movementSettings.CurrentTargetSpeed * SlopeMultiplier();
-
-                //desiredMove.x = desiredMove.x*movementSettings.CurrentTargetSpeed;
-                //desiredMove.z = desiredMove.z*movementSettings.CurrentTargetSpeed;
-                //desiredMove.y = desiredMove.y*movementSettings.CurrentTargetSpeed;
-
-                //desiredMove *= m_Fly ? 1 : SlopeMultiplier();
-
-                if (m_RigidBody.velocity.sqrMagnitude <
-                    (movementSettings.CurrentTargetSpeed * movementSettings.CurrentTargetSpeed))
-                {
-                    m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
-                }
+            if (m_Fly) {
+                energyCost += Fly(input);
             }
 
-            if (m_Hooked && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon))
-            {
-                // always move along the camera forward as it is the direction that it being aimed at
-                Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
-                //Vector3 desiredMoveJetpack = (desiredMove.normalized) * movementSettings.CurrentTargetSpeed;
-                desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
-                desiredMove *= movementSettings.CurrentTargetSpeed * SlopeMultiplier();
-
-                //compute angle between vector from hook to person and hook to center of world.
-                //SpringJoint joint = GetComponent<SpringJoint>();
-                ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
-                Vector3 hookpos = joint.connectedBody.transform.position;
-                Vector3 htp = hookpos - transform.position;
-                float angle = Vector3.Angle(hookpos, htp);
-                //Debug.Log("Angle: " + angle);
-                //Give impuls only if we want to swing
-                if (angle < 5)
-                {
-                    m_RigidBody.AddForce(10 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
-                    //m_swingimpuls = false;
-                    // Debug.Log("Swingimpuls given");
-                    m_swingImpulsTimer += Time.fixedDeltaTime;
-                }
-
-
-
-                //desiredMove.x = desiredMove.x*movementSettings.CurrentTargetSpeed;
-                //desiredMove.z = desiredMove.z*movementSettings.CurrentTargetSpeed;
-                //desiredMove.y = desiredMove.y*movementSettings.CurrentTargetSpeed;
-
-                //desiredMove *= m_Fly ? 1 : SlopeMultiplier();
-
-                /*if (m_RigidBody.velocity.sqrMagnitude <
-                    (movementSettings.CurrentTargetSpeed * movementSettings.CurrentTargetSpeed))
-                {
-                    m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
-                }*/
+            if (m_Hooked && !m_IsGrounded && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon)) {
+                energyCost += Swing(input);
             }
 
-            if (m_Fly)
-            {
-                float curRunMultiplier = movementSettings.Running ? movementSettings.RunMultiplier : 1;
-                Vector3 desiredMove, force = Vector3.zero;
-                if (movementSettings.JetpackFlyInLookingDir)
-                {
-                    desiredMove = cam.transform.forward;
-                }
-                else
-                {
-                    //desiredMove = (cam.transform.forward*input.y + cam.transform.right*input.x).normalized;
-                    //desiredMove = (transform.forward*input.y + transform.right*input.x).normalized;
-                    Vector2 modifiedInput = input.normalized;
-                    modifiedInput.x *= 0.5f;
-                    modifiedInput.y *= modifiedInput.y > 0 ? 1.5f : 0.25f;
-                    desiredMove = transform.forward * input.y + transform.right * input.x;
-                }
-                float curJetpackSpeed = movementSettings.JetpackHorizontalBaseSpeed * curRunMultiplier;
-                desiredMove *= curJetpackSpeed;
-
-                Vector3 horVel = Vector3.ProjectOnPlane(m_RigidBody.velocity, transform.up);
-                if (horVel.sqrMagnitude < (curJetpackSpeed * curJetpackSpeed) ||
-                    horVel.sqrMagnitude > (horVel + 5 * Time.fixedDeltaTime * desiredMove).sqrMagnitude)
-                {
-                    force += 5 * Time.fixedDeltaTime * desiredMove;
-                    //m_RigidBody.AddForce(5*Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
-                    //energyCost += desiredMove.magnitude;
-                }
-
-                //m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, Mathf.Min(m_RigidBody.velocity.y + 30*Time.fixedDeltaTime, 3), m_RigidBody.velocity.z);
-                //m_RigidBody.velocity = m_RigidBody.velocity + Vector3.up * Mathf.Min(30*Time.fixedDeltaTime, 3 - m_RigidBody.velocity.y);
-
-                Vector3 upV = transform.up;
-                Vector3 velUp = Vector3.Project(m_RigidBody.velocity + force, transform.up);
-                //compute the "upwards" (away from world center) speed - compare current upwards direction vector with the projected velocity component-wise
-                //for computing a meaningful factor, you need to pick a component (if possible) that is not 0 for both vectors - (velUp.x != 0 && upV.x != 0) or shorter (velUp.x * upV.x != 0)
-                float factorUp = (velUp.x * upV.x != 0) ? (velUp.x / upV.x) : ((velUp.y * upV.y != 0) ? (velUp.y / upV.y) : ((velUp.z * upV.z != 0) ? (velUp.z / upV.z) : 0));
-                float maxUpSpeed = movementSettings.JetpackMaxVerticalSpeed * curRunMultiplier;
-                float upDelta = Mathf.Min(+movementSettings.JetpackVerticalAcceleration * Time.fixedDeltaTime, maxUpSpeed - factorUp);
-                //m_RigidBody.velocity += upV * upDelta;
-                //energyCost += Mathf.Max (upDelta, 0);
-                m_RigidBody.AddForce(upV * upDelta + force, ForceMode.VelocityChange);
-
-                energyCost += (force + (upDelta > 0 ? upV * upDelta : Vector3.zero)).magnitude;
-
-                m_JetpackCurFlightDuration += Time.fixedDeltaTime;
-                if (m_JetpackCurFlightDuration > movementSettings.JetpackMaxFlightDuration)
-                {
-                    m_Fly = false;
-                }
+            if (!m_Fly && (advancedSettings.airControl || m_IsGrounded) && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon)) {
+                energyCost += Walk(input);
             }
 
-            if (m_IsGrounded)
-            {
+            if (m_IsGrounded) {
                 m_RigidBody.drag = 5f;
                 m_JetpackCurFlightDuration = 0f;
 
-                if (m_Jump)
-                {
-                    m_RigidBody.drag = 0.5f;
-                    //m_RigidBody.velocity = new Vector3(m_RigidBody.velocity.x, 0f, m_RigidBody.velocity.z);
-                    m_RigidBody.velocity -= Vector3.Project(m_RigidBody.velocity, transform.up);
-                    //m_RigidBody.AddForce(new Vector3(0f, movementSettings.JumpForce, 0f), ForceMode.Impulse);
-                    //m_RigidBody.AddForce(m_RigidBody.position.normalized * movementSettings.JumpForce, ForceMode.Impulse);
-                    m_RigidBody.AddForce(transform.up * 5 * Time.fixedDeltaTime * movementSettings.JumpForce, ForceMode.VelocityChange);
-                    m_Jumping = true;
+                if (m_Jump) {
+                    Jump();
                 }
 
-                if (!m_Fly && !m_Jumping && Mathf.Abs(input.x) < float.Epsilon && Mathf.Abs(input.y) < float.Epsilon && m_RigidBody.velocity.magnitude < 1f)
-                {
+                if (!m_Fly && !m_Jumping && Mathf.Abs(input.x) < float.Epsilon && Mathf.Abs(input.y) < float.Epsilon && m_RigidBody.velocity.magnitude < 1f) {
                     m_RigidBody.Sleep();
                 }
             }
-            else
-            {
+            else {
                 m_RigidBody.drag = 0.5f;
-                if (m_PreviouslyGrounded && !(m_Jumping || m_Fly))
-                {
+                if (m_PreviouslyGrounded && !(m_Jumping || m_Fly)) {
                     StickToGroundHelper();
                 }
             }
@@ -402,8 +411,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public void SetHooked(bool hooked)
         {
             m_Hooked = hooked;
-            m_RunningLock = hooked;
-            m_JetpackLock = hooked;
+#if !MOBILE_INPUT
+            movementSettings.m_RunningLock = hooked;
+#endif
+            movementSettings.m_JetpackLock = hooked;
         }
+
+        /*public static float AngleSigned (Vector3 v1, Vector3 v2, Vector3 n) {
+            return Mathf.Atan2(
+                Vector3.Dot(n, Vector3.Cross(v1, v2)),
+                Vector3.Dot(v1, v2)) * Mathf.Rad2Deg;
+        }*/
     }
 }

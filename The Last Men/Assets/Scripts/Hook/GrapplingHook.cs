@@ -29,8 +29,7 @@ public class GrapplingHook : MonoBehaviour
         //Check distance to player
         if(distance > fireGrapplingHook.maxRopeLength)
         {
-            fireGrapplingHook.Unfire();
-            player.GetComponent<FireGrapplingHook>().RemoveRope();
+            fireGrapplingHook.RemoveRope();
             Destroy(gameObject);
         }
     }
@@ -43,15 +42,12 @@ public class GrapplingHook : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision col)
-    {
-        if (flying == true)
-        {
-            
+    void OnCollisionEnter (Collision col) {
+        if (flying == true) {
             flying = false;
             rigidbody.velocity = Vector3.zero;
             rigidbody.isKinematic = true;
-            player.GetComponent<FireGrapplingHook>().SetRope();
+            fireGrapplingHook.SetRope();
         }
     }
 }

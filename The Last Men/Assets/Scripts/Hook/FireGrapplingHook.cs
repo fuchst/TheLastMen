@@ -13,7 +13,7 @@ public class FireGrapplingHook : MonoBehaviour
     private bool hooked = false;
 
     public Transform cameraTransform;
-    private SpringJoint springJoint;
+    //private SpringJoint springJoint;
     private ConfigurableJoint confJoint;
     private GameObject grapplingHook;
     private GrapplingHook grapplingHookScript;
@@ -22,7 +22,7 @@ public class FireGrapplingHook : MonoBehaviour
 
     void Awake()
     {
-        springJoint = GetComponent<SpringJoint>();
+        //springJoint = GetComponent<SpringJoint>();
         confJoint = GetComponent<ConfigurableJoint>();
         controller = GetComponent<RigidbodyFirstPersonControllerSpherical>();
         rb = GetComponent<Rigidbody>();
@@ -48,7 +48,7 @@ public class FireGrapplingHook : MonoBehaviour
         }
         if (hooked && Input.GetAxis("RopeLength") != 0) {
             //Debug.Log("rope length axis != 0");
-            float newLength = Mathf.Clamp(GetRopeLength() + Input.GetAxis("RopeLength"), minRopeLength, maxRopeLength);
+            float newLength = Mathf.Clamp(GetCurrentRopeLength() + Input.GetAxis("RopeLength"), minRopeLength, maxRopeLength);
             UpdateRopeLength(newLength);
         }
     }
@@ -76,13 +76,16 @@ public class FireGrapplingHook : MonoBehaviour
     }
 
     public void RemoveRope () {
-        Unfire();
-        controller.SetHooked(false);
         confJoint.connectedBody = null;
         confJoint.xMotion = confJoint.yMotion = confJoint.zMotion = ConfigurableJointMotion.Free;
+        UpdateRopeLength(0.0f, false);
+        if (hooked) { //give player a little extra upwards velocity upon unhooking
+            controller.Jump(true);
+        }
+        Unfire();
     }
 
-    private void UpdateRopeLength (float distance) {
+    private void UpdateRopeLength (float distance, bool checkConstraint = true) {
         SoftJointLimit linLim = confJoint.linearLimit;
         float oldDistance = linLim.limit;
         linLim.limit = distance;
@@ -90,7 +93,7 @@ public class FireGrapplingHook : MonoBehaviour
 
         //as the configurable joint does not enforce linear distance limit when limit is changed to less than current actual distance*, so this is done here explicitely
         //(* unless by adding a spring force, which makes it rather bouncy / less controllable, like the regular spring joint)
-        if (oldDistance > distance){
+        if (checkConstraint && oldDistance > distance){
             rb.MovePosition(rb.position + Vector3.ClampMagnitude(confJoint.connectedBody.transform.position - transform.position, oldDistance - distance));
         }   
         
@@ -101,7 +104,7 @@ public class FireGrapplingHook : MonoBehaviour
         //return linLim;
     }
 
-    private float GetRopeLength () {
+    public float GetCurrentRopeLength () {
         return confJoint.linearLimit.limit;
     }
 }

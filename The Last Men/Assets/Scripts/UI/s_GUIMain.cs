@@ -68,7 +68,6 @@ public class s_GUIMain : MonoBehaviour {
         }
 
 		if(!bastionTransform){
-
 			bastionTransform = new GameObject("bastion").transform;
 			bastionTransform.position = playerTransform.position - playerTransform.up * 0.99f * playerTransform.localScale.y;
             bastionTransform.rotation = playerTransform.rotation;

@@ -53,7 +53,6 @@ GameObject:
   - 136: {fileID: 13651424}
   - 114: {fileID: 11404204}
   - 114: {fileID: 11470412}
-  - 114: {fileID: 11495706}
   - 114: {fileID: 11426022}
   - 145: {fileID: 14581750}
   - 153: {fileID: 15348408}
@@ -278,6 +277,7 @@ MonoBehaviour:
       m_PostInfinity: 2
     CurrentTargetSpeed: 8
     m_RunningLock: 0
+    m_JetpackLock: 0
   mouseLook:
     XSensitivity: 2
     YSensitivity: 2
@@ -304,7 +304,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hookSpeed: 50
-  minRopeLength: 2
+  minRopeLength: 1
   maxRopeLength: 50
   grapplingHookPrefab: {fileID: 118926, guid: 1d2fb06ba6796734a9c36978948e422d, type: 2}
   cameraTransform: {fileID: 429944}
@@ -373,6 +373,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2267b4de061b03a4e825542d2080081d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponModels:
+  - {fileID: 191412, guid: 18a7463f76959db4cb774091610aa0cc, type: 2}
+  - {fileID: 100290, guid: 0f96cfed4fc30f64b8c80a8d3d69b7fd, type: 2}
+  cameraTransform: {fileID: 429944}
 --- !u!114 &11482088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -436,26 +440,6 @@ MonoBehaviour:
   adaptionSpeed: 1
   tonemapper: {fileID: 4800000, guid: 003377fc2620a44939dadde6fe3f8190, type: 3}
   validRenderTextureFormat: 1
---- !u!114 &11495706
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 168436}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d1f0ed87b724384cb631b60baae128c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hookThrowSpeed: 50
-  hookLength: 50
-  SubdivideRope: 0
-  subDivAmount: 2
-  CenteredHook: 0
-  m_hook: {fileID: 127974, guid: 589941a621aada54c9d8b90ab1d5593b, type: 2}
-  m_ropeElement: {fileID: 129742, guid: b3d605cbfec2a20478ae3d38cc534548, type: 2}
-  cam: {fileID: 2081526}
-  ropeElements: []
 --- !u!120 &12014540
 LineRenderer:
   m_ObjectHideFlags: 1

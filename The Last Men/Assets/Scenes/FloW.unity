@@ -1522,6 +1522,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7f4e393f9fefa4f8ff17fb440f6475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  islandFallingSpeed: .200000003
   rngSeed: 1337
   player: {fileID: 168436, guid: e1cd2feb18586e843ac3154efbf603cd, type: 2}
   islandPrefabs:
@@ -1529,19 +1530,20 @@ MonoBehaviour:
     - {fileID: 162260, guid: bed5f5dd8ff1076498527df0f2ba76a3, type: 2}
     - {fileID: 168310, guid: 22fd9800bda1f4545917b7a73af013bf, type: 2}
     - {fileID: 199416, guid: e60a1d2285364d94dbfd76b37f9bcb2c, type: 2}
+    BigIslandBounds: []
     SmallIslands:
     - {fileID: 181206, guid: 2f36a6892e48ea841b2873941216d446, type: 2}
     - {fileID: 128572, guid: 63f327930978f994cbd2f2a4a1b48f88, type: 2}
     Bastion: {fileID: 177492, guid: 4c9c67fc7c0207e4b9827ba4cb4dfedb, type: 2}
     AritfactIsland: {fileID: 178000, guid: f175005541846ad49894e18690cf5b88, type: 2}
   levelVariables:
-  - radius: 110
+  - radius: 350
     cycles: 0
     numberOfArtifacts: 2
     destructionLevel: .699999988
     heightOffset: 15
     grapplingIslandExtraHeight: 25
-  - radius: 200
+  - radius: 550
     cycles: 1
     numberOfArtifacts: 4
     destructionLevel: 0
@@ -1553,6 +1555,7 @@ MonoBehaviour:
     destructionLevel: .5
     heightOffset: 30
     grapplingIslandExtraHeight: 30
+  bastion: {fileID: 0}
   showPaths: 0
 --- !u!1001 &1389617894
 Prefab:
