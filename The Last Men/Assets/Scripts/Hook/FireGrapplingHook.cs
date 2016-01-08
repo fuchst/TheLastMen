@@ -42,7 +42,6 @@ public class FireGrapplingHook : MonoBehaviour
             }
             else
             {
-                //controller.SetHooked(false);
                 Destroy(grapplingHook);
                 RemoveRope();
             }
@@ -58,6 +57,7 @@ public class FireGrapplingHook : MonoBehaviour
     {
         fired = false;
         hooked = false;
+        controller.SetHooked(false);
     }
 
     public void SetRope () {
