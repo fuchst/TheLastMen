@@ -32,6 +32,10 @@ public class NavigationNode {
         protected set { index1D = value; }
     }
 
+    private NavigationGrid grid = null;
+
+
+
     public NavigationNode(Vector2i indices)
     {
         gridIndices = indices;

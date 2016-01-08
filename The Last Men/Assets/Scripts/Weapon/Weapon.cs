@@ -15,12 +15,17 @@ public abstract class Weapon : MonoBehaviour {
 
     static protected GameObject bulletPrefab;
 
-    void Awake()
+    public virtual void OnAwake()
     {
-        if(bulletPrefab == null)
+        if (bulletPrefab == null)
         {
             bulletPrefab = Resources.Load("Bullet") as GameObject;
         }
+    }
+
+    void Awake()
+    {
+        OnAwake();
     }
 
     public void shootNVI(Transform frame)

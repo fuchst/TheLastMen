@@ -11,6 +11,11 @@ public class Pistol : Weapon
         timestamp = 0;
     }
 
+    public override void OnAwake()
+    {
+        base.OnAwake();
+    }
+
     protected override void shoot(Transform frame)
     {
         GameObject bullet = Object.Instantiate(Weapon.bulletPrefab, frame.position + frame.forward, frame.rotation) as GameObject;

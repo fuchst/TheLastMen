@@ -8,6 +8,8 @@ public class Bullet : MonoBehaviour {
     public float destDistMax = 1000.0f;
     public float destDistMin = 10.0f;
 
+    public float ttl = 15.0f;
+
     public GameObject bulletHole;
 
     // Update is called once per frame
@@ -15,6 +17,13 @@ public class Bullet : MonoBehaviour {
         Vector3 gravityDir = -transform.position.normalized;
 
         GetComponent<Rigidbody>().AddForce(gravityDir * gravity, ForceMode.Acceleration);
+
+        ttl -= Time.deltaTime;
+
+        if(ttl <= 0.0f)
+        {
+            Destroy(gameObject);
+        }
 
         if(!(transform.position.magnitude < destDistMax && transform.position.magnitude > destDistMin))
         {
@@ -34,7 +43,8 @@ public class Bullet : MonoBehaviour {
             }
             else if(coll.transform.tag == "Island")
             {
-                Instantiate(bulletHole, coll.contacts[0].point + coll.contacts[0].normal * 0.05f, Quaternion.FromToRotation(Vector3.up, coll.contacts[0].normal));
+                GameObject bullet = Instantiate(bulletHole, coll.contacts[0].point + coll.contacts[0].normal * 0.05f, Quaternion.FromToRotation(Vector3.up, coll.contacts[0].normal)) as GameObject;
+                bullet.transform.SetParent(coll.transform);
             }
 
             Destroy(gameObject);

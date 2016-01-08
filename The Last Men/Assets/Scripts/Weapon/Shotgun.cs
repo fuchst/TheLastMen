@@ -17,6 +17,11 @@ public class Shotgun : Weapon
         maxSpread = 0.1f;
     }
 
+    public override void OnAwake()
+    {
+        base.OnAwake();
+    }
+
     protected override void shoot(Transform frame)
     {
         for(int i = 0; i < numBullets; i++)

@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
 public class Combat : MonoBehaviour {
-
-    Weapon[] weapons = new Weapon[2];
-    public GameObject[] weaponModels;
+    
+    List<GameObject> weapons = new List<GameObject>();
 
     public Transform cameraTransform;
 
@@ -13,15 +13,55 @@ public class Combat : MonoBehaviour {
 
     void Awake()
     {
-        //JingYi: not optimal but atleast we dont have errors anymore.
-        weapons[0] = gameObject.AddComponent<Pistol>();
-        weapons[1] = gameObject.AddComponent<Shotgun>();
+        Vector3 pos, scale;
+        Quaternion rot;
+        GameObject prefab = null;
+        string file;
 
-        //spawn weapon model
-        Vector3 gunpos = new Vector3(cameraTransform.position.x + 0.3F, cameraTransform.position.y-0.2F, cameraTransform.position.z + 1.0F);
-        currWeaponModel = Instantiate(weaponModels[activeWeaponIdx], gunpos, cameraTransform.rotation) as GameObject;
-        currWeaponModel.transform.localScale = new Vector3(0.1F, 0.1F, 0.1F);
-        currWeaponModel.transform.parent = cameraTransform;
+        // Pistol
+        pos = new Vector3(cameraTransform.position.x + 0.3F, cameraTransform.position.y - 0.2F, cameraTransform.position.z + 1.0F);
+        rot = Quaternion.identity;
+        scale = new Vector3(0.1F, 0.1F, 0.1F);
+        file = "PistolPrefab";
+        prefab = Resources.Load(file) as GameObject;
+        if(prefab != null)
+        {
+            AddWeapon(prefab, pos, rot, scale, cameraTransform);
+        }
+        else
+        {
+            Debug.Log("Resource " + file + " not found!");
+        }
+
+        // Shotgun
+        pos = new Vector3(cameraTransform.position.x + 0.3F, cameraTransform.position.y - 0.2F, cameraTransform.position.z + 0.6F);
+        rot = Quaternion.Euler(-90, 0, 0);
+        scale = new Vector3(0.5F, 0.5F, 0.5F);
+        file = "ShotgunPrefab";
+        prefab = Resources.Load(file) as GameObject;
+        if (prefab != null)
+        {
+            AddWeapon(prefab, pos, rot, scale, cameraTransform);
+        }
+        else
+        {
+            Debug.Log("Resource " + file + " not found!");
+        }
+
+        weapons[activeWeaponIdx].SetActive(true);
+    }
+
+    void AddWeapon(GameObject prefab, Vector3 position, Quaternion rotation, Vector3 scale, Transform parent)
+    {
+        GameObject newWeapon = Instantiate(prefab, position, rotation) as GameObject;
+        if (newWeapon == null)
+        {
+            Debug.Log("Unable to instantiate weapon!");
+        }
+        newWeapon.transform.localScale = scale;
+        newWeapon.transform.SetParent(parent);
+        newWeapon.SetActive(false);
+        weapons.Add(newWeapon);
     }
 
     void OnHit(int dmg)
@@ -40,57 +80,26 @@ public class Combat : MonoBehaviour {
         {
             Transform frame = this.transform.GetChild(0);
 
-            weapons[activeWeaponIdx].shootNVI(frame);
+            weapons[activeWeaponIdx].GetComponent<Weapon>().shootNVI(frame);
         }
 
         if (CrossPlatformInputManager.GetButtonDown("Reload"))
         {
-            weapons[activeWeaponIdx].reload();
+            weapons[activeWeaponIdx].GetComponent<Weapon>().reload();
         }
 
         if (CrossPlatformInputManager.GetButtonDown("NextWeapon"))
         {
-            activeWeaponIdx = (activeWeaponIdx + 1) % weapons.Length;
-            //switch weapon model
-            Destroy(currWeaponModel);
-            Vector3 gunpos = new Vector3(cameraTransform.position.x + 0.3F, cameraTransform.position.y, cameraTransform.position.z + 1.5F);
-            currWeaponModel = Instantiate(weaponModels[activeWeaponIdx], gunpos, cameraTransform.rotation) as GameObject;
-            currWeaponModel.transform.parent = cameraTransform;
-            if(activeWeaponIdx == 1)
-            {
-                currWeaponModel.transform.Rotate(-90, 0, 0);
-                currWeaponModel.transform.localScale = new Vector3(0.5F, 0.5F, 0.5F);
-                currWeaponModel.transform.localPosition = new Vector3(0.3F, -0.2F, 0.6F);
-            }
-            else
-            {
-                currWeaponModel.transform.localScale = new Vector3(0.1F, 0.1F, 0.1F);
-                currWeaponModel.transform.localPosition = new Vector3(0.3F, -0.2F, 1.0F);
-            }
-          
-
+            weapons[activeWeaponIdx].SetActive(false);
+            activeWeaponIdx = (activeWeaponIdx + 1) % weapons.Count;
+            weapons[activeWeaponIdx].SetActive(true); 
         }
 
         if (CrossPlatformInputManager.GetButtonDown("PrevWeapon"))
         {
-            activeWeaponIdx = (activeWeaponIdx + weapons.Length - 1) % weapons.Length;
-            //switch weapon model
-            Destroy(currWeaponModel);
-            Vector3 gunpos = new Vector3(cameraTransform.position.x + 0.3F, cameraTransform.position.y, cameraTransform.position.z + 1.5F);
-            currWeaponModel = Instantiate(weaponModels[activeWeaponIdx], gunpos, cameraTransform.rotation) as GameObject;
-            currWeaponModel.transform.parent = cameraTransform;
-            if (activeWeaponIdx == 1)
-            {
-                currWeaponModel.transform.Rotate(-90, 0, 0);
-                currWeaponModel.transform.localScale = new Vector3(0.5F, 0.5F, 0.5F);
-                currWeaponModel.transform.localPosition = new Vector3(0.3F, -0.2F, 0.6F);
-            }
-            else
-            {
-                currWeaponModel.transform.localScale = new Vector3(0.1F, 0.1F, 0.1F);
-                currWeaponModel.transform.localPosition = new Vector3(0.3F, -0.2F, 1.0F);
-            }
-            
+            weapons[activeWeaponIdx].SetActive(false);
+            activeWeaponIdx = (activeWeaponIdx + weapons.Count - 1) % weapons.Count;
+            weapons[activeWeaponIdx].SetActive(true);
         }
     }
 }
