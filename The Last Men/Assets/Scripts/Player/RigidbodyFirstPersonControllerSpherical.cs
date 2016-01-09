@@ -28,12 +28,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             [HideInInspector]
             public float CurrentTargetSpeed = 8f;
 
-            public bool m_Hooked = false;
-
 #if !MOBILE_INPUT
+            //[HideInInspector] public bool m_RunningLock = false;    //No running if hooked
             private bool m_Running;
 #endif
-            [HideInInspector] public bool m_JetpackLock = false;
+            //[HideInInspector] public bool m_JetpackLock = false;
+			[HideInInspector] public bool m_Hooked = false;
 
             public void UpdateDesiredTargetSpeed(Vector2 input)
             {
@@ -56,7 +56,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     }
                 }
 #if !MOBILE_INPUT
-                if (m_Hooked == false && Input.GetKey(RunKey))
+                if (!m_Hooked && Input.GetKey(RunKey))
                 {
                     CurrentTargetSpeed *= RunMultiplier;
                     m_Running = true;
@@ -98,21 +98,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private bool m_Fly;
         private float m_JetpackCurFlightDuration = 0;
-<<<<<<< HEAD
-        public bool m_Hooked;
         //private bool m_swingimpulse;
-        //private float m_swingImpulseTimer = 0;
-        
-//#if !MOBILE_INPUT
-//        private bool m_RunningLock = false;
-//#endif
-=======
-        //private bool m_swingimpuls;
-        private float m_swingImpulsTimer = 0;
-
+        private float m_swingImpulseTimer = 0;
         private Vector3 prevVel = new Vector3(0,0,0);
         private Vector3 curVel = new Vector3(0, 0, 0);
->>>>>>> origin/master
+
 
         public Vector3 Velocity
         {
@@ -146,12 +136,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
             mouseLook.Init(transform, cam.transform);
-<<<<<<< HEAD
-            m_Hooked = false;
             //m_swingimpulse = true;
-=======
-            //m_swingimpuls = true;
->>>>>>> origin/master
         }
         
         private void Update()
@@ -163,11 +148,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Jump = true;
             }
 
-<<<<<<< HEAD
-            if (!movementSettings.m_JetpackLock && CrossPlatformInputManager.GetButtonDown("Jetpack") && !m_Fly && m_JetpackCurFlightDuration < movementSettings.JetpackMaxFlightDuration)
-=======
-            if (movementSettings.m_Hooked == false && CrossPlatformInputManager.GetButtonDown("Jetpack") && !m_Fly && m_JetpackCurFlightDuration < movementSettings.JetpackMaxFlightDuration)
->>>>>>> origin/master
+            if (!movementSettings.m_Hooked && CrossPlatformInputManager.GetButtonDown("Jetpack") && !m_Fly && m_JetpackCurFlightDuration < movementSettings.JetpackMaxFlightDuration)
             {
                 m_Fly = true;
             }
@@ -208,7 +189,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             float curJetpackSpeed = movementSettings.JetpackHorizontalBaseSpeed * curRunMultiplier;
             desiredMove *= curJetpackSpeed;
 
-<<<<<<< HEAD
             Vector3 horVel = Vector3.ProjectOnPlane(m_RigidBody.velocity, transform.up);
             if (horVel.sqrMagnitude < (curJetpackSpeed * curJetpackSpeed) ||
                 horVel.sqrMagnitude > (horVel + 5 * Time.fixedDeltaTime * desiredMove).sqrMagnitude)
@@ -231,43 +211,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             //m_RigidBody.velocity += upV * upDelta;
             //energyCost += Mathf.Max (upDelta, 0);
             m_RigidBody.AddForce(upV * upDelta + force, ForceMode.VelocityChange);
-=======
-            if (movementSettings.m_Hooked && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon))
-            {
-                prevVel = curVel;
-                curVel = m_RigidBody.velocity;
-                // always move along the camera forward as it is the direction that it being aimed at
-                Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
-                //Vector3 desiredMoveJetpack = (desiredMove.normalized) * movementSettings.CurrentTargetSpeed;
-                desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
-                desiredMove *= movementSettings.CurrentTargetSpeed * SlopeMultiplier();
-
-                //compute angel between vector from hook to person and hook to center of world.
-                SpringJoint sj = GetComponent<SpringJoint>();
-                Vector3 hookpos = sj.connectedBody.transform.position;
-                Vector3 htp = hookpos - transform.position;
-                Vector3 referenceRight = Vector3.Cross(Vector3.up, hookpos);
-                float angle = Vector3.Angle(htp, hookpos);
-                float sign = Mathf.Sign(Vector3.Dot(htp, referenceRight));
-                float finalAngle = sign * angle;
-                //Give impuls only if we want to swing
-                if (finalAngle < 5 && finalAngle>0)
-                {
-                    m_RigidBody.AddForce(10 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
-                    //m_swingimpuls = false;
-                    // Debug.Log("Swingimpuls given");
-                    m_swingImpulsTimer += Time.fixedDeltaTime;
-                }
-                
-                //allow force into opposite direction
-                float angle2 = Vector3.Angle(prevVel, desiredMove);
-                //Debug.Log("angle: " + angle);
-                if(angle2 < 30)
-                {
-                    m_RigidBody.AddForce(1 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
-                    m_swingImpulsTimer += Time.fixedDeltaTime;
-                }
->>>>>>> origin/master
 
             //energyCost += (force + (upDelta > 0 ? upV * upDelta : Vector3.zero)).magnitude;
 
@@ -280,6 +223,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
         private float Swing (Vector2 input) {
+			prevVel = curVel;
+			curVel = m_RigidBody.velocity;
+			
             // always move along the camera forward as it is the direction that it being aimed at
             Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
             //Vector3 desiredMoveJetpack = (desiredMove.normalized) * movementSettings.CurrentTargetSpeed;
@@ -291,20 +237,39 @@ namespace UnityStandardAssets.Characters.FirstPerson
             ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
             Vector3 hookPos = joint.connectedBody.transform.position;
             Vector3 hookToPlayer = hookPos - transform.position;
-            //float angle = Vector3.Angle(hookPos, hookToPlayer);
-            //Debug.Log("Angle: " + angle);
 
+			#region Flo_R			
+			Vector3 referenceRight = Vector3.Cross(Vector3.up, hookPos);
+			float angle = Vector3.Angle(hookToPlayer, hookPos);
+			float sign = Mathf.Sign(Vector3.Dot(hookToPlayer, referenceRight));
+			float finalAngle = sign * angle;
+
+			//Give impulse only if we want to swing
+			if (finalAngle < 5 && finalAngle > 0) {
+				m_RigidBody.AddForce(10 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+				m_swingImpulseTimer += Time.fixedDeltaTime;
+			}
+			
+			//allow force into opposite direction
+			float angle2 = Vector3.Angle(prevVel, desiredMove);
+			Debug.Log("angle: " + angle);
+			if(angle2 < 30)
+			{
+				m_RigidBody.AddForce(1 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+				m_swingImpulseTimer += Time.fixedDeltaTime;
+			}
+			#endregion
+			
             /*
-            //Give impulse only if we want to swing
-            //if (angle < 5)
             if (Vector3.Angle(transform.forward, htp) < 95) {
                 m_RigidBody.AddForce(10 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
                 //m_swingimpulse = false;
                 // Debug.Log("Swingimpuls given");
                 m_swingImpulseTimer += Time.fixedDeltaTime;
             }
-
             */
+			
+			#region Flo_W
             Vector3 desiredMoveY, desiredMoveX;
             desiredMoveY = Vector3.ProjectOnPlane(cam.transform.forward, hookToPlayer).normalized * input.y;
             desiredMoveY *= movementSettings.ForwardSpeed;
@@ -322,6 +287,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMoveX, ForceMode.VelocityChange);
                 }
             }
+			#endregion
 
             return 0;
         }
@@ -344,7 +310,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 energyCost += Fly(input);
             }
 
-            if (m_Hooked && !m_IsGrounded && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon)) {
+            if (movementSettings.m_Hooked && !m_IsGrounded && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon)) {
                 energyCost += Swing(input);
             }
 
@@ -465,15 +431,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
         public void SetHooked(bool hooked)
         {
-<<<<<<< HEAD
-            m_Hooked = hooked;
-#if !MOBILE_INPUT
+            movementSettings.m_Hooked = hooked;
+/*#if !MOBILE_INPUT
             movementSettings.m_RunningLock = hooked;
 #endif
-            movementSettings.m_JetpackLock = hooked;
-=======
-            movementSettings.m_Hooked = hooked;
->>>>>>> origin/master
+            movementSettings.m_JetpackLock = hooked;*/
         }
 
         /*public static float AngleSigned (Vector3 v1, Vector3 v2, Vector3 n) {
