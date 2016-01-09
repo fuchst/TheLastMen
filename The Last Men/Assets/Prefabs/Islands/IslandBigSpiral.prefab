@@ -28,6 +28,7 @@ GameObject:
   - 4: {fileID: 407172}
   - 54: {fileID: 5418558}
   - 114: {fileID: 11485972}
+  - 114: {fileID: 11412294}
   m_Layer: 0
   m_Name: IslandBigSpiral
   m_TagString: Island
@@ -120,6 +121,25 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 0
   m_Mesh: {fileID: 4300002, guid: 02f69f21ebe047b43a3e8ca64939ccd8, type: 3}
+--- !u!114 &11412294
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99008b8851319fb4d949bc42efd67c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollectablePrefabs:
+  - {fileID: 100000, guid: 87b70b92195974d9dacc05039e07b8cf, type: 2}
+  spawnLocations:
+  - {x: -17, y: .100000001, z: 3}
+  - {x: 10, y: .200000003, z: 11}
+  - {x: .5, y: -.699999988, z: 3}
+  - {x: 7, y: 23.5, z: 0}
+  - {x: -17, y: .200000003, z: -1}
 --- !u!114 &11485972
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,6 +159,14 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: CollectablePrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
       value: 22
@@ -162,6 +190,70 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: priority
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: CollectablePrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 100000, guid: 87b70b92195974d9dacc05039e07b8cf, type: 2}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[0].y
+      value: .100000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[0].z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[1].x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[1].y
+      value: .200000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[1].z
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[2].x
+      value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[2].y
+      value: -.699999988
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[2].z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[3].x
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[3].y
+      value: 23.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[3].z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[4].x
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[4].y
+      value: .200000003
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[4].z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[0].x
+      value: -17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

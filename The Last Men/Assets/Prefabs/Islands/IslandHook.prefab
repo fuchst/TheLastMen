@@ -45,6 +45,7 @@ GameObject:
   - 4: {fileID: 459364}
   - 54: {fileID: 5459408}
   - 114: {fileID: 11445674}
+  - 114: {fileID: 11416040}
   m_Layer: 0
   m_Name: IslandHook
   m_TagString: Island
@@ -183,6 +184,21 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 4300008, guid: fb7ce6034514e1949ba449ab33e30a9e, type: 3}
+--- !u!114 &11416040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 181206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99008b8851319fb4d949bc42efd67c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollectablePrefabs:
+  - {fileID: 100002, guid: d89ce53ebd114a7011005aba44295342, type: 2}
+  spawnLocations:
+  - {x: 0, y: .200000003, z: 0}
 --- !u!114 &11445674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -202,6 +218,14 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: CollectablePrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
       value: 15
@@ -257,6 +281,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsTrigger
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: CollectablePrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 100002, guid: d89ce53ebd114a7011005aba44295342, type: 2}
+    - target: {fileID: 0}
+      propertyPath: spawnLocations.Array.data[0].y
+      value: .200000003
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
