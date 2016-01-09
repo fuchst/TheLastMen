@@ -77,8 +77,7 @@ public class s_FireHook : MonoBehaviour
         }
         else if (CrossPlatformInputManager.GetButtonDown("Hook") && fired)
         {
-            controller.m_Hooked = false;
-            controller.movementSettings.m_RunningLock = false;
+            controller.movementSettings.m_Hooked = false;
             lr.enabled = false;
             DestroyRope();
         }
@@ -110,7 +109,7 @@ public class s_FireHook : MonoBehaviour
                 SetRope();
                 set = true;
                 lr.enabled = true;
-                controller.m_Hooked = true;
+                controller.movementSettings.m_Hooked = true;
                 //Debug.Log("set");
             }
             //Update Rope
@@ -124,7 +123,7 @@ public class s_FireHook : MonoBehaviour
             if (distance > hookLength && flyingtmp)
             {
                 flyingtmp = false;
-                controller.m_Hooked = true;
+                controller.movementSettings.m_Hooked = true;
                 DestroyRope();
                 lr.enabled = false;
                 //Debug.Log("Hook out of range");
