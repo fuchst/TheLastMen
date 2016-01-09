@@ -85,17 +85,17 @@ public class Level : MonoBehaviour
 
     private void SetDistances(int currentDistancce, Stack<Island> islands)
     {
-
         Stack<Island> visitNext = new Stack<Island>();
         while (islands.Count != 0)
         {
             Island island = islands.Pop();
             for (int i = 0; i < island.neighbors.Count; i++)
             {
-                if (islandDictionary[island.neighbors[i]].distanceToBastion == -1)
+                Island neighbor = islandDictionary[island.neighbors[i]];
+                if (neighbor.distanceToBastion == -1)
                 {
-                    islandDictionary[island.neighbors[i]].distanceToBastion = currentDistancce + 1;
-                    visitNext.Push(islandDictionary[island.neighbors[i]]);
+                    neighbor.distanceToBastion = currentDistancce + 1;
+                    visitNext.Push(neighbor);
                 }
             }
         }
@@ -203,55 +203,64 @@ public class Level : MonoBehaviour
             {
                 if (item.Value.neighbors[i] > item.Key)
                 {
-                    Island island = item.Value;
-                    Island neighbor = islandDictionary[item.Value.neighbors[i]];
+                    Island startIsland = item.Value;
+                    Island endIsland = islandDictionary[item.Value.neighbors[i]];
 
                     int numberOfSmallIslands;
-					int distanceToBastion = Mathf.Min(island.distanceToBastion,neighbor.distanceToBastion);
-
-                    if (distanceToBastion == 1)
+                    int distanceToBastion;
+                    if (Mathf.Min(startIsland.distanceToBastion, endIsland.distanceToBastion) == 0)
                     {
-                        numberOfSmallIslands = 3;
-                    }
-                    else if (distanceToBastion == maxDistanceToBastion -1)
-                    {
-                        numberOfSmallIslands = 1;
+                        distanceToBastion = 0;
                     }
                     else
                     {
-                        numberOfSmallIslands = 2;
+                        distanceToBastion = Mathf.Max(startIsland.distanceToBastion, endIsland.distanceToBastion);
+                    }
+
+                    if (distanceToBastion <= 1)
+                    {
+                        numberOfSmallIslands = 3;   //Grappling islands close to bastion
+                    }
+                    else if (distanceToBastion == maxDistanceToBastion)
+                    {
+                        numberOfSmallIslands = 1;   //Island furthest away from bastion
+                    }
+                    else
+                    {
+                        numberOfSmallIslands = 2;   //All other islands
                     }
                     Island[] smallIslands = new Island[numberOfSmallIslands];
 
-                    float islandWidth = 30.0f;
+                    float startIslandWidth = LevelManager.Instance.islandPrefabs.bigIslandWidths[startIsland.prefabArrayPosition];
+                    float endIslandWidth = LevelManager.Instance.islandPrefabs.bigIslandWidths[endIsland.prefabArrayPosition];
 
-                    Vector3 start = island.position + (neighbor.position - island.position).normalized * islandWidth;
-                    Vector3 end = neighbor.position + (island.position - neighbor.position).normalized * islandWidth;
+                    Vector3 start = startIsland.position + (endIsland.position - startIsland.position).normalized * startIslandWidth;
+                    Vector3 end = endIsland.position + (startIsland.position - endIsland.position).normalized * endIslandWidth;
+                    Vector3 direction = start - end;
+                    float islandOffset = 1.0f / (smallIslands.Length + 1);
 
                     for (int j = 0; j < smallIslands.Length; j++)
                     {
-                        float islandOffset = 1.0f / smallIslands.Length+1;
-
-                        smallIslands[j] = new Island();
-                        Vector3 newPos = (end + islandOffset * (j + 1) * (start - end)).normalized * radius;
+                        Vector3 newPos = (end + islandOffset * (j + 1) * direction).normalized * radius;
 
                         //Set correct height of grappling islands
-                        if (island.layer != neighbor.layer)
+                        if (startIsland.layer != endIsland.layer)
                         {
-                            newPos = newPos.normalized * neighbor.position.magnitude + newPos.normalized * (island.position.magnitude - neighbor.position.magnitude) * islandOffset * (j + 1);
+                            newPos = newPos.normalized * endIsland.position.magnitude + newPos.normalized * (startIsland.position.magnitude - endIsland.position.magnitude) * islandOffset * (j + 1);
                         }
                         else
                         {
-                            newPos += newPos.normalized * island.layer * layerHeightOffset;
+                            newPos += newPos.normalized * startIsland.layer * layerHeightOffset;
                         }
 
+                        smallIslands[j] = new Island();
                         smallIslands[j].position = newPos;
                         smallIslands[j].islandType = IslandType.Grappling;
-                        string name = item.Key.ToString() + " to " + island.neighbors[i].ToString() + " " + j.ToString();
+                        string name = item.Key.ToString() + " to " + startIsland.neighbors[i].ToString() + " " + j.ToString();
                         newIslandStack.Push(new KeyValuePair<string, Island>(name, smallIslands[j]));
                     }
 
-                    if (island.layer == neighbor.layer)
+                    if (startIsland.layer == endIsland.layer)
                     {
                         int x = Random.Range(0, numberOfSmallIslands);
                         smallIslands[x].position += smallIslands[x].position.normalized * grapplingIslandExtraheight;
@@ -479,6 +488,7 @@ public class Level : MonoBehaviour
     private class Island
     {
         public IslandType islandType;
+        public int prefabArrayPosition = 0;
         public List<int> neighbors = new List<int>();
         public short layer;
         public Vector3 position;

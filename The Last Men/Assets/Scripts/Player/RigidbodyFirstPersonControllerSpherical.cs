@@ -28,8 +28,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             [HideInInspector]
             public float CurrentTargetSpeed = 8f;
 
+            public bool m_Hooked = false;
+
 #if !MOBILE_INPUT
-            [HideInInspector] public bool m_RunningLock = false;    //No running if hooked
             private bool m_Running;
 #endif
             public void UpdateDesiredTargetSpeed(Vector2 input)
@@ -53,7 +54,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                     }
                 }
 #if !MOBILE_INPUT
-                if (!m_RunningLock && Input.GetKey(RunKey))
+                if (m_Hooked == false && Input.GetKey(RunKey))
                 {
                     CurrentTargetSpeed *= RunMultiplier;
                     m_Running = true;
@@ -95,13 +96,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private bool m_Fly;
         private float m_JetpackCurFlightDuration = 0;
-        public bool m_Hooked;
         //private bool m_swingimpuls;
         private float m_swingImpulsTimer = 0;
-        private bool m_JetpackLock = false;
-#if !MOBILE_INPUT
-        private bool m_RunningLock = false;
-#endif
 
         public Vector3 Velocity
         {
@@ -135,7 +131,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_RigidBody = GetComponent<Rigidbody>();
             m_Capsule = GetComponent<CapsuleCollider>();
             mouseLook.Init(transform, cam.transform);
-            m_Hooked = false;
             //m_swingimpuls = true;
         }
         
@@ -148,7 +143,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Jump = true;
             }
 
-            if (!m_JetpackLock && CrossPlatformInputManager.GetButtonDown("Jetpack") && !m_Fly && m_JetpackCurFlightDuration < movementSettings.JetpackMaxFlightDuration)
+            if (movementSettings.m_Hooked == false && CrossPlatformInputManager.GetButtonDown("Jetpack") && !m_Fly && m_JetpackCurFlightDuration < movementSettings.JetpackMaxFlightDuration)
             {
                 m_Fly = true;
             }
@@ -186,7 +181,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 }
             }
 
-            if (m_Hooked && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon))
+            if (movementSettings.m_Hooked && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon))
             {
                 // always move along the camera forward as it is the direction that it being aimed at
                 Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
@@ -400,9 +395,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
         public void SetHooked(bool hooked)
         {
-            m_Hooked = hooked;
-            m_RunningLock = hooked;
-            m_JetpackLock = hooked;
+            movementSettings.m_Hooked = hooked;
         }
     }
 }
