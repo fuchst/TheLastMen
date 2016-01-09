@@ -25,7 +25,7 @@ public class IslandNavigation : MonoBehaviour {
 
         int rand = Random.Range(0, 100);
 
-        if(rand < 20)
+        if(rand < 100)
         {
             NavigationNode node = navGridInstance.GetComponent<NavigationGrid>().GetRandomFreeNode();
 

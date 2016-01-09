@@ -5,60 +5,12 @@ using System;
 
 public class NavigationGrid : MonoBehaviour {
 
-    class PathNode : IEquatable<PathNode>
-    {
-        public NavigationNode node { get; set; }
-        public PathNode predecessor { get; set; }
-        public int cost { get; set; }
-
-        public PathNode(NavigationNode _node, PathNode _predecessor, int _cost)
-        {
-            this.node = _node;
-            this.cost = _cost;
-            this.predecessor = _predecessor;
-        }
-
-        // Returns path of NavigationNodes
-        public ArrayList GetPath()
-        {
-            ArrayList path = new ArrayList();
-
-            PathNode curr = this;
-
-            path.Add(curr.node);
-
-            while(curr.predecessor != null)
-            {
-                curr = curr.predecessor;
-                path.Add(curr.node);
-            }
-
-            path.Reverse();
-
-            return path;
-        }
-        
-        // Interface implementation
-        public override int GetHashCode()
-        {
-            return this.node.Index1D;
-        }
-        public bool Equals(PathNode other)
-        {
-            return (this.node.Index1D == other.node.Index1D);
-        }
-    };
-
-    // Change value in prefab
-    public int sizeX = 32;
-    public int sizeY = 32;
-
     public float stepSize = 0.5f;
     public int edgeCost = 2;
     public int edgeCostDiag = 3;
     public float maxHeight = 100.0f;
 
-    public NavigationNode[,] nodes;
+    public SortedList<int, NavigationNode> nodes = new SortedList<int, NavigationNode>();
     private GameObject island;
     private GameObject[] obstacles;
 
@@ -66,10 +18,9 @@ public class NavigationGrid : MonoBehaviour {
     {
         this.obstacles = Helper.FindChildrenWithTag(island, "Obstacle");
 
-        this.nodes = new NavigationNode[sizeX, sizeY];
-
         RaycastHit hit;
 
+        // Get first node position (height through raycast)
         if (island.GetComponent<Collider>().Raycast(new Ray(island.transform.position + maxHeight * island.transform.up, -island.transform.up), out hit, 2.0f * maxHeight))
         {
             this.transform.position = hit.point + 0.5f * island.transform.up;
@@ -79,36 +30,83 @@ public class NavigationGrid : MonoBehaviour {
             this.transform.position = this.transform.position + 0.5f * this.transform.up;
         }
 
-        // Set transform.position to position of first node in the array (corner)
-        float shiftX = (sizeX % 2 == 0) ? (sizeX - 1) / 2.0f : sizeX / 2.0f;
-        float shiftY = (sizeY % 2 == 0) ? (sizeY - 1) / 2.0f : sizeY / 2.0f;
-        this.transform.position -= island.transform.forward * shiftY * stepSize;
-        this.transform.position -= island.transform.right * shiftX * stepSize;
+        nodes.Add(0, new NavigationNode(this, new Vector2i(0, 0)));
 
-        for (int i = 0; i < sizeX; i++)
+        if (island.GetComponent<Collider>().Raycast(new Ray(GetNodeWorldPos(nodes[0]), -island.transform.up), out hit, 10.0f))
         {
-            for (int j = 0; j < sizeY; j++)
+            nodes[0].SetNodeType(NavigationNode.nodeTypes.Free);
+
+
+            // Check if inside of obstacle
+            for (int k = 0; k < obstacles.Length; k++)
             {
-                nodes[i, j] = new NavigationNode(new Vector2i(i, j));
-
-                // Check if above island
-                if (island.GetComponent<Collider>().Raycast(new Ray(GetNodeWorldPos(nodes[i, j]), -island.transform.up), out hit, 10.0f))
+                if (!isInside(GetNodeWorldPos(nodes[0]), obstacles[k].gameObject.GetComponent<Collider>()))
                 {
-                    nodes[i, j].SetNodeType(NavigationNode.nodeTypes.Free);
+                    nodes[0].SetNodeType(NavigationNode.nodeTypes.Obst);
+                }
+            }
+        }
 
-                    // Check if inside of obstacle
-                    for (int k = 0; k < obstacles.Length; k++)
-                    {
-                        if(!isInside(GetNodeWorldPos(nodes[i, j]), obstacles[k].gameObject.GetComponent<Collider>()))
-                        {
-                            nodes[i, j].SetNodeType(NavigationNode.nodeTypes.Obst);
-                        }
-                    }    
+        SetNodeNeighbours(0);
+    }
+
+    private void SetNodeNeighbours(int nodeID)
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            // Check non yet visited neigbours
+            if (nodes[nodeID].neighbours[i].cost == 0)
+            {
+                // Calculate neighbour grid indices
+                Vector2i neighIdx = nodes[nodeID].GetGridIndices() + NavigationNode.neighbourIdxDiffs[i];
+                int neighID = NavigationNode.CalculateID(neighIdx);
+                // Check if already available
+                if (nodes.ContainsKey(neighID))
+                {
+                    nodes[nodeID].neighbours[i].nodeID = neighID;
+                    nodes[nodeID].neighbours[i].cost = NavigationNode.neighbourCost[i];
+                    // Set according values in neighbour
+                    nodes[neighID].neighbours[7 - i].nodeID = nodes[nodeID].GetID();
+                    nodes[neighID].neighbours[7 - i].cost = NavigationNode.neighbourCost[i];
                 }
                 else
                 {
-                    nodes[i, j].SetNodeType(NavigationNode.nodeTypes.None);
-                }
+                    nodes.Add(neighID, new NavigationNode(this, neighIdx));
+                    nodes[nodeID].neighbours[i].nodeID = neighID;
+
+                    RaycastHit hit;
+
+                    // Check if above island
+                    if (island.GetComponent<Collider>().Raycast(new Ray(GetNodeWorldPos(nodes[neighID]), -island.transform.up), out hit, 10.0f))
+                    {
+                        nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Free);
+                        nodes[nodeID].neighbours[i].cost = NavigationNode.neighbourCost[i];
+
+                        // Check if inside of obstacle
+                        for (int k = 0; k < obstacles.Length; k++)
+                        {
+                            if (!isInside(GetNodeWorldPos(nodes[neighID]), obstacles[k].gameObject.GetComponent<Collider>()))
+                            {
+                                nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Obst);
+                                nodes[neighID].neighbours[7 - i].cost = int.MaxValue;
+                                nodes[nodeID].neighbours[i].cost = int.MaxValue;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        nodes[neighID].SetNodeType(NavigationNode.nodeTypes.None);
+                        nodes[nodeID].neighbours[i].cost = int.MaxValue;
+                        for(int j = 0; j < 8; j++)
+                        {
+                            nodes[neighID].neighbours[7 - i].cost = int.MaxValue;
+                            nodes[neighID].neighbours[i].cost = int.MaxValue;
+                        }
+                    }
+
+                    if(nodes[nodeID].neighbours[i].cost != int.MaxValue)
+                        SetNodeNeighbours(neighID);
+                }             
             }
         }
     }
@@ -158,40 +156,14 @@ public class NavigationGrid : MonoBehaviour {
                 successors[i] = null;
             }
 
-            // Top
-            if (IndicesOnGrid(indices.x - 1, indices.y + 1))
+            for(int i = 0; i < 8; i++)
             {
-                successors[0] = new PathNode(nodes[indices.x - 1, indices.y + 1], null, 0);
-            }
-            if (IndicesOnGrid(indices.x, indices.y + 1))
-            {
-                successors[1] = new PathNode(nodes[indices.x, indices.y + 1], null, 0);
-            }
-            if (IndicesOnGrid(indices.x + 1, indices.y + 1))
-            {
-                successors[2] = new PathNode(nodes[indices.x + 1, indices.y + 1], null, 0);
-            }
-            // Middle
-            if (IndicesOnGrid(indices.x - 1, indices.y))
-            {
-                successors[3] = new PathNode(nodes[indices.x - 1, indices.y], null, 0);
-            }
-            if (IndicesOnGrid(indices.x + 1, indices.y))
-            {
-                successors[4] = new PathNode(nodes[indices.x + 1, indices.y], null, 0);
-            }
-            // Bottom
-            if (IndicesOnGrid(indices.x - 1, indices.y - 1))
-            {
-                successors[5] = new PathNode(nodes[indices.x - 1, indices.y - 1], null, 0);
-            }
-            if (IndicesOnGrid(indices.x, indices.y - 1))
-            {
-                successors[6] = new PathNode(nodes[indices.x, indices.y - 1], null, 0);
-            }
-            if (IndicesOnGrid(indices.x + 1, indices.y - 1))
-            {
-                successors[7] = new PathNode(nodes[indices.x + 1, indices.y - 1], null, 0);
+                Vector2i successorIdx = indices + NavigationNode.neighbourIdxDiffs[i];
+
+                if (IndicesOnGrid(successorIdx.x, successorIdx.y))
+                {
+                    successors[i] = new PathNode(nodes[NavigationNode.CalculateID(successorIdx)], null, 0);
+                }
             }
 
             //foreach (PathNode successor in successors)
@@ -259,20 +231,19 @@ public class NavigationGrid : MonoBehaviour {
         else
         {
             //Debug.Log("Position on NavigationGrid (" + indexRight + "," + indexForward + ")");
-            return nodes[indexRight, indexForward];
+            return nodes[NavigationNode.CalculateID(new Vector2i(indexRight, indexForward))];
         }
     }
 
     public NavigationNode GetRandomFreeNode()
     {
-        for(int i = 0; i < sizeX * sizeY; i++)
+        for(int i = 0; i < nodes.Count; i++)
         {
-            int x = UnityEngine.Random.Range(0, sizeX - 1);
-            int y = UnityEngine.Random.Range(0, sizeY - 1);
+            int index = UnityEngine.Random.Range(0, nodes.Count - 1);
 
-            if(nodes != null && nodes[x,y].nodeType == NavigationNode.nodeTypes.Free)
+            if(nodes != null && nodes.Values[i].nodeType == NavigationNode.nodeTypes.Free)
             {
-                return nodes[x,y];
+                return nodes.Values[i];
             }
         }
 
@@ -281,9 +252,9 @@ public class NavigationGrid : MonoBehaviour {
 
     public NavigationNode GetNodeAtIndices(int x, int y)
     {
-        if(IndicesOnGrid(x, y))
+        if (IndicesOnGrid(x, y))
         {
-            return nodes[x, y];
+            return nodes[NavigationNode.CalculateID(new Vector2i(x, y))];
         }
 
         return null;
@@ -291,10 +262,7 @@ public class NavigationGrid : MonoBehaviour {
 
     public bool IndicesOnGrid(int x, int y)
     {
-        if (x >= sizeX || x < 0 || y >= sizeY || y < 0)
-            return false;
-        else
-            return true;
+        return nodes.ContainsKey(NavigationNode.CalculateID(new Vector2i(x, y)));
     }
 
     public Vector3 GetNodeWorldPos(NavigationNode node)
@@ -314,7 +282,7 @@ public class NavigationGrid : MonoBehaviour {
         {
             if (nodes != null)
             {
-                foreach (NavigationNode node in nodes)
+                foreach (NavigationNode node in nodes.Values)
                 {
                     Gizmos.color = NavigationNode.nodeColors[(int)node.nodeType];
                     Gizmos.DrawCube(GetNodeWorldPos(node), new Vector3(0.3f, 0.3f, 0.3f));

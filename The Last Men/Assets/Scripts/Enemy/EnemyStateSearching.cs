@@ -30,11 +30,10 @@ public class EnemyStateSearching : EnemyState {
         }
         else if (enemy.path == null || enemy.path.Count == 0)
         {
-            int x = Random.Range(0, enemy.navGrid.sizeX - 1);
-            int y = Random.Range(0, enemy.navGrid.sizeY - 1);
+            int x = Random.Range(0, enemy.navGrid.nodes.Count - 1);
 
             NavigationNode start = enemy.navGrid.GetClosestNode(enemy.transform.position);
-            NavigationNode end = enemy.navGrid.GetNodeAtIndices(x, y);
+            NavigationNode end = enemy.navGrid.nodes.Values[x];
 
             if (end.nodeType == NavigationNode.nodeTypes.Free)
             {
