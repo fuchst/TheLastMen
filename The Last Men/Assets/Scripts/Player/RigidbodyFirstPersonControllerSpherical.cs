@@ -98,6 +98,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public bool m_Hooked;
         //private bool m_swingimpuls;
         private float m_swingImpulsTimer = 0;
+        private Vector3 prevVel = new Vector3(0,0,0);
+        private Vector3 curVel = new Vector3(0, 0, 0);
         private bool m_JetpackLock = false;
 #if !MOBILE_INPUT
         private bool m_RunningLock = false;
@@ -188,6 +190,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (m_Hooked && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon))
             {
+                prevVel = curVel;
+                curVel = m_RigidBody.velocity;
                 // always move along the camera forward as it is the direction that it being aimed at
                 Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
                 //Vector3 desiredMoveJetpack = (desiredMove.normalized) * movementSettings.CurrentTargetSpeed;
@@ -198,17 +202,27 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 SpringJoint sj = GetComponent<SpringJoint>();
                 Vector3 hookpos = sj.connectedBody.transform.position;
                 Vector3 htp = hookpos - transform.position;
-                float angle = Vector3.Angle(hookpos, htp);
-                //Debug.Log("Angle: " + angle);
+                Vector3 referenceRight = Vector3.Cross(Vector3.up, hookpos);
+                float angle = Vector3.Angle(htp, hookpos);
+                float sign = Mathf.Sign(Vector3.Dot(htp, referenceRight));
+                float finalAngle = sign * angle;
                 //Give impuls only if we want to swing
-                if (angle < 5)
+                if (finalAngle < 5 && finalAngle>0)
                 {
                     m_RigidBody.AddForce(10 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
                     //m_swingimpuls = false;
                     // Debug.Log("Swingimpuls given");
                     m_swingImpulsTimer += Time.fixedDeltaTime;
                 }
-
+                
+                //allow force into opposite direction
+                float angle2 = Vector3.Angle(prevVel, desiredMove);
+                Debug.Log("angle: " + angle);
+                if(angle2 < 30)
+                {
+                    m_RigidBody.AddForce(1 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+                    m_swingImpulsTimer += Time.fixedDeltaTime;
+                }
 
 
                 //desiredMove.x = desiredMove.x*movementSettings.CurrentTargetSpeed;
