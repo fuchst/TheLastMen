@@ -192,13 +192,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 181206}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99008b8851319fb4d949bc42efd67c1d, type: 3}
+  m_Script: {fileID: 11500000, guid: d30e9dee1c587944ab9a2da12dd7573e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollectablePrefabs:
-  - {fileID: 100002, guid: d89ce53ebd114a7011005aba44295342, type: 2}
+  CollectablePrefabs: []
   spawnLocations:
-  - {x: 0, y: .200000003, z: 0}
+  - {x: 0, y: .5, z: 0}
 --- !u!114 &11445674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -224,7 +223,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: CollectablePrefabs.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
@@ -288,7 +287,7 @@ Prefab:
       objectReference: {fileID: 100002, guid: d89ce53ebd114a7011005aba44295342, type: 2}
     - target: {fileID: 0}
       propertyPath: spawnLocations.Array.data[0].y
-      value: .200000003
+      value: .5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
