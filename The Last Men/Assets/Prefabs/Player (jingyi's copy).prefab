@@ -2018,6 +2018,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2267b4de061b03a4e825542d2080081d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponModels:
+  - {fileID: 191412, guid: 18a7463f76959db4cb774091610aa0cc, type: 2}
+  - {fileID: 100290, guid: 0f96cfed4fc30f64b8c80a8d3d69b7fd, type: 2}
+  cameraTransform: {fileID: 498858}
 --- !u!114 &11457220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3914,6 +3918,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: weaponModels.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_CustomSkybox
       value: 
       objectReference: {fileID: 0}
@@ -3949,6 +3957,18 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: cf9255b19a1a3364f80af903d0cb8679, type: 2}
+    - target: {fileID: 0}
+      propertyPath: weaponModels.Array.data[0]
+      value: 
+      objectReference: {fileID: 191412, guid: 18a7463f76959db4cb774091610aa0cc, type: 2}
+    - target: {fileID: 0}
+      propertyPath: weaponModels.Array.data[1]
+      value: 
+      objectReference: {fileID: 100290, guid: 0f96cfed4fc30f64b8c80a8d3d69b7fd, type: 2}
+    - target: {fileID: 0}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 498858}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 116496}
