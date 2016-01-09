@@ -43,8 +43,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 473452}
-  - 114: {fileID: 11497036}
   - 54: {fileID: 5444156}
+  - 114: {fileID: 11497036}
   m_Layer: 0
   m_Name: IslandBigTreeChilds
   m_TagString: Island

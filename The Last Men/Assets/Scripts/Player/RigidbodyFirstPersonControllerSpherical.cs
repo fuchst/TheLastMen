@@ -89,7 +89,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public MovementSettings movementSettings = new MovementSettings();
         public MouseLookSpherical mouseLook = new MouseLookSpherical();
         public AdvancedSettings advancedSettings = new AdvancedSettings();
-        
+
+        public bool swingFloR = true;
+
         private Rigidbody m_RigidBody;
         private CapsuleCollider m_Capsule;
         //private float m_YRotation;
@@ -238,28 +240,31 @@ namespace UnityStandardAssets.Characters.FirstPerson
             Vector3 hookPos = joint.connectedBody.transform.position;
             Vector3 hookToPlayer = hookPos - transform.position;
 
-			#region Flo_R			
-			Vector3 referenceRight = Vector3.Cross(Vector3.up, hookPos);
-			float angle = Vector3.Angle(hookToPlayer, hookPos);
-			float sign = Mathf.Sign(Vector3.Dot(hookToPlayer, referenceRight));
-			float finalAngle = sign * angle;
+            if (swingFloR) {
+                #region Flo_R
+                Vector3 referenceRight = Vector3.Cross(Vector3.up, hookPos);
+                float angle = Vector3.Angle(hookToPlayer, hookPos);
+                float sign = Mathf.Sign(Vector3.Dot(hookToPlayer, referenceRight));
+                float finalAngle = sign * angle;
 
-			//Give impulse only if we want to swing
-			if (finalAngle < 5 && finalAngle > 0) {
-				m_RigidBody.AddForce(10 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
-				m_swingImpulseTimer += Time.fixedDeltaTime;
-			}
-			
-			//allow force into opposite direction
-			float angle2 = Vector3.Angle(prevVel, desiredMove);
-			Debug.Log("angle: " + angle);
-			if(angle2 < 30)
-			{
-				m_RigidBody.AddForce(1 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
-				m_swingImpulseTimer += Time.fixedDeltaTime;
-			}
-			#endregion
-			
+                //Give impulse only if we want to swing
+                if (finalAngle < 5 && finalAngle > 0)
+                {
+                    m_RigidBody.AddForce(10 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+                    m_swingImpulseTimer += Time.fixedDeltaTime;
+                }
+
+                //allow force into opposite direction
+                float angle2 = Vector3.Angle(prevVel, desiredMove);
+                //Debug.Log("angle: " + angle);
+                if (angle2 < 30)
+                {
+                    m_RigidBody.AddForce(1 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+                    m_swingImpulseTimer += Time.fixedDeltaTime;
+                }
+                #endregion
+            }
+
             /*
             if (Vector3.Angle(transform.forward, htp) < 95) {
                 m_RigidBody.AddForce(10 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
@@ -268,26 +273,28 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_swingImpulseTimer += Time.fixedDeltaTime;
             }
             */
-			
-			#region Flo_W
-            Vector3 desiredMoveY, desiredMoveX;
-            desiredMoveY = Vector3.ProjectOnPlane(cam.transform.forward, hookToPlayer).normalized * input.y;
-            desiredMoveY *= movementSettings.ForwardSpeed;
-            desiredMoveX = Vector3.ProjectOnPlane(cam.transform.right, hookToPlayer).normalized * input.x;
-            desiredMoveX *= movementSettings.StrafeSpeed;
 
-            //only add swinging forces if we are lower than the hook, 
-            if (Vector3.Angle(transform.up, hookToPlayer) < 90) {
+            else {
+			    #region Flo_W
+                Vector3 desiredMoveY, desiredMoveX;
+                desiredMoveY = Vector3.ProjectOnPlane(cam.transform.forward, hookToPlayer).normalized * input.y;
+                desiredMoveY *= movementSettings.ForwardSpeed;
+                desiredMoveX = Vector3.ProjectOnPlane(cam.transform.right, hookToPlayer).normalized * input.x;
+                desiredMoveX *= movementSettings.StrafeSpeed;
+
+                //only add swinging forces if we are lower than the hook, 
+                if (Vector3.Angle(transform.up, hookToPlayer) < 90) {
                     
-                if (Vector3.Angle(Mathf.Sign(input.y) * transform.forward, hookToPlayer) < 95 && input.y > 0) {
-                    m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMoveY, ForceMode.VelocityChange);
-                }
+                    if (Vector3.Angle(Mathf.Sign(input.y) * transform.forward, hookToPlayer) < 95 && input.y > 0) {
+                        m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMoveY, ForceMode.VelocityChange);
+                    }
                 
-                if (Vector3.Angle(Mathf.Sign(input.x) * transform.right, hookToPlayer) < 95) {
-                    m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMoveX, ForceMode.VelocityChange);
+                    if (Vector3.Angle(Mathf.Sign(input.x) * transform.right, hookToPlayer) < 95) {
+                        m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMoveX, ForceMode.VelocityChange);
+                    }
                 }
+			    #endregion
             }
-			#endregion
 
             return 0;
         }
