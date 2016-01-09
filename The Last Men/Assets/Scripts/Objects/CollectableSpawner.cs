@@ -1,10 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CollectableSpawner : MonoBehaviour {
 
     public GameObject[] CollectablePrefabs;
-    public Vector3[] spawnLocations;
+    public List<Transform> spawnLocations;
+    
+    void Awake()
+    {
+        foreach (Transform child in transform)
+        {
+            if (child.tag == "EnergySpawn")
+            {
+                spawnLocations.Add(child.transform);
+            }
+        }
+    }
     
     // Use this for initialization
 	void Start () {
@@ -18,16 +30,16 @@ public class CollectableSpawner : MonoBehaviour {
 
     void SpawnEnergy()
     {
-        for(int i=0;i < spawnLocations.Length; i++)
+        for(int i=0;i < spawnLocations.Count; i++)
         {
             float val = Random.value;
-            if(val >= 0.5)
+            if(val >= 0)
             {
                 
                 int pIdx = Random.Range(0, CollectablePrefabs.Length - 1);
                 GameObject go = Object.Instantiate(CollectablePrefabs[pIdx], new Vector3(0,0,0), Quaternion.identity) as GameObject;
-                go.transform.parent = transform;
-                go.transform.localPosition = spawnLocations[i];
+                go.transform.parent = spawnLocations[i];
+                go.transform.localPosition = new Vector3(0, 0, 0);
                 go.transform.localRotation = Quaternion.identity;
                 go.transform.localScale = new Vector3(10, 10, 10);
             }

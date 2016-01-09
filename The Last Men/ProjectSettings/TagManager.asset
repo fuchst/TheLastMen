@@ -11,6 +11,7 @@ TagManager:
   - Canvas
   - Bullet
   - Deathzone
+  - EnergySpawn
   layers:
   - Default
   - TransparentFX
