@@ -42,14 +42,17 @@ public class GrapplingHook : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider other)
     {
+        Debug.Log("triggered");
+        
         if (flying == true)
         {
             
             flying = false;
             rigidbody.velocity = Vector3.zero;
             rigidbody.isKinematic = true;
+            transform.parent = other.transform;
             player.GetComponent<FireGrapplingHook>().SetRope();
         }
     }
