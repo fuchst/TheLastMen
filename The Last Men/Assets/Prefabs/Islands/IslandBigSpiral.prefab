@@ -129,7 +129,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 199416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fcc01c93f9f5e5429c1381726755e10, type: 3}
+  m_Script: {fileID: 11500000, guid: b9a5392579cab944f87e188890abf322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CollectablePrefabs: []

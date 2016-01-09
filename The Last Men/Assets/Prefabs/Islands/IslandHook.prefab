@@ -220,11 +220,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 181206}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6469fa94b70f2fa4dbee8c1e07c977b1, type: 3}
+  m_Script: {fileID: 11500000, guid: b9a5392579cab944f87e188890abf322, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollectablePrefabs:
-  - {fileID: 100000, guid: 87b70b92195974d9dacc05039e07b8cf, type: 2}
+  CollectablePrefabs: []
   spawnLocations: []
 --- !u!114 &11445674
 MonoBehaviour:
