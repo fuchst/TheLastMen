@@ -6,25 +6,22 @@ public class GrapplingHook : MonoBehaviour
 {
     public Transform player;
     public FireGrapplingHook fireGrapplingHook;
-    
+
+    private Transform rope;
+    private Material ropeMaterial;
     private bool flying = true;
-    private LineRenderer lineRenderer;
     new private Rigidbody rigidbody;
-    
 
     void Awake()
     {
-        lineRenderer = GetComponent<LineRenderer>();
+        rope = transform.GetChild(0);
+        ropeMaterial = rope.GetComponent<MeshRenderer>().material;
         rigidbody = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
-        //Update line lenderer
-        lineRenderer.SetPosition(0, player.position);
-        lineRenderer.SetPosition(1, transform.position);
         float distance = Vector3.Distance(player.position, transform.position);
-        lineRenderer.material.mainTextureScale = new Vector2(distance, 1);
 
         //Check distance to player
         if(distance > fireGrapplingHook.hookLength)
@@ -32,6 +29,13 @@ public class GrapplingHook : MonoBehaviour
             fireGrapplingHook.Unfire();
             Destroy(gameObject);
         }
+
+        //Translate and scale rope
+        Vector3 startPos = player.position + player.right * 0.3f;
+        rope.position = transform.position + 0.5f * (startPos - transform.position);
+        rope.localScale = new Vector3(rope.localScale.x, distance, rope.localScale.z);
+        rope.up = (startPos - transform.position).normalized;
+        ropeMaterial.mainTextureScale = new Vector2(1.0f, distance * 2.0f);
     }
 
     void FixedUpdate()
@@ -44,11 +48,8 @@ public class GrapplingHook : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("triggered");
-        
         if (flying == true)
         {
-            
             flying = false;
             rigidbody.velocity = Vector3.zero;
             rigidbody.isKinematic = true;

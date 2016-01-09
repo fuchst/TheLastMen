@@ -213,7 +213,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 
                 //allow force into opposite direction
                 float angle2 = Vector3.Angle(prevVel, desiredMove);
-                Debug.Log("angle: " + angle);
+                //Debug.Log("angle: " + angle);
                 if(angle2 < 30)
                 {
                     m_RigidBody.AddForce(1 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
