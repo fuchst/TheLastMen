@@ -6,8 +6,6 @@ using System;
 public class NavigationGrid : MonoBehaviour {
 
     public float stepSize = 0.5f;
-    public int edgeCost = 2;
-    public int edgeCostDiag = 3;
     public float maxHeight = 100.0f;
 
     public SortedList<int, NavigationNode> nodes = new SortedList<int, NavigationNode>();
@@ -179,13 +177,8 @@ public class NavigationGrid : MonoBehaviour {
                     }
 
                     int tentative_cost;
-
-                    if (i == 0 || i == 2 || i == 5 || i == 7) {
-                        tentative_cost = curr.m_value.cost + edgeCostDiag;
-                    }
-                    else {
-                        tentative_cost = curr.m_value.cost + edgeCost;
-                    }
+                    
+                    tentative_cost = curr.m_value.cost + successor.node.neighbours[7 - i].cost;
 
                     PriorityQueue<PathNode>.PriorityQueueElement elem;
 
