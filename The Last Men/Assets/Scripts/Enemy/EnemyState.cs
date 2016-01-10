@@ -2,8 +2,7 @@
 using System.Collections;
 
 public abstract class EnemyState {
-
-    protected Enemy enemy;
+    
     const stateIDs id = stateIDs.Base;
 
     public enum stateIDs
@@ -13,11 +12,6 @@ public abstract class EnemyState {
         Search,
         Attack
     };
-
-    protected EnemyState(Enemy _enemy)
-    {
-        enemy = _enemy;
-    }
 
     public stateIDs getID()
     {

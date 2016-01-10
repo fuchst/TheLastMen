@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 
-public class EnemyStateAttack : EnemyState {
+public class GroundEnemyStateAttack : EnemyState {
 
+    protected GroundEnemy enemy;
     const stateIDs id = stateIDs.Attack;
 
-    float timeSinceAttack = 0;
+    public float timeSinceAttack = 0;
 
-    public EnemyStateAttack(Enemy _enemy) 
-        : base(_enemy)
+    public GroundEnemyStateAttack(Enemy _enemy)
     {
         //Debug.Log("Attack state");
         //_enemy.GetComponent<Renderer>().material = _enemy.materials[2];
+        enemy = _enemy as GroundEnemy;
     }
 
     public override void action()
@@ -29,6 +30,7 @@ public class EnemyStateAttack : EnemyState {
             {
                 enemy.player.transform.SendMessage("OnHit", enemy.damage);
                 timeSinceAttack = 0.0f;
+                enemy.GetComponent<Animation>().Play();
             }
             
             enemy.path.Clear();

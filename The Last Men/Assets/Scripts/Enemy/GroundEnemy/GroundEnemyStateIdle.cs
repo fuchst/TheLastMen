@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyStateIdle : EnemyState {
+public class GroundEnemyStateIdle : EnemyState {
 
+    protected GroundEnemy enemy;
     const stateIDs id = stateIDs.Idle;
 
-    public EnemyStateIdle(Enemy _enemy) 
-        : base(_enemy)
+    public GroundEnemyStateIdle(Enemy _enemy)
     {
         //Debug.Log("Idle state");
         //_enemy.GetComponent<Renderer>().material = _enemy.materials[0];
+        enemy = _enemy as GroundEnemy;
     }
 
     public override void action()

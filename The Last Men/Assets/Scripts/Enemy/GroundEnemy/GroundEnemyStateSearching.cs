@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyStateSearching : EnemyState {
+public class GroundEnemyStateSearching : EnemyState {
 
+    protected GroundEnemy enemy;
     const stateIDs id = stateIDs.Search;
 
-    public EnemyStateSearching(Enemy _enemy) 
-        : base(_enemy)
+    public GroundEnemyStateSearching(Enemy _enemy)
     {
-        Debug.Log("Search state");
+        //Debug.Log("Search state");
         //_enemy.GetComponent<Renderer>().material = _enemy.materials[1];
+        enemy = _enemy as GroundEnemy;
     }
 
     public override void action()

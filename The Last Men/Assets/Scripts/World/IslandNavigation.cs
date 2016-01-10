@@ -12,7 +12,7 @@ public class IslandNavigation : MonoBehaviour {
     void Awake()
     {
         navGridPrefab = Resources.Load("NavGrid") as GameObject;
-        enemyPrefab = Resources.Load("Enemy") as GameObject;
+        enemyPrefab = Resources.Load("GroundEnemy") as GameObject;
     }
 
 	// Use this for initialization
@@ -32,7 +32,7 @@ public class IslandNavigation : MonoBehaviour {
             if(node != null)
             {
                 GameObject obj = Instantiate(enemyPrefab, navGridInstance.GetNodeWorldPos(node), this.transform.rotation) as GameObject;
-                obj.GetComponent<Enemy>().Init(navGridInstance);
+                //obj.GetComponent<GroundEnemy>().Init(navGridInstance);
                 obj.transform.SetParent(transform);
                 enemies.Add(obj);
             }        
