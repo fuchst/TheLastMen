@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 450072}
   - 54: {fileID: 5454054}
   - 114: {fileID: 11446548}
+  - 114: {fileID: 11483502}
   m_Layer: 0
   m_Name: StoneIsland
   m_TagString: Island
@@ -145,6 +146,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 0
+--- !u!114 &11483502
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 842a7727514c135409fd4b9c55ce812c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
