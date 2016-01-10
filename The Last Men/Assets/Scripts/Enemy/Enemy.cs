@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour {
 
-    public Material[] materials;
+    //public Material[] materials;
 
     public int hp = 100;
     public float attackRange = 2.0f;

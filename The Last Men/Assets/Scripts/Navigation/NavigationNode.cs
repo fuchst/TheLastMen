@@ -12,41 +12,6 @@ public class NavigationNode {
         Cover
     };
 
-    public enum nodeNeighbours
-    {
-        TL,
-        T,
-        TR,
-        L,
-        R,
-        BL,
-        B,
-        BR
-    };
-
-    public static Vector2i[] neighbourIdxDiffs = {
-        new Vector2i(-1, 1),
-        new Vector2i( 0, 1),
-        new Vector2i( 1, 1),
-        new Vector2i(-1,  0),
-        new Vector2i( 1,  0),
-        new Vector2i(-1,  -1),
-        new Vector2i( 0,  -1),
-        new Vector2i( 1,  -1),
-    };
-
-    public static int[] neighbourCost =
-    {
-        3,
-        2,
-        3,
-        2,
-        2,
-        3,
-        2,
-        3
-    };
-
     public struct Edge
     {
         public int nodeID;
@@ -71,7 +36,6 @@ public class NavigationNode {
     // 0 1 2
     // 3 x 4
     // 5 6 7
-    // Use enum for easier access
     public Edge[] neighbours = new Edge[8];
 
     private int id;

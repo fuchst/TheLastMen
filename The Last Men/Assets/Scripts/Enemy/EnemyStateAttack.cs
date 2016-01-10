@@ -10,7 +10,7 @@ public class EnemyStateAttack : EnemyState {
         : base(_enemy)
     {
         //Debug.Log("Attack state");
-        _enemy.GetComponent<Renderer>().material = _enemy.materials[2];
+        //_enemy.GetComponent<Renderer>().material = _enemy.materials[2];
     }
 
     public override void action()
@@ -33,7 +33,7 @@ public class EnemyStateAttack : EnemyState {
             
             enemy.path.Clear();
         }
-        else if ( dist > enemy.senseRange )
+        else if ( dist > enemy.senseRange || enemy.navGrid.GetClosestNode(enemy.transform.position)== null)
         {
             enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
         }

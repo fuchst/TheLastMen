@@ -37,7 +37,7 @@ public class IslandNavigation : MonoBehaviour {
                 enemies.Add(obj);
             }        
         }
-	}
+    }
 
     void OnDestroy()
     {

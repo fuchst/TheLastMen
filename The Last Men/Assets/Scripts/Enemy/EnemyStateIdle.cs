@@ -9,7 +9,7 @@ public class EnemyStateIdle : EnemyState {
         : base(_enemy)
     {
         //Debug.Log("Idle state");
-        _enemy.GetComponent<Renderer>().material = _enemy.materials[0];
+        //_enemy.GetComponent<Renderer>().material = _enemy.materials[0];
     }
 
     public override void action()

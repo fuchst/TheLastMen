@@ -5,12 +5,37 @@ using System;
 
 public class NavigationGrid : MonoBehaviour {
 
-    public float stepSize = 0.5f;
+    public float stepSize = 1.0f;
     public float maxHeight = 100.0f;
 
     public SortedList<int, NavigationNode> nodes = new SortedList<int, NavigationNode>();
+
+
     private GameObject island;
     private GameObject[] obstacles;
+
+    public static Vector2i[] neighbourIdxDiffs = {
+        new Vector2i(-1, 1),
+        new Vector2i( 0, 1),
+        new Vector2i( 1, 1),
+        new Vector2i(-1, 0),
+        new Vector2i( 1, 0),
+        new Vector2i(-1,-1),
+        new Vector2i( 0,-1),
+        new Vector2i( 1,-1),
+    };
+
+    public static int[] neighbourCost =
+    {
+        3,
+        2,
+        3,
+        2,
+        2,
+        3,
+        2,
+        3
+    };
 
     public void createGrid()
     {
@@ -56,16 +81,16 @@ public class NavigationGrid : MonoBehaviour {
             if (nodes[nodeID].neighbours[i].cost == 0)
             {
                 // Calculate neighbour grid indices
-                Vector2i neighIdx = nodes[nodeID].GetGridIndices() + NavigationNode.neighbourIdxDiffs[i];
+                Vector2i neighIdx = nodes[nodeID].GetGridIndices() + neighbourIdxDiffs[i];
                 int neighID = NavigationNode.CalculateID(neighIdx);
                 // Check if already available
                 if (nodes.ContainsKey(neighID))
                 {
                     nodes[nodeID].neighbours[i].nodeID = neighID;
-                    nodes[nodeID].neighbours[i].cost = NavigationNode.neighbourCost[i];
+                    nodes[nodeID].neighbours[i].cost = neighbourCost[i];
                     // Set according values in neighbour
                     nodes[neighID].neighbours[7 - i].nodeID = nodes[nodeID].GetID();
-                    nodes[neighID].neighbours[7 - i].cost = NavigationNode.neighbourCost[i];
+                    nodes[neighID].neighbours[7 - i].cost = neighbourCost[i];
                 }
                 else
                 {
@@ -78,7 +103,7 @@ public class NavigationGrid : MonoBehaviour {
                     if (island.GetComponent<Collider>().Raycast(new Ray(GetNodeWorldPos(nodes[neighID]), -island.transform.up), out hit, 10.0f))
                     {
                         nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Free);
-                        nodes[nodeID].neighbours[i].cost = NavigationNode.neighbourCost[i];
+                        nodes[nodeID].neighbours[i].cost = neighbourCost[i];
 
                         // Check if inside of obstacle
                         for (int k = 0; k < obstacles.Length; k++)
@@ -156,7 +181,7 @@ public class NavigationGrid : MonoBehaviour {
 
             for(int i = 0; i < 8; i++)
             {
-                Vector2i successorIdx = indices + NavigationNode.neighbourIdxDiffs[i];
+                Vector2i successorIdx = indices + neighbourIdxDiffs[i];
 
                 if (IndicesOnGrid(successorIdx.x, successorIdx.y))
                 {
@@ -204,6 +229,7 @@ public class NavigationGrid : MonoBehaviour {
 
     }
 
+    // Return closest node position on grid or null if position not on grid
     public NavigationNode GetClosestNode(Vector3 position)
     {
         //Plane plane = new Plane(this.transform.up, this.transform.position);

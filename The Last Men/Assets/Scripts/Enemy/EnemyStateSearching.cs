@@ -9,7 +9,7 @@ public class EnemyStateSearching : EnemyState {
         : base(_enemy)
     {
         Debug.Log("Search state");
-        _enemy.GetComponent<Renderer>().material = _enemy.materials[1];
+        //_enemy.GetComponent<Renderer>().material = _enemy.materials[1];
     }
 
     public override void action()
@@ -20,7 +20,8 @@ public class EnemyStateSearching : EnemyState {
 
         float angle = Vector3.Angle(dir, enemy.transform.forward);
 
-        if(angle < enemy.fov)
+        // Change state to Attack if player is in viewfield and on island
+        if(angle < enemy.fov && enemy.navGrid.GetClosestNode(enemy.transform.position) != null)
         {
             enemy.SendMessage("ChangeState", EnemyState.stateIDs.Attack);
         }
