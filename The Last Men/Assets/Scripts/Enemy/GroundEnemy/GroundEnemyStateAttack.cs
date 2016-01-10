@@ -35,13 +35,16 @@ public class GroundEnemyStateAttack : EnemyState {
             
             enemy.path.Clear();
         }
-        else if ( dist > enemy.senseRange || enemy.navGrid.GetClosestNode(enemy.transform.position)== null)
+        else if ( dist > enemy.senseRange || enemy.navGrid.GetClosestNode(playerPos) == null)
         {
             enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
         }
         else if (enemy.path == null || enemy.path.Count == 0 || enemy.navGrid.GetClosestNode(playerPos) != enemy.path[enemy.path.Count - 1])
         {
-            enemy.path = enemy.navGrid.findPath(enemy.navGrid.GetClosestNode(enemy.transform.position), enemy.navGrid.GetClosestNode(playerPos));
+            int startID = enemy.currentNodeID;
+            int endID = enemy.navGrid.GetClosestNode(playerPos).GetID();
+
+            enemy.path = enemy.navGrid.findPath(startID, endID, enemy.currentNodeID);
         }     
     }
 }

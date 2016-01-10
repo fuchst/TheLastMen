@@ -23,19 +23,22 @@ public class IslandNavigation : MonoBehaviour {
         
         enemies = new List<GameObject>();
 
-        int rand = Random.Range(0, 100);
-
-        if(rand < 100)
+        for(int i = 0; i < 10; i++)
         {
-            NavigationNode node = navGridInstance.GetComponent<NavigationGrid>().GetRandomFreeNode();
+            int rand = Random.Range(0, 100);
 
-            if(node != null)
+            if (rand < 20)
             {
-                GameObject obj = Instantiate(enemyPrefab, navGridInstance.GetNodeWorldPos(node), this.transform.rotation) as GameObject;
-                //obj.GetComponent<GroundEnemy>().Init(navGridInstance);
-                obj.transform.SetParent(transform);
-                enemies.Add(obj);
-            }        
+                NavigationNode node = navGridInstance.GetComponent<NavigationGrid>().GetRandomFreeNode();
+
+                if (node != null)
+                {
+                    GameObject obj = Instantiate(enemyPrefab, navGridInstance.GetNodeWorldPos(node), this.transform.rotation) as GameObject;
+                    //obj.GetComponent<GroundEnemy>().Init(navGridInstance);
+                    obj.transform.SetParent(transform);
+                    enemies.Add(obj);
+                }
+            }
         }
     }
 

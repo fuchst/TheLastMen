@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class FlyingEnemy : Enemy {
 
-    public override void Init()
+    protected override void OnStart()
     {
-        base.Init();
+        base.OnStart();
     }
 
     protected override void Move()

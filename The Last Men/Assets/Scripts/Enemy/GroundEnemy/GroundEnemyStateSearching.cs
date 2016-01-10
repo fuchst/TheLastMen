@@ -34,12 +34,12 @@ public class GroundEnemyStateSearching : EnemyState {
         {
             int x = Random.Range(0, enemy.navGrid.nodes.Count - 1);
 
-            NavigationNode start = enemy.navGrid.GetClosestNode(enemy.transform.position);
-            NavigationNode end = enemy.navGrid.nodes.Values[x];
+            int startID = enemy.currentNodeID;
+            int endID = enemy.navGrid.nodes.Values[x].GetID();
 
-            if (end.nodeType == NavigationNode.nodeTypes.Free)
+            if (enemy.navGrid.nodes[endID].nodeType == NavigationNode.nodeTypes.Free)
             {
-                enemy.path = enemy.navGrid.findPath(start, end);
+                enemy.path = enemy.navGrid.findPath(startID, endID, enemy.currentNodeID);
             }
         }
     }

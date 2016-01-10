@@ -25,26 +25,44 @@ public abstract class Enemy : MonoBehaviour {
 
     protected EnemyState state;
 
-    public virtual void Init()
+    void Awake()
+    {
+        OnAwake();
+    }
+
+    protected virtual void OnAwake()
+    {
+
+    }
+
+    void Start()
+    {
+        OnStart();
+    }
+
+    protected virtual void OnStart()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         ChangeState(EnemyState.stateIDs.Idle);
         controller = GetComponent<CharacterController>();
     }
 
-    void Start()
-    {
-        Init();
-    }
-
     void FixedUpdate()
     {
-		if (!player) {
-			player = GameObject.FindGameObjectWithTag ("Player");
-		} else {
-			state.action();
-			Move ();
-		}
+        OnFixedUpdate();
+    }
+
+    protected virtual void OnFixedUpdate()
+    {
+        if (!player)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+        else
+        {
+            state.action();
+            Move();
+        }
     }
 
     protected abstract void Move();
@@ -54,8 +72,13 @@ public abstract class Enemy : MonoBehaviour {
         hp -= dmg;
         if(hp <= 0)
         {
-            Destroy(this.gameObject);
+            Death();
         }
+    }
+
+    protected virtual void Death()
+    {
+        Destroy(this.gameObject);
     }
 
     protected abstract void ChangeState(EnemyState.stateIDs _stateID);

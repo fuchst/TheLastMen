@@ -9,7 +9,8 @@ public class NavigationNode {
         Free,
         Obst,
         Restricted,
-        Cover
+        Cover,
+        Enemy
     };
 
     public struct Edge
@@ -24,6 +25,7 @@ public class NavigationNode {
         new Color(1.0f, 0.0f, 0.0f, 1.0f),
         new Color(1.0f, 1.0f, 0.0f, 1.0f),
         new Color(0.5f, 0.5f, 0.5f, 1.0f),
+        new Color(0.0f, 1.0f, 1.0f, 1.0f),
     };
 
     public nodeTypes nodeType { get; set; }

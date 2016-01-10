@@ -5,6 +5,7 @@ using System;
 public class GroundEnemy : Enemy {
 
     public NavigationGrid navGrid { get; set; }
+    public int currentNodeID;
 
     private int pathIndex;
     private ArrayList _path;
@@ -14,17 +15,51 @@ public class GroundEnemy : Enemy {
         set { _path = value; pathIndex = 0; }
     }
 
-    public override void Init()
+    protected override void OnAwake()
     {
-        base.Init();
-
-        navGrid = transform.parent.GetComponentInChildren<NavigationGrid>();
+        base.OnAwake();
     }
 
-    void Update()
+    protected override void OnStart()
     {
-        // Keep enemy on navplane height
+        base.OnStart();
+
+        navGrid = transform.parent.GetComponentInChildren<NavigationGrid>();
+
+        currentNodeID = navGrid.GetClosestNode(transform.position).GetID();
+        navGrid.nodes[currentNodeID].SetNodeType(NavigationNode.nodeTypes.Enemy);
+        navGrid.freeNodeIDs.Remove(currentNodeID);
+    }
+
+    protected override void OnFixedUpdate()
+    {
+        base.OnFixedUpdate();
+
         this.transform.position -= Vector3.Dot(this.transform.position - navGrid.transform.position, navGrid.transform.up) * navGrid.transform.up;
+        updateCurrentNode();
+    }
+
+    void updateCurrentNode()
+    {
+        NavigationNode node = navGrid.GetClosestNode(transform.position);
+        if (node != null && node.GetID() != currentNodeID && node.nodeType == NavigationNode.nodeTypes.Free)
+        {
+            navGrid.nodes[currentNodeID].SetNodeType(NavigationNode.nodeTypes.Free);
+            navGrid.freeNodeIDs.Add(currentNodeID);
+
+            currentNodeID = node.GetID();
+
+            navGrid.nodes[currentNodeID].SetNodeType(NavigationNode.nodeTypes.Enemy);
+            navGrid.freeNodeIDs.Remove(currentNodeID);
+        }
+    }
+
+    protected override void Death()
+    {
+        navGrid.nodes[currentNodeID].SetNodeType(NavigationNode.nodeTypes.Free);
+        navGrid.freeNodeIDs.Add(currentNodeID);
+
+        base.Death();
     }
 
     protected override void Move()
@@ -33,16 +68,26 @@ public class GroundEnemy : Enemy {
         {
             if (pathIndex < (path.Count - 1))
             {
-                Vector3 nextNodePos = navGrid.GetNodeWorldPos((NavigationNode)path[pathIndex + 1]);
+                // Check if next node is occupied
+                NavigationNode nextNode = navGrid.nodes[(int)path[pathIndex + 1]];
 
-                this.transform.LookAt(nextNodePos, navGrid.transform.up);
-                //this.transform.Translate(this.transform.forward * moveSpeed * Time.deltaTime, Space.World);
-
-                controller.Move(transform.forward * moveSpeed * Time.deltaTime);
-
-                if (Vector3.Distance(this.transform.position, nextNodePos) < 0.1f)
+                if(nextNode.nodeType == NavigationNode.nodeTypes.Enemy)
                 {
-                    pathIndex++;
+                    path.Clear();
+                }
+                else
+                {
+                    Vector3 nextNodePos = navGrid.GetNodeWorldPos(nextNode);
+
+                    this.transform.LookAt(nextNodePos, navGrid.transform.up);
+                    //this.transform.Translate(this.transform.forward * moveSpeed * Time.deltaTime, Space.World);
+
+                    controller.Move(transform.forward * moveSpeed * Time.deltaTime);
+
+                    if (Vector3.Distance(this.transform.position, nextNodePos) < 0.1f)
+                    {
+                        pathIndex++;
+                    }
                 }
             }
             else
@@ -62,7 +107,7 @@ public class GroundEnemy : Enemy {
 
                 for (int i = 0; i < path.Count - 1; i++)
                 {
-                    Gizmos.DrawLine(navGrid.GetNodeWorldPos((NavigationNode)path[i]), navGrid.GetNodeWorldPos((NavigationNode)path[i + 1]));
+                    Gizmos.DrawLine(navGrid.GetNodeWorldPos(navGrid.nodes[(int)path[i]]), navGrid.GetNodeWorldPos(navGrid.nodes[(int)path[i + 1]]));
                 }
             }
         }

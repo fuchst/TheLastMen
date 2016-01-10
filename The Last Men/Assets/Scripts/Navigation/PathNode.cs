@@ -3,13 +3,13 @@ using System;
 
 class PathNode : IEquatable<PathNode>
 {
-    public NavigationNode node { get; set; }
+    public int nodeID { get; set; }
     public PathNode predecessor { get; set; }
     public int cost { get; set; }
 
-    public PathNode(NavigationNode _node, PathNode _predecessor, int _cost)
+    public PathNode(int _nodeID, PathNode _predecessor, int _cost)
     {
-        this.node = _node;
+        this.nodeID = _nodeID;
         this.cost = _cost;
         this.predecessor = _predecessor;
     }
@@ -21,12 +21,12 @@ class PathNode : IEquatable<PathNode>
 
         PathNode curr = this;
 
-        path.Add(curr.node);
+        path.Add(curr.nodeID);
 
         while (curr.predecessor != null)
         {
             curr = curr.predecessor;
-            path.Add(curr.node);
+            path.Add(curr.nodeID);
         }
 
         path.Reverse();
@@ -37,10 +37,10 @@ class PathNode : IEquatable<PathNode>
     // Interface implementation
     public override int GetHashCode()
     {
-        return this.node.GetID();
+        return this.nodeID;
     }
     public bool Equals(PathNode other)
     {
-        return (this.node.GetID() == other.node.GetID());
+        return (this.nodeID == other.nodeID);
     }
 };

@@ -5,11 +5,11 @@ using System;
 
 public class NavigationGrid : MonoBehaviour {
 
-    public float stepSize = 1.0f;
+    public float stepSize = 2.0f;
     public float maxHeight = 100.0f;
 
     public SortedList<int, NavigationNode> nodes = new SortedList<int, NavigationNode>();
-
+    public List<int> freeNodeIDs = new List<int>();
 
     private GameObject island;
     private GameObject[] obstacles;
@@ -58,7 +58,7 @@ public class NavigationGrid : MonoBehaviour {
         if (island.GetComponent<Collider>().Raycast(new Ray(GetNodeWorldPos(nodes[0]), -island.transform.up), out hit, 10.0f))
         {
             nodes[0].SetNodeType(NavigationNode.nodeTypes.Free);
-
+            freeNodeIDs.Add(0);
 
             // Check if inside of obstacle
             for (int k = 0; k < obstacles.Length; k++)
@@ -103,6 +103,7 @@ public class NavigationGrid : MonoBehaviour {
                     if (island.GetComponent<Collider>().Raycast(new Ray(GetNodeWorldPos(nodes[neighID]), -island.transform.up), out hit, 10.0f))
                     {
                         nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Free);
+                        freeNodeIDs.Add(neighID);
                         nodes[nodeID].neighbours[i].cost = neighbourCost[i];
 
                         // Check if inside of obstacle
@@ -147,7 +148,8 @@ public class NavigationGrid : MonoBehaviour {
         return result;
     }
 
-    public ArrayList findPath(NavigationNode start, NavigationNode end)
+    // slefNode = current occupied node of searcher
+    public ArrayList findPath(int startID, int endID, int selfNodeID)
     {
         PriorityQueue<PathNode> openlist = new PriorityQueue<PathNode>();
         HashSet<PathNode> closedlist = new HashSet<PathNode>();
@@ -158,13 +160,13 @@ public class NavigationGrid : MonoBehaviour {
         // 5 6 7
         PathNode[] successors = new PathNode[8];
 
-        openlist.Enqueue(0, new PathNode(start, null, 0));
+        openlist.Enqueue(0, new PathNode(startID, null, 0));
         
         while(!openlist.IsEmpty())
         {
             PriorityQueue<PathNode>.PriorityQueueElement curr = openlist.Dequeue();
 
-            if ( curr.m_value.node == end )
+            if ( curr.m_value.nodeID == endID )
             {
                 return curr.m_value.GetPath();
             }
@@ -172,7 +174,7 @@ public class NavigationGrid : MonoBehaviour {
             closedlist.Add(curr.m_value);
 
             // Expand to neighbouring cells
-            Vector2i indices = curr.m_value.node.GetGridIndices();
+            Vector2i indices = nodes[curr.m_value.nodeID].GetGridIndices();
             
             for(int i = 0; i < successors.Length; i++)
             {
@@ -185,7 +187,7 @@ public class NavigationGrid : MonoBehaviour {
 
                 if (IndicesOnGrid(successorIdx.x, successorIdx.y))
                 {
-                    successors[i] = new PathNode(nodes[NavigationNode.CalculateID(successorIdx)], null, 0);
+                    successors[i] = new PathNode(nodes[NavigationNode.CalculateID(successorIdx)].GetID(), null, 0);
                 }
             }
 
@@ -195,7 +197,7 @@ public class NavigationGrid : MonoBehaviour {
                 PathNode successor = successors[i];
                 if (successor != null && !closedlist.Contains(successor))
                 {
-                    if (successor.node.nodeType == NavigationNode.nodeTypes.Obst || successor.node.nodeType == NavigationNode.nodeTypes.None)
+                    if (nodes[successor.nodeID].nodeType == NavigationNode.nodeTypes.Obst || nodes[successor.nodeID].nodeType == NavigationNode.nodeTypes.None || (nodes[successor.nodeID].nodeType == NavigationNode.nodeTypes.Enemy && successor.nodeID != selfNodeID))
                     {
                         closedlist.Add(successor);
                         continue;
@@ -203,7 +205,7 @@ public class NavigationGrid : MonoBehaviour {
 
                     int tentative_cost;
                     
-                    tentative_cost = curr.m_value.cost + successor.node.neighbours[7 - i].cost;
+                    tentative_cost = curr.m_value.cost + nodes[successor.nodeID].neighbours[7 - i].cost;
 
                     PriorityQueue<PathNode>.PriorityQueueElement elem;
 
@@ -256,17 +258,9 @@ public class NavigationGrid : MonoBehaviour {
 
     public NavigationNode GetRandomFreeNode()
     {
-        for(int i = 0; i < nodes.Count; i++)
-        {
-            int index = UnityEngine.Random.Range(0, nodes.Count - 1);
+        int index = UnityEngine.Random.Range(0, freeNodeIDs.Count - 1);
 
-            if(nodes != null && nodes.Values[i].nodeType == NavigationNode.nodeTypes.Free)
-            {
-                return nodes.Values[i];
-            }
-        }
-
-        return null;
+        return nodes.Values[index];
     }
 
     public NavigationNode GetNodeAtIndices(int x, int y)
