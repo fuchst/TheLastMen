@@ -33,7 +33,7 @@ public class CollectableSpawner : MonoBehaviour {
         for(int i=0;i < spawnLocations.Count; i++)
         {
             float val = Random.value;
-            if(val >= 0)
+            if(val >= 0.5)
             {
                 
                 int pIdx = Random.Range(0, CollectablePrefabs.Length - 1);
