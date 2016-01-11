@@ -2595,6 +2595,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16559e96354025c449b504187801aaf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnSettings:
+    objectParent: {fileID: 0}
+    trees: []
+    enemies: []
+    crystals: []
+    chanceToSpawnATree: 0
+    minEnemiesOnIsland: 0
+    minCrystalsOnIsland: 0
+    maxSpawnOffSet: {x: 0, y: 0, z: 0}
   priority: 1
 --- !u!114 &11479468
 MonoBehaviour:

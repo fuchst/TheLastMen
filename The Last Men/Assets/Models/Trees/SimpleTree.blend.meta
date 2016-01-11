@@ -60,8 +60,8 @@ ModelImporter:
   tangentSpace:
     normalSmoothAngle: 60
     splitTangentsAcrossUV: 1
-    normalImportMode: 0
-    tangentImportMode: 2
+    normalImportMode: 1
+    tangentImportMode: 1
   importAnimation: 0
   copyAvatar: 0
   humanDescription:

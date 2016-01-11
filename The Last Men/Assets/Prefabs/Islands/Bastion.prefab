@@ -416,7 +416,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 453874}
   - 54: {fileID: 5412814}
-  - 114: {fileID: 11478696}
+  - 114: {fileID: 11418750}
   m_Layer: 0
   m_Name: Bastion
   m_TagString: Island
@@ -2246,7 +2246,7 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
---- !u!114 &11478696
+--- !u!114 &11418750
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2254,10 +2254,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 177492}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16559e96354025c449b504187801aaf2, type: 3}
+  m_Script: {fileID: 11500000, guid: 49a14dd255f223247b1d5ffb859d8b63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  priority: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

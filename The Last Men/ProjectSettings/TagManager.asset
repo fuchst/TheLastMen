@@ -11,7 +11,8 @@ TagManager:
   - Canvas
   - Bullet
   - Deathzone
-  - EnergySpawn
+  - 'Spawn: Enemy n Crystal'
+  - 'Spawn: Tree'
   layers:
   - Default
   - TransparentFX
