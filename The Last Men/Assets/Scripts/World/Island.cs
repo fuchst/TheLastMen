@@ -21,6 +21,7 @@ public class Island : MonoBehaviour
 
     public int priority;
 
+    private IslandNavigation islandNavigation;
     private List<Transform> treeSpawnList = new List<Transform>();
     private List<Transform> enemyNCrystalSpawnPosList = new List<Transform>();
     private float fallingSpeed;
@@ -29,6 +30,8 @@ public class Island : MonoBehaviour
 
     void Awake()
     {
+        islandNavigation = GetComponent<IslandNavigation>();
+
         //Setup spawn references
         Transform spawns = transform.FindChild("Spawns");
         foreach (Transform child in spawns)
@@ -108,6 +111,7 @@ public class Island : MonoBehaviour
             spawnBagList.Add(toAdd);
         }
         //Spawn enemies and crystals
+        Stack<KeyValuePair<GameObject, Vector3>> enemiesWithSpawnPosition = new Stack<KeyValuePair<GameObject, Vector3>>();
         while (spawnBagList.Count > 0)
         {
             int i = Random.Range(0, enemyNCrystalSpawnPosList.Count - 1);
@@ -115,11 +119,20 @@ public class Island : MonoBehaviour
             enemyNCrystalSpawnPosList.RemoveAt(i);
             if (spawnBagList[0] != null)
             {
-                GameObject instantiated = Instantiate(spawnBagList[0], position, Quaternion.identity) as GameObject;
-                instantiated.transform.parent = spawnSettings.objectParent;
+                GameObject nextSpawn = spawnBagList[0];
+                if (nextSpawn.tag == "Enemy")
+                {
+                    enemiesWithSpawnPosition.Push(new KeyValuePair<GameObject, Vector3>(nextSpawn, position));
+                }
+                else
+                {
+                    nextSpawn = Instantiate(nextSpawn, position, Quaternion.identity) as GameObject;
+                    nextSpawn.transform.parent = spawnSettings.objectParent;
+                }
             }
             spawnBagList.RemoveAt(0);
         }
+        //islandNavigation.SpawnEnemies(spawnSettings.objectParent, enemiesWithSpawnPosition);
 
         fallingSpeed = LevelManager.Instance.islandFallingSpeed;
         rigidbody = GetComponent<Rigidbody>();
