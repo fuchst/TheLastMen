@@ -12,7 +12,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: DefaultCompany
   productName: The Last Men
-  defaultCursor: {fileID: 0}
+  defaultCursor: {fileID: 2800000, guid: 69c4d15f83379e3499ca4a81793cc8c8, type: 3}
   cursorHotspot: {x: 1, y: 1}
   m_ShowUnitySplashScreen: 1
   defaultScreenWidth: 1024
@@ -165,7 +165,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 0}
+      m_Icon: {fileID: 2800000, guid: 684b4a013a8aed64ab852e0e6a0482c0, type: 3}
       m_Width: 128
       m_Height: 128
   m_BuildTargetBatching: []

@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class s_EnergyCrystal : MonoBehaviour {
+public class s_EnergyCrystal : s_Collectible {
 
-	public Vector2 energyLootRange = new Vector2(3.0f, 7.0f);
+	public float energyLootMin = 3;
+    public float energyLootMax = 7;
+    protected float energyLootCur;
 
-	void OnTriggerEnter (Collider other) {
-		if(other.tag.Equals("Player")){
+    void Awake () {
+        energyLootCur = RandomFromDistribution.RandomRangeNormalDistribution(energyLootMin, energyLootMax, RandomFromDistribution.ConfidenceLevel_e._99);
+    }
 
-			//other.GetComponent<s_Player>().AddEnergy(energyLoot);
-			Debug.Log("Energy collected.");
-			GetComponent<Collider>().enabled = false;
-			foreach(MeshRenderer r in GetComponentsInChildren<MeshRenderer>()){
-				r.enabled = false;
-			}
-			Destroy(gameObject, 2.0f);
-		}
-	}
+    protected override void Collect () {
+        s_GameManager.Instance.energyCur = Mathf.Clamp(s_GameManager.Instance.energyCur + energyLootCur, 0, s_GameManager.Instance.energyMax);
+    }
 }
