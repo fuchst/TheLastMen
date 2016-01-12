@@ -54,12 +54,12 @@ public class GroundEnemy : Enemy {
         }
     }
 
-    protected override void Death()
+    protected override void OnDeath()
     {
         navGrid.nodes[currentNodeID].SetNodeType(NavigationNode.nodeTypes.Free);
         navGrid.freeNodeIDs.Add(currentNodeID);
 
-        base.Death();
+        base.OnDeath();
     }
 
     protected override void Move()

@@ -16,7 +16,7 @@ public class GroundEnemyStateIdle : EnemyState {
     public override void action()
     {
         // Check if the player is close by and clear the path
-        if(Vector3.Distance(enemy.transform.position, enemy.player.transform.position) < enemy.senseRange)
+        if(Vector3.Distance(enemy.transform.position, enemy.player.transform.position) < enemy.senseRangeSearching)
         {
             enemy.SendMessage("ChangeState", EnemyState.stateIDs.Search);
 

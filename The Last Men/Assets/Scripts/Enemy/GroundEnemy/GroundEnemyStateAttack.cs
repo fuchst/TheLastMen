@@ -33,9 +33,12 @@ public class GroundEnemyStateAttack : EnemyState {
                 enemy.GetComponent<Animation>().Play();
             }
             
-            enemy.path.Clear();
+            if(enemy.path != null)
+            {
+                enemy.path.Clear();
+            }
         }
-        else if ( dist > enemy.senseRange || enemy.navGrid.GetClosestNode(playerPos) == null)
+        else if ( enemy.navGrid.GetClosestNode(playerPos) == null )
         {
             enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
         }

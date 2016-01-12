@@ -12,7 +12,10 @@ public abstract class Enemy : MonoBehaviour {
     public float attackSpeed = 1.0f;
 
     public float fov = 20.0f;
-    public float senseRange = 15.0f;
+    // Change state to searching if smaller
+    public float senseRangeSearching = 15.0f;
+    // Change state to attack if smaller
+    public float senseRangeAttack = 5.0f;
 
     private GameObject _player;
     public GameObject player
@@ -24,6 +27,10 @@ public abstract class Enemy : MonoBehaviour {
     protected CharacterController controller;
 
     protected EnemyState state;
+    public EnemyState State
+    {
+        get { return state; }
+    }
 
     void Awake()
     {
@@ -72,11 +79,11 @@ public abstract class Enemy : MonoBehaviour {
         hp -= dmg;
         if(hp <= 0)
         {
-            Death();
+            OnDeath();
         }
     }
 
-    protected virtual void Death()
+    protected virtual void OnDeath()
     {
         Destroy(this.gameObject);
     }

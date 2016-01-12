@@ -21,12 +21,12 @@ public class GroundEnemyStateSearching : EnemyState {
 
         float angle = Vector3.Angle(dir, enemy.transform.forward);
 
-        // Change state to Attack if player is in viewfield and on island
-        if(angle < enemy.fov && enemy.navGrid.GetClosestNode(enemy.transform.position) != null)
+        // Change state to Attack if player is in viewfield or close by and on island
+        if((angle < enemy.fov || dist < enemy.senseRangeAttack) && enemy.navGrid.GetClosestNode(enemy.transform.position) != null )
         {
             enemy.SendMessage("ChangeState", EnemyState.stateIDs.Attack);
         }
-        else if (dist > enemy.senseRange)
+        else if (dist > enemy.senseRangeSearching)
         {
             enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
         }

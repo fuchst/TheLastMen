@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 
 public class NavigationGrid : MonoBehaviour {
 
-    public float stepSize = 2.0f;
+    public float stepSize = 8.0f;
     public float maxHeight = 100.0f;
 
     public SortedList<int, NavigationNode> nodes = new SortedList<int, NavigationNode>();
