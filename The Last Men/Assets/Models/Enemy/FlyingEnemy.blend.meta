@@ -1,0 +1,378 @@
+fileFormatVersion: 2
+guid: cf5d1237219ea3848bda6ea93a37ea60
+timeCreated: 1452367068
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: 1_L
+    100002: 1_R
+    100004: 2_L
+    100006: 2_R
+    100008: 3_L
+    100010: 3_R
+    100012: 4_L
+    100014: 4_R
+    100016: Bone
+    100018: Bone_001
+    100020: Bone_002
+    100022: Bone_003
+    100024: Bone_004
+    100026: Enemy
+    100028: //RootNode
+    100030: Left_Wing
+    100032: LeftEye
+    100034: LowerHead
+    100036: Plane
+    100038: Plane_001
+    100040: Right_Wing
+    100042: RightEye
+    100044: Tongue
+    100046: TongueBones
+    100048: UpperHead
+    400000: 1_L
+    400002: 1_R
+    400004: 2_L
+    400006: 2_R
+    400008: 3_L
+    400010: 3_R
+    400012: 4_L
+    400014: 4_R
+    400016: Bone
+    400018: Bone_001
+    400020: Bone_002
+    400022: Bone_003
+    400024: Bone_004
+    400026: Enemy
+    400028: //RootNode
+    400030: Left_Wing
+    400032: LeftEye
+    400034: LowerHead
+    400036: Plane
+    400038: Plane_001
+    400040: Right_Wing
+    400042: RightEye
+    400044: Tongue
+    400046: TongueBones
+    400048: UpperHead
+    2300000: LeftEye
+    2300002: LowerHead
+    2300004: RightEye
+    2300006: UpperHead
+    3300000: LeftEye
+    3300002: LowerHead
+    3300004: RightEye
+    3300006: UpperHead
+    4300000: Plane
+    4300002: Tongue
+    4300004: Plane_001
+    4300006: UpperHead
+    4300008: RightEye
+    4300010: LeftEye
+    4300012: LowerHead
+    7400000: Default Take
+    7400002: Left_WingAction
+    7400004: Right_WingAction
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: Plane
+    13700002: Plane_001
+    13700004: Tongue
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Default Take
+      takeName: Default Take
+      firstFrame: 0
+      lastFrame: 29
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Enemy
+        weight: 1
+      - path: Enemy/LowerHead
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone/Bone_001
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone/Bone_001/Bone_002
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone/Bone_001/Bone_002/Bone_003
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone/Bone_001/Bone_002/Bone_003/Bone_004
+        weight: 1
+      - path: Enemy/UpperHead
+        weight: 1
+      - path: Enemy/UpperHead/LeftEye
+        weight: 1
+      - path: Enemy/UpperHead/RightEye
+        weight: 1
+      - path: Left_Wing
+        weight: 1
+      - path: Left_Wing/1_R
+        weight: 1
+      - path: Left_Wing/1_R/2_R
+        weight: 1
+      - path: Left_Wing/1_R/2_R/3_R
+        weight: 1
+      - path: Left_Wing/1_R/2_R/3_R/4_R
+        weight: 1
+      - path: Plane
+        weight: 1
+      - path: Plane_001
+        weight: 1
+      - path: Right_Wing
+        weight: 1
+      - path: Right_Wing/1_L
+        weight: 1
+      - path: Right_Wing/1_L/2_L
+        weight: 1
+      - path: Right_Wing/1_L/2_L/3_L
+        weight: 1
+      - path: Right_Wing/1_L/2_L/3_L/4_L
+        weight: 1
+      - path: Tongue
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Left_WingAction
+      takeName: Left_WingAction
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Enemy
+        weight: 1
+      - path: Enemy/LowerHead
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone/Bone_001
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone/Bone_001/Bone_002
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone/Bone_001/Bone_002/Bone_003
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone/Bone_001/Bone_002/Bone_003/Bone_004
+        weight: 1
+      - path: Enemy/UpperHead
+        weight: 1
+      - path: Enemy/UpperHead/LeftEye
+        weight: 1
+      - path: Enemy/UpperHead/RightEye
+        weight: 1
+      - path: Left_Wing
+        weight: 1
+      - path: Left_Wing/1_R
+        weight: 1
+      - path: Left_Wing/1_R/2_R
+        weight: 1
+      - path: Left_Wing/1_R/2_R/3_R
+        weight: 1
+      - path: Left_Wing/1_R/2_R/3_R/4_R
+        weight: 1
+      - path: Plane
+        weight: 1
+      - path: Plane_001
+        weight: 1
+      - path: Right_Wing
+        weight: 1
+      - path: Right_Wing/1_L
+        weight: 1
+      - path: Right_Wing/1_L/2_L
+        weight: 1
+      - path: Right_Wing/1_L/2_L/3_L
+        weight: 1
+      - path: Right_Wing/1_L/2_L/3_L/4_L
+        weight: 1
+      - path: Tongue
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Right_WingAction
+      takeName: Right_WingAction
+      firstFrame: 0
+      lastFrame: 30
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Enemy
+        weight: 1
+      - path: Enemy/LowerHead
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone/Bone_001
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone/Bone_001/Bone_002
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone/Bone_001/Bone_002/Bone_003
+        weight: 1
+      - path: Enemy/LowerHead/TongueBones/Bone/Bone_001/Bone_002/Bone_003/Bone_004
+        weight: 1
+      - path: Enemy/UpperHead
+        weight: 1
+      - path: Enemy/UpperHead/LeftEye
+        weight: 1
+      - path: Enemy/UpperHead/RightEye
+        weight: 1
+      - path: Left_Wing
+        weight: 1
+      - path: Left_Wing/1_R
+        weight: 1
+      - path: Left_Wing/1_R/2_R
+        weight: 1
+      - path: Left_Wing/1_R/2_R/3_R
+        weight: 1
+      - path: Left_Wing/1_R/2_R/3_R/4_R
+        weight: 1
+      - path: Plane
+        weight: 1
+      - path: Plane_001
+        weight: 1
+      - path: Right_Wing
+        weight: 1
+      - path: Right_Wing/1_L
+        weight: 1
+      - path: Right_Wing/1_L/2_L
+        weight: 1
+      - path: Right_Wing/1_L/2_L/3_L
+        weight: 1
+      - path: Right_Wing/1_L/2_L/3_L/4_L
+        weight: 1
+      - path: Tongue
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.5
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

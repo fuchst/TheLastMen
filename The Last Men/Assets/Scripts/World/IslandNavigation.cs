@@ -42,6 +42,11 @@ public class IslandNavigation : MonoBehaviour {
         }
     }
 
+    public void SpawnEnemies(Transform parent, Stack<KeyValuePair<GameObject, Vector3>> enemiesWithSpawnPosition)
+    {
+
+    }
+
     void OnDestroy()
     {
         while(enemies.Count != 0)
