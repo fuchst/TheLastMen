@@ -18,6 +18,8 @@ public class LevelManager : MonoBehaviour
     private Level[] levels = new Level[4];
     private int currentLevel = 0;
 
+    public int CurLvl { get { return currentLevel; } }
+
     void Awake()
     {
         if (instance) {

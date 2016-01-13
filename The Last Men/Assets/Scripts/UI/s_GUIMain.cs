@@ -1,12 +1,41 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+public enum GUIUpdateEvent {
+    Energy,
+    Wood,
+    Artifact,
+    Health,
+    Pause,
+    Layer,
+    All
+}
+
 public class s_GUIMain : MonoBehaviour {
+    private static s_GUIMain instance;
+
+	public static s_GUIMain Instance { get { return instance; } }
+
+	void Awake () {
+		if (instance) {
+			Destroy(this);
+		} else {
+			instance = this;
+		}
+    }
+
 	[SerializeField]protected Canvas canvas;
 	protected RectTransform canvasRT;
 
+    [SerializeField]protected CanvasGroup GUI_Ingame;
+    [SerializeField]protected CanvasGroup GUI_PauseMenu;
+    [SerializeField]protected CanvasGroup GUI_BastionMenu;
+    [SerializeField]protected CanvasGroup GUI_LayerChange;
+    [SerializeField]protected CanvasGroup GUI_GameEnd;
+
+
 	[SerializeField]protected Image iconBastion;
-    [SerializeField]protected Image iconBastionEnergy;
+    [SerializeField]protected Image iconBastionEnergy_Main;
     [SerializeField]protected Image iconBastionDirection;
     [SerializeField]protected Image iconBastionFrame;
     [SerializeField]protected RectTransform textBastionDirDisplayParent;
@@ -18,30 +47,60 @@ public class s_GUIMain : MonoBehaviour {
     [Tooltip("color reaches \"far\" value at distances of distanceBastionFar and above")]
     [SerializeField]protected float distanceBastionFar = 250.0f; //color reaches "far" value at distances of distanceBastionFar and above
     
-    
-    [SerializeField]protected Image iconPlayerHealth;
-	[SerializeField]protected Image iconPlayerEnergy;
-    [SerializeField]protected Image iconPlayerWood;
 
-    [SerializeField]protected Image iconArtifacts1; //ancient thrust
-    [SerializeField]protected Image iconArtifacts2; //gravitational freeze
+    [SerializeField]protected Image iconPlayerEnergy_Main;
+    [SerializeField]protected Image iconPlayerWood_Main;
+    //[SerializeField]protected Image iconPlayerEnergy_Bastion;
+    //[SerializeField]protected Image iconPlayerWood_Bastion;
+    //[SerializeField]protected Image iconBastionEnergy_Bastion;
+    //[SerializeField]protected Image iconBastionWood_Bastion;
+    [SerializeField]protected Text textPlayerEnergy_Main;
+    [SerializeField]protected Text textPlayerWood_Main;
+    [SerializeField]protected Text textPlayerEnergy_Bastion;
+    [SerializeField]protected Text textPlayerWood_Bastion;
+    [SerializeField]protected Text textBastionEnergy_Bastion;
+    [SerializeField]protected Text textBastionWood_Bastion;
+
+
+    [SerializeField]protected Image iconArtifacts1_Main; //ancient thrust
+    [SerializeField]protected Image iconArtifacts2_Main; //gravitational freeze
+    [SerializeField]protected ParticleSystem particlesArtifacts1;
+    [SerializeField]protected ParticleSystem particlesArtifacts2;
+    [SerializeField]protected Image iconArtifacts1_Bastion; //ancient thrust
+    [SerializeField]protected Image iconArtifacts2_Bastion; //gravitational freeze
+    [SerializeField]protected Text textArtifacts1_Main;
+    [SerializeField]protected Text textArtifacts2_Main;
+    [SerializeField]protected Text textArtifacts1_Bastion;
+    [SerializeField]protected Text textArtifacts2_Bastion;
+
 
 	[SerializeField]protected Image iconRemainingTime;
-    [SerializeField]protected Image iconCurrentLayer;
+    [SerializeField]protected Text textRemainingTime;
+    
+    [SerializeField]protected Image iconPlayerHealth;
+	[SerializeField]protected Text textPlayerHealth;
 
     [SerializeField]protected Image iconSkillCooldownBar;
+
     [SerializeField]protected Button buttonPause;
 
 
-	[SerializeField]protected Text textPlayerHealth;
-	[SerializeField]protected Text textPlayerEnergy;
-    [SerializeField]protected Text textPlayerWood;
+	
+    [SerializeField]protected Button buttonTake1Energy;
+    [SerializeField]protected Button buttonTake10Energy;
+    [SerializeField]protected Button buttonStore1Energy;
+    [SerializeField]protected Button buttonStore10Energy;
+    [SerializeField]protected Button buttonTake1Wood;
+    [SerializeField]protected Button buttonTake10Wood;
+    [SerializeField]protected Button buttonStore1Wood;
+    [SerializeField]protected Button buttonStore10Wood;
+    [SerializeField]protected Button buttonClimbLayer;
 
-    [SerializeField]protected Text textArtifacts1;
-    [SerializeField]protected Text textArtifacts2;
+    [SerializeField]protected Text textSurvivorCount;
 
-	[SerializeField]protected Text textRemainingTime;
+	[SerializeField]protected Image iconCurrentLayer;
     [SerializeField]protected Text textCurrentLayer;
+    [SerializeField]protected Text textClimbLayer;
 
 
     //get from game manager later?
@@ -49,14 +108,30 @@ public class s_GUIMain : MonoBehaviour {
 	[SerializeField]protected Transform playerTransform;
 	[SerializeField]protected Camera playerCamera;
 
+    [SerializeField]protected Image pauseScreenOverlay;
+    [SerializeField]protected Button buttonContinue;
+    [SerializeField]protected Button buttonRestart;
+    [SerializeField]protected Button buttonQuit;
+
     
     //for bastion indicator
     protected bool offscreen = false;
     protected int min, maxX, maxY;
+
+    //shortcut
+    protected s_GameManager game;
     
 
 	// Use this for initialization
 	void Start () {
+        //If we are in a test level and we dont have a GameManager
+        if(s_GameManager.Instance == null) {
+            enabled = false;
+        }
+        else {
+            game = s_GameManager.Instance;
+        }
+
 		canvasRT = canvas.GetComponent<RectTransform> ();
 
         if (!playerTransform) {
@@ -79,38 +154,120 @@ public class s_GUIMain : MonoBehaviour {
         maxX = Screen.width - screenBorderThreshold;
         maxY = Screen.height - screenBorderThreshold;
 
-        buttonPause.onClick.AddListener(() => { s_GameManager.Instance.SwitchGamePaused(); });
+        buttonPause.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(true); });
+        buttonContinue.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(false); });
+
+        buttonTake1Wood.onClick.AddListener(() => { s_GameManager.Instance.TakeWood(1); });
+        buttonTake10Wood.onClick.AddListener(() => { s_GameManager.Instance.TakeWood(10); });
+        buttonStore1Wood.onClick.AddListener(() => { s_GameManager.Instance.StoreWood(1); });
+        buttonStore10Wood.onClick.AddListener(() => { s_GameManager.Instance.StoreWood(10); });
+        buttonTake1Energy.onClick.AddListener(() => { s_GameManager.Instance.TakeEnergy(1); });
+        buttonTake10Energy.onClick.AddListener(() => { s_GameManager.Instance.TakeEnergy(10); });
+        buttonStore1Energy.onClick.AddListener(() => { s_GameManager.Instance.StoreEnergy(1); });
+        buttonStore10Energy.onClick.AddListener(() => { s_GameManager.Instance.StoreEnergy(10); });
+
+        buttonClimbLayer.onClick.AddListener(() => { LevelManager.Instance.AdvanceLevel();
+                                                     s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer); });
+        
     }
 	
 	void Update () {
-        //If we are in a test level and we dont have a GameManager
-        if(s_GameManager.Instance == null) {
-            return;
+        if (!game.gamePaused) {
+
+            #region UpdatePerFrame
+            int remainingTime = (int)(game.endTime - Time.time);
+		    textRemainingTime.text =  remainingTime/60 + ":" + remainingTime%60;
+            iconRemainingTime.fillAmount = (float)remainingTime / game.roundDuration;
+            UpdateBastionDirectionIcon();
+            #endregion
+            
+
+            #region TODO: only update when changing?
+
+            
+
+            #endregion
+
+            #region TODO: put in proper references!! 
+            //iconSkillCooldownBar.fillAmount = (0.1f * Time.time) % 1.0f;
+            //iconBastionEnergy_Main.fillAmount = Mathf.PingPong(0.25f * Time.time, 1.0f);
+            #endregion
+
         }
-		s_GameManager game = s_GameManager.Instance;
-		
-		int remainingTime = (int)(game.endTime - Time.time);
-		textRemainingTime.text =  remainingTime/60 + ":" + remainingTime%60;
-        iconRemainingTime.fillAmount = (float)remainingTime / game.roundDuration;
+        if (game.gamePaused) {
+            //show seed in pause menu
+        }
 
-        //TODO: only update when changing?
-        textArtifacts1.text = game.artifact1CountCur.ToString();
-        iconArtifacts1.fillAmount = game.artifact1CountCur / game.artifactCountMax;
-        textArtifacts2.text = game.artifact2CountCur.ToString();
-        iconArtifacts2.fillAmount = game.artifact2CountCur / game.artifactCountMax;
+	}
 
+    public void UpdateGUI (GUIUpdateEvent updateType = GUIUpdateEvent.All) {
+        switch (updateType) {
+            case GUIUpdateEvent.Energy:
+                UpdateEnergyState();
+                break;
+            case GUIUpdateEvent.Wood:
+                UpdateWoodState();
+                break;
+            case GUIUpdateEvent.Artifact:
+                UpdateArtifactState();
+                break;
+            case GUIUpdateEvent.Health:
+                break;
+            case GUIUpdateEvent.Pause:
+                UpdatePauseState();
+                break;
+            case GUIUpdateEvent.Layer:
+                break;
+            case GUIUpdateEvent.All:
+                UpdateArtifactState();
+                UpdatePauseState();
+                break;
+        }
+    }
+
+    protected void UpdateEnergyState () {
+        iconPlayerEnergy_Main.fillAmount = game.energyPlayer_Cur / game.energyPlayer_Max;
+        textPlayerEnergy_Bastion.text = textPlayerEnergy_Main.text = game.energyPlayer_Cur.ToString("0.0");
+        iconBastionEnergy_Main.fillAmount = game.energyBastion_Cur / game.energyBastion_Max;
+        buttonClimbLayer.interactable = game.energyBastion_Cur >= game.energyCostClimbLayer;
+        textClimbLayer.text = game.energyCostClimbLayer.ToString("0");
+    }
+
+    protected void UpdateWoodState () {
+        iconPlayerWood_Main.fillAmount = game.woodPlayer_Cur / game.woodPlayer_Max;
+        textPlayerWood_Bastion.text = textPlayerWood_Main.text = game.woodPlayer_Cur.ToString("0");
+    }
+
+    protected void UpdateArtifactState () {
+        bool artifacts1Incomplete = game.artifact1CountCur < game.artifactCountMax;
+        textArtifacts1_Bastion.text = textArtifacts1_Main.text = artifacts1Incomplete ? game.artifact1CountCur.ToString() : "";
+        iconArtifacts1_Bastion.fillAmount = iconArtifacts1_Main.fillAmount = game.artifact1CountCur / game.artifactCountMax;
+        particlesArtifacts1.enableEmission = !artifacts1Incomplete;
+
+        bool artifacts2Incomplete = game.artifact2CountCur < game.artifactCountMax;
+        textArtifacts2_Bastion.text = textArtifacts2_Main.text = artifacts2Incomplete ? game.artifact2CountCur.ToString() : "";
+        iconArtifacts2_Bastion.fillAmount = iconArtifacts2_Main.fillAmount = game.artifact2CountCur / game.artifactCountMax;
+        particlesArtifacts2.enableEmission = !artifacts2Incomplete;
+    }
+
+    protected void UpdateHealthState () {
         textPlayerHealth.text = game.healthpointsCur.ToString();
         iconPlayerHealth.fillAmount = (float)game.healthpointsCur / (float)game.healthpointsMax;
+    }
 
-        //TODO: put in proper references!! 
-        iconSkillCooldownBar.fillAmount = (0.1f * Time.time) % 1.0f;
-        iconPlayerWood.fillAmount = 0.4f;
-        iconPlayerEnergy.fillAmount = 0.75f;
-        iconBastionEnergy.fillAmount = Mathf.PingPong(0.25f * Time.time, 1.0f);
-        
+    protected void UpdatePauseState () {
+        bool paused = game.gamePaused;
+        GUI_Ingame.gameObject.SetActive(!paused);
+        //GUI_Ingame.interactable = !paused;
+        GUI_PauseMenu.gameObject.SetActive(paused);
+        //GUI_PauseMenu.interactable = paused;
+        pauseScreenOverlay.CrossFadeAlpha(paused ? 1.0f : 0.0f, 0.5f, true);
+        Cursor.visible = paused;
+    }
 
-        UpdateBastionDirectionIcon();
-	}
+    protected void UpdateLayerState () {
+        textCurrentLayer.text = "Layer " + (LevelManager.Instance.CurLvl + 1);
+    }
 
     //TODO: possibly change color, transparency, size?
     void UpdateBastionDirectionIcon () {
@@ -181,69 +338,6 @@ public class s_GUIMain : MonoBehaviour {
             textBastionDirDisplay.rectTransform.anchoredPosition = Vector3.zero;
         }
     }
-
-    /*
-    void UpdateBastionDirectionIconOld () {
-        Vector3 bastionViewportPos = playerCamera.WorldToViewportPoint (bastionTransform.position);
-
-        float min, max, rad, screenBorderThresholdF;
-        screenBorderThresholdF = screenBorderThreshold * 0.01f; //initially was 0.05f * screen
-        min = 0 + screenBorderThresholdF;
-        max = 1 - screenBorderThresholdF;
-        rad = 0.5f - screenBorderThresholdF;
-
-        //if bastion is visible from camera
-        if (bastionViewportPos.z > 0 &&
-			bastionViewportPos.x > min && bastionViewportPos.x < max &&
-			bastionViewportPos.y > min && bastionViewportPos.y < max) {
-
-			iconPlayerBastion.gameObject.SetActive(true);
-            //iconPlayerBastion.rectTransform.localPosition = bastionViewportPos;
-
-            Vector2 bastionScreenPos = ViewportToCanvasSpace(bastionViewportPos, canvasRT.sizeDelta);
-
-			//lerp to avoid jittering
-			iconPlayerBastion.rectTransform.anchoredPosition = Vector2.Lerp(iconPlayerBastion.rectTransform.anchoredPosition, bastionScreenPos, lerpingSpeedFactor * Time.deltaTime);
-		}
-		//if bastion is somewhere not behind the player
-		else if (bastionViewportPos.z > 0) {
-
-            iconPlayerBastion.gameObject.SetActive(true);
-
-            bastionViewportPos.x = Mathf.Clamp(bastionViewportPos.x, min, max);
-            bastionViewportPos.y = Mathf.Clamp(bastionViewportPos.y, min, max);
-
-            //float distX = Mathf.Abs(0.5f - bastionViewportPos.x);
-            //float distY = Mathf.Abs(0.5f - bastionViewportPos.y);
-            //if (Mathf.Max(distX, distY) > rad) { 
-                // out of screen 
-            //}
-
-            //float offsetX = bastionViewportPos.x - 0.5f;
-            //float offsetY = bastionViewportPos.y - 0.5f;
-            //float maxAbsOffset = Mathf.Max(Mathf.Abs(offsetX), Mathf.Abs(offsetY));
-            //bastionViewportPos *= rad/maxAbsOffset;
-            //if (maxAbsOffset == Mathf.Abs(offsetX)){
-            //    bastionViewportPos *= rad/offsetX;
-            //}
-            //else {
-            //    bastionViewportPos *= rad/offsetY;
-            //}
-            //float maxAbsOffset = Mathf.Max(Mathf.Abs(offsetX), Mathf.Abs(offsetY));
-            //bastionViewportPos.x *= maxAbsOffset * Mathf.Sign(offsetX);
-            //bastionViewportPos.y *= maxAbsOffset * Mathf.Sign(offsetY);
-            //bastionViewportPos *= rad/Mathf.Max(offsetX, offsetY);
-
-            Vector2 bastionScreenPos = ViewportToCanvasSpace(bastionViewportPos, canvasRT.sizeDelta);
-
-            //lerp to avoid jittering
-            iconPlayerBastion.rectTransform.anchoredPosition = Vector2.Lerp(iconPlayerBastion.rectTransform.anchoredPosition, bastionScreenPos, lerpingSpeedFactor * Time.deltaTime);
-        }
-        else {
-            iconPlayerBastion.gameObject.SetActive(false);
-        }
-    }
-    */
 
     Vector2 ViewportToCanvasSpace (Vector3 posViewport, Vector2 canvasSizeDelta) {
         return new Vector2((posViewport.x - 0.5f) * canvasSizeDelta.x, (posViewport.y - 0.5f) * canvasSizeDelta.y);
