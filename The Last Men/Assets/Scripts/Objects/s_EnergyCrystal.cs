@@ -13,5 +13,6 @@ public class s_EnergyCrystal : s_Collectible {
 
     protected override void Collect () {
         s_GameManager.Instance.energyPlayer_Cur = Mathf.Clamp(s_GameManager.Instance.energyPlayer_Cur + energyLootCur, 0, s_GameManager.Instance.energyPlayer_Max);
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
     }
 }

@@ -15,5 +15,6 @@ public class s_Artifact : s_Collectible {
             s_GameManager.Instance.artifact1CountCur++;
         else if(artifactType == 2)
             s_GameManager.Instance.artifact2CountCur++;
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Artifact);
     }
 }

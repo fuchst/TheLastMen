@@ -10,9 +10,9 @@ public class s_GameManager : MonoBehaviour {
     public int artifactCountMax = 10;
 
     public float energyPlayer_Cur = 0;
-    public float energyPlayer_Max = 10;
+    public float energyPlayer_Max = 100;
     public float energyBastion_Cur = 0;
-    public float energyBastion_Max = 10;
+    public float energyBastion_Max = 100;
 
     public float woodPlayer_Cur = 0;
     public float woodBastion_Cur = 0;

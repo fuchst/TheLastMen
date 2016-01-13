@@ -224,15 +224,21 @@ public class s_GUIMain : MonoBehaviour {
                 UpdateArtifactState();
                 break;
             case GUIUpdateEvent.Health:
+                UpdateHealthState();
                 break;
             case GUIUpdateEvent.Pause:
                 UpdatePauseState();
                 break;
             case GUIUpdateEvent.Layer:
+                UpdateLayerState();
                 break;
             case GUIUpdateEvent.All:
+                UpdateEnergyState();
+                UpdateWoodState();
                 UpdateArtifactState();
+                UpdateHealthState();
                 UpdatePauseState();
+                UpdateLayerState();
                 break;
         }
     }
