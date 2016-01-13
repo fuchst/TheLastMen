@@ -24,43 +24,48 @@ public class Island : MonoBehaviour
     private IslandNavigation islandNavigation;
     private List<Transform> treeSpawnList = new List<Transform>();
     private List<Transform> enemyNCrystalSpawnPosList = new List<Transform>();
-    private float fallingSpeed;
+	private float fallingSpeed = 0;
     private float extraSpeedFactorOnCollision = 5.0f;
     new private Rigidbody rigidbody;
+	
+	void Awake(){
+		islandNavigation = GetComponentInChildren<IslandNavigation>();
+		if (LevelManager.Instance == true) {
+			fallingSpeed = LevelManager.Instance.islandFallingSpeed;
+		}
+		rigidbody = GetComponent<Rigidbody>();
 
-    void Awake()
+		//Setup spawn references
+		Transform spawns = transform.FindChild("Spawns");
+		foreach (Transform child in spawns)
+		{
+			if (child.tag == "Spawn: Tree")
+			{
+				treeSpawnList.Add(child);
+			}
+			else if (child.tag == "Spawn: Enemy n Crystal")
+			{
+				enemyNCrystalSpawnPosList.Add(child);
+			}
+		}
+		if (spawnSettings.enemies.Length == 0)
+		{
+			spawnSettings.minEnemiesOnIsland = 0;
+		}
+		else if (spawnSettings.crystals.Length == 0)
+		{
+			spawnSettings.minCrystalsOnIsland = 0;
+		}
+		if (spawnSettings.minCrystalsOnIsland + spawnSettings.minEnemiesOnIsland > enemyNCrystalSpawnPosList.Count)
+		{
+			Debug.LogError("MinCrystalOnIsland + MinEnemiesOnIsland is too high");
+			spawnSettings.minCrystalsOnIsland = Mathf.FloorToInt(0.5f * enemyNCrystalSpawnPosList.Count);
+			spawnSettings.minEnemiesOnIsland = spawnSettings.minCrystalsOnIsland;
+		}
+	}
+
+    void Start()
     {
-        islandNavigation = GetComponent<IslandNavigation>();
-
-        //Setup spawn references
-        Transform spawns = transform.FindChild("Spawns");
-        foreach (Transform child in spawns)
-        {
-            if (child.tag == "Spawn: Tree")
-            {
-                treeSpawnList.Add(child);
-            }
-            else if (child.tag == "Spawn: Enemy n Crystal")
-            {
-                enemyNCrystalSpawnPosList.Add(child);
-            }
-        }
-        if (spawnSettings.enemies.Length == 0)
-        {
-            spawnSettings.minEnemiesOnIsland = 0;
-        }
-        else if (spawnSettings.crystals.Length == 0)
-        {
-            spawnSettings.minCrystalsOnIsland = 0;
-        }
-
-        if (spawnSettings.minCrystalsOnIsland + spawnSettings.minEnemiesOnIsland > enemyNCrystalSpawnPosList.Count)
-        {
-            Debug.LogError("MinCrystalOnIsland + MinEnemiesOnIsland is too high");
-            spawnSettings.minCrystalsOnIsland = Mathf.FloorToInt(0.5f * enemyNCrystalSpawnPosList.Count);
-            spawnSettings.minEnemiesOnIsland = spawnSettings.minCrystalsOnIsland;
-        }
-
         //Spawn trees
         foreach (Transform spawnPos in treeSpawnList)
         {
@@ -132,10 +137,7 @@ public class Island : MonoBehaviour
             }
             spawnBagList.RemoveAt(0);
         }
-        //islandNavigation.SpawnEnemies(spawnSettings.objectParent, enemiesWithSpawnPosition);
-
-        fallingSpeed = LevelManager.Instance.islandFallingSpeed;
-        rigidbody = GetComponent<Rigidbody>();
+        islandNavigation.SpawnEnemies(spawnSettings.objectParent, enemiesWithSpawnPosition);
     }
 
     void Update()
