@@ -77,8 +77,9 @@ public class Island : MonoBehaviour
                     0,
                     Random.Range(-spawnSettings.maxSpawnOffSet.z, spawnSettings.maxSpawnOffSet.z));
                 Quaternion rotation = Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0));
-                GameObject tree = Instantiate(spawnSettings.trees[treeType], position, rotation) as GameObject;
+                GameObject tree = Instantiate(spawnSettings.trees[treeType], position, Quaternion.identity) as GameObject;
                 tree.transform.parent = spawnSettings.objectParent;
+				tree.transform.localRotation = rotation;
             }
         }
 
@@ -133,6 +134,7 @@ public class Island : MonoBehaviour
                 {
                     nextSpawn = Instantiate(nextSpawn, position, Quaternion.identity) as GameObject;
                     nextSpawn.transform.parent = spawnSettings.objectParent;
+					nextSpawn.transform.localRotation = Quaternion.identity;
                 }
             }
             spawnBagList.RemoveAt(0);
