@@ -5,6 +5,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get { return instance; } }
     public float islandFallingSpeed = 2.0f;
     public int rngSeed = 1337;
+    [SerializeField] protected GameObject playerPrefab;
     public GameObject player;
     public IslandPrefabs islandPrefabs;
     public LevelVariables[] levelVariables = new LevelVariables[3];
@@ -105,7 +106,7 @@ public class LevelManager : MonoBehaviour
         spawnPos += spawnPos.normalized;
         if (currentLevel == 0)
         {
-            player = Instantiate(player, spawnPos, Quaternion.identity) as GameObject;
+            player = Instantiate(playerPrefab, spawnPos, Quaternion.identity) as GameObject;
         }
         else
         {

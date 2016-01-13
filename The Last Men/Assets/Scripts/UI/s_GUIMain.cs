@@ -104,8 +104,9 @@ public class s_GUIMain : MonoBehaviour {
 
 
     //get from game manager later?
-    [SerializeField]protected Transform bastionTransform;
-	[SerializeField]protected Transform playerTransform;
+    //[SerializeField]protected Transform bastionTransform;
+    public Transform bastionTransform;
+    [SerializeField]protected Transform playerTransform;
 	[SerializeField]protected Camera playerCamera;
 
     [SerializeField]protected Image pauseScreenOverlay;
@@ -142,17 +143,18 @@ public class s_GUIMain : MonoBehaviour {
             playerCamera = playerTransform.GetChild(0).GetComponent<Camera>();
         }
 
-		if(!bastionTransform){
+		/*if(!bastionTransform){
 			bastionTransform = new GameObject("bastion").transform;
 			bastionTransform.position = playerTransform.position - playerTransform.up * 0.99f * playerTransform.localScale.y;
             bastionTransform.rotation = playerTransform.rotation;
             bastionTransform.gameObject.AddComponent<SpriteRenderer>();
             bastionTransform.gameObject.GetComponent<SpriteRenderer>().sprite = iconBastion.sprite;
-        }
+        }*/
 
         min = 0 + screenBorderThreshold;
         maxX = Screen.width - screenBorderThreshold;
         maxY = Screen.height - screenBorderThreshold;
+
 
         buttonPause.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(true); });
         buttonContinue.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(false); });
@@ -172,8 +174,15 @@ public class s_GUIMain : MonoBehaviour {
     }
 	
 	void Update () {
-        if (!game.gamePaused) {
+        if(Input.GetKeyDown(KeyCode.Escape)) {
+            game.SwitchGamePaused();
+        }
+        if(game.playerInBastion && Input.GetAxis("Inventory") != 0) {
+            GUI_BastionMenu.gameObject.SetActive(!GUI_BastionMenu.gameObject.activeSelf);
+        }
 
+        if (!game.gamePaused) {
+            
             #region UpdatePerFrame
             int remainingTime = (int)(game.endTime - Time.time);
 		    textRemainingTime.text =  remainingTime/60 + ":" + remainingTime%60;
@@ -201,6 +210,9 @@ public class s_GUIMain : MonoBehaviour {
 	}
 
     public void UpdateGUI (GUIUpdateEvent updateType = GUIUpdateEvent.All) {
+        if (!game) {
+            game = s_GameManager.Instance;
+        }
         switch (updateType) {
             case GUIUpdateEvent.Energy:
                 UpdateEnergyState();
@@ -270,7 +282,7 @@ public class s_GUIMain : MonoBehaviour {
     }
 
     //TODO: possibly change color, transparency, size?
-    void UpdateBastionDirectionIcon () {
+    protected void UpdateBastionDirectionIcon () {
         offscreen = false;
 
         //get screen position of bastion

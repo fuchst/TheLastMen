@@ -25,6 +25,7 @@ public class s_GameManager : MonoBehaviour {
     public float energyCostClimbLayer = 15;
 
     public bool gamePaused = false;
+    public bool playerInBastion = false;
 
     private static s_GameManager instance;
 
