@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public static class Helper
 {
-    public static GameObject[] FindChildrenWithTag(this GameObject parent, string tag)
+    public static GameObject[] FindChildrenWithTag(this Transform parent, string tag)
     {
         List<GameObject> result = new List<GameObject>();
 
@@ -13,6 +13,10 @@ public static class Helper
             if (tr.tag == tag)
             {
                 result.Add(tr.gameObject);
+            }
+            else
+            {
+                result.AddRange(FindChildrenWithTag(tr, tag));
             }
         }
 

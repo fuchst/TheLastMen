@@ -38,7 +38,7 @@ public class NavigationGrid : MonoBehaviour {
 
     public void createGrid()
     {
-        this.obstacles = Helper.FindChildrenWithTag(island, "Obstacle");
+        this.obstacles = Helper.FindChildrenWithTag(island.transform.parent, "Obstacle");
 
         RaycastHit hit;
 
@@ -62,10 +62,10 @@ public class NavigationGrid : MonoBehaviour {
             // Check if inside of obstacle
             for (int k = 0; k < obstacles.Length; k++)
             {
-                if (!isInside(GetNodeWorldPos(nodes[0]), obstacles[k].gameObject.GetComponent<Collider>()))
-                {
-                    nodes[0].SetNodeType(NavigationNode.nodeTypes.Obst);
-                }
+                //if (!isInside(GetNodeWorldPos(nodes[0]), obstacles[k].gameObject.GetComponent<Collider>()))
+                //{
+                //    nodes[0].SetNodeType(NavigationNode.nodeTypes.Obst);
+                //}
             }
         }
 
@@ -104,15 +104,24 @@ public class NavigationGrid : MonoBehaviour {
                         nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Free);
                         freeNodeIDs.Add(neighID);
                         nodes[nodeID].neighbours[i].cost = neighbourCost[i];
-
+                        
                         // Check if inside of obstacle
                         for (int k = 0; k < obstacles.Length; k++)
                         {
-                            if (!isInside(GetNodeWorldPos(nodes[neighID]), obstacles[k].gameObject.GetComponent<Collider>()))
+                            // Check if node in obst
+                            //if (!isInside(GetNodeWorldPos(nodes[neighID]), obstacles[k].gameObject.GetComponent<Collider>()))
+                            //{
+                            //    nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Obst);
+                            //    nodes[neighID].neighbours[7 - i].cost = int.MaxValue;
+                            //    nodes[nodeID].neighbours[i].cost = int.MaxValue;
+                            //}
+                            // Check if obst is blocking path
+                            if(Vector3.Distance(GetNodeWorldPos(nodes[neighID]), obstacles[k].transform.position) < stepSize)
                             {
-                                nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Obst);
-                                nodes[neighID].neighbours[7 - i].cost = int.MaxValue;
-                                nodes[nodeID].neighbours[i].cost = int.MaxValue;
+                                int[] indices = GetClosestThreeNeighbourIndices(obstacles[k].transform.position);
+                                nodes[neighID].neighbours[indices[0]].cost = int.MaxValue;
+                                nodes[neighID].neighbours[indices[1]].cost = int.MaxValue;
+                                nodes[neighID].neighbours[indices[2]].cost = int.MaxValue;
                             }
                         }
                     }
@@ -191,12 +200,12 @@ public class NavigationGrid : MonoBehaviour {
             }
 
             //foreach (PathNode successor in successors)
-            for(int i = 0; i < successors.Length; i++)
+            for (int i = 0; i < successors.Length; i++)
             {
                 PathNode successor = successors[i];
                 if (successor != null && !closedlist.Contains(successor))
                 {
-                    if (nodes[successor.nodeID].nodeType == NavigationNode.nodeTypes.Obst || nodes[successor.nodeID].nodeType == NavigationNode.nodeTypes.None || (nodes[successor.nodeID].nodeType == NavigationNode.nodeTypes.Enemy && successor.nodeID != selfNodeID))
+                    if (nodes[successor.nodeID].nodeType != NavigationNode.nodeTypes.Free || nodes[successor.nodeID].neighbours[7 - i].cost == int.MaxValue)
                     {
                         closedlist.Add(successor);
                         continue;
@@ -255,6 +264,26 @@ public class NavigationGrid : MonoBehaviour {
         }
     }
 
+    public int[] GetClosestThreeNeighbourIndices(Vector3 position)
+    {
+        NavigationNode node = GetClosestNode(position);
+        Vector3 nodePosition = GetNodeWorldPos(node);
+
+        Vector3 direction = (position - nodePosition).normalized;
+        // Map direction onto navgrid plane
+        direction -= Vector3.Dot(direction, transform.up) * transform.up;
+        direction.Normalize();
+        int forward = (int)Mathf.Sign(Vector3.Dot(direction, transform.forward));
+        int right = (int)Mathf.Sign(Vector3.Dot(direction, transform.right));
+
+        int[] indices = new int[3];
+        indices[0] = (right > 0) ? 4 : 3;
+        indices[1] = (forward > 0) ? 1 : 6;
+        indices[2] = (right > 0) ? ((forward > 0) ? 2 : 7) : ((forward > 0) ? 0 : 5);
+
+        return indices;
+    }
+
     public NavigationNode GetRandomFreeNode()
     {
         int index = UnityEngine.Random.Range(0, freeNodeIDs.Count - 1);
@@ -279,7 +308,11 @@ public class NavigationGrid : MonoBehaviour {
 
     public Vector3 GetNodeWorldPos(NavigationNode node)
     {
-        return this.transform.position + this.transform.forward * node.GetGridIndices().y * stepSize + this.transform.right * node.GetGridIndices().x * stepSize;
+        // Hack returns 0,0,0 if node is null
+        if (node != null)
+            return this.transform.position + this.transform.forward * node.GetGridIndices().y * stepSize + this.transform.right * node.GetGridIndices().x * stepSize;
+        else
+            return new Vector3(0.0f, 0.0f, 0.0f);    
     }
 
     public void Init()

@@ -26,19 +26,29 @@ public class GroundEnemyStateAttack : EnemyState {
 
             timeSinceAttack += Time.fixedDeltaTime;
 
-            if(timeSinceAttack > enemy.attackSpeed)
+            if (timeSinceAttack > enemy.attackSpeed)
             {
                 enemy.player.transform.SendMessage("OnHit", enemy.damage);
                 timeSinceAttack = 0.0f;
                 enemy.GetComponent<Animation>().Play();
             }
-            
-            if(enemy.path != null)
+
+            if (enemy.path != null)
             {
                 enemy.path.Clear();
             }
         }
-        else if ( enemy.navGrid.GetClosestNode(playerPos) == null )
+        else if(dist < enemy.navGrid.stepSize)
+        {
+            enemy.transform.LookAt(enemy.player.transform, enemy.navGrid.transform.up);
+            enemy.GetComponent<CharacterController>().Move(enemy.transform.forward * enemy.moveSpeed * Time.deltaTime);
+
+            if (enemy.path != null)
+            {
+                enemy.path.Clear();
+            }
+        }
+        else if (enemy.navGrid.GetClosestNode(playerPos) == null || dist > enemy.senseRangeSearching)
         {
             enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
         }

@@ -527,10 +527,12 @@ MonoBehaviour:
   hp: 100
   attackRange: 2
   damage: 5
-  moveSpeed: 1
+  moveSpeed: 3
   attackSpeed: 1
   fov: 20
-  senseRange: 15
+  senseRangeSearching: 15
+  senseRangeAttack: 5
+  currentNodeID: 0
 --- !u!135 &13520018
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -607,7 +609,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: moveSpeed
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 194736}
