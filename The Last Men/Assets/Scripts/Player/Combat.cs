@@ -67,6 +67,7 @@ public class Combat : MonoBehaviour {
     void OnHit(int dmg)
     {
         s_GameManager.Instance.healthpointsCur -= dmg;
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Health);
         if (s_GameManager.Instance.healthpointsCur <= 0)
         {
              Debug.Log("Player died");

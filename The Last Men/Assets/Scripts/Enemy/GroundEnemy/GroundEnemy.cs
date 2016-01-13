@@ -24,8 +24,10 @@ public class GroundEnemy : Enemy {
     {
         base.OnStart();
 
-        navGrid = transform.parent.GetComponentInChildren<NavigationGrid>();
-
+        //navGrid = transform.parent.GetComponentInChildren<NavigationGrid>();
+		if (navGrid == null) {
+			Debug.Log ("No navgrid");
+		}
         currentNodeID = navGrid.GetClosestNode(transform.position).GetID();
         navGrid.nodes[currentNodeID].SetNodeType(NavigationNode.nodeTypes.Enemy);
         navGrid.freeNodeIDs.Remove(currentNodeID);

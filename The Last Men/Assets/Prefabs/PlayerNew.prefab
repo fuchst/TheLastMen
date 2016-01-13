@@ -56,8 +56,8 @@ GameObject:
   - 114: {fileID: 11426022}
   - 145: {fileID: 14581750}
   - 153: {fileID: 15348408}
-  - 120: {fileID: 12014540}
   - 114: {fileID: 11470848}
+  - 120: {fileID: 12014540}
   m_Layer: 0
   m_Name: PlayerNew
   m_TagString: Player
@@ -276,8 +276,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
     CurrentTargetSpeed: 8
-    m_RunningLock: 0
-    m_JetpackLock: 0
+    m_Hooked: 0
   mouseLook:
     XSensitivity: 2
     YSensitivity: 2
@@ -291,7 +290,7 @@ MonoBehaviour:
     stickToGroundHelperDistance: .5
     slowDownRate: 0
     airControl: 0
-  m_Hooked: 0
+  swingFloR: 1
 --- !u!114 &11426022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -446,7 +445,7 @@ LineRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 168436}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
@@ -639,7 +638,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 168436}

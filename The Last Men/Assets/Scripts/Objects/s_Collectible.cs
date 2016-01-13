@@ -6,7 +6,7 @@ public abstract class s_Collectible : MonoBehaviour {
     public float destructionDelay = 2.0f;
 
 	void OnTriggerEnter (Collider other) {
-        if (other.tag.Equals("Player")){
+        if (other.CompareTag("Player")){
             #if UNITY_EDITOR
                 Debug.Log(this.GetType() + " on " + gameObject.name + "was collected.");
             #endif
