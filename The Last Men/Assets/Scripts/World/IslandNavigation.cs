@@ -13,16 +13,13 @@ public class IslandNavigation : MonoBehaviour {
     {
         navGridPrefab = Resources.Load("NavGrid") as GameObject;
         enemyPrefab = Resources.Load("GroundEnemy") as GameObject;
-    }
 
-	// Use this for initialization
-	void Start () {
         navGridInstance = (Instantiate(navGridPrefab, this.transform.position, this.transform.rotation) as GameObject).GetComponent<NavigationGrid>();
         navGridInstance.transform.SetParent(transform);
         navGridInstance.Init();
         
         enemies = new List<GameObject>();
-
+/*
         for(int i = 0; i < 10; i++)
         {
             int rand = Random.Range(0, 100);
@@ -40,11 +37,17 @@ public class IslandNavigation : MonoBehaviour {
                 }
             }
         }
+*/
     }
 
-    public void SpawnEnemies(Transform parent, Stack<KeyValuePair<GameObject, Vector3>> enemiesWithSpawnPosition)
+    public void SpawnEnemies(Transform parent, Stack<KeyValuePair<GameObject, Vector3>> enemiesWithSpawnPositions)
     {
-
+		while (enemiesWithSpawnPositions.Count > 0) {
+			KeyValuePair<GameObject,Vector3> enemyWithSpawnPos = enemiesWithSpawnPositions.Pop ();
+			GameObject enemy = Instantiate (enemyWithSpawnPos.Key, enemyWithSpawnPos.Value, Quaternion.identity) as GameObject;
+			enemy.transform.parent = parent;
+			enemy.GetComponent<GroundEnemy>().navGrid = navGridInstance;
+		}
     }
 
     void OnDestroy()

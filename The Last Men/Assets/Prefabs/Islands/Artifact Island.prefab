@@ -363,6 +363,7 @@ GameObject:
   - 33: {fileID: 3393354}
   - 23: {fileID: 2347012}
   - 64: {fileID: 6413632}
+  - 114: {fileID: 11400688}
   m_Layer: 0
   m_Name: Bot
   m_TagString: Island
@@ -2696,6 +2697,18 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &11400688
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d82a9422b39f10429a90677ab6360e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemies: []
 --- !u!114 &11403806
 MonoBehaviour:
   m_ObjectHideFlags: 1
