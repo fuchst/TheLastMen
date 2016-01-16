@@ -150,7 +150,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Jump = true;
             }
 
-            if (!movementSettings.m_Hooked && CrossPlatformInputManager.GetButtonDown("Jetpack") && !m_Fly && m_JetpackCurFlightDuration < movementSettings.JetpackMaxFlightDuration)
+            if (!movementSettings.m_Hooked && CrossPlatformInputManager.GetButtonDown("Jetpack") && !m_Fly && s_GameManager.Instance.energyPlayer_Cur > 0) // && m_JetpackCurFlightDuration < movementSettings.JetpackMaxFlightDuration
             {
                 m_Fly = true;
             }
@@ -176,6 +176,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
         private float Fly (Vector2 input) {
+            if (s_GameManager.Instance.energyPlayer_Cur <= 0) {
+                m_Fly = false;
+                return 0;
+            }
+
             float curRunMultiplier = movementSettings.Running ? movementSettings.RunMultiplier : 1;
             Vector3 desiredMove, force = Vector3.zero;
             if (movementSettings.JetpackFlyInLookingDir) {
@@ -217,11 +222,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             //energyCost += (force + (upDelta > 0 ? upV * upDelta : Vector3.zero)).magnitude;
 
             m_JetpackCurFlightDuration += Time.fixedDeltaTime;
-            if (m_JetpackCurFlightDuration > movementSettings.JetpackMaxFlightDuration) {
+            /*if (m_JetpackCurFlightDuration > movementSettings.JetpackMaxFlightDuration) {
                 m_Fly = false;
-            }
+            }*/
 
-            return (force + (upDelta > 0 ? upV * upDelta : Vector3.zero)).magnitude;
+            return Time.fixedDeltaTime * (force + (upDelta > 0 ? upV * upDelta : Vector3.zero)).magnitude;
         }
 
         private float Swing (Vector2 input) {
@@ -345,9 +350,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             m_Jump = false;
 
-            //if (energyCost > 0) {
-            //	Debug.Log("consumed " + energyCost + " energy in this fixedUpdate");
-            //}
+            if (energyCost > 0) {
+                //Debug.Log("consumed " + energyCost + " energy in this fixedUpdate");
+                s_GameManager.Instance.ConsumeEnergy(energyCost);
+            }
         }
 
 
@@ -429,11 +435,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_Jumping = false;
 
-                Bastion bastion = hitInfo.collider.GetComponentInParent<Bastion>();
+                /*Bastion bastion = hitInfo.collider.GetComponentInParent<Bastion>();
                 if (bastion != null)
                 {
                     bastion.PlayerLanded();
-                }
+                }*/
             }
         }
         public void SetHooked(bool hooked)

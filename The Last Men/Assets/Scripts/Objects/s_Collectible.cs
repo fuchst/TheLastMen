@@ -8,7 +8,7 @@ public abstract class s_Collectible : MonoBehaviour {
 	void OnTriggerEnter (Collider other) {
         if (other.CompareTag("Player")){
             #if UNITY_EDITOR
-                Debug.Log(this.GetType() + " on " + gameObject.name + "was collected.");
+                Debug.Log(this.GetType() + " on " + gameObject.name + " was collected.");
             #endif
             Collect();
             DestroyCollectible();

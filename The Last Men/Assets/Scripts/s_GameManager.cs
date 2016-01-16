@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 public class s_GameManager : MonoBehaviour {
 
@@ -9,7 +10,7 @@ public class s_GameManager : MonoBehaviour {
     public int artifact2CountCur = 0;
     public int artifactCountMax = 10;
 
-    public float energyPlayer_Cur = 0;
+    public float energyPlayer_Cur = 10;
     public float energyPlayer_Max = 100;
     public float energyBastion_Cur = 0;
     public float energyBastion_Max = 100;
@@ -21,6 +22,7 @@ public class s_GameManager : MonoBehaviour {
     
     public int healthpointsCur = 100;
     public int healthpointsMax = 100;
+    public int survivorsCur = 3;
 
     public float energyCostClimbLayer = 15;
 
@@ -48,7 +50,20 @@ public class s_GameManager : MonoBehaviour {
 		endTime = Time.time + roundDuration;
         
         levelManager.LoadLevel();
+        InitializePlayerStats();
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.All);
+    }
+
+    void Update () {
+        if (Time.time > endTime) {
+            EndGame();
+        }
+    }
+
+    protected void InitializePlayerStats () {
+        healthpointsCur = healthpointsMax;
+        energyPlayer_Cur = 10;
+        woodPlayer_Cur = 0;
     }
 
     public void SwitchGamePaused () {
@@ -96,5 +111,59 @@ public class s_GameManager : MonoBehaviour {
             woodBastion_Cur -= amount;
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Wood);
         }
+    }
+
+    public void ClimbLayer () {
+        if (energyBastion_Cur < energyCostClimbLayer)
+            return;
+        energyBastion_Cur -= energyCostClimbLayer;
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
+        LevelManager.Instance.AdvanceLevel();
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
+    }
+
+    public void ConsumeEnergy (float amount) {
+        amount = Mathf.Clamp(amount, 0, energyPlayer_Cur);
+        if (amount > 0) {
+            energyPlayer_Cur -= amount;
+            s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
+        }
+    }
+
+    public void HurtPlayer (int damage) {
+        if (damage < 0)
+            return;
+        healthpointsCur -= damage;
+        if (healthpointsCur <= 0) {
+            healthpointsCur = 0;
+            KillPlayer();
+        }
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Health);
+    }
+
+    protected void KillPlayer () {
+        survivorsCur--;
+        if(survivorsCur <= 0) {
+            survivorsCur = 0;
+            EndGame();
+        }
+        else {
+            levelManager.player.GetComponent<FireGrapplingHook>().RemoveRope();
+            //TODO: reset upgrades
+            //reset some stuff in controller? 
+            //levelManager.player.GetComponent<RigidbodyFirstPersonControllerSpherical>();
+            levelManager.player.transform.position = levelManager.GetPlayerSpawnPos();
+            InitializePlayerStats();
+            s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
+            s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Wood);
+        }
+        Debug.Log("Player died");
+        
+    }
+
+    protected void EndGame () {
+        //TODO: more elaborate things!
+        Debug.Log("Game over");
+        Application.Quit();
     }
 }

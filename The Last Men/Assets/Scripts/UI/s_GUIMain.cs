@@ -158,6 +158,7 @@ public class s_GUIMain : MonoBehaviour {
 
         buttonPause.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(true); });
         buttonContinue.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(false); });
+        buttonRestart.onClick.AddListener(() => { Application.LoadLevel(Application.loadedLevel); });
 
         buttonTake1Wood.onClick.AddListener(() => { s_GameManager.Instance.TakeWood(1); });
         buttonTake10Wood.onClick.AddListener(() => { s_GameManager.Instance.TakeWood(10); });
@@ -168,8 +169,7 @@ public class s_GUIMain : MonoBehaviour {
         buttonStore1Energy.onClick.AddListener(() => { s_GameManager.Instance.StoreEnergy(1); });
         buttonStore10Energy.onClick.AddListener(() => { s_GameManager.Instance.StoreEnergy(10); });
 
-        buttonClimbLayer.onClick.AddListener(() => { LevelManager.Instance.AdvanceLevel();
-                                                     s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer); });
+        buttonClimbLayer.onClick.AddListener(() => { s_GameManager.Instance.ClimbLayer(); });
         
     }
 	
@@ -177,8 +177,10 @@ public class s_GUIMain : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.Escape)) {
             game.SwitchGamePaused();
         }
-        if(game.playerInBastion && Input.GetAxis("Inventory") != 0) {
+        //if(game.playerInBastion && Input.GetAxis("Inventory") != 0) {
+        if(game.playerInBastion && Input.GetKeyDown(KeyCode.I)) { //using the axis here can result in "jittering", i.e. axis value is != 0 for several frames, causing on-off-on-off-...
             GUI_BastionMenu.gameObject.SetActive(!GUI_BastionMenu.gameObject.activeSelf);
+            UpdateCursor();
         }
 
         if (!game.gamePaused) {
@@ -208,6 +210,12 @@ public class s_GUIMain : MonoBehaviour {
         }
 
 	}
+    
+    protected void UpdateCursor () {
+        bool cursorNeeded = game.gamePaused || GUI_BastionMenu.gameObject.activeSelf;
+        Cursor.visible = cursorNeeded;
+        Cursor.lockState = cursorNeeded ? CursorLockMode.None : CursorLockMode.Locked;
+    }
 
     public void UpdateGUI (GUIUpdateEvent updateType = GUIUpdateEvent.All) {
         if (!game) {
@@ -246,7 +254,10 @@ public class s_GUIMain : MonoBehaviour {
     protected void UpdateEnergyState () {
         iconPlayerEnergy_Main.fillAmount = game.energyPlayer_Cur / game.energyPlayer_Max;
         textPlayerEnergy_Bastion.text = textPlayerEnergy_Main.text = game.energyPlayer_Cur.ToString("0.0");
+
         iconBastionEnergy_Main.fillAmount = game.energyBastion_Cur / game.energyBastion_Max;
+        textBastionEnergy_Bastion.text = game.energyBastion_Cur.ToString("0.0");
+
         buttonClimbLayer.interactable = game.energyBastion_Cur >= game.energyCostClimbLayer;
         textClimbLayer.text = game.energyCostClimbLayer.ToString("0");
     }
@@ -254,6 +265,8 @@ public class s_GUIMain : MonoBehaviour {
     protected void UpdateWoodState () {
         iconPlayerWood_Main.fillAmount = game.woodPlayer_Cur / game.woodPlayer_Max;
         textPlayerWood_Bastion.text = textPlayerWood_Main.text = game.woodPlayer_Cur.ToString("0");
+
+        textBastionWood_Bastion.text = game.woodBastion_Cur.ToString("0");
     }
 
     protected void UpdateArtifactState () {
@@ -271,6 +284,7 @@ public class s_GUIMain : MonoBehaviour {
     protected void UpdateHealthState () {
         textPlayerHealth.text = game.healthpointsCur.ToString();
         iconPlayerHealth.fillAmount = (float)game.healthpointsCur / (float)game.healthpointsMax;
+        textSurvivorCount.text = game.survivorsCur.ToString();
     }
 
     protected void UpdatePauseState () {
@@ -280,7 +294,7 @@ public class s_GUIMain : MonoBehaviour {
         GUI_PauseMenu.gameObject.SetActive(paused);
         //GUI_PauseMenu.interactable = paused;
         pauseScreenOverlay.CrossFadeAlpha(paused ? 1.0f : 0.0f, 0.5f, true);
-        Cursor.visible = paused;
+        UpdateCursor();
     }
 
     protected void UpdateLayerState () {

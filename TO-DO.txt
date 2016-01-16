@@ -1,14 +1,8 @@
 Bugs:
--inventory keine maus
--inventar nicht upgedated bei energy store/take
--spieler unsterblich (passiert nichts bei negativen HP)
 -gegner hängt an baum fest
--festhängen an colldiern (e.g. scheibe der bastion)
+-festhängen an collidern (e.g. scheibe der bastion)
 -inseln werden nicht mehr zerstört bei gegenseitigem kontakt/kontakt mit schwarzem loch
 -schrotflinte tötet fliegende gegner nicht?
--anzeige für energy in bastion im HUD nicht funktionierend? Nur anzeige auf BastianMarker (Haus das blau wird)
--black hole tötet spieler nicht
--spiel endet nicht bei zeitüberschreitung
 -gegner schieben sich ineinander beim angreifen des spielers
 
 
@@ -16,9 +10,13 @@ Features/Änderungen:
 -größe der collider von gegeständen in base
 -anzeige für munitionsstand, nachladen
 -energy mit kommastelle, runden?
--anzeige oben der layer nicht funktionierend
 -texturen der gegner
 -ton wenn gegner angreift (fliegende gegner werden nicht bemerkt)
--energyverbrauch beim einsatz von jetpack
 -shift für jetpack deaktivieren(zu mächtig mit shift)(zu schwack ohne)->rebalance
 -upgrade system fertig bauen (wegen vollständigkeit aufgeführt)
+
+- gui pause: seed
+- main menu!
+- flying enemies shall not pass the bastion doors!
+- check/test cursor locking behaviour (seems to be bug-prone in unity)
+- reduce amount of (flying) enemies on higher layers - or only spawn them within radius of player (not near, not far, only middle distance)

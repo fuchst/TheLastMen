@@ -290,7 +290,7 @@ MonoBehaviour:
     stickToGroundHelperDistance: .5
     slowDownRate: 0
     airControl: 0
-  swingFloR: 1
+  swingFloR: 0
 --- !u!114 &11426022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -372,9 +372,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2267b4de061b03a4e825542d2080081d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponModels:
-  - {fileID: 191412, guid: 18a7463f76959db4cb774091610aa0cc, type: 2}
-  - {fileID: 100290, guid: 0f96cfed4fc30f64b8c80a8d3d69b7fd, type: 2}
   cameraTransform: {fileID: 429944}
 --- !u!114 &11482088
 MonoBehaviour:
@@ -641,6 +638,10 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: swingFloR
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

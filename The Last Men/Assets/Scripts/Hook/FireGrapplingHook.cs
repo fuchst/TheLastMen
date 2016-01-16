@@ -42,7 +42,6 @@ public class FireGrapplingHook : MonoBehaviour
             }
             else
             {
-                Destroy(grapplingHook);
                 RemoveRope();
             }
         }
@@ -83,6 +82,7 @@ public class FireGrapplingHook : MonoBehaviour
             controller.Jump(true);
         }
         Unfire();
+        Destroy(grapplingHook);
     }
 
     private void UpdateRopeLength (float distance, bool checkConstraint = true) {

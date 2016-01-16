@@ -102,17 +102,21 @@ public class LevelManager : MonoBehaviour
 
     public void StartLevel()
     {
-        Vector3 spawnPos = levels[currentLevel].GetBasePosition();
-        spawnPos += spawnPos.normalized;
         if (currentLevel == 0)
         {
-            player = Instantiate(playerPrefab, spawnPos, Quaternion.identity) as GameObject;
+            player = Instantiate(playerPrefab, GetPlayerSpawnPos(), Quaternion.identity) as GameObject;
         }
         else
         {
-            player.transform.position = spawnPos;
+            player.transform.position = GetPlayerSpawnPos();
             player.SetActive(true);
         }
+    }
+
+    public Vector3 GetPlayerSpawnPos () {
+        Vector3 spawnPos = levels[currentLevel].GetBasePosition();
+        spawnPos += spawnPos.normalized;
+        return spawnPos;
     }
 
     [System.Serializable]
@@ -149,6 +153,7 @@ public class LevelManager : MonoBehaviour
             //levels[currentLevel + 1].DestroyLevel();
             //Destroy(levels[currentLevel + 1]);
             currentLevel++;
+            s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
             LoadLevel();
         }
     }

@@ -27,7 +27,7 @@ public class GrapplingHook : MonoBehaviour
         if(distance > fireGrapplingHook.maxRopeLength)
         {
             fireGrapplingHook.RemoveRope();
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
         //Translate and scale rope

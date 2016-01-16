@@ -4,9 +4,8 @@ public class Deathzone : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Player")
-        {
-            Application.LoadLevel("MainMenuDUmmy");
+        if (collision.gameObject.CompareTag("Player")) {
+            s_GameManager.Instance.HurtPlayer(9001); //over 9000 damage will surely kill the player instantly ;)
         }
     }
 }
