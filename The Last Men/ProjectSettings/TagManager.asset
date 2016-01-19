@@ -15,6 +15,7 @@ TagManager:
   - 'Spawn: Tree'
   - EnergySpawn
   - Bastion
+  - 'Spawn: Bush'
   layers:
   - Default
   - TransparentFX

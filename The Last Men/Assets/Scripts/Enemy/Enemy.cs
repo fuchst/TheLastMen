@@ -74,7 +74,7 @@ public abstract class Enemy : MonoBehaviour {
 
     protected abstract void Move();
 
-    void OnHit(int dmg)
+    public void OnHit(int dmg)
     {
         hp -= dmg;
         if(hp <= 0)
@@ -85,6 +85,8 @@ public abstract class Enemy : MonoBehaviour {
 
     protected virtual void OnDeath()
     {
+        int idx = Random.Range(0, s_GameManager.Instance.lootTable.Length);
+        GameObject loot = Instantiate(s_GameManager.Instance.lootTable[idx], transform.position, transform.rotation) as GameObject;
         Destroy(this.gameObject);
     }
 

@@ -22,6 +22,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float JetpackVerticalAcceleration = 30.0f;  //Vertical acceleration for the jetpack
             public bool JetpackFlyInLookingDir = false;
 
+            public bool changeFOV = true;
+            public float FOV_regular = 60.0f;
+            public float FOV_flying = 85.0f;
+            public float maxFOVchangeRate = 7.5f;
+            public float minHeightAboveGroundForFOVChange = 2.5f;
+            public float heightAboveGroundForMaxFOV = 25.0f;
+            public LayerMask heightCheckLayers;
+
             public KeyCode RunKey = KeyCode.LeftShift;
             public float JumpForce = 30f;
             public AnimationCurve SlopeCurveModifier = new AnimationCurve(new Keyframe(-90.0f, 1.0f), new Keyframe(0.0f, 1.0f), new Keyframe(90.0f, 0.0f));
@@ -90,7 +98,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public MouseLookSpherical mouseLook = new MouseLookSpherical();
         public AdvancedSettings advancedSettings = new AdvancedSettings();
 
-        public bool swingFloR = true;
+        public bool swingFloR = false;
+        float ropeSwingStrength = 5f;
 
         private Rigidbody m_RigidBody;
         private CapsuleCollider m_Capsule;
@@ -105,6 +114,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Vector3 prevVel = new Vector3(0,0,0);
         private Vector3 curVel = new Vector3(0, 0, 0);
 
+        private new AudioPlayer audio;
 
         public Vector3 Velocity
         {
@@ -114,6 +124,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public bool Grounded
         {
             get { return m_IsGrounded; }
+        }
+
+        public Vector3 GroundNormal
+        {
+            get { return m_GroundContactNormal; }
         }
 
         public bool Jumping
@@ -139,6 +154,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Capsule = GetComponent<CapsuleCollider>();
             mouseLook.Init(transform, cam.transform);
             //m_swingimpulse = true;
+            audio = GetComponent<AudioPlayer>();
         }
         
         private void Update()
@@ -154,7 +170,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_Fly = true;
             }
-            else if (CrossPlatformInputManager.GetButtonUp("Jetpack") && m_Fly)
+            else if (m_Fly && CrossPlatformInputManager.GetButtonUp("Jetpack"))
             {
                 m_Fly = false;
             }
@@ -166,12 +182,24 @@ namespace UnityStandardAssets.Characters.FirstPerson
             //Vector3 desiredMoveJetpack = (desiredMove.normalized) * movementSettings.CurrentTargetSpeed;
             desiredMove = Vector3.ProjectOnPlane(desiredMove, m_GroundContactNormal).normalized;
             desiredMove *= movementSettings.CurrentTargetSpeed * SlopeMultiplier();
-
-            if (m_RigidBody.velocity.sqrMagnitude <
-                (movementSettings.CurrentTargetSpeed * movementSettings.CurrentTargetSpeed))
+            
+            float horVel = Vector3.ProjectOnPlane(m_RigidBody.velocity, transform.up).magnitude;
+            if (horVel < movementSettings.CurrentTargetSpeed)
             {
                 m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
             }
+            if(horVel > 0.1f)
+            {
+                //audio.UpdateWalkingState(true, desiredMove.magnitude);
+                //audio.UpdateWalkingState(true, Vector3.ProjectOnPlane(m_RigidBody.velocity, transform.up).magnitude);
+                //audio.UpdateWalkingState(true, desiredMove.magnitude);
+                audio.UpdateWalkingState(true, horVel);
+            }
+            else
+            {
+                audio.UpdateWalkingState(false, 0);
+            }
+
             return 0;
         }
 
@@ -244,7 +272,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
             Vector3 hookPos = joint.connectedBody.transform.position;
             Vector3 hookToPlayer = hookPos - transform.position;
-
+            
             if (swingFloR) {
                 #region Flo_R
                 Vector3 referenceRight = Vector3.Cross(Vector3.up, hookPos);
@@ -255,7 +283,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 //Give impulse only if we want to swing
                 if (finalAngle < 5 && finalAngle > 0)
                 {
-                    m_RigidBody.AddForce(10 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+                    m_RigidBody.AddForce(2.0f * ropeSwingStrength * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
                     m_swingImpulseTimer += Time.fixedDeltaTime;
                 }
 
@@ -264,7 +292,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 //Debug.Log("angle: " + angle);
                 if (angle2 < 30)
                 {
-                    m_RigidBody.AddForce(1 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+                    m_RigidBody.AddForce(0.2f * ropeSwingStrength * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
                     m_swingImpulseTimer += Time.fixedDeltaTime;
                 }
                 #endregion
@@ -290,12 +318,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 //only add swinging forces if we are lower than the hook, 
                 if (Vector3.Angle(transform.up, hookToPlayer) < 90) {
                     
-                    if (Vector3.Angle(Mathf.Sign(input.y) * transform.forward, hookToPlayer) < 95 && input.y > 0) {
-                        m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMoveY, ForceMode.VelocityChange);
+                    if (Vector3.Angle(Mathf.Sign(input.y) * transform.forward, hookToPlayer) < 95) {
+                        m_RigidBody.AddForce(ropeSwingStrength * Time.fixedDeltaTime * desiredMoveY, ForceMode.VelocityChange);
                     }
                 
                     if (Vector3.Angle(Mathf.Sign(input.x) * transform.right, hookToPlayer) < 95) {
-                        m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMoveX, ForceMode.VelocityChange);
+                        m_RigidBody.AddForce(ropeSwingStrength * Time.fixedDeltaTime * desiredMoveX, ForceMode.VelocityChange);
                     }
                 }
 			    #endregion
@@ -313,10 +341,42 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = true;
         }
 
+        protected void UpdateFOV () {
+            float distToGround;
+            RaycastHit hitInfo;
+
+            if (m_IsGrounded) {
+                distToGround = 0;
+            }
+            else if(Physics.Raycast(transform.position - transform.up, -transform.up, out hitInfo, movementSettings.heightAboveGroundForMaxFOV, movementSettings.heightCheckLayers, QueryTriggerInteraction.Ignore)) {
+                distToGround = hitInfo.distance;
+            }
+            else {
+                distToGround = movementSettings.heightAboveGroundForMaxFOV;
+            }
+            
+            if(distToGround < movementSettings.minHeightAboveGroundForFOVChange) {
+                distToGround = 0;
+            }
+
+            float FOVBase = Mathf.Lerp(movementSettings.FOV_regular, movementSettings.FOV_flying, distToGround/movementSettings.heightAboveGroundForMaxFOV);
+            float FOVModifierLookDir = Vector3.Angle(transform.up, cam.transform.forward) - 90;
+            FOVModifierLookDir = 0.05f * (Mathf.Abs(FOVModifierLookDir) < 25 ? 0 : (FOVModifierLookDir < 0 ? -2.5f * (FOVModifierLookDir + 25) : 1.5f * (FOVModifierLookDir - 25)));
+            float FOVModifierRun = Running ? 5 : 0;
+            float targetFOV = Mathf.Clamp(FOVBase + FOVModifierLookDir + FOVModifierRun, movementSettings.FOV_regular, movementSettings.FOV_flying);
+            
+            cam.fieldOfView = Mathf.MoveTowards(cam.fieldOfView, targetFOV, movementSettings.maxFOVchangeRate * Time.fixedDeltaTime);
+            
+        }
+
         private void FixedUpdate () {
             GroundCheck();
             Vector2 input = GetInput();
             float energyCost = 0;
+
+            if (movementSettings.changeFOV) {
+                UpdateFOV();
+            }
 
             if (m_Fly) {
                 energyCost += Fly(input);
@@ -328,6 +388,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (!m_Fly && (advancedSettings.airControl || m_IsGrounded) && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon)) {
                 energyCost += Walk(input);
+            }
+            else {
+                audio.UpdateWalkingState(false);
             }
 
             if (m_IsGrounded) {
@@ -445,6 +508,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public void SetHooked(bool hooked)
         {
             movementSettings.m_Hooked = hooked;
+            m_Fly = !hooked && m_Fly;
 /*#if !MOBILE_INPUT
             movementSettings.m_RunningLock = hooked;
 #endif

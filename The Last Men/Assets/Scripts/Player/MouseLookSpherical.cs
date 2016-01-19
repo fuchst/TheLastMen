@@ -107,8 +107,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_CameraTargetRot = ClampRotationAroundXAxis(m_CameraTargetRot);
             if (smooth)
             {
-                character.localRotation = Quaternion.Slerp(character.localRotation, m_CharacterTargetRot,
-                    smoothTime * Time.deltaTime);
+                /*character.localRotation = Quaternion.Slerp(character.localRotation, m_CharacterTargetRot,
+                    smoothTime * Time.deltaTime);*/
                 camera.localRotation = Quaternion.Slerp(camera.localRotation, m_CameraTargetRot,
                     smoothTime * Time.deltaTime);
             }
@@ -116,9 +116,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 //character.localRotation = Quaternion.RotateTowards (character.localRotation, m_CharacterTargetRot, smoothTime);
                 //camera.localRotation = Quaternion.RotateTowards (camera.localRotation, m_CameraTargetRot, smoothTime);
-                character.localRotation = m_CharacterTargetRot;
                 camera.localRotation = m_CameraTargetRot;
             }
+            character.localRotation = m_CharacterTargetRot;
         }
 
         Quaternion ClampRotationAroundXAxis(Quaternion q)

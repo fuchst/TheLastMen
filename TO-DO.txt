@@ -5,9 +5,7 @@ Bugs:
 -schrotflinte tötet fliegende gegner nicht?
 -gegner schieben sich ineinander beim angreifen des spielers
 
-
 Features/Änderungen:
--größe der collider von gegeständen in base
 -anzeige für munitionsstand, nachladen
 -energy mit kommastelle, runden?
 -texturen der gegner
@@ -15,8 +13,23 @@ Features/Änderungen:
 -shift für jetpack deaktivieren(zu mächtig mit shift)(zu schwack ohne)->rebalance
 -upgrade system fertig bauen (wegen vollständigkeit aufgeführt)
 
-- gui pause: seed
 - main menu!
 - flying enemies shall not pass the bastion doors!
 - check/test cursor locking behaviour (seems to be bug-prone in unity)
 - reduce amount of (flying) enemies on higher layers - or only spawn them within radius of player (not near, not far, only middle distance)
+- some basic sound cues
+- enemy loot drops don't drop / move with islands - for flying enemy maybe ok, for ground enemies not ok!!
+- display/visualize current enemy health!
+- replace sendmessage("method") calls on enemy scripts by getcomponent().method calls (should be a lot more efficient)
+- fade bullet holes rather than shrink, maybe?
+- tool display UI
+
+- remove jittering from camera
+- neither shoot nor show regular gui when paused or bastion
+- basic air control (slight influence of falling direction)
+- heal up inside base!
+- pausing in bastion menu shows both menus -> bad!
+
+- synchronize island falling speed with remaining time and/or increase near time 0
+- task.vertexBuffer == NULL error?! -> seems to be a character animation bug in the newest release
+- limit grappling hook pull per frame to avoid clipping through stuff

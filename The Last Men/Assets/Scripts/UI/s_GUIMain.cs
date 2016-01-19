@@ -84,8 +84,6 @@ public class s_GUIMain : MonoBehaviour {
 
     [SerializeField]protected Button buttonPause;
 
-
-	
     [SerializeField]protected Button buttonTake1Energy;
     [SerializeField]protected Button buttonTake10Energy;
     [SerializeField]protected Button buttonStore1Energy;
@@ -102,7 +100,6 @@ public class s_GUIMain : MonoBehaviour {
     [SerializeField]protected Text textCurrentLayer;
     [SerializeField]protected Text textClimbLayer;
 
-
     //get from game manager later?
     //[SerializeField]protected Transform bastionTransform;
     public Transform bastionTransform;
@@ -113,8 +110,11 @@ public class s_GUIMain : MonoBehaviour {
     [SerializeField]protected Button buttonContinue;
     [SerializeField]protected Button buttonRestart;
     [SerializeField]protected Button buttonQuit;
+    //[SerializeField]protected Button buttonSeed;
+    [SerializeField]protected InputField seedPause;
+    [SerializeField]protected InputField seedGameEnd;
 
-    
+
     //for bastion indicator
     protected bool offscreen = false;
     protected int min, maxX, maxY;
@@ -178,7 +178,7 @@ public class s_GUIMain : MonoBehaviour {
             game.SwitchGamePaused();
         }
         //if(game.playerInBastion && Input.GetAxis("Inventory") != 0) {
-        if(game.playerInBastion && Input.GetKeyDown(KeyCode.I)) { //using the axis here can result in "jittering", i.e. axis value is != 0 for several frames, causing on-off-on-off-...
+        if (game.playerInBastion && Input.GetButtonDown("Inventory")) {
             GUI_BastionMenu.gameObject.SetActive(!GUI_BastionMenu.gameObject.activeSelf);
             UpdateCursor();
         }
@@ -186,22 +186,14 @@ public class s_GUIMain : MonoBehaviour {
         if (!game.gamePaused) {
             
             #region UpdatePerFrame
-            int remainingTime = (int)(game.endTime - Time.time);
-		    textRemainingTime.text =  remainingTime/60 + ":" + remainingTime%60;
+            int remainingTime = (int)Mathf.Max(0, game.endTime - Time.time);
+		    textRemainingTime.text =  remainingTime/60 + ":" + (remainingTime%60).ToString("00");
             iconRemainingTime.fillAmount = (float)remainingTime / game.roundDuration;
             UpdateBastionDirectionIcon();
             #endregion
             
-
-            #region TODO: only update when changing?
-
-            
-
-            #endregion
-
             #region TODO: put in proper references!! 
             //iconSkillCooldownBar.fillAmount = (0.1f * Time.time) % 1.0f;
-            //iconBastionEnergy_Main.fillAmount = Mathf.PingPong(0.25f * Time.time, 1.0f);
             #endregion
 
         }
@@ -272,12 +264,12 @@ public class s_GUIMain : MonoBehaviour {
     protected void UpdateArtifactState () {
         bool artifacts1Incomplete = game.artifact1CountCur < game.artifactCountMax;
         textArtifacts1_Bastion.text = textArtifacts1_Main.text = artifacts1Incomplete ? game.artifact1CountCur.ToString() : "";
-        iconArtifacts1_Bastion.fillAmount = iconArtifacts1_Main.fillAmount = game.artifact1CountCur / game.artifactCountMax;
+        iconArtifacts1_Bastion.fillAmount = iconArtifacts1_Main.fillAmount = game.artifact1CountCur / (float)game.artifactCountMax;
         particlesArtifacts1.enableEmission = !artifacts1Incomplete;
 
         bool artifacts2Incomplete = game.artifact2CountCur < game.artifactCountMax;
         textArtifacts2_Bastion.text = textArtifacts2_Main.text = artifacts2Incomplete ? game.artifact2CountCur.ToString() : "";
-        iconArtifacts2_Bastion.fillAmount = iconArtifacts2_Main.fillAmount = game.artifact2CountCur / game.artifactCountMax;
+        iconArtifacts2_Bastion.fillAmount = iconArtifacts2_Main.fillAmount = game.artifact2CountCur / (float)game.artifactCountMax;
         particlesArtifacts2.enableEmission = !artifacts2Incomplete;
     }
 
@@ -299,6 +291,7 @@ public class s_GUIMain : MonoBehaviour {
 
     protected void UpdateLayerState () {
         textCurrentLayer.text = "Layer " + (LevelManager.Instance.CurLvl + 1);
+        seedPause.text = LevelManager.Instance.rngSeed.ToString();
     }
 
     //TODO: possibly change color, transparency, size?

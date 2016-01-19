@@ -7,6 +7,7 @@ public class FireGrapplingHook : MonoBehaviour
     public float hookSpeed = 50.0f;
     public float minRopeLength = 2.0f;
     public float maxRopeLength = 50.0f;
+    public float ropeLengthChangingSpeed = 2.5f;
     public GameObject grapplingHookPrefab;
 
     private bool fired = false;
@@ -26,6 +27,7 @@ public class FireGrapplingHook : MonoBehaviour
         confJoint = GetComponent<ConfigurableJoint>();
         controller = GetComponent<RigidbodyFirstPersonControllerSpherical>();
         rb = GetComponent<Rigidbody>();
+        UpdateRopeLength(0.0f, false);
     }
 
     void Update()
@@ -47,7 +49,7 @@ public class FireGrapplingHook : MonoBehaviour
         }
         if (hooked && Input.GetAxis("RopeLength") != 0) {
             //Debug.Log("rope length axis != 0");
-            float newLength = Mathf.Clamp(GetCurrentRopeLength() + Input.GetAxis("RopeLength"), minRopeLength, maxRopeLength);
+            float newLength = Mathf.Clamp(GetCurrentRopeLength() + ropeLengthChangingSpeed * Input.GetAxis("RopeLength"), minRopeLength, maxRopeLength);
             UpdateRopeLength(newLength);
         }
     }
@@ -78,7 +80,8 @@ public class FireGrapplingHook : MonoBehaviour
         confJoint.connectedBody = null;
         confJoint.xMotion = confJoint.yMotion = confJoint.zMotion = ConfigurableJointMotion.Free;
         UpdateRopeLength(0.0f, false);
-        if (hooked) { //give player a little extra upwards velocity upon unhooking
+        //give player a little extra upwards velocity upon unhooking, except when already grounded on a near-flat surface (i.e. standing regularly)
+        if (hooked && (!controller.Grounded || Vector3.Angle(controller.GroundNormal, controller.transform.up) > 10)) {
             controller.Jump(true);
         }
         Unfire();

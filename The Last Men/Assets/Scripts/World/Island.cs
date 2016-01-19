@@ -8,9 +8,11 @@ public class Island : MonoBehaviour
     {
         public Transform objectParent;
         public GameObject[] trees;
+        public GameObject[] bushes;
         public GameObject[] enemies;
         public GameObject[] crystals;
         public float chanceToSpawnATree;
+        public float chanceToSpawnABush;
         public int minEnemiesOnIsland;
         public int minCrystalsOnIsland;
         public Vector3 maxSpawnOffSet;
@@ -23,6 +25,7 @@ public class Island : MonoBehaviour
 
     private IslandNavigation islandNavigation;
     private List<Transform> treeSpawnList = new List<Transform>();
+    private List<Transform> bushesSpawnList = new List<Transform>();
     private List<Transform> enemyNCrystalSpawnPosList = new List<Transform>();
 	private float fallingSpeed = 0;
     private float extraSpeedFactorOnCollision = 5.0f;
@@ -39,11 +42,15 @@ public class Island : MonoBehaviour
 		Transform spawns = transform.FindChild("Spawns");
 		foreach (Transform child in spawns)
 		{
-			if (child.tag == "Spawn: Tree")
+			if (child.CompareTag("Spawn: Tree"))
 			{
 				treeSpawnList.Add(child);
 			}
-			else if (child.tag == "Spawn: Enemy n Crystal")
+            else if (child.CompareTag("Spawn: Bush"))
+            {
+                bushesSpawnList.Add(child);
+            }
+			else if (child.CompareTag("Spawn: Enemy n Crystal"))
 			{
 				enemyNCrystalSpawnPosList.Add(child);
 			}
@@ -67,19 +74,37 @@ public class Island : MonoBehaviour
     void Start()
     {
         //Spawn trees
-        foreach (Transform spawnPos in treeSpawnList)
+        if (spawnSettings.trees.Length > 0)
         {
-            if (Random.Range(0.0f, 1.0f) <= spawnSettings.chanceToSpawnATree)
+            foreach (Transform spawnPos in treeSpawnList)
             {
-                int treeType = Random.Range(0, spawnSettings.trees.Length);
-                Vector3 position = spawnPos.position + new Vector3(
-                    Random.Range(-spawnSettings.maxSpawnOffSet.x, spawnSettings.maxSpawnOffSet.x),
-                    0,
-                    Random.Range(-spawnSettings.maxSpawnOffSet.z, spawnSettings.maxSpawnOffSet.z));
+                if (Random.Range(0.0f, 1.0f) <= spawnSettings.chanceToSpawnATree)
+                {
+                    int treeType = Random.Range(0, spawnSettings.trees.Length);
+                    Vector3 position = spawnPos.position + new Vector3(
+                        Random.Range(-spawnSettings.maxSpawnOffSet.x, spawnSettings.maxSpawnOffSet.x),
+                        0,
+                        Random.Range(-spawnSettings.maxSpawnOffSet.z, spawnSettings.maxSpawnOffSet.z));
+                    Quaternion rotation = Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0));
+                    GameObject tree = Instantiate(spawnSettings.trees[treeType], position, Quaternion.identity) as GameObject;
+                    tree.transform.parent = spawnSettings.objectParent;
+                    tree.transform.localRotation = rotation;
+                }
+            }
+        }
+
+        if (spawnSettings.bushes.Length > 0)
+        {
+            foreach (Transform spawnPos in bushesSpawnList)
+            {
+                if (Random.Range(0.0f, 1.0f) > spawnSettings.chanceToSpawnABush) {
+                    continue;
+                }
+                int bushType = Random.Range(0, spawnSettings.bushes.Length);
                 Quaternion rotation = Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0));
-                GameObject tree = Instantiate(spawnSettings.trees[treeType], position, Quaternion.identity) as GameObject;
-                tree.transform.parent = spawnSettings.objectParent;
-				tree.transform.localRotation = rotation;
+                GameObject bush = Instantiate(spawnSettings.bushes[bushType], spawnPos.position, Quaternion.identity) as GameObject;
+                bush.transform.parent = spawnSettings.objectParent;
+                bush.transform.localRotation = rotation;
             }
         }
 

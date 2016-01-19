@@ -3,7 +3,7 @@
 public class Bullet : MonoBehaviour {
 
     public float gravity { get; set; }
-    public float damage { get; set; }
+    public int damage { get; set; }
 
     public float destDistMax = 1000.0f;
     public float destDistMin = 10.0f;
@@ -35,13 +35,14 @@ public class Bullet : MonoBehaviour {
     {
         // Debug.Log("Hit" + other.tag);
 
-        if(coll.transform.tag != "Bullet")
+        if(!coll.transform.CompareTag("Bullet"))
         {
-            if(coll.transform.tag == "Enemy")
+            if(coll.transform.CompareTag("Enemy"))
             {
-                coll.transform.SendMessage("OnHit", damage);
+                //coll.transform.SendMessage("OnHit", damage);
+                coll.transform.GetComponent<Enemy>().OnHit(damage);
             }
-            else if(coll.transform.tag == "Island")
+            else if(coll.transform.CompareTag("Island"))
             {
                 GameObject bullet = Instantiate(bulletHole, coll.contacts[0].point + coll.contacts[0].normal * 0.05f, Quaternion.FromToRotation(Vector3.up, coll.contacts[0].normal)) as GameObject;
                 bullet.transform.SetParent(coll.transform);

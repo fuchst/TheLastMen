@@ -29,6 +29,8 @@ public class s_GameManager : MonoBehaviour {
     public bool gamePaused = false;
     public bool playerInBastion = false;
 
+    public GameObject[] lootTable = new GameObject[1];
+
     private static s_GameManager instance;
 
 	public static s_GameManager Instance { get { return instance; } }
@@ -47,7 +49,7 @@ public class s_GameManager : MonoBehaviour {
 	public float endTime;
 
 	void Start () {
-		endTime = Time.time + roundDuration;
+        ResetLevelClock();
         
         levelManager.LoadLevel();
         InitializePlayerStats();
@@ -117,9 +119,15 @@ public class s_GameManager : MonoBehaviour {
         if (energyBastion_Cur < energyCostClimbLayer)
             return;
         energyBastion_Cur -= energyCostClimbLayer;
+        Debug.Log("Advancing to next level");
+        ResetLevelClock();
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
         LevelManager.Instance.AdvanceLevel();
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
+    }
+
+    protected void ResetLevelClock () {
+        endTime = Time.time + roundDuration;
     }
 
     public void ConsumeEnergy (float amount) {

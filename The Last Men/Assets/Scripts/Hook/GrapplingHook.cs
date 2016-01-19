@@ -47,8 +47,9 @@ public class GrapplingHook : MonoBehaviour
     }
 
     void OnTriggerEnter(Collider other) {
-        if (flying == true) {
+        if (flying && !other.isTrigger) {
             flying = false;
+            GetComponent<Collider>().enabled = false;
             rigidbody.velocity = Vector3.zero;
             rigidbody.isKinematic = true;
             transform.parent = other.transform;
