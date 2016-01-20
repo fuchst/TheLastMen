@@ -1,0 +1,36 @@
+Last Men Playtesting
+Questions asked orally:
+- Element that impressed most/was most fun
+- Element that disappointed most/was least fun
+- Problems that occured
+- Elements that should be changed
+- Elements that should be added
+- Elements that should be removed
+- Is the design striking/cohesive/interesting. What elements do not fit?
+- would play again yes/no
+	- if yes/no why?
+
+Rating Orally/Survey:
+- Overall Experience with game 1-5
+- Overall Fun with game 1-5
+
+Survey Questions:
+Are the controls for the game easy to understand? 1-6
+Did you have the impression that the given set of controls was suitable for playing the game? 1-6
+How suitable was the amount of information given to you in the game? 1-6
+How suitable was the (visual) presentation of the information given? 1-6
+How did you experience the overall difficulty of the game? 1-6
+
+Questions to features:
+-central gravity: Made sense in context of game? Interesting Feature? Worked as predicted?
+-hook: Easy to use? Made sense in game? Worked as predicted?
+-jetpack: Easy to use? Made sense in game? Worked as predicted?
+-energy: Enough/To little? Made sense in context of game?
+-artifacts: Made sense in game? Satisfying to collect?
+
+
+Do you think the visual style of the game (graphics, animations) was overall consistent?
+Do you like the visual style of the game?
+Do you think the visual style fits the game?
+Do you think the visual style fits the game?
+How well did the game perform on the device you played on?
