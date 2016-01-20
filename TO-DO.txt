@@ -1,47 +1,49 @@
-- neither shoot nor show regular gui when paused or bastion
-- heal up inside base!
 
 
 BUGS
-- Player: sometimes gets stuck while walking, for no (apparent) reason, jetpacking out helps
-- Enemies: sometimes don't get hit? (seems so, at least)
-- Enemies: getting stuck at each other, trees, or sometimes player(?)
-- Enemies: task.vertexBuffer == NULL error?! (seems to be a character animation bug in the newest release of Unity though, so maybe ignore for now)
-- Islands: on collision with black hole or other islands, no destruction taking place
-- Tonemapping: color flickering (either fix, or disable tonemapping for now)
+- Islands: on collision with black hole or other islands, no destruction taking place - Jingyi
+- Tonemapping: color flickering (either fix, or ->disable<- tonemapping for now) - Wer Zeit hat
+//- Player: sometimes gets stuck while walking, for no (apparent) reason, jetpacking out helps
+//- Enemies: sometimes don't get hit? (seems so, at least)
+//- Enemies: getting stuck at each other, trees, or sometimes player(?)
+//- Enemies: task.vertexBuffer == NULL error?! (seems to be a character animation bug in the newest release of Unity though, so maybe ignore for now)
+
 
 
 FEATURES
-- GUI: Munition/Nachladen (oder Nachladen durch Schussinterval ersetzen?)
-- GUI: Current Tool display
-- GUI: Main Menu
-- GUI: Gegner Health
-- GUI: damage overlay aktivieren
-- GUI: Finish layer/game end menus
-- Upgrades: display, buying, effect
-- Player: Fall damage
-- General: basic save/load/highscore (using playerPrefs)
-
+- GUI: Main Menu - FloW
+- GUI: Controls display in menu - FloW
+- LEVEL-CHANGE: Bastion flies to next layer, player is not movable during this process, layer timer is paused - Jingyi
+- GUI: Munition/Nachladen (->oder Nachladen durch Schussinterval ersetzen?<-) - FloR
+- GUI: Current Tool display ->Solution: Weapon pictures into golden rings at bottom right - FloW
+- GUI: damage overlay aktivieren - FloW
+- GUI: Enemy Health  - FloW
+//- GUI: Finish layer/game end menus
+//- Upgrades: display, buying, effect
+//- Player: Fall damage
+//- General: basic save/load/highscore (using playerPrefs)
 
 CHANGES
-- Jetpack: Rebalance cost, speed / speed lvls
-- Enemies: Rebalance health, damage
+- Jetpack: Rebalance cost, speed / speed lvls  <----much important------> - Alle
+- Enemies: Rebalance health, damage - Alle
 
 
 IMPROVEMENTS
-- Enemies: replace sendmessage("method") calls on enemy scripts by getcomponent().method() calls (and store getcomponent() result where feasible) - should be a lot more efficient
-- Enemies: only spawn them within certain radius/distance of/to player: not spawn when too near to player already ("fake too obvious", unfair to spawn right behind player's back), not spawn when too far away to have any influence, only spawn them on a middle distance (likely that player visits soon)
-- Enemies: despawn/respawn or set inactive/active based on distance: if player leaves, enemies don't need to do stuff and consume CPU resources
-- Enemies/Collectibles: make loot drop down / hover tied to islands (either parenting or rigidbodies)
-- Camera: remove jittering
-- GrapplingHook: on rope shortening, use lower limit for maximum moveposition-pull per frame (to avoid clipping through stuff), if necessary spread (lerp) larger pull over several frames or use limited move-pull together with a force
-- Player: slight "air control" / influencing of jumping and falling direction for better/smoother feeling during playing
-- WorldGeneration/Islands: synchronize island falling speed with distance to black hole as well as remaining time and/or increase falling speed near time 0
-- Weapons: make projectiles a bit more noticeable/visible, or add small knockback to visualize impact
-- Weapons: no shooting while game is paused or bastion menu is open
+- Enemies: replace sendmessage("method") calls on enemy scripts by getcomponent().method() calls (and store getcomponent() result where feasible) - should be a lot more efficient - Thorsten, Jingyi
+- Enemies: only spawn them within certain radius/distance of/to player: not spawn when too near to player already ("fake too obvious", unfair to spawn right behind player's back), not spawn when too far away to have any influence, only spawn them on a middle distance (likely that player visits soon) - Thorsten, Jingyi
+- Enemies: despawn/respawn or set inactive/active based on distance: if player leaves, enemies don't need to do stuff and consume CPU resources - Thorsten, Jingyi
+- Enemies/Collectibles: make loot drop down / hover tied to islands (either parenting or rigidbodies) - Wer Zeit hat
+- WorldGeneration/Islands: synchronize island falling speed with distance to black hole as well as remaining time and/or increase falling speed near time 0 - Jingyi
+- GrapplingHook: on rope shortening, use lower limit for maximum moveposition-pull per frame (to avoid clipping through stuff), if necessary spread (lerp) larger pull over several frames or use limited move-pull together with a force - FloR/W
+- Player: slight "air control" / influencing of jumping and falling direction for better/smoother feeling during playing - FloR/W
+- Weapons: make projectiles a bit more noticeable/visible - Wer Zeit hat
+- Weapons: no shooting while game is paused or bastion menu is open - FloW
+- neither shoot nor show regular gui when paused or bastion - FloW
+- heal up inside base! - FloW
+//- Camera: remove jittering
+//- Weapons: add small knockback to visualize impact
 
-
-POLISHING
+//POLISHING
 - Enemies: Textures!
 - Bullet holes: fade instead of shrink, maybe?
 - Audio: play some basic background music (jingyi mentioned free music from friend in the past; or pick up some other free-to-use music)
