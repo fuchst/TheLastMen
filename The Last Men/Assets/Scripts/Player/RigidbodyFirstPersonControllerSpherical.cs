@@ -197,7 +197,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             else
             {
-                audio.UpdateWalkingState(false, 0);
+                audio.UpdateWalkingState(false);
             }
 
             return 0;
@@ -316,7 +316,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 desiredMoveX *= movementSettings.StrafeSpeed;
 
                 //only add swinging forces if we are lower than the hook, 
-                if (Vector3.Angle(transform.up, hookToPlayer) < 90) {
+                if (Vector3.Angle(transform.up, hookToPlayer) < 85) {
                     
                     if (Vector3.Angle(Mathf.Sign(input.y) * transform.forward, hookToPlayer) < 95) {
                         m_RigidBody.AddForce(ropeSwingStrength * Time.fixedDeltaTime * desiredMoveY, ForceMode.VelocityChange);

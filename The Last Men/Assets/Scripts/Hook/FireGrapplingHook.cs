@@ -81,7 +81,7 @@ public class FireGrapplingHook : MonoBehaviour
         confJoint.xMotion = confJoint.yMotion = confJoint.zMotion = ConfigurableJointMotion.Free;
         UpdateRopeLength(0.0f, false);
         //give player a little extra upwards velocity upon unhooking, except when already grounded on a near-flat surface (i.e. standing regularly)
-        if (hooked && (!controller.Grounded || Vector3.Angle(controller.GroundNormal, controller.transform.up) > 10)) {
+        if (hooked && (!controller.Grounded || Vector3.Angle(controller.GroundNormal, controller.transform.up) > 15)) {
             controller.Jump(true);
         }
         Unfire();
