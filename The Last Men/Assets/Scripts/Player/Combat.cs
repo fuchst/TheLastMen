@@ -78,7 +78,7 @@ public class Combat : MonoBehaviour {
     void Update()
     {
         
-        if (CrossPlatformInputManager.GetButtonDown("Shoot"))
+        if (CrossPlatformInputManager.GetButton("Shoot"))
         {
             Transform frame = this.transform.GetChild(0);
 

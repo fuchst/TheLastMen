@@ -11,7 +11,7 @@ public class Shotgun : Weapon
         magSize = 4;
         magFill = magSize;
         firerate = 1;
-        timestamp = 0;
+        fireDeltaTime = 0;
 
         numBullets = 8;     
         maxSpread = 0.1f;

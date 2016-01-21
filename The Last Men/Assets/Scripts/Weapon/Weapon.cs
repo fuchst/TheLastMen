@@ -8,7 +8,7 @@ public abstract class Weapon : MonoBehaviour {
     protected int magFill;
 
     protected float firerate;
-    protected float timestamp;
+    protected float fireDeltaTime;
 
     static protected float bulletSpeed = 50;
     static protected float bulletGravity = 10;
@@ -28,12 +28,18 @@ public abstract class Weapon : MonoBehaviour {
         OnAwake();
     }
 
+    void  Update()
+    {
+        fireDeltaTime += Time.deltaTime;
+    }
+
     public void shootNVI(Transform frame)
     {
-        if((Time.time - timestamp) >= firerate && magFill > 0)
+        if(fireDeltaTime >= firerate && magFill > 0)
         {
             shoot(frame);
-            magFill--;
+            fireDeltaTime = 0;
+            //magFill--;
         }
     }
 
