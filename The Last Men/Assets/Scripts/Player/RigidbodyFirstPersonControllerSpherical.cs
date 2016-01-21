@@ -203,6 +203,18 @@ namespace UnityStandardAssets.Characters.FirstPerson
             return 0;
         }
 
+        private float SkyDive (Vector2 input) {
+            //TODO: insert code for slightly influencing movement direction when falling/ungrounded
+            Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
+            desiredMove *= movementSettings.CurrentTargetSpeed * SlopeMultiplier();
+            float horVel = Vector3.ProjectOnPlane(m_RigidBody.velocity, transform.up).magnitude;
+            if (horVel < movementSettings.CurrentTargetSpeed/2)
+            {
+                m_RigidBody.AddForce(2 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+            }
+            return 0;
+        }
+
         private float Fly (Vector2 input) {
             if (s_GameManager.Instance.energyPlayer_Cur <= 0) {
                 m_Fly = false;
@@ -373,6 +385,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             GroundCheck();
             Vector2 input = GetInput();
             float energyCost = 0;
+            bool inputExists = (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon);
 
             if (movementSettings.changeFOV) {
                 UpdateFOV();
@@ -382,15 +395,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 energyCost += Fly(input);
             }
 
-            if (movementSettings.m_Hooked && !m_IsGrounded && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon)) {
+            if (movementSettings.m_Hooked && !m_IsGrounded && inputExists) {
                 energyCost += Swing(input);
             }
 
-            if (!m_Fly && (advancedSettings.airControl || m_IsGrounded) && (Mathf.Abs(input.x) > float.Epsilon || Mathf.Abs(input.y) > float.Epsilon)) {
+            if (!m_Fly && m_IsGrounded && inputExists) {
                 energyCost += Walk(input);
             }
             else {
                 audio.UpdateWalkingState(false);
+            }
+
+            if(!m_IsGrounded && !m_Fly && !movementSettings.m_Hooked && advancedSettings.airControl && inputExists) {
+                energyCost += SkyDive(input);
             }
 
             if (m_IsGrounded) {
@@ -467,7 +484,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             mouseLook.LookRotation(transform, cam.transform);
 
-            if (m_IsGrounded || advancedSettings.airControl || m_Fly)
+            if (m_IsGrounded || m_Fly)
             {
                 // Rotate the rigidbody velocity to match the new direction that the character is looking
                 //Quaternion velRotation = Quaternion.AngleAxis(transform.eulerAngles.y - oldYRotation, transform.up);

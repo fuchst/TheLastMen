@@ -370,7 +370,7 @@ MonoBehaviour:
     groundCheckDistance: .00999999978
     stickToGroundHelperDistance: .5
     slowDownRate: 0
-    airControl: 0
+    airControl: 1
   swingFloR: 0
 --- !u!114 &11426022
 MonoBehaviour:
@@ -825,6 +825,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Volume
       value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: advancedSettings.airControl
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

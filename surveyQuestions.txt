@@ -27,7 +27,7 @@ Questions to features:
 -jetpack: Easy to use? Made sense in game? Worked as predicted?
 -energy: Enough/To little? Made sense in context of game?
 -artifacts: Made sense in game? Satisfying to collect?
-
+-camera FOV changes: useful? disturbing? noticed at all?
 
 Do you think the visual style of the game (graphics, animations) was overall consistent?
 Do you like the visual style of the game?

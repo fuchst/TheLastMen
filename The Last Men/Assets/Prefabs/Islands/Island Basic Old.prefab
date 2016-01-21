@@ -106,7 +106,7 @@ GameObject:
   - 114: {fileID: 11455240}
   - 114: {fileID: 11459720}
   m_Layer: 0
-  m_Name: Island Basic
+  m_Name: Island Basic Old
   m_TagString: Island
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
