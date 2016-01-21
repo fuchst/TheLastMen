@@ -1194,13 +1194,16 @@ MonoBehaviour:
     trees:
     - {fileID: 150004, guid: b0d296dc143284b46a89115abe577fa4, type: 2}
     - {fileID: 158882, guid: bd877d5584083ef47823d1beefe0a4f0, type: 2}
-    bushes: []
+    bushes:
+    - {fileID: 194736, guid: ac1ffc106dfed4f418cb79313d4b66c7, type: 2}
+    - {fileID: 123032, guid: a1c10d726e978a046bbc846267be2a0c, type: 2}
+    - {fileID: 123032, guid: 273d18041c0f3f142aef97cddeba3cd2, type: 2}
     enemies:
     - {fileID: 194736, guid: 49e2234798da85e47b8344c4b0eb4376, type: 2}
     crystals:
     - {fileID: 100000, guid: 87b70b92195974d9dacc05039e07b8cf, type: 2}
     chanceToSpawnATree: .899999976
-    chanceToSpawnABush: 0
+    chanceToSpawnABush: .850000024
     minEnemiesOnIsland: 3
     minCrystalsOnIsland: 3
     maxSpawnOffSet: {x: .5, y: 0, z: .5}
@@ -1237,6 +1240,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: spawnSettings.bushes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
@@ -1259,6 +1266,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: IslandCollision
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnSettings.bushes.Array.data[0]
+      value: 
+      objectReference: {fileID: 194736, guid: ac1ffc106dfed4f418cb79313d4b66c7, type: 2}
+    - target: {fileID: 0}
+      propertyPath: spawnSettings.bushes.Array.data[1]
+      value: 
+      objectReference: {fileID: 123032, guid: a1c10d726e978a046bbc846267be2a0c, type: 2}
+    - target: {fileID: 0}
+      propertyPath: spawnSettings.bushes.Array.data[2]
+      value: 
+      objectReference: {fileID: 123032, guid: 273d18041c0f3f142aef97cddeba3cd2, type: 2}
+    - target: {fileID: 0}
+      propertyPath: spawnSettings.chanceToSpawnABush
+      value: .850000024
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
