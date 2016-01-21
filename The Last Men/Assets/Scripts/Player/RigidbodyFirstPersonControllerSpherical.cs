@@ -205,7 +205,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private float SkyDive (Vector2 input) {
             //TODO: insert code for slightly influencing movement direction when falling/ungrounded
-
+            Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
+            desiredMove *= movementSettings.CurrentTargetSpeed * SlopeMultiplier();
+            float horVel = Vector3.ProjectOnPlane(m_RigidBody.velocity, transform.up).magnitude;
+            if (horVel < movementSettings.CurrentTargetSpeed/2)
+            {
+                m_RigidBody.AddForce(2 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+            }
             return 0;
         }
 
