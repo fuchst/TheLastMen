@@ -7,8 +7,8 @@ public class Pistol : Weapon
         dmg = 10;
         magSize = 12;
         magFill = magSize;
-        firerate = 0.5f;
-        timestamp = 0;
+        firerate = 0.25f;
+        fireDeltaTime = 0;
     }
 
     public override void OnAwake()
