@@ -2,13 +2,7 @@
 
 public class Bastion : MonoBehaviour
 {
-    private new Rigidbody rigidbody;
     public GameObject triggerObject;
-
-    void Awake()
-    {
-        rigidbody = GetComponent<Rigidbody>();
-    }
 
     void Start ()
     {
@@ -22,11 +16,6 @@ public class Bastion : MonoBehaviour
             LevelManager.Instance.AdvanceLevel();
         }
     }*/
-
-    void Update()
-    {
-        rigidbody.MovePosition(transform.position - transform.up * Time.deltaTime * LevelManager.Instance.islandFallingSpeed);
-    }
 
     void OnTriggerEnter (Collider other) {
         if (other.CompareTag("Player")) {

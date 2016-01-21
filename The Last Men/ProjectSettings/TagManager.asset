@@ -16,6 +16,7 @@ TagManager:
   - EnergySpawn
   - Bastion
   - 'Spawn: Bush'
+  - IslandCollision
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - 
   - Hook
   - Player
-  - 
+  - IslandCollider
   - 
   - 
   - 

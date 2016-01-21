@@ -94,11 +94,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 415128, guid: a1f20c71293660a4e998ae37917deb39, type: 2}
       propertyPath: m_LocalPosition.x
-      value: .200000003
+      value: 3.25
       objectReference: {fileID: 0}
     - target: {fileID: 415128, guid: a1f20c71293660a4e998ae37917deb39, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 200.300003
+      value: 194.889999
       objectReference: {fileID: 0}
     - target: {fileID: 415128, guid: a1f20c71293660a4e998ae37917deb39, type: 2}
       propertyPath: m_LocalPosition.z
@@ -127,6 +127,10 @@ Prefab:
     - target: {fileID: 118880, guid: a1f20c71293660a4e998ae37917deb39, type: 2}
       propertyPath: m_Name
       value: Island (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 106298, guid: a1f20c71293660a4e998ae37917deb39, type: 2}
+      propertyPath: m_Name
+      value: bbott
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a1f20c71293660a4e998ae37917deb39, type: 2}
@@ -449,6 +453,10 @@ Prefab:
     - target: {fileID: 118880, guid: a1f20c71293660a4e998ae37917deb39, type: 2}
       propertyPath: m_Name
       value: Island (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 106298, guid: a1f20c71293660a4e998ae37917deb39, type: 2}
+      propertyPath: m_Name
+      value: Bott
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a1f20c71293660a4e998ae37917deb39, type: 2}

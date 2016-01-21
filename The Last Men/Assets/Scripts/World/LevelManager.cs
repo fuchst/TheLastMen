@@ -59,21 +59,21 @@ public class LevelManager : MonoBehaviour
 		GameObject tmp;
 		islandPrefabs.bigIslandWidths = new float[islandPrefabs.BigIslands.Length];
 		for (int i = 0; i< islandPrefabs.bigIslandWidths.Length; i++) {
-			tmp = Instantiate(islandPrefabs.BigIslands[i]) as GameObject;
+			tmp = Instantiate(islandPrefabs.BigIslands[i], new Vector3(0,0,0), Quaternion.identity) as GameObject;
 			islandPrefabs.bigIslandWidths[i] = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
 			Destroy(tmp);
 		}
 		islandPrefabs.smallIslandWidths = new float[islandPrefabs.SmallIslands.Length];
 		for (int i = 0; i< islandPrefabs.smallIslandWidths.Length; i++) {
-			tmp = Instantiate(islandPrefabs.SmallIslands[i]) as GameObject;
+			tmp = Instantiate(islandPrefabs.SmallIslands[i], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
 			islandPrefabs.smallIslandWidths[i] = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
 			Destroy(tmp);
 		}
 
-		tmp = Instantiate(islandPrefabs.Bastion) as GameObject;
+		tmp = Instantiate(islandPrefabs.Bastion, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
 		islandPrefabs.bastionWidth = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
 		Destroy(tmp);
-		tmp = Instantiate(islandPrefabs.AritfactIsland) as GameObject;
+		tmp = Instantiate(islandPrefabs.AritfactIsland, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
 		islandPrefabs.artifactIslandWidth = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
 		Destroy(tmp);
 

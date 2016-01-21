@@ -21,23 +21,14 @@ public class Island : MonoBehaviour
 
     public SpawnSettings spawnSettings;
 
-    public int priority;
-
     private IslandNavigation islandNavigation;
     private List<Transform> treeSpawnList = new List<Transform>();
     private List<Transform> bushesSpawnList = new List<Transform>();
     private List<Transform> enemyNCrystalSpawnPosList = new List<Transform>();
-	private float fallingSpeed = 0;
-    private float extraSpeedFactorOnCollision = 5.0f;
-    new private Rigidbody rigidbody;
-	
+    
 	void Awake(){
 		islandNavigation = GetComponentInChildren<IslandNavigation>();
-		if (LevelManager.Instance == true) {
-			fallingSpeed = LevelManager.Instance.islandFallingSpeed;
-		}
-		rigidbody = GetComponent<Rigidbody>();
-
+        
 		//Setup spawn references
 		Transform spawns = transform.FindChild("Spawns");
 		foreach (Transform child in spawns)
@@ -165,31 +156,5 @@ public class Island : MonoBehaviour
             spawnBagList.RemoveAt(0);
         }
         islandNavigation.SpawnEnemies(spawnSettings.objectParent, enemiesWithSpawnPosition);
-    }
-
-    void Update()
-    {
-        rigidbody.MovePosition(transform.position - transform.up * Time.deltaTime * fallingSpeed);
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        string tag = collision.gameObject.tag;
-        switch (tag)
-        {
-            case "Island":
-                Island islandScript = collision.gameObject.GetComponent<Island>();
-                if (islandScript.priority > priority)
-                {
-                    fallingSpeed *= extraSpeedFactorOnCollision;
-                }
-                break;
-            case "Deathzone":
-                //NiceToHave: add fancy explosion effects here
-                Destroy(gameObject);
-                break;
-            default:
-                break;
-        }
     }
 }

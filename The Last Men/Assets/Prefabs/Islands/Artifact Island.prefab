@@ -74,6 +74,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &115466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 434876}
+  - 135: {fileID: 13557082}
+  m_Layer: 10
+  m_Name: IslandCollider
+  m_TagString: IslandCollision
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &117032
 GameObject:
   m_ObjectHideFlags: 1
@@ -137,6 +153,7 @@ GameObject:
   - 54: {fileID: 5477968}
   - 114: {fileID: 11449428}
   - 114: {fileID: 11482542}
+  - 114: {fileID: 11402934}
   m_Layer: 0
   m_Name: Artifact Island
   m_TagString: Island
@@ -872,6 +889,18 @@ Transform:
   - {fileID: 417100}
   m_Father: {fileID: 493850}
   m_RootOrder: 3
+--- !u!4 &434876
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 115466}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 493850}
+  m_RootOrder: 9
 --- !u!4 &439192
 Transform:
   m_ObjectHideFlags: 1
@@ -1184,6 +1213,7 @@ Transform:
   - {fileID: 449058}
   - {fileID: 490204}
   - {fileID: 425502}
+  - {fileID: 434876}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &493984
@@ -2709,6 +2739,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies: []
+--- !u!114 &11402934
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 130254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa5a349ef86eed241af929e3cb9bffdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallingSpeed: 0
+  priority: 2
 --- !u!114 &11403806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2755,14 +2798,15 @@ MonoBehaviour:
     trees:
     - {fileID: 150004, guid: b0d296dc143284b46a89115abe577fa4, type: 2}
     - {fileID: 158882, guid: bd877d5584083ef47823d1beefe0a4f0, type: 2}
+    bushes: []
     enemies: []
     crystals:
     - {fileID: 100000, guid: 87b70b92195974d9dacc05039e07b8cf, type: 2}
     chanceToSpawnATree: 1
+    chanceToSpawnABush: 0
     minEnemiesOnIsland: 0
     minCrystalsOnIsland: 3
     maxSpawnOffSet: {x: 0, y: 0, z: 0}
-  priority: 1
 --- !u!114 &11482542
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2801,6 +2845,18 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.75
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &13557082
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 115466}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &13584436
 SphereCollider:
@@ -3911,7 +3967,23 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: priority
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: IslandCollision
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: islandCollider
+      value: 
+      objectReference: {fileID: 13557082}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 130254}

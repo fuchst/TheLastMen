@@ -105,6 +105,7 @@ GameObject:
   - 54: {fileID: 5430238}
   - 114: {fileID: 11425594}
   - 114: {fileID: 11429190}
+  - 114: {fileID: 11479112}
   m_Layer: 0
   m_Name: Small Island Stone
   m_TagString: Island
@@ -124,6 +125,22 @@ GameObject:
   m_Name: Enemy n Crystal
   m_TagString: 'Spawn: Enemy n Crystal'
   m_Icon: {fileID: -3545028842045912814, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &195466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 434158}
+  - 135: {fileID: 13532896}
+  m_Layer: 10
+  m_Name: IslandCollider
+  m_TagString: IslandCollision
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -191,6 +208,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 449834}
   m_RootOrder: 2
+--- !u!4 &434158
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195466}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -6.0999999, z: -1.79999995}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 449834}
+  m_RootOrder: 3
 --- !u!4 &449834
 Transform:
   m_ObjectHideFlags: 1
@@ -204,6 +233,7 @@ Transform:
   - {fileID: 450342}
   - {fileID: 407458}
   - {fileID: 427580}
+  - {fileID: 434158}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &450342
@@ -315,7 +345,6 @@ MonoBehaviour:
     minEnemiesOnIsland: 0
     minCrystalsOnIsland: 3
     maxSpawnOffSet: {x: .5, y: 0, z: .5}
-  priority: 0
 --- !u!114 &11429190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -339,6 +368,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies: []
+--- !u!114 &11479112
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa5a349ef86eed241af929e3cb9bffdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallingSpeed: 0
+  priority: 0
+--- !u!135 &13532896
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195466}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 12
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -349,6 +403,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsKinematic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: IslandCollision
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
