@@ -189,7 +189,10 @@ public class s_GUIMain : MonoBehaviour {
             int remainingTime = (int)Mathf.Max(0, game.endTime - Time.time);
 		    textRemainingTime.text =  remainingTime/60 + ":" + (remainingTime%60).ToString("00");
             iconRemainingTime.fillAmount = (float)remainingTime / game.roundDuration;
-            UpdateBastionDirectionIcon();
+            if (bastionTransform != null)   //JingYi: quickfix to avoid wall of errors after the bastion is destroyed by the black whole and the player is still on a higher island
+            {
+                UpdateBastionDirectionIcon();
+            }
             #endregion
             
             #region TODO: put in proper references!! 
@@ -299,6 +302,7 @@ public class s_GUIMain : MonoBehaviour {
         offscreen = false;
 
         //get screen position of bastion
+
         Vector3 bastionScreenPos = playerCamera.WorldToScreenPoint (bastionTransform.position);
 
         Vector3 testDir = (bastionTransform.position - playerCamera.transform.position).normalized;

@@ -935,11 +935,12 @@ MonoBehaviour:
   player: {fileID: 168436, guid: e1cd2feb18586e843ac3154efbf603cd, type: 2}
   islandPrefabs:
     BigIslands:
-    - {fileID: 118880, guid: a1f20c71293660a4e998ae37917deb39, type: 2}
+    - {fileID: 106104, guid: 04fde7499d0984f4fb41b95f336b9a14, type: 2}
     bigIslandWidths: []
     SmallIslands:
     - {fileID: 170500, guid: a2134f9e13dc76344a6134802e64a8fa, type: 2}
     - {fileID: 157704, guid: c22f34c5fc981fd43beb4cba59374f62, type: 2}
+    - {fileID: 112710, guid: 3418147356d3de34a902b7b22aec2294, type: 2}
     smallIslandWidths: []
     Bastion: {fileID: 177492, guid: 4c9c67fc7c0207e4b9827ba4cb4dfedb, type: 2}
     bastionWidth: 0
