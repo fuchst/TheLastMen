@@ -105,7 +105,7 @@ GameObject:
   - 54: {fileID: 5464758}
   - 114: {fileID: 11455240}
   m_Layer: 0
-  m_Name: Island Basic
+  m_Name: Island Basic Old
   m_TagString: Island
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1164,11 +1164,13 @@ MonoBehaviour:
     trees:
     - {fileID: 150004, guid: b0d296dc143284b46a89115abe577fa4, type: 2}
     - {fileID: 158882, guid: bd877d5584083ef47823d1beefe0a4f0, type: 2}
+    bushes: []
     enemies:
     - {fileID: 194736, guid: 49e2234798da85e47b8344c4b0eb4376, type: 2}
     crystals:
     - {fileID: 100000, guid: 87b70b92195974d9dacc05039e07b8cf, type: 2}
     chanceToSpawnATree: .899999976
+    chanceToSpawnABush: 0
     minEnemiesOnIsland: 3
     minCrystalsOnIsland: 3
     maxSpawnOffSet: {x: .5, y: 0, z: .5}

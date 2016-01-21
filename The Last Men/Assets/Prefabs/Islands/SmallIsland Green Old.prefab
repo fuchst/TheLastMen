@@ -122,7 +122,7 @@ GameObject:
   - 54: {fileID: 5489310}
   - 114: {fileID: 11480578}
   m_Layer: 0
-  m_Name: SmallIsland Green
+  m_Name: SmallIsland Green Old
   m_TagString: Island
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -368,10 +368,12 @@ MonoBehaviour:
     trees:
     - {fileID: 150004, guid: b0d296dc143284b46a89115abe577fa4, type: 2}
     - {fileID: 158882, guid: bd877d5584083ef47823d1beefe0a4f0, type: 2}
+    bushes: []
     enemies: []
     crystals:
     - {fileID: 100000, guid: 87b70b92195974d9dacc05039e07b8cf, type: 2}
     chanceToSpawnATree: 1
+    chanceToSpawnABush: 0
     minEnemiesOnIsland: 0
     minCrystalsOnIsland: 3
     maxSpawnOffSet: {x: .5, y: 0, z: .5}

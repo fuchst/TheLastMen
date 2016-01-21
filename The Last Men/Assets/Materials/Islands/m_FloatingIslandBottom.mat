@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Dirt_nice
+  m_Name: m_FloatingIslandBottom
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _DETAIL_MULX2 _NORMALMAP
+  m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -19,21 +19,21 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 89eb48c51ef355043a5cd47f424e7c7c, type: 3}
+          m_Texture: {fileID: 2800000, guid: e08d61ce97d326345a151f4391dd3f20, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 2800000, guid: 8fbedb9d69da6744fba6f0f79fc87541, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _DetailNormalMap
         second:
-          m_Texture: {fileID: 2800000, guid: a8184a56ee26fa7498a254945a4101bd, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -47,7 +47,7 @@ Material:
         first:
           name: _OcclusionMap
         second:
-          m_Texture: {fileID: 2800000, guid: 8fbedb9d69da6744fba6f0f79fc87541, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -68,8 +68,8 @@ Material:
         first:
           name: _DetailAlbedoMap
         second:
-          m_Texture: {fileID: 2800000, guid: f817cec777284d342b085dadbdb9aeb3, type: 3}
-          m_Scale: {x: 2, y: 2}
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
@@ -102,19 +102,19 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .5
+        second: 0
       data:
         first:
           name: _BumpScale
-        second: 1.75
+        second: 2.5
       data:
         first:
           name: _OcclusionStrength
-        second: .5
+        second: 0
       data:
         first:
           name: _DetailNormalMapScale
-        second: .75
+        second: 1
       data:
         first:
           name: _UVSec
@@ -126,7 +126,7 @@ Material:
       data:
         first:
           name: _Metallic
-        second: .200000003
+        second: 0
     m_Colors:
       data:
         first:
@@ -135,4 +135,4 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: .897160232, b: .713235259, a: 1}
+        second: {r: 1, g: .842607021, b: .448529422, a: 1}

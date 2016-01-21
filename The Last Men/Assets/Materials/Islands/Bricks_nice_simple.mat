@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: m_FloatingIslandBottom
+  m_Name: Bricks_nice_simple
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _NORMALMAP
+  m_ShaderKeywords: _DETAIL_MULX2 _NORMALMAP
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -19,28 +19,21 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: e08d61ce97d326345a151f4391dd3f20, type: 3}
+          m_Texture: {fileID: 2800000, guid: 087f1783e5158be4e918d50e0d915813, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 2800000, guid: fb6566c21f717904f83743a5a76dd0b0, type: 3}
+          m_Texture: {fileID: 2800000, guid: 38836d8d63e861d4d9ae42bb728ecb77, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _DetailNormalMap
         second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _MetallicGlossMap
-        second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: df4c892e39005a34cb69f71fdc359ac9, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -54,7 +47,7 @@ Material:
         first:
           name: _OcclusionMap
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: 06cb1e4cf72a64743bc7ec569db5bb72, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -75,6 +68,13 @@ Material:
         first:
           name: _DetailAlbedoMap
         second:
+          m_Texture: {fileID: 2800000, guid: 06cb1e4cf72a64743bc7ec569db5bb72, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MetallicGlossMap
+        second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
@@ -93,32 +93,28 @@ Material:
         second: .5
       data:
         first:
+          name: _Parallax
+        second: .0199999996
+      data:
+        first:
           name: _ZWrite
         second: 1
       data:
         first:
           name: _Glossiness
-        second: 0
-      data:
-        first:
-          name: _Metallic
-        second: 0
+        second: .25
       data:
         first:
           name: _BumpScale
-        second: 2.5
-      data:
-        first:
-          name: _Parallax
-        second: .0199999996
+        second: .25
       data:
         first:
           name: _OcclusionStrength
-        second: 0
+        second: .5
       data:
         first:
           name: _DetailNormalMapScale
-        second: 1
+        second: .75
       data:
         first:
           name: _UVSec
@@ -126,6 +122,10 @@ Material:
       data:
         first:
           name: _Mode
+        second: 0
+      data:
+        first:
+          name: _Metallic
         second: 0
     m_Colors:
       data:
@@ -135,4 +135,4 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: .842607021, b: .448529422, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}
