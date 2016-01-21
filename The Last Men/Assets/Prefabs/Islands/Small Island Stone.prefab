@@ -306,10 +306,12 @@ MonoBehaviour:
     trees:
     - {fileID: 150004, guid: b0d296dc143284b46a89115abe577fa4, type: 2}
     - {fileID: 158882, guid: bd877d5584083ef47823d1beefe0a4f0, type: 2}
+    bushes: []
     enemies: []
     crystals:
     - {fileID: 100000, guid: 87b70b92195974d9dacc05039e07b8cf, type: 2}
     chanceToSpawnATree: 1
+    chanceToSpawnABush: 0
     minEnemiesOnIsland: 0
     minCrystalsOnIsland: 3
     maxSpawnOffSet: {x: .5, y: 0, z: .5}
@@ -343,7 +345,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 170500}

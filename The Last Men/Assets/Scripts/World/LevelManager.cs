@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour
     public LevelVariables[] levelVariables = new LevelVariables[3];
     [HideInInspector]
     public GameObject bastion;
+    public Transform flyingEnemyParent;
 
     public bool showPaths = false;
 
@@ -77,6 +78,7 @@ public class LevelManager : MonoBehaviour
 		Destroy(tmp);
 
         worldCam = Camera.main;
+        PlaceFlyingEnemy.flyingEnemyParent = flyingEnemyParent;
     }
 
     public void LoadLevel()

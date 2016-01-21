@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class PlaceFlyingEnemy : MonoBehaviour {
 
+    public static Transform flyingEnemyParent;
     GameObject prefab;
 
     void Awake()
@@ -14,6 +14,7 @@ public class PlaceFlyingEnemy : MonoBehaviour {
 	void Start ()
     {
         Vector3 spawnpoint = transform.position + transform.up * 10.0f;
-        Instantiate(prefab, spawnpoint , transform.rotation);
+        GameObject flyingEnemy = Instantiate(prefab, spawnpoint, transform.rotation) as GameObject;
+        flyingEnemy.transform.parent = flyingEnemyParent;
 	}
 }

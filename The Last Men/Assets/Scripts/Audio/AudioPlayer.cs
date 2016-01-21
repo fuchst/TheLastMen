@@ -30,6 +30,6 @@ public class AudioPlayer : MonoBehaviour {
         speed = curSpeed > 2 ? curSpeed-1 : 1;
         speed = 0.33f + 0.65f * Mathf.Log(speed);
         audio.pitch = speed;
-        Debug.Log(speed);
+        //Debug.Log(speed);
     }
 }

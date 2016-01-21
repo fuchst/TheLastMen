@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class IslandNavigation : MonoBehaviour {
 
-    private GameObject enemyPrefab;
+    //private GameObject enemyPrefab;
     public List<GameObject> enemies;
 
     private GameObject navGridPrefab;
@@ -12,7 +12,7 @@ public class IslandNavigation : MonoBehaviour {
     void Awake()
     {
         navGridPrefab = Resources.Load("NavGrid") as GameObject;
-        enemyPrefab = Resources.Load("GroundEnemy") as GameObject;
+        //enemyPrefab = Resources.Load("GroundEnemy") as GameObject;
 
         navGridInstance = (Instantiate(navGridPrefab, this.transform.position, this.transform.rotation) as GameObject).GetComponent<NavigationGrid>();
         navGridInstance.transform.SetParent(transform);
