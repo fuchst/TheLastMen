@@ -3,33 +3,36 @@
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get { return instance; } }
-    public float islandFallingSpeed = 2.0f;
-    public int rngSeed = 1337;
+    public int CurLvl { get { return currentLevel; } }
+    public float MaxFallingSpeed { get { return maxFallingSpeed; } }
+    public float IslandFallingSpeed { get { return islandFallingSpeed; } set { islandFallingSpeed = value; } }
+    public bool ShowPaths { get { return showPaths; } }
+    public int RngSeed { get { return rngSeed; } }
+    public GameObject BlackHole { get { return blackHole; } }
+    
     [SerializeField] protected GameObject playerPrefab;
     public GameObject player;
     public IslandPrefabs islandPrefabs;
     public LevelVariables[] levelVariables = new LevelVariables[3];
-    [HideInInspector]
-    public GameObject bastion;
+    [HideInInspector] public GameObject bastion;
     public Transform flyingEnemyParent;
-
-    public bool showPaths = false;
-
+    
     private static LevelManager instance;
+    [SerializeField] private int rngSeed = 1337;
+    [SerializeField] private bool showPaths = false;
+    [SerializeField] private float maxFallingSpeed = 0.2f;
+    [SerializeField] private float islandFallingSpeed = 2.0f;
+    [SerializeField] private GameObject blackHole;
     private Camera worldCam;
-    private Level[] levels = new Level[4];
+    private Level[] levels;
     private int currentLevel = 0;
-
-    public int CurLvl { get { return currentLevel; } }
 
     void Awake()
     {
-        if (instance) {
-            Destroy(this);
-        }
-        else {
-            instance = this;
-        }
+        if (instance) { Destroy(this); }
+        else { instance = this; }
+
+        //Check prefabs
         bool prefabsSet = true;
         if (islandPrefabs.Bastion == null || islandPrefabs.AritfactIsland == null)
         {
@@ -40,6 +43,7 @@ public class LevelManager : MonoBehaviour
             if (go == null)
             {
                 prefabsSet = false;
+                break;
             }
         }
         foreach (GameObject go in islandPrefabs.SmallIslands)
@@ -47,6 +51,7 @@ public class LevelManager : MonoBehaviour
             if (go == null)
             {
                 prefabsSet = false;
+                break;
             }
         }
         if (prefabsSet == false)
@@ -56,6 +61,8 @@ public class LevelManager : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
         }
+
+        //Gather island bounds
 		GameObject tmp;
 		islandPrefabs.bigIslandWidths = new float[islandPrefabs.BigIslands.Length];
 		for (int i = 0; i< islandPrefabs.bigIslandWidths.Length; i++) {
@@ -79,6 +86,7 @@ public class LevelManager : MonoBehaviour
 
         worldCam = Camera.main;
         PlaceFlyingEnemy.flyingEnemyParent = flyingEnemyParent;
+        levels = new Level[levelVariables.Length];
     }
 
     public void LoadLevel()

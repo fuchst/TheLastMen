@@ -1,7 +1,7 @@
 
 
 BUGS
-- Islands: on collision with black hole or other islands, no destruction taking place - Jingyi
+Done - Islands: on collision with black hole or other islands, no destruction taking place - Jingyi
 - Tonemapping: color flickering (either fix, or ->disable<- tonemapping for now) - Wer Zeit hat
 //- Player: sometimes gets stuck while walking, for no (apparent) reason, jetpacking out helps
 //- Enemies: sometimes don't get hit? (seems so, at least)

@@ -500,7 +500,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22429348, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 139
+      value: 277.5
       objectReference: {fileID: 0}
     - target: {fileID: 22429348, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -524,7 +524,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22412096, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 228.5
+      value: 367
       objectReference: {fileID: 0}
     - target: {fileID: 22412096, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_SizeDelta.x
@@ -544,7 +544,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22486778, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 318
+      value: 456.5
       objectReference: {fileID: 0}
     - target: {fileID: 22486778, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -929,8 +929,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7f4e393f9fefa4f8ff17fb440f6475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  islandFallingSpeed: .200000003
-  rngSeed: 1337
   playerPrefab: {fileID: 168436, guid: e1cd2feb18586e843ac3154efbf603cd, type: 2}
   player: {fileID: 168436, guid: e1cd2feb18586e843ac3154efbf603cd, type: 2}
   islandPrefabs:
@@ -967,7 +965,11 @@ MonoBehaviour:
     grapplingIslandExtraHeight: 0
   bastion: {fileID: 0}
   flyingEnemyParent: {fileID: 269436299}
+  rngSeed: 1337
   showPaths: 0
+  maxFallingSpeed: .200000003
+  islandFallingSpeed: .200000003
+  blackHole: {fileID: 520409051}
 --- !u!4 &1378452260
 Transform:
   m_ObjectHideFlags: 0

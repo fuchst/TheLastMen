@@ -11,7 +11,7 @@ public class IslandMovement : MonoBehaviour
     {
         if (LevelManager.Instance == true)
         {
-            fallingSpeed = LevelManager.Instance.islandFallingSpeed;
+            fallingSpeed = LevelManager.Instance.IslandFallingSpeed;
         }
         rigidbody = GetComponentInParent<Rigidbody>();
     }

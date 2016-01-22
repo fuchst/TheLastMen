@@ -6,20 +6,13 @@ public class Level : MonoBehaviour
 {
     public float baseIslandSize = 10f;
     public Transform islandParent;
-    [HideInInspector]
-    public float radius = 150.0f;
-    [HideInInspector]
-    public int cycles = 3;
-    [HideInInspector]
-    public int randomSeed = 1337;
-    [HideInInspector]
-    public int artifactCount = 8;
-    [HideInInspector]
-    public float destructionLevel = 0.6f;
-    [HideInInspector]
-    public float layerHeightOffset = 200.0f;
-    [HideInInspector]
-    public float grapplingIslandExtraheight;
+    [HideInInspector] public float radius = 150.0f;
+    [HideInInspector] public int cycles = 3;
+    [HideInInspector] public int randomSeed = 1337;
+    [HideInInspector] public int artifactCount = 8;
+    [HideInInspector] public float destructionLevel = 0.6f;
+    [HideInInspector] public float layerHeightOffset = 200.0f;
+    [HideInInspector] public float grapplingIslandExtraheight;
 
     private enum IslandType { None, Bastion, Path, Artifact, Grappling, Small };
     private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
@@ -39,9 +32,10 @@ public class Level : MonoBehaviour
         DestroyUnneededIslands();
         SetupLayers();
         SetupGrapplingIslands();
+        SyncFallingSpeedWithTimer();
         InstantiateIslands();
     }
-
+    
     public void DestroyLevel()
     {
         Destroy(islandParent.gameObject);
@@ -49,7 +43,7 @@ public class Level : MonoBehaviour
 
     void Update()
     {
-        if (LevelManager.Instance.showPaths == true)
+        if (LevelManager.Instance.ShowPaths == true)
         {
             foreach (Island island in islandDictionary.Values)
             {
@@ -274,6 +268,32 @@ public class Level : MonoBehaviour
             KeyValuePair<string, Island> item = newIslandStack.Pop();
             grapplingIslandDictionary.Add(item.Key, item.Value);
         }
+    }
+
+    private void SyncFallingSpeedWithTimer()
+    {
+        //Gather all the variables we will need
+        Vector3 bastionPosition = islandDictionary[0].position;
+        Vector3 blackHolePosition = LevelManager.Instance.BlackHole.transform.position;
+        float blackHoleRadius = LevelManager.Instance.BlackHole.transform.localScale.x;
+        float bastionRadius = LevelManager.Instance.islandPrefabs.bastionWidth; //Width is not correct but nobody got time for that
+        float roundTime = s_GameManager.Instance.roundDuration;
+
+        //Calc new fallingspeed
+        float distance = Vector3.Distance(bastionPosition, blackHolePosition);
+        distance -= bastionRadius + blackHoleRadius;
+        float newFallingSpeed = distance / roundTime;
+
+        //If new falling speed is too fast make it smaller and make black hole bigger
+        if (newFallingSpeed > LevelManager.Instance.MaxFallingSpeed)
+        {
+            newFallingSpeed = LevelManager.Instance.MaxFallingSpeed;
+            float newDistanceToBlackHole = newFallingSpeed * roundTime;
+            float newRadius = blackHoleRadius + distance - newDistanceToBlackHole;
+            Vector3 newScale = new Vector3(newRadius, newRadius, newRadius);
+            LevelManager.Instance.BlackHole.transform.localScale = newScale;
+        }
+        LevelManager.Instance.IslandFallingSpeed = newFallingSpeed;
     }
 
     private void InstantiateIslands()
