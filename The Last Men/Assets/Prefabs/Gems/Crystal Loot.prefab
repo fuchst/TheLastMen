@@ -9,12 +9,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 419550}
   - 114: {fileID: 11470690}
-  - 135: {fileID: 13552432}
   - 54: {fileID: 5483054}
   - 114: {fileID: 11463450}
+  - 135: {fileID: 13537922}
   m_Layer: 0
   m_Name: Crystal Loot
-  m_TagString: Untagged
+  m_TagString: Crystal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,7 +44,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 148070}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.78500009, y: 0, z: -3.66000009}
+  m_LocalPosition: {x: -187.803955, y: -4.4603529, z: -202.450424}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 485762}
@@ -117,8 +117,8 @@ MeshCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190746}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
+  m_IsTrigger: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 4300006, guid: 309db8db017484e308a6de0a8e64c11a, type: 3}
@@ -149,7 +149,7 @@ MonoBehaviour:
   destructionDelay: 2
   energyLootMin: 3
   energyLootMax: 7
---- !u!135 &13552432
+--- !u!135 &13537922
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -159,7 +159,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .375
+  m_Radius: .349999994
   m_Center: {x: 0, y: .5, z: 0}
 --- !u!1001 &100100000
 Prefab:
@@ -171,6 +171,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_UseGravity
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300006, guid: 309db8db017484e308a6de0a8e64c11a, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TagString
+      value: Crystal
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

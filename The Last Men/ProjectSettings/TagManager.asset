@@ -17,6 +17,7 @@ TagManager:
   - Bastion
   - 'Spawn: Bush'
   - IslandCollision
+  - Crystal
   layers:
   - Default
   - TransparentFX
