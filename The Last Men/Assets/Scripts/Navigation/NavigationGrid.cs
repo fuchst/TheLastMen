@@ -39,6 +39,7 @@ public class NavigationGrid : MonoBehaviour {
     public void createGrid()
     {
         this.obstacles = Helper.FindChildrenWithTag(island.transform.parent, "Obstacle");
+        //Debug.Log(obstacles.Length);
 
         RaycastHit hit;
 
@@ -104,7 +105,7 @@ public class NavigationGrid : MonoBehaviour {
                         nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Free);
                         freeNodeIDs.Add(neighID);
                         nodes[nodeID].neighbours[i].cost = neighbourCost[i];
-                        
+
                         // Check if inside of obstacle
                         for (int k = 0; k < obstacles.Length; k++)
                         {
@@ -118,6 +119,7 @@ public class NavigationGrid : MonoBehaviour {
                             // Check if obst is blocking path
                             if(Vector3.Distance(GetNodeWorldPos(nodes[neighID]), obstacles[k].transform.position) < stepSize)
                             {
+                                //Debug.Log("Obst is close");
                                 int[] indices = GetClosestThreeNeighbourIndices(obstacles[k].transform.position);
                                 nodes[neighID].neighbours[indices[0]].cost = int.MaxValue;
                                 nodes[neighID].neighbours[indices[1]].cost = int.MaxValue;

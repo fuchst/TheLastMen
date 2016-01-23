@@ -26,9 +26,7 @@ public class Island : MonoBehaviour
     private List<Transform> bushesSpawnList = new List<Transform>();
     private List<Transform> enemyNCrystalSpawnPosList = new List<Transform>();
     
-	void Awake(){
-		islandNavigation = GetComponentInChildren<IslandNavigation>();
-        
+	void Awake(){        
 		//Setup spawn references
 		Transform spawns = transform.FindChild("Spawns");
 		foreach (Transform child in spawns)
@@ -60,7 +58,7 @@ public class Island : MonoBehaviour
 			spawnSettings.minCrystalsOnIsland = Mathf.FloorToInt(0.5f * enemyNCrystalSpawnPosList.Count);
 			spawnSettings.minEnemiesOnIsland = spawnSettings.minCrystalsOnIsland;
 		}
-	}
+    }
 
     void Start()
     {
@@ -155,6 +153,9 @@ public class Island : MonoBehaviour
             }
             spawnBagList.RemoveAt(0);
         }
+
+        islandNavigation = GetComponentInChildren<IslandNavigation>();
+        islandNavigation.navGridInstance.Init();
         islandNavigation.SpawnEnemies(spawnSettings.objectParent, enemiesWithSpawnPosition);
     }
 }
