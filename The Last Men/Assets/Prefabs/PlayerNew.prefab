@@ -316,19 +316,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 2081526}
   movementSettings:
-    ForwardSpeed: 8
-    BackwardSpeed: 4
-    StrafeSpeed: 4
-    RunMultiplier: 2.5
-    JetpackMaxFlightDuration: 5
+    ForwardSpeed: 6
+    BackwardSpeed: 3
+    StrafeSpeed: 3
+    RunMultiplier: 2
+    JetpackMaxFlightDuration: 3
     JetpackHorizontalBaseSpeed: 8
-    JetpackMaxVerticalSpeed: 8
-    JetpackVerticalAcceleration: 30
+    JetpackMaxVerticalSpeed: 4
+    JetpackVerticalAcceleration: 15
     JetpackFlyInLookingDir: 0
     changeFOV: 1
     FOV_regular: 60
-    FOV_flying: 85
-    maxFOVchangeRate: 7.5
+    FOV_flying: 80
+    maxFOVchangeRate: 5
     minHeightAboveGroundForFOVChange: 2.5
     heightAboveGroundForMaxFOV: 25
     heightCheckLayers:
@@ -800,11 +800,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementSettings.FOV_flying
-      value: 85
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementSettings.maxFOVchangeRate
-      value: 7.5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: footstepSounds.Array.data[3]
@@ -829,6 +829,34 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: advancedSettings.airControl
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.RunMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.ForwardSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.BackwardSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.StrafeSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.JetpackMaxFlightDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.JetpackMaxVerticalSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.JetpackVerticalAcceleration
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -86,7 +86,7 @@ public abstract class Enemy : MonoBehaviour {
     protected virtual void OnDeath()
     {
         int idx = Random.Range(0, s_GameManager.Instance.lootTable.Length);
-        GameObject loot = Instantiate(s_GameManager.Instance.lootTable[idx], transform.position, transform.rotation) as GameObject;
+        Instantiate(s_GameManager.Instance.lootTable[idx], transform.position, transform.rotation);
         Destroy(this.gameObject);
     }
 
