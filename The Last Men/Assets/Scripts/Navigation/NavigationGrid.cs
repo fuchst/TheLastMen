@@ -143,24 +143,36 @@ public class NavigationGrid : MonoBehaviour {
 
     private void checkObst()
     {
+        // Save all nodes to later sort them in a meaningful fashion:
+        // 3 4
+        // 1 2
+        List<int> surrNodes = new List<int>();
+
         for (int i = 0; i < obstacles.Length; i++)
         {
             NavigationNode closestNode = GetClosestNode(obstacles[i].transform.position);
-            int closestNodeID = closestNode.GetID();
-
-            obstNodes.Add(GetNodeWorldPos(closestNode));
 
             if (Vector3.Distance(GetNodeWorldPos(closestNode), obstacles[i].transform.position) < stepSize)
             {
                 //Debug.Log("Obst is close");
-                int[] indices = GetClosestThreeNeighbourIndices(obstacles[i].transform.position);
-                for (int j = 0; j < 3; j++)
-                {
-                    nodes[closestNodeID].neighbours[indices[j]].cost = int.MaxValue;
-                    int neighbourId = nodes[closestNodeID].neighbours[indices[j]].nodeID;
-                    nodes[neighbourId].neighbours[7 - indices[j]].cost = int.MaxValue;
 
-                    obstNodes.Add(GetNodeWorldPos(nodes[neighbourId]));
+                surrNodes.Clear();
+                surrNodes.AddRange(GetClosestNeighbourIndices(obstacles[i].transform.position));
+                surrNodes.Sort();
+
+                // Order the neighbours are updated
+                int[] order = { 1, 2, 4, 3, 0, 1, 6, 7, 4, 3, 5, 6 };
+
+                for (int j = 0; j < 4; j++)
+                {
+                    for (int k = 0; k < 3; k++)
+                    {
+                        nodes[surrNodes[j]].neighbours[order[j*3+k]].cost = int.MaxValue;
+                        if(!surrNodes.Contains(nodes[surrNodes[j]].neighbours[order[j * 3 + k]].nodeID))
+                            Debug.Log("Fuck");
+                    }
+
+                    obstNodes.Add(GetNodeWorldPos(nodes[surrNodes[j]]));
                 }
             }   
         }
@@ -297,7 +309,7 @@ public class NavigationGrid : MonoBehaviour {
         }
     }
 
-    public int[] GetClosestThreeNeighbourIndices(Vector3 position)
+    public int[] GetClosestNeighbourIndices(Vector3 position)
     {
         NavigationNode node = GetClosestNode(position);
         Vector3 nodePosition = GetNodeWorldPos(node);
@@ -309,10 +321,17 @@ public class NavigationGrid : MonoBehaviour {
         int forward = (int)Mathf.Sign(Vector3.Dot(direction, transform.forward));
         int right = (int)Mathf.Sign(Vector3.Dot(direction, transform.right));
 
-        int[] indices = new int[3];
-        indices[0] = (right > 0) ? 4 : 3;
-        indices[1] = (forward > 0) ? 1 : 6;
-        indices[2] = (right > 0) ? ((forward > 0) ? 2 : 7) : ((forward > 0) ? 0 : 5);
+        // Directional indices starting from closest node
+        int[] relIndices = new int[3];
+        relIndices[0] = (right > 0) ? 4 : 3;
+        relIndices[1] = (forward > 0) ? 1 : 6;
+        relIndices[2] = (right > 0) ? ((forward > 0) ? 2 : 7) : ((forward > 0) ? 0 : 5);
+
+        int[] indices = new int[4];
+        indices[0] = node.GetID();
+        indices[1] = node.neighbours[relIndices[0]].nodeID;
+        indices[2] = node.neighbours[relIndices[1]].nodeID;
+        indices[3] = node.neighbours[relIndices[2]].nodeID;
 
         return indices;
     }
