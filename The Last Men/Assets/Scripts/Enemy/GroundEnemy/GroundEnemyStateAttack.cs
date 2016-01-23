@@ -38,7 +38,7 @@ public class GroundEnemyStateAttack : EnemyState {
                 enemy.path.Clear();
             }
         }
-        else if(dist < enemy.navGrid.stepSize)
+        else if(dist < 2 * enemy.navGrid.stepSize)
         {
             enemy.transform.LookAt(enemy.player.transform, enemy.navGrid.transform.up);
             enemy.GetComponent<CharacterController>().Move(enemy.transform.forward * enemy.moveSpeed * Time.deltaTime);

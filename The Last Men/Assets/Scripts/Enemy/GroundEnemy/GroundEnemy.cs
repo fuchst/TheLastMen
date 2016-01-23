@@ -7,6 +7,12 @@ public class GroundEnemy : Enemy {
     public NavigationGrid navGrid { get; set; }
     public int currentNodeID;
 
+    // Variables used to control if enemy is stuck
+    private Vector3 oldPosition;
+    private float timeBtwPosChecks = 1.0f;
+    private float timeSincePosCheck = 0.0f;
+    private float minDistanceSincePosCheck = 0.1f;
+
     private int pathIndex;
     private ArrayList _path;
     public ArrayList path
@@ -31,6 +37,8 @@ public class GroundEnemy : Enemy {
         currentNodeID = navGrid.GetClosestNode(transform.position).GetID();
         navGrid.nodes[currentNodeID].SetNodeType(NavigationNode.nodeTypes.Enemy);
         navGrid.freeNodeIDs.Remove(currentNodeID);
+
+        oldPosition = transform.position;
     }
 
     protected override void OnFixedUpdate()
@@ -68,6 +76,19 @@ public class GroundEnemy : Enemy {
     {
         if (path != null)
         {
+            // Check if enemy has not moved since last check
+            timeSincePosCheck += Time.fixedDeltaTime;
+            if (timeSincePosCheck > timeBtwPosChecks)
+            {
+                if (Vector3.Distance(oldPosition, transform.position) < minDistanceSincePosCheck)
+                {
+                    path.Clear();
+                }
+
+                oldPosition = transform.position;
+                timeSincePosCheck = 0.0f;
+            }
+
             if (pathIndex < (path.Count - 1))
             {
                 // Check if next node is occupied
