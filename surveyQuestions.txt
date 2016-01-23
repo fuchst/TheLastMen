@@ -32,5 +32,4 @@ Questions to features:
 Do you think the visual style of the game (graphics, animations) was overall consistent?
 Do you like the visual style of the game?
 Do you think the visual style fits the game?
-Do you think the visual style fits the game?
 How well did the game perform on the device you played on?

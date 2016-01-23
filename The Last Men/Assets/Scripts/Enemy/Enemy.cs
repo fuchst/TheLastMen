@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public abstract class Enemy : MonoBehaviour {
 
@@ -79,7 +78,7 @@ public abstract class Enemy : MonoBehaviour {
         else
         {
             _playerPosition = player.transform.position;
-            _enemyToPlayer = _playerPosition - transform.position;
+            _enemyToPlayer = playerPosition - transform.position;
             _directionToPlayer = enemyToPlayer.normalized;
             _distanceToPlayer = enemyToPlayer.magnitude;
 
@@ -102,9 +101,13 @@ public abstract class Enemy : MonoBehaviour {
     protected virtual void OnDeath()
     {
         int idx = Random.Range(0, s_GameManager.Instance.lootTable.Length);
-        //GameObject loot = Instantiate(s_GameManager.Instance.lootTable[idx], transform.position, transform.rotation) as GameObject;
+        if (s_GameManager.Instance.lootTable[idx] != null)
+        {
+
+            GameObject loot = Instantiate(s_GameManager.Instance.lootTable[idx], transform.position, transform.rotation) as GameObject;
+        }
         Destroy(this.gameObject);
     }
-
+	
     public abstract void ChangeState(EnemyState.stateIDs _stateID);
 }

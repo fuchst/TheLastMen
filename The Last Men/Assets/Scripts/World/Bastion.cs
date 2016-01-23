@@ -4,15 +4,14 @@ public class Bastion : MonoBehaviour
 {
     public GameObject triggerObject;
 
-    [SerializeField] private float rebaseSpeed = 5.0f;
-
-    private new Rigidbody rigidbody;
+    //[SerializeField] private float rebaseSpeed = 5.0f;
+    //private new Rigidbody rigidbody;
     private Vector3 newPosition;
 
-    void Awake()
-    {
-        rigidbody = GetComponent<Rigidbody>();
-    }
+    //void Awake()
+    //{
+    //    rigidbody = GetComponent<Rigidbody>();
+    //}
 
     void Start ()
     {
@@ -31,7 +30,7 @@ public class Bastion : MonoBehaviour
     {
         this.newPosition = newPosition;
         LevelManager.Instance.player.transform.SetParent(transform,true);
-        transform.position = newPosition;
+        transform.position = this.newPosition;
         LevelManager.Instance.player.transform.parent = null;
     }
 

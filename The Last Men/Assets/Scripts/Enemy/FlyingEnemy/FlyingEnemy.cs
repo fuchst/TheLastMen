@@ -41,7 +41,7 @@ public class FlyingEnemy : Enemy {
         moveDirection = evade(moveDirection);
 
         transform.LookAt(transform.position + moveDirection, transform.position.normalized);
-        controller.Move(transform.forward * moveSpeed * Time.deltaTime);
+        _controller.Move(transform.forward * moveSpeed * Time.deltaTime);
     }
 
     private Vector3 evade(Vector3 currentDirection)

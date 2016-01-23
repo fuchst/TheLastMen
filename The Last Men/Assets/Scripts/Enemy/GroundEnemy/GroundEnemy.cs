@@ -106,7 +106,7 @@ public class GroundEnemy : Enemy {
                     transform.LookAt(nextNodePos, navGrid.transform.up);
                     //this.transform.Translate(this.transform.forward * moveSpeed * Time.deltaTime, Space.World);
 
-                    controller.Move(transform.forward * moveSpeed * Time.deltaTime);
+                    _controller.Move(transform.forward * moveSpeed * Time.deltaTime);
 
                     if (Vector3.Distance(transform.position, nextNodePos) < 0.1f)
                     {
