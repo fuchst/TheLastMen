@@ -500,7 +500,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22429348, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 277.5
+      value: 371.5
       objectReference: {fileID: 0}
     - target: {fileID: 22429348, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -524,7 +524,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22412096, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 367
+      value: 461
       objectReference: {fileID: 0}
     - target: {fileID: 22412096, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_SizeDelta.x
@@ -544,7 +544,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22486778, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 456.5
+      value: 550.5
       objectReference: {fileID: 0}
     - target: {fileID: 22486778, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -1011,7 +1011,7 @@ MonoBehaviour:
   gamePaused: 0
   playerInBastion: 0
   lootTable:
-  - {fileID: 0}
+  - {fileID: 148070, guid: a92e92df45cb43c4685a8271a4476589, type: 2}
   roundDuration: 300
   endTime: 0
 --- !u!1 &1970063855

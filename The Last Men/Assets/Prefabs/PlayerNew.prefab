@@ -323,7 +323,7 @@ MonoBehaviour:
     JetpackMaxFlightDuration: 5
     JetpackHorizontalBaseSpeed: 8
     JetpackMaxVerticalSpeed: 8
-    JetpackVerticalAcceleration: 30
+    JetpackVerticalAcceleration: 10
     JetpackFlyInLookingDir: 0
     changeFOV: 1
     FOV_regular: 60
@@ -829,6 +829,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: advancedSettings.airControl
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.JetpackVerticalAcceleration
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
