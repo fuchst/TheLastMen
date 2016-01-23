@@ -29,7 +29,7 @@ public class FlyingEnemyStateAttack : EnemyState {
         }
         else if (enemy.distanceToPlayer > enemy.maxDistance)
         {
-            enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
+            enemy.ChangeState(stateIDs.Idle);
         }
     }
 }

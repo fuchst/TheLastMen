@@ -38,7 +38,7 @@ public class FlyingEnemyStateIdle : EnemyState {
         // Check if the player is close by
         if (enemy.distanceToPlayer < enemy.senseRangeSearching)
         {
-            enemy.SendMessage("ChangeState", EnemyState.stateIDs.Attack);
+            enemy.ChangeState(stateIDs.Attack);
         }
         else if (enemy.target == Vector3.zero)
         {

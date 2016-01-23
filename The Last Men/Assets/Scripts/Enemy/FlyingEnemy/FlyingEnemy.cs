@@ -49,7 +49,7 @@ public class FlyingEnemy : Enemy {
         return currentDirection;
     }
 
-    protected override void ChangeState(EnemyState.stateIDs _stateID)
+    public override void ChangeState(EnemyState.stateIDs _stateID)
     {
         if (this.state == null || this.state.getID() != _stateID)
         {

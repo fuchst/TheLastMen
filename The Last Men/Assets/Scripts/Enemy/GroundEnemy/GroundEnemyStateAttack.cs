@@ -46,7 +46,7 @@ public class GroundEnemyStateAttack : EnemyState {
         }
         else if (enemy.navGrid.GetClosestNode(enemy.playerPosition) == null || enemy.distanceToPlayer > enemy.senseRangeSearching)
         {
-            enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
+            enemy.ChangeState(stateIDs.Idle);
         }
         else if (enemy.path == null || enemy.path.Count == 0 || enemy.navGrid.GetClosestNode(enemy.playerPosition) != enemy.path[enemy.path.Count - 1])
         {

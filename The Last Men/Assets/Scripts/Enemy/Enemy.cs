@@ -106,5 +106,5 @@ public abstract class Enemy : MonoBehaviour {
         Destroy(this.gameObject);
     }
 
-    protected abstract void ChangeState(EnemyState.stateIDs _stateID);
+    public abstract void ChangeState(EnemyState.stateIDs _stateID);
 }

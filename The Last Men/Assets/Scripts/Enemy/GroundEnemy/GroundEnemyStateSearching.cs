@@ -20,11 +20,11 @@ public class GroundEnemyStateSearching : EnemyState {
         // Change state to Attack if player is in viewfield or close by and on island
         if((angle < enemy.fov || enemy.distanceToPlayer < enemy.senseRangeAttack) && enemy.navGrid.GetClosestNode(enemy.transform.position) != null )
         {
-            enemy.SendMessage("ChangeState", EnemyState.stateIDs.Attack);
+            enemy.ChangeState(stateIDs.Attack);
         }
         else if (enemy.distanceToPlayer > enemy.senseRangeSearching)
         {
-            enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
+            enemy.ChangeState(stateIDs.Idle);
         }
         else if (enemy.path == null || enemy.path.Count == 0)
         {
