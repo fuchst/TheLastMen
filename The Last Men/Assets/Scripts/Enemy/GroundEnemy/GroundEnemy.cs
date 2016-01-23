@@ -101,16 +101,13 @@ public class GroundEnemy : Enemy {
 
     void OnDrawGizmos()
     {
-        if (Camera.current.name == "MainCamera")
+        if (path != null)
         {
-            if (path != null)
-            {
-                Gizmos.color = new Color(0.0f, 1.0f, 0.0f, 1.0f);
+            Gizmos.color = new Color(0.0f, 1.0f, 0.0f, 1.0f);
 
-                for (int i = 0; i < path.Count - 1; i++)
-                {
-                    Gizmos.DrawLine(navGrid.GetNodeWorldPos(navGrid.nodes[(int)path[i]]), navGrid.GetNodeWorldPos(navGrid.nodes[(int)path[i + 1]]));
-                }
+            for (int i = 0; i < path.Count - 1; i++)
+            {
+                Gizmos.DrawLine(navGrid.GetNodeWorldPos(navGrid.nodes[(int)path[i]]), navGrid.GetNodeWorldPos(navGrid.nodes[(int)path[i + 1]]));
             }
         }
     }

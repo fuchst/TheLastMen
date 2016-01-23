@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public abstract class s_Collectible : MonoBehaviour {
 
@@ -7,9 +6,9 @@ public abstract class s_Collectible : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other) {
         if (other.CompareTag("Player")){
-            #if UNITY_EDITOR
-                Debug.Log(this.GetType() + " on " + gameObject.name + " was collected.");
-            #endif
+            //#if UNITY_EDITOR
+            //    Debug.Log(this.GetType() + " on " + gameObject.name + " was collected.");
+            //#endif
             Collect();
             DestroyCollectible();
         }

@@ -249,8 +249,8 @@ public class NavigationGrid : MonoBehaviour {
         float distRight = Vector3.Dot(direction, this.transform.right);
         float distForward = Vector3.Dot(direction, this.transform.forward);
 
-        int indexRight = (int)(distRight / stepSize);
-        int indexForward = (int)(distForward / stepSize);
+        int indexRight = (int)(Mathf.Round(distRight / stepSize));
+        int indexForward = (int)(Mathf.Round(distForward / stepSize));
 
         if(!IndicesOnGrid(indexRight, indexForward))
         {
@@ -323,16 +323,13 @@ public class NavigationGrid : MonoBehaviour {
 
     void OnDrawGizmos()
     {
-        if(Camera.current.name == "MainCamera")
+        if (nodes != null)
         {
-            if (nodes != null)
+            foreach (NavigationNode node in nodes.Values)
             {
-                foreach (NavigationNode node in nodes.Values)
-                {
-                    Gizmos.color = NavigationNode.nodeColors[(int)node.nodeType];
-                    Gizmos.DrawCube(GetNodeWorldPos(node), new Vector3(0.3f, 0.3f, 0.3f));
-                }
+                Gizmos.color = NavigationNode.nodeColors[(int)node.nodeType];
+                Gizmos.DrawCube(GetNodeWorldPos(node), new Vector3(0.3f, 0.3f, 0.3f));
             }
-        }      
+        }
     }
 }
