@@ -103,12 +103,12 @@ public class GroundEnemy : Enemy {
                 {
                     Vector3 nextNodePos = navGrid.GetNodeWorldPos(nextNode);
 
-                    this.transform.LookAt(nextNodePos, navGrid.transform.up);
+                    transform.LookAt(nextNodePos, navGrid.transform.up);
                     //this.transform.Translate(this.transform.forward * moveSpeed * Time.deltaTime, Space.World);
 
                     controller.Move(transform.forward * moveSpeed * Time.deltaTime);
 
-                    if (Vector3.Distance(this.transform.position, nextNodePos) < 0.1f)
+                    if (Vector3.Distance(transform.position, nextNodePos) < 0.1f)
                     {
                         pathIndex++;
                     }

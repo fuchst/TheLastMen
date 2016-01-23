@@ -15,11 +15,9 @@ public class FlyingEnemyStateAttack : EnemyState {
 
     public override void action()
     {
-        enemy.target = enemy.player.transform.position;
+        enemy.target = enemy.playerPosition;
 
-        float distance = Vector3.Distance(enemy.player.transform.position, enemy.transform.position);
-
-        if (distance < enemy.attackRange)
+        if (enemy.distanceToPlayer < enemy.attackRange)
         {
             timeSinceAttack += Time.fixedDeltaTime;
 
@@ -29,7 +27,7 @@ public class FlyingEnemyStateAttack : EnemyState {
                 timeSinceAttack = 0.0f;
             }
         }
-        else if (distance > enemy.maxDistance)
+        else if (enemy.distanceToPlayer > enemy.maxDistance)
         {
             enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
         }

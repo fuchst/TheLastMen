@@ -16,13 +16,9 @@ public class GroundEnemyStateAttack : EnemyState {
 
     public override void action()
     {
-        Vector3 playerPos = enemy.player.transform.position;
-
-        float dist = Vector3.Distance(playerPos, enemy.transform.position);
-
-        if (dist <= enemy.attackRange)
+        if (enemy.distanceToPlayer <= enemy.attackRange)
         {
-            enemy.transform.LookAt(playerPos, enemy.navGrid.transform.up);
+            enemy.transform.LookAt(enemy.playerPosition, enemy.navGrid.transform.up);
 
             timeSinceAttack += Time.fixedDeltaTime;
 
@@ -38,24 +34,24 @@ public class GroundEnemyStateAttack : EnemyState {
                 enemy.path.Clear();
             }
         }
-        else if(dist < 2 * enemy.navGrid.stepSize)
+        else if(enemy.distanceToPlayer < 2 * enemy.navGrid.stepSize)
         {
-            enemy.transform.LookAt(enemy.player.transform, enemy.navGrid.transform.up);
-            enemy.GetComponent<CharacterController>().Move(enemy.transform.forward * enemy.moveSpeed * Time.deltaTime);
+            enemy.transform.LookAt(enemy.playerPosition, enemy.navGrid.transform.up);
+            enemy.controller.Move(enemy.transform.forward * enemy.moveSpeed * Time.deltaTime);
 
             if (enemy.path != null)
             {
                 enemy.path.Clear();
             }
         }
-        else if (enemy.navGrid.GetClosestNode(playerPos) == null || dist > enemy.senseRangeSearching)
+        else if (enemy.navGrid.GetClosestNode(enemy.playerPosition) == null || enemy.distanceToPlayer > enemy.senseRangeSearching)
         {
             enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
         }
-        else if (enemy.path == null || enemy.path.Count == 0 || enemy.navGrid.GetClosestNode(playerPos) != enemy.path[enemy.path.Count - 1])
+        else if (enemy.path == null || enemy.path.Count == 0 || enemy.navGrid.GetClosestNode(enemy.playerPosition) != enemy.path[enemy.path.Count - 1])
         {
             int startID = enemy.currentNodeID;
-            int endID = enemy.navGrid.GetClosestNode(playerPos).GetID();
+            int endID = enemy.navGrid.GetClosestNode(enemy.playerPosition).GetID();
 
             enemy.path = enemy.navGrid.findPath(startID, endID, enemy.currentNodeID);
         }     
