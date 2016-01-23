@@ -76,7 +76,7 @@ public class s_GameManager : MonoBehaviour {
         gamePaused = paused;
         Time.timeScale = gamePaused ? 0 : 1;
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Pause);
-        Debug.Log("The game is " + (gamePaused ? "" : "un") + "paused now.");
+        //Debug.Log("The game is " + (gamePaused ? "" : "un") + "paused now."); //JingYi: Pause/Unpause is working perfectly so we don't need this anymore I guess
     }
 
     public void StoreEnergy (float amount) {

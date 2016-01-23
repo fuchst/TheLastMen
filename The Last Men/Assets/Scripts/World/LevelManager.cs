@@ -2,34 +2,31 @@
 
 public class LevelManager : MonoBehaviour
 {
-    public static LevelManager Instance { get { return instance; } }
-    public float islandFallingSpeed = 2.0f;
-    public int rngSeed = 1337;
     [SerializeField] protected GameObject playerPrefab;
+    public GameObject bastion;
     public GameObject player;
     public IslandPrefabs islandPrefabs;
     public LevelVariables[] levelVariables = new LevelVariables[3];
-    [HideInInspector]
-    public GameObject bastion;
     public Transform flyingEnemyParent;
-
-    public bool showPaths = false;
-
+    public Transform islandParent;
+    
+    [SerializeField] private int rngSeed = 1337;
+    [SerializeField] private bool showPaths = false;
+    [SerializeField] private float maxFallingSpeed = 0.2f;
+    [SerializeField] private float islandFallingSpeed = 2.0f;
+    [SerializeField] private GameObject blackHole;
     private static LevelManager instance;
+    
     private Camera worldCam;
-    private Level[] levels = new Level[4];
+    private Level[] levels;
     private int currentLevel = 0;
-
-    public int CurLvl { get { return currentLevel; } }
 
     void Awake()
     {
-        if (instance) {
-            Destroy(this);
-        }
-        else {
-            instance = this;
-        }
+        if (instance) { Destroy(this); }
+        else { instance = this; }
+
+        //Check prefabs
         bool prefabsSet = true;
         if (islandPrefabs.Bastion == null || islandPrefabs.AritfactIsland == null)
         {
@@ -40,6 +37,7 @@ public class LevelManager : MonoBehaviour
             if (go == null)
             {
                 prefabsSet = false;
+                break;
             }
         }
         foreach (GameObject go in islandPrefabs.SmallIslands)
@@ -47,6 +45,7 @@ public class LevelManager : MonoBehaviour
             if (go == null)
             {
                 prefabsSet = false;
+                break;
             }
         }
         if (prefabsSet == false)
@@ -56,6 +55,8 @@ public class LevelManager : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
         }
+
+        //Gather island bounds
 		GameObject tmp;
 		islandPrefabs.bigIslandWidths = new float[islandPrefabs.BigIslands.Length];
 		for (int i = 0; i< islandPrefabs.bigIslandWidths.Length; i++) {
@@ -79,17 +80,18 @@ public class LevelManager : MonoBehaviour
 
         worldCam = Camera.main;
         PlaceFlyingEnemy.flyingEnemyParent = flyingEnemyParent;
+        levels = new Level[levelVariables.Length];
+        Random.seed = rngSeed;
     }
 
     public void LoadLevel()
     {
         levels[currentLevel] = gameObject.AddComponent<Level>() as Level;
-        levels[currentLevel].randomSeed = rngSeed;
-        levels[currentLevel].radius = levelVariables[currentLevel].radius;
-        levels[currentLevel].cycles = levelVariables[currentLevel].cycles;
-        levels[currentLevel].destructionLevel = levelVariables[currentLevel].destructionLevel;
-        levels[currentLevel].artifactCount = levelVariables[currentLevel].numberOfArtifacts;
-        levels[currentLevel].layerHeightOffset = levelVariables[currentLevel].heightOffset;
+        levels[currentLevel].Radius = levelVariables[currentLevel].radius;
+        levels[currentLevel].Cycles = levelVariables[currentLevel].cycles;
+        levels[currentLevel].DestructionLevel = levelVariables[currentLevel].destructionLevel;
+        levels[currentLevel].ArtifactCount = levelVariables[currentLevel].numberOfArtifacts;
+        levels[currentLevel].LayerHeightOffset = levelVariables[currentLevel].heightOffset;
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
         levels[currentLevel].CreateLevel();
         s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
@@ -98,7 +100,6 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(worldCam.gameObject);
         }
-        bastion = levels[currentLevel].islandParent.GetChild(0).gameObject;
         StartLevel();
     }
 
@@ -110,8 +111,8 @@ public class LevelManager : MonoBehaviour
         }
         else
         {
-            player.transform.position = GetPlayerSpawnPos();
-            player.SetActive(true);
+            //player.transform.position = GetPlayerSpawnPos();
+            //player.SetActive(true);
         }
     }
 
@@ -147,8 +148,15 @@ public class LevelManager : MonoBehaviour
 
     public void AdvanceLevel()
     {
-        player.SetActive(false);
-        levels[currentLevel].DestroyLevel();
+        //player.SetActive(false);
+
+        //Destroy all islands except the bastion
+        while(islandParent.childCount > 1)
+        {
+            Destroy(islandParent.GetChild(1));
+        }
+        
+        //Destroy the levels script/component
         Destroy(levels[currentLevel]);
         if (currentLevel < levels.Length)
         {
@@ -159,4 +167,13 @@ public class LevelManager : MonoBehaviour
             LoadLevel();
         }
     }
+
+    //Get,Set Methods
+    public static LevelManager Instance { get { return instance; } }
+    public int CurLvl { get { return currentLevel; } }
+    public float MaxFallingSpeed { get { return maxFallingSpeed; } }
+    public float IslandFallingSpeed { get { return islandFallingSpeed; } set { islandFallingSpeed = value; } }
+    public bool ShowPaths { get { return showPaths; } }
+    public int RngSeed { get { return rngSeed; } }
+    public GameObject BlackHole { get { return blackHole; } }
 }

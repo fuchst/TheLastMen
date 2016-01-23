@@ -4,52 +4,35 @@ using System.Collections.Generic;
 
 public class Level : MonoBehaviour
 {
-    public float baseIslandSize = 10f;
-    public Transform islandParent;
-    [HideInInspector]
-    public float radius = 150.0f;
-    [HideInInspector]
-    public int cycles = 3;
-    [HideInInspector]
-    public int randomSeed = 1337;
-    [HideInInspector]
-    public int artifactCount = 8;
-    [HideInInspector]
-    public float destructionLevel = 0.6f;
-    [HideInInspector]
-    public float layerHeightOffset = 200.0f;
-    [HideInInspector]
-    public float grapplingIslandExtraheight;
+    public int Cycles { get; set; }
+    public float Radius { get; set; }
+    public int ArtifactCount { get; set; }
+    public float DestructionLevel { get; set; }
+    public float LayerHeightOffset { get; set; }
+
+    [HideInInspector] public float grapplingIslandExtraheight;
 
     private enum IslandType { None, Bastion, Path, Artifact, Grappling, Small };
     private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
     private SortedDictionary<string, Island> grapplingIslandDictionary = new SortedDictionary<string, Island>();
-
-    private GameObject bastion;
     private int maxDistanceToBastion = 0;
 
     public void CreateLevel()
     {
-        Random.seed = randomSeed;
-        IcoSphere(radius, cycles, ref islandDictionary);
-        islandParent = new GameObject("Islands").transform;
+        IcoSphere(Radius, Cycles, ref islandDictionary);
         SetupBastionAndDistances();
         SetupArtifacts();
         MarkArtifactPaths();
         DestroyUnneededIslands();
         SetupLayers();
         SetupGrapplingIslands();
+        SyncFallingSpeedWithTimer();
         InstantiateIslands();
-    }
-
-    public void DestroyLevel()
-    {
-        Destroy(islandParent.gameObject);
     }
 
     void Update()
     {
-        if (LevelManager.Instance.showPaths == true)
+        if (LevelManager.Instance.ShowPaths == true)
         {
             foreach (Island island in islandDictionary.Values)
             {
@@ -111,7 +94,7 @@ public class Level : MonoBehaviour
 
     private void SetupArtifacts()
     {
-        for (int i = 0; i < artifactCount; i++)
+        for (int i = 0; i < ArtifactCount; i++)
         {
             Island artifactIsland = islandDictionary.ElementAt(Random.Range(0, islandDictionary.Count)).Value;  //grab a random island;
             //reroll in case the island is already used for something else
@@ -160,7 +143,7 @@ public class Level : MonoBehaviour
             if (item.Value.islandType == 0)
             {
                 float randomNumber = Random.Range(0f, 1.0f);
-                if (randomNumber < destructionLevel)
+                if (randomNumber < DestructionLevel)
                 {
                     removeStack.Push(item.Key);
                 }
@@ -187,7 +170,7 @@ public class Level : MonoBehaviour
                 island.layer = (short)Random.Range(-1, 2);
                 if (island.layer != 0)
                 {
-                    island.position += island.position.normalized * island.layer * layerHeightOffset;
+                    island.position += island.position.normalized * island.layer * LayerHeightOffset;
                 }
             }
         }
@@ -241,7 +224,7 @@ public class Level : MonoBehaviour
 
                     for (int j = 0; j < smallIslands.Length; j++)
                     {
-                        Vector3 newPos = (end + islandOffset * (j + 1) * direction).normalized * radius;
+                        Vector3 newPos = (end + islandOffset * (j + 1) * direction).normalized * Radius;
 
                         //Set correct height of grappling islands
                         if (startIsland.layer != endIsland.layer)
@@ -250,7 +233,7 @@ public class Level : MonoBehaviour
                         }
                         else
                         {
-                            newPos += newPos.normalized * startIsland.layer * layerHeightOffset;
+                            newPos += newPos.normalized * startIsland.layer * LayerHeightOffset;
                         }
 
                         smallIslands[j] = new Island();
@@ -276,19 +259,53 @@ public class Level : MonoBehaviour
         }
     }
 
+    private void SyncFallingSpeedWithTimer()
+    {
+        //Gather all the variables we will need
+        Vector3 bastionPosition = islandDictionary[0].position;
+        Vector3 blackHolePosition = LevelManager.Instance.BlackHole.transform.position;
+        float blackHoleRadius = LevelManager.Instance.BlackHole.transform.localScale.x;
+        float bastionRadius = LevelManager.Instance.islandPrefabs.bastionWidth; //Width is not correct but nobody got time for that
+        float roundTime = s_GameManager.Instance.roundDuration;
+
+        //Calc new fallingspeed
+        float distance = Vector3.Distance(bastionPosition, blackHolePosition);
+        distance -= bastionRadius + blackHoleRadius;
+        float newFallingSpeed = distance / roundTime;
+
+        //If new falling speed is too fast make it smaller and make black hole bigger
+        if (newFallingSpeed > LevelManager.Instance.MaxFallingSpeed)
+        {
+            newFallingSpeed = LevelManager.Instance.MaxFallingSpeed;
+            float newDistanceToBlackHole = newFallingSpeed * roundTime;
+            float newRadius = blackHoleRadius + distance - newDistanceToBlackHole;
+            Vector3 newScale = new Vector3(newRadius, newRadius, newRadius);
+            LevelManager.Instance.BlackHole.transform.localScale = newScale;
+        }
+        LevelManager.Instance.IslandFallingSpeed = newFallingSpeed;
+    }
+
     private void InstantiateIslands()
     {
         LevelManager.IslandPrefabs islandPrefabs = LevelManager.Instance.islandPrefabs;
         int bigIsland = 0;
         foreach (KeyValuePair<int, Island> item in islandDictionary)
         {
-
             GameObject islandGameObject;
             switch (item.Value.islandType)
             {
                 case IslandType.Bastion:
-                    islandGameObject = Instantiate(islandPrefabs.Bastion, item.Value.position, Quaternion.identity) as GameObject;
-                    bastion = islandGameObject;
+                    if (LevelManager.Instance.bastion == null)
+                    {
+                        islandGameObject = Instantiate(islandPrefabs.Bastion, item.Value.position, Quaternion.identity) as GameObject;
+                        LevelManager.Instance.bastion = islandGameObject;
+                    }
+                    else //Bastion already exists
+                    {
+                        islandGameObject = null;
+                        Bastion bastionScript = LevelManager.Instance.bastion.GetComponent<Bastion>();
+                        bastionScript.RebaseBastion(item.Value.position);
+                    }
                     break;
                 case IslandType.Artifact:
                     islandGameObject = Instantiate(islandPrefabs.AritfactIsland, item.Value.position, Quaternion.identity) as GameObject;
@@ -299,9 +316,12 @@ public class Level : MonoBehaviour
                     bigIsland %= islandPrefabs.BigIslands.Length;
                     break;
             }
-            islandGameObject.name = item.Key.ToString() + item.Value.islandType.ToString();
-            islandGameObject.transform.up = islandGameObject.transform.position;
-            islandGameObject.transform.parent = islandParent;
+            if (islandGameObject != null)
+            {
+                islandGameObject.name = item.Key.ToString() + item.Value.islandType.ToString();
+                islandGameObject.transform.up = islandGameObject.transform.position;
+                islandGameObject.transform.parent = LevelManager.Instance.islandParent;
+            }
         }
         int smallIsland = 0;
         foreach (KeyValuePair<string, Island> item in grapplingIslandDictionary)
@@ -329,20 +349,13 @@ public class Level : MonoBehaviour
             }
             islandGameObject.name = item.Key + item.Value.islandType.ToString();
             islandGameObject.transform.up = islandGameObject.transform.position;
-            islandGameObject.transform.parent = islandParent;
+            islandGameObject.transform.parent = LevelManager.Instance.islandParent;
         }
     }
 
     public Vector3 GetBasePosition()
     {
-        Island bastion = islandDictionary[0];
-        if (bastion.islandType != IslandType.Bastion)
-        {
-            Debug.LogError("Base island not found. Player spawn position may be wrong");
-        }
-
-        Vector3 pos = this.bastion.transform.FindChild("Spawn").transform.position;
-        return pos;
+        return LevelManager.Instance.bastion.transform.FindChild("Spawn").transform.position;
     }
 
     struct TriangleIndices

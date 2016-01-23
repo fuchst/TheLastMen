@@ -294,7 +294,7 @@ public class s_GUIMain : MonoBehaviour {
 
     protected void UpdateLayerState () {
         textCurrentLayer.text = "Layer " + (LevelManager.Instance.CurLvl + 1);
-        seedPause.text = LevelManager.Instance.rngSeed.ToString();
+        seedPause.text = LevelManager.Instance.RngSeed.ToString();
     }
 
     //TODO: possibly change color, transparency, size?
