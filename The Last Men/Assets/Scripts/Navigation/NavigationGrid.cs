@@ -160,7 +160,7 @@ public class NavigationGrid : MonoBehaviour {
                 surrNodes.AddRange(GetClosestNeighbourIndices(obstacles[i].transform.position));
                 surrNodes.Sort();
 
-                // Order the neighbours are updated
+                // The order in which neighbours are updated
                 int[] order = { 1, 2, 4, 3, 0, 1, 6, 7, 4, 3, 5, 6 };
 
                 for (int j = 0; j < 4; j++)
@@ -168,8 +168,8 @@ public class NavigationGrid : MonoBehaviour {
                     for (int k = 0; k < 3; k++)
                     {
                         nodes[surrNodes[j]].neighbours[order[j*3+k]].cost = int.MaxValue;
-                        if(!surrNodes.Contains(nodes[surrNodes[j]].neighbours[order[j * 3 + k]].nodeID))
-                            Debug.Log("Fuck");
+                        //if(!surrNodes.Contains(nodes[surrNodes[j]].neighbours[order[j * 3 + k]].nodeID))
+                        //   Debug.Log("Fuck");
                     }
 
                     obstNodes.Add(GetNodeWorldPos(nodes[surrNodes[j]]));
@@ -241,7 +241,7 @@ public class NavigationGrid : MonoBehaviour {
                 if (successor != null && !closedlist.Contains(successor))
                 {
                     // Check if next node can be reached
-                    if (nodes[successor.nodeID].nodeType != NavigationNode.nodeTypes.Free)
+                    if (nodes[successor.nodeID].nodeType != NavigationNode.nodeTypes.Free || nodes[successor.nodeID].neighbours[7 - i].cost == int.MaxValue)
                     {
                         closedlist.Add(successor);
                         continue;
@@ -274,7 +274,14 @@ public class NavigationGrid : MonoBehaviour {
                     {
                         successor.predecessor = curr.m_value;
                         successor.cost = tentative_cost;
-                        openlist.Enqueue(new PriorityQueue<PathNode>.PriorityQueueElement(successor.cost + curr.m_value.cost, successor));
+                        if(tentative_cost != int.MaxValue)
+                        {
+                            openlist.Enqueue(new PriorityQueue<PathNode>.PriorityQueueElement(successor.cost + curr.m_value.cost, successor));
+                        }
+                        else
+                        {
+                            openlist.Enqueue(new PriorityQueue<PathNode>.PriorityQueueElement(successor.cost, successor));
+                        }
                     }
                 }
             }
