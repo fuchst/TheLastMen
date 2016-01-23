@@ -73,7 +73,8 @@ public class GroundEnemy : Enemy {
                 // Check if next node is occupied
                 NavigationNode nextNode = navGrid.nodes[(int)path[pathIndex + 1]];
 
-                if(nextNode.nodeType == NavigationNode.nodeTypes.Enemy)
+                // Set everything up to search for a new path if the next node is currently occupied by another enemy
+                if(nextNode.nodeType == NavigationNode.nodeTypes.Enemy && currentNodeID != nextNode.GetID())
                 {
                     path.Clear();
                 }
