@@ -10,6 +10,8 @@ public class NavigationGrid : MonoBehaviour {
     public SortedList<int, NavigationNode> nodes = new SortedList<int, NavigationNode>();
     public List<int> freeNodeIDs = new List<int>();
 
+    private List<Vector3> obstNodes = new List<Vector3>();
+
     private GameObject island;
     private GameObject[] obstacles;
 
@@ -71,6 +73,8 @@ public class NavigationGrid : MonoBehaviour {
         }
 
         SetNodeNeighbours(0);
+
+        checkObst();
     }
 
     private void SetNodeNeighbours(int nodeID)
@@ -107,25 +111,17 @@ public class NavigationGrid : MonoBehaviour {
                         nodes[nodeID].neighbours[i].cost = neighbourCost[i];
 
                         // Check if inside of obstacle
-                        for (int k = 0; k < obstacles.Length; k++)
-                        {
+                        //for (int k = 0; k < obstacles.Length; k++)
+                        //{
                             // Check if node in obst
                             //if (!isInside(GetNodeWorldPos(nodes[neighID]), obstacles[k].gameObject.GetComponent<Collider>()))
                             //{
-                            //    nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Obst);
-                            //    nodes[neighID].neighbours[7 - i].cost = int.MaxValue;
-                            //    nodes[nodeID].neighbours[i].cost = int.MaxValue;
+                                //nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Obst);
+                                //nodes[neighID].neighbours[7 - i].cost = int.MaxValue;
+                                //nodes[nodeID].neighbours[i].cost = int.MaxValue;
                             //}
                             // Check if obst is blocking path
-                            if(Vector3.Distance(GetNodeWorldPos(nodes[neighID]), obstacles[k].transform.position) < stepSize)
-                            {
-                                //Debug.Log("Obst is close");
-                                int[] indices = GetClosestThreeNeighbourIndices(obstacles[k].transform.position);
-                                nodes[neighID].neighbours[indices[0]].cost = int.MaxValue;
-                                nodes[neighID].neighbours[indices[1]].cost = int.MaxValue;
-                                nodes[neighID].neighbours[indices[2]].cost = int.MaxValue;
-                            }
-                        }
+                        //}
                     }
                     else
                     {
@@ -142,6 +138,31 @@ public class NavigationGrid : MonoBehaviour {
                         SetNodeNeighbours(neighID);
                 }             
             }
+        }
+    }
+
+    private void checkObst()
+    {
+        for (int i = 0; i < obstacles.Length; i++)
+        {
+            NavigationNode closestNode = GetClosestNode(obstacles[i].transform.position);
+            int closestNodeID = closestNode.GetID();
+
+            obstNodes.Add(GetNodeWorldPos(closestNode));
+
+            if (Vector3.Distance(GetNodeWorldPos(closestNode), obstacles[i].transform.position) < stepSize)
+            {
+                //Debug.Log("Obst is close");
+                int[] indices = GetClosestThreeNeighbourIndices(obstacles[i].transform.position);
+                for (int j = 0; j < 3; j++)
+                {
+                    nodes[closestNodeID].neighbours[indices[j]].cost = int.MaxValue;
+                    int neighbourId = nodes[closestNodeID].neighbours[indices[j]].nodeID;
+                    nodes[neighbourId].neighbours[7 - indices[j]].cost = int.MaxValue;
+
+                    obstNodes.Add(GetNodeWorldPos(nodes[neighbourId]));
+                }
+            }   
         }
     }
 
@@ -207,15 +228,25 @@ public class NavigationGrid : MonoBehaviour {
                 PathNode successor = successors[i];
                 if (successor != null && !closedlist.Contains(successor))
                 {
-                    if (nodes[successor.nodeID].nodeType != NavigationNode.nodeTypes.Free || nodes[successor.nodeID].neighbours[7 - i].cost == int.MaxValue)
+                    // Check if next node can be reached
+                    if (nodes[successor.nodeID].nodeType != NavigationNode.nodeTypes.Free)
                     {
                         closedlist.Add(successor);
                         continue;
                     }
 
                     int tentative_cost;
-                    
-                    tentative_cost = curr.m_value.cost + nodes[successor.nodeID].neighbours[7 - i].cost;
+
+                    int neighbour_cost = nodes[successor.nodeID].neighbours[7 - i].cost;
+
+                    if(neighbour_cost != int.MaxValue)
+                    {
+                        tentative_cost = curr.m_value.cost + nodes[successor.nodeID].neighbours[7 - i].cost;
+                    }
+                    else
+                    {
+                        tentative_cost = int.MaxValue;
+                    }
 
                     PriorityQueue<PathNode>.PriorityQueueElement elem;
 
@@ -331,6 +362,13 @@ public class NavigationGrid : MonoBehaviour {
             {
                 Gizmos.color = NavigationNode.nodeColors[(int)node.nodeType];
                 Gizmos.DrawCube(GetNodeWorldPos(node), new Vector3(0.3f, 0.3f, 0.3f));
+            }
+
+            Color[] colors = { Color.blue, Color.green, Color.red, Color.white };
+            for (int i = 0; i < obstNodes.Count; i++)
+            {
+                Gizmos.color = colors[i%4];
+                Gizmos.DrawSphere(obstNodes[i], 1.0f);
             }
         }
     }
