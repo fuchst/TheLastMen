@@ -24,7 +24,7 @@ public class GrapplingHook : MonoBehaviour
         float distance = Vector3.Distance(player.position, transform.position);
 
         //Check distance to player
-        if(distance > fireGrapplingHook.maxRopeLength)
+        if(distance > fireGrapplingHook.maxRopeLength + 1)
         {
             fireGrapplingHook.RemoveRope();
             //Destroy(gameObject);
@@ -46,8 +46,8 @@ public class GrapplingHook : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other) {
-        if (flying && !other.isTrigger) {
+    void OnTriggerEnter (Collider other) {
+        if (flying && !other.isTrigger && other.transform != player) {
             flying = false;
             GetComponent<Collider>().enabled = false;
             rigidbody.velocity = Vector3.zero;
@@ -56,4 +56,10 @@ public class GrapplingHook : MonoBehaviour
             fireGrapplingHook.SetRope();
         }
     }
+
+    /*void OnDestroy () {
+        if (fireGrapplingHook.Fired) { //if the hook object gets destroyed somehow, notify other scripts
+            fireGrapplingHook.RemoveRope();
+        }
+    }*/
 }

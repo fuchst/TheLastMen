@@ -16,7 +16,7 @@ FEATURES
 - LEVEL-CHANGE: Bastion flies to next layer, player is not movable during this process, layer timer is paused - Jingyi
 - GUI: Munition/Nachladen (->oder Nachladen durch Schussinterval ersetzen?<-) - FloR
 - GUI: Current Tool display ->Solution: Weapon pictures into golden rings at bottom right - FloW
-- GUI: damage overlay aktivieren - FloW
+DONE - GUI: damage overlay aktivieren - FloW
 - GUI: Enemy Health  - FloW
 //- GUI: Finish layer/game end menus
 //- Upgrades: display, buying, effect
@@ -35,7 +35,7 @@ IMPROVEMENTS
 - Enemies/Collectibles: make loot drop down / hover tied to islands (either parenting or rigidbodies) - Wer Zeit hat
 - WorldGeneration/Islands: synchronize island falling speed with distance to black hole as well as remaining time and/or increase falling speed near time 0 - Jingyi
 - GrapplingHook: on rope shortening, use lower limit for maximum moveposition-pull per frame (to avoid clipping through stuff), if necessary spread (lerp) larger pull over several frames or use limited move-pull together with a force - FloR/W
-- Player: slight "air control" / influencing of jumping and falling direction for better/smoother feeling during playing - FloR/W
+DONE - Player: slight "air control" / influencing of jumping and falling direction for better/smoother feeling during playing - FloR/W
 - Weapons: make projectiles a bit more noticeable/visible - Wer Zeit hat
 - Weapons: no shooting while game is paused or bastion menu is open - FloW
 - neither shoot nor show regular gui when paused or bastion - FloW

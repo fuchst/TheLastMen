@@ -319,6 +319,7 @@ MonoBehaviour:
     ForwardSpeed: 8
     BackwardSpeed: 4
     StrafeSpeed: 4
+    FallingSpeed: 1.5
     RunMultiplier: 2.5
     JetpackMaxFlightDuration: 5
     JetpackHorizontalBaseSpeed: 8
@@ -367,7 +368,7 @@ MonoBehaviour:
     smooth: 1
     smoothTime: 5
   advancedSettings:
-    groundCheckDistance: .00999999978
+    groundCheckDistance: .0149999997
     stickToGroundHelperDistance: .5
     slowDownRate: 0
     airControl: 1
@@ -385,7 +386,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hookSpeed: 50
   minRopeLength: 1
-  maxRopeLength: 50
+  maxRopeLength: 40
   ropeLengthChangingSpeed: 2.5
   grapplingHookPrefab: {fileID: 118926, guid: 1d2fb06ba6796734a9c36978948e422d, type: 2}
   cameraTransform: {fileID: 429944}
@@ -829,6 +830,34 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: advancedSettings.airControl
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxRopeLength
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.SlopeCurveModifier.m_Curve.Array.data[1].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.SlopeCurveModifier.m_Curve.Array.data[1].inSlope
+      value: .000499998743
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.SlopeCurveModifier.m_Curve.Array.data[1].outSlope
+      value: .000499998743
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.SlopeCurveModifier.m_Curve.Array.data[2].inSlope
+      value: -.0099537028
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.SlopeCurveModifier.m_Curve.Array.data[2].outSlope
+      value: -.0099537028
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: advancedSettings.groundCheckDistance
+      value: .0149999997
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -21,6 +21,11 @@ public class FireGrapplingHook : MonoBehaviour
     private RigidbodyFirstPersonControllerSpherical controller;
     private Rigidbody rb;
 
+    public bool Fired { get { return fired; } }
+    public bool Hooked { get { return hooked; } }
+    public float CurrentRopeLength { get { return confJoint.linearLimit.limit; } }
+    public float MaximumRopeLength { get { return maxRopeLength; } }
+
     void Awake()
     {
         //springJoint = GetComponent<SpringJoint>();
@@ -32,6 +37,10 @@ public class FireGrapplingHook : MonoBehaviour
 
     void Update()
     {
+        if(fired && !grapplingHook) {
+            RemoveRope();
+        }
+
         if (CrossPlatformInputManager.GetButtonDown("Hook"))
         {
             if (fired == false)
@@ -49,7 +58,7 @@ public class FireGrapplingHook : MonoBehaviour
         }
         if (hooked && Input.GetAxis("RopeLength") != 0) {
             //Debug.Log("rope length axis != 0");
-            float newLength = Mathf.Clamp(GetCurrentRopeLength() + ropeLengthChangingSpeed * Input.GetAxis("RopeLength"), minRopeLength, maxRopeLength);
+            float newLength = Mathf.Clamp(CurrentRopeLength + ropeLengthChangingSpeed * Input.GetAxis("RopeLength"), minRopeLength, maxRopeLength);
             UpdateRopeLength(newLength);
         }
     }
@@ -81,11 +90,12 @@ public class FireGrapplingHook : MonoBehaviour
         confJoint.xMotion = confJoint.yMotion = confJoint.zMotion = ConfigurableJointMotion.Free;
         UpdateRopeLength(0.0f, false);
         //give player a little extra upwards velocity upon unhooking, except when already grounded on a near-flat surface (i.e. standing regularly)
-        if (hooked && (!controller.Grounded || Vector3.Angle(controller.GroundNormal, controller.transform.up) > 15)) {
+        if (hooked) {
             controller.Jump(true);
         }
         Unfire();
         Destroy(grapplingHook);
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Tool);
     }
 
     private void UpdateRopeLength (float distance, bool checkConstraint = true) {
@@ -98,16 +108,14 @@ public class FireGrapplingHook : MonoBehaviour
         //(* unless by adding a spring force, which makes it rather bouncy / less controllable, like the regular spring joint)
         if (checkConstraint && oldDistance > distance){
             rb.MovePosition(rb.position + Vector3.ClampMagnitude(confJoint.connectedBody.transform.position - transform.position, oldDistance - distance));
-        }   
-        
+        }
+
         //SoftJointLimit linLim = new SoftJointLimit();
         //linLim.contactDistance = 0.1f;
         //linLim.bounciness = 0.1f;
         //linLim.limit = distance;
         //return linLim;
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Tool);
     }
-
-    public float GetCurrentRopeLength () {
-        return confJoint.linearLimit.limit;
-    }
+    
 }

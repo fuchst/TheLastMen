@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public enum GUIUpdateEvent {
     Energy,
     Wood,
     Artifact,
     Health,
+    Tool,
     Pause,
     Layer,
     All
@@ -76,9 +78,15 @@ public class s_GUIMain : MonoBehaviour {
 
 	[SerializeField]protected Image iconRemainingTime;
     [SerializeField]protected Text textRemainingTime;
-    
     [SerializeField]protected Image iconPlayerHealth;
 	[SerializeField]protected Text textPlayerHealth;
+    [SerializeField]protected Image damageScreenOverlay;
+    [SerializeField]protected Color damageOverlayColorActive;
+    protected Color damageOverlayColorRegular;
+
+
+    [SerializeField]protected Text currentToolText;
+    [SerializeField]protected Text currentToolDescription;
 
     [SerializeField]protected Image iconSkillCooldownBar;
 
@@ -100,8 +108,6 @@ public class s_GUIMain : MonoBehaviour {
     [SerializeField]protected Text textCurrentLayer;
     [SerializeField]protected Text textClimbLayer;
 
-    //get from game manager later?
-    //[SerializeField]protected Transform bastionTransform;
     public Transform bastionTransform;
     [SerializeField]protected Transform playerTransform;
 	[SerializeField]protected Camera playerCamera;
@@ -119,9 +125,11 @@ public class s_GUIMain : MonoBehaviour {
     protected bool offscreen = false;
     protected int min, maxX, maxY;
 
+    //protected int fadingIn = 0;
+
     //shortcut
     protected s_GameManager game;
-    
+    protected FireGrapplingHook hook;
 
 	// Use this for initialization
 	void Start () {
@@ -138,6 +146,8 @@ public class s_GUIMain : MonoBehaviour {
         if (!playerTransform) {
             playerTransform = LevelManager.Instance.player.transform;
         }
+
+        hook = playerTransform.GetComponent<FireGrapplingHook>();
 
         if (!playerCamera) {
             playerCamera = playerTransform.GetChild(0).GetComponent<Camera>();
@@ -170,7 +180,8 @@ public class s_GUIMain : MonoBehaviour {
         buttonStore10Energy.onClick.AddListener(() => { s_GameManager.Instance.StoreEnergy(10); });
 
         buttonClimbLayer.onClick.AddListener(() => { s_GameManager.Instance.ClimbLayer(); });
-        
+
+        damageOverlayColorRegular = damageScreenOverlay.color;
     }
 	
 	void Update () {
@@ -229,6 +240,9 @@ public class s_GUIMain : MonoBehaviour {
             case GUIUpdateEvent.Health:
                 UpdateHealthState();
                 break;
+            case GUIUpdateEvent.Tool:
+                UpdateToolState();
+                break;
             case GUIUpdateEvent.Pause:
                 UpdatePauseState();
                 break;
@@ -240,6 +254,7 @@ public class s_GUIMain : MonoBehaviour {
                 UpdateWoodState();
                 UpdateArtifactState();
                 UpdateHealthState();
+                UpdateToolState();
                 UpdatePauseState();
                 UpdateLayerState();
                 break;
@@ -280,6 +295,17 @@ public class s_GUIMain : MonoBehaviour {
         textPlayerHealth.text = game.healthpointsCur.ToString();
         iconPlayerHealth.fillAmount = (float)game.healthpointsCur / (float)game.healthpointsMax;
         textSurvivorCount.text = game.survivorsCur.ToString();
+        if(game.healthpointsPrev > game.healthpointsCur) {
+            StartCoroutine(FadeDamageOverlay());
+        }
+    }
+
+    protected void UpdateToolState () {
+        if (!hook) {
+            return;
+        }
+        currentToolText.enabled = hook.Hooked;
+        currentToolDescription.text = hook.Hooked ? "Length: " + hook.CurrentRopeLength.ToString("0") + "/" + hook.MaximumRopeLength.ToString("0") : "";
     }
 
     protected void UpdatePauseState () {
@@ -376,5 +402,19 @@ public class s_GUIMain : MonoBehaviour {
         posScreen.x *= 1.0f/Screen.width;
         posScreen.y *= 1.0f/Screen.height;
         return new Vector2((posScreen.x - 0.5f) * canvasSizeDelta.x, (posScreen.y - 0.5f) * canvasSizeDelta.y);
+    }
+
+    protected IEnumerator FadeDamageOverlay () {
+        //fadingIn++;
+        damageScreenOverlay.CrossFadeColor(damageOverlayColorActive, 0.0f, false, true);
+        //yield return new WaitForSeconds(0.1f);
+        //damageScreenOverlay.color = damageOverlayColorActive;
+        //fadingIn--;
+        yield return new WaitForEndOfFrame();
+        damageScreenOverlay.CrossFadeColor(damageOverlayColorRegular, 1.0f, false, true);
+        //if(fadingIn <= 0) {
+        //    yield return new WaitForSeconds(1.0f);
+        //    damageScreenOverlay.color = damageOverlayColorRegular;
+        //}
     }
 }

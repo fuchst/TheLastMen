@@ -21,6 +21,7 @@ public class s_GameManager : MonoBehaviour {
     public float woodBastion_Max = 10;
     
     public int healthpointsCur = 100;
+    public int healthpointsPrev = 100;
     public int healthpointsMax = 100;
     public int survivorsCur = 3;
 
@@ -60,6 +61,7 @@ public class s_GameManager : MonoBehaviour {
         if (Time.time > endTime) {
             EndGame();
         }
+        healthpointsPrev = healthpointsCur;
     }
 
     protected void InitializePlayerStats () {

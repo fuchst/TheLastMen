@@ -14,6 +14,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float ForwardSpeed = 8.0f;   // Speed when walking forward
             public float BackwardSpeed = 4.0f;  // Speed when walking backwards
             public float StrafeSpeed = 4.0f;    // Speed when walking sideways
+            public float FallingSpeed = 1.5f;   // Speed when "walking" while falling
             public float RunMultiplier = 2.5f;  // Speed when sprinting
 
             public float JetpackMaxFlightDuration = 5.0f;      //Maximum duration of "nonstop" jetpack thrust duration (resets when landing)
@@ -102,6 +103,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         float ropeSwingStrength = 5f;
 
         private Rigidbody m_RigidBody;
+        private ConfigurableJoint m_Joint;
         private CapsuleCollider m_Capsule;
         //private float m_YRotation;
         private Vector3 m_GroundContactNormal;
@@ -111,8 +113,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_JetpackCurFlightDuration = 0;
         //private bool m_swingimpulse;
         private float m_swingImpulseTimer = 0;
-        private Vector3 prevVel = new Vector3(0,0,0);
-        private Vector3 curVel = new Vector3(0, 0, 0);
+        private Vector3 m_prevVel = Vector3.zero;
+        private Vector3 m_curVel = Vector3.zero;
+        private Vector3 m_PlayerToHook = Vector3.zero;
 
         private new AudioPlayer audio;
 
@@ -151,6 +154,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Start()
         {
             m_RigidBody = GetComponent<Rigidbody>();
+            m_Joint = GetComponent<ConfigurableJoint>();
             m_Capsule = GetComponent<CapsuleCollider>();
             mouseLook.Init(transform, cam.transform);
             //m_swingimpulse = true;
@@ -206,11 +210,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float SkyDive (Vector2 input) {
             //TODO: insert code for slightly influencing movement direction when falling/ungrounded
             Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
-            desiredMove *= movementSettings.CurrentTargetSpeed * SlopeMultiplier();
+            desiredMove *= movementSettings.FallingSpeed;
             float horVel = Vector3.ProjectOnPlane(m_RigidBody.velocity, transform.up).magnitude;
-            if (horVel < movementSettings.CurrentTargetSpeed/2)
+            if (horVel < movementSettings.FallingSpeed)
             {
-                m_RigidBody.AddForce(2 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
+                m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
             }
             return 0;
         }
@@ -266,12 +270,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Fly = false;
             }*/
 
-            return Time.fixedDeltaTime * (force + (upDelta > 0 ? upV * upDelta : Vector3.zero)).magnitude;
+            return 2.0f * Time.fixedDeltaTime * (force + (upDelta > 0 ? upV * upDelta : Vector3.zero)).magnitude;
         }
 
         private float Swing (Vector2 input) {
-			prevVel = curVel;
-			curVel = m_RigidBody.velocity;
+			m_prevVel = m_curVel;
+			m_curVel = m_RigidBody.velocity;
 			
             // always move along the camera forward as it is the direction that it being aimed at
             Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
@@ -281,15 +285,15 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             //compute angle between vector from hook to person and hook to center of world.
             //SpringJoint joint = GetComponent<SpringJoint>();
-            ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
-            Vector3 hookPos = joint.connectedBody.transform.position;
-            Vector3 hookToPlayer = hookPos - transform.position;
-            
+            //ConfigurableJoint joint = GetComponent<ConfigurableJoint>();
+            Vector3 hookPos = m_Joint.connectedBody.transform.position;
+            m_PlayerToHook = hookPos - transform.position;
+
             if (swingFloR) {
                 #region Flo_R
                 Vector3 referenceRight = Vector3.Cross(Vector3.up, hookPos);
-                float angle = Vector3.Angle(hookToPlayer, hookPos);
-                float sign = Mathf.Sign(Vector3.Dot(hookToPlayer, referenceRight));
+                float angle = Vector3.Angle(m_PlayerToHook, hookPos);
+                float sign = Mathf.Sign(Vector3.Dot(m_PlayerToHook, referenceRight));
                 float finalAngle = sign * angle;
 
                 //Give impulse only if we want to swing
@@ -300,7 +304,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 }
 
                 //allow force into opposite direction
-                float angle2 = Vector3.Angle(prevVel, desiredMove);
+                float angle2 = Vector3.Angle(m_prevVel, desiredMove);
                 //Debug.Log("angle: " + angle);
                 if (angle2 < 30)
                 {
@@ -322,19 +326,19 @@ namespace UnityStandardAssets.Characters.FirstPerson
             else {
 			    #region Flo_W
                 Vector3 desiredMoveY, desiredMoveX;
-                desiredMoveY = Vector3.ProjectOnPlane(cam.transform.forward, hookToPlayer).normalized * input.y;
+                desiredMoveY = Vector3.ProjectOnPlane(cam.transform.forward, m_PlayerToHook).normalized * input.y;
                 desiredMoveY *= movementSettings.ForwardSpeed;
-                desiredMoveX = Vector3.ProjectOnPlane(cam.transform.right, hookToPlayer).normalized * input.x;
+                desiredMoveX = Vector3.ProjectOnPlane(cam.transform.right, m_PlayerToHook).normalized * input.x;
                 desiredMoveX *= movementSettings.StrafeSpeed;
 
                 //only add swinging forces if we are lower than the hook, 
-                if (Vector3.Angle(transform.up, hookToPlayer) < 85) {
+                if (Vector3.Angle(transform.up, m_PlayerToHook) < 85) {
                     
-                    if (Vector3.Angle(Mathf.Sign(input.y) * transform.forward, hookToPlayer) < 95) {
+                    if (Vector3.Angle(Mathf.Sign(input.y) * transform.forward, m_PlayerToHook) < 95) {
                         m_RigidBody.AddForce(ropeSwingStrength * Time.fixedDeltaTime * desiredMoveY, ForceMode.VelocityChange);
                     }
                 
-                    if (Vector3.Angle(Mathf.Sign(input.x) * transform.right, hookToPlayer) < 95) {
+                    if (Vector3.Angle(Mathf.Sign(input.x) * transform.right, m_PlayerToHook) < 95) {
                         m_RigidBody.AddForce(ropeSwingStrength * Time.fixedDeltaTime * desiredMoveX, ForceMode.VelocityChange);
                     }
                 }
@@ -344,9 +348,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
             return 0;
         }
 
-        public void Jump (bool keepVerticalVelocity = false) {
+        public void Jump (bool hookedJump = false) {
             m_RigidBody.drag = 0.5f;
-            if (!keepVerticalVelocity) {
+            if (hookedJump) {
+                if ((m_IsGrounded && Vector3.Angle(m_GroundContactNormal, transform.up) < 15) || Vector3.Angle(-transform.up, m_PlayerToHook) < 75 /*hooked obj "greatly" below player*/) {
+                    return;
+                }
+            }
+            else {
                 m_RigidBody.velocity -= Vector3.Project(m_RigidBody.velocity, transform.up);
             }
             m_RigidBody.AddForce(transform.up * 5 * Time.fixedDeltaTime * movementSettings.JumpForce, ForceMode.VelocityChange);
@@ -395,8 +404,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 energyCost += Fly(input);
             }
 
-            if (movementSettings.m_Hooked && !m_IsGrounded && inputExists) {
-                energyCost += Swing(input);
+            if (movementSettings.m_Hooked && !m_IsGrounded) {
+                if (inputExists) {
+                    energyCost += Swing(input);
+                }
+                else {
+                    m_PlayerToHook = m_Joint.connectedBody.transform.position - transform.position;
+                }
             }
 
             if (!m_Fly && m_IsGrounded && inputExists) {

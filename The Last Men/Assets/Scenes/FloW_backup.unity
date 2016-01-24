@@ -230,7 +230,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22429348, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 181.5
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 22429348, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -254,7 +254,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22412096, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 271
+      value: 139.5
       objectReference: {fileID: 0}
     - target: {fileID: 22412096, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_SizeDelta.x
@@ -274,7 +274,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22486778, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 360.5
+      value: 229
       objectReference: {fileID: 0}
     - target: {fileID: 22486778, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -1071,7 +1071,7 @@ ParticleSystem:
     serializedVersion: 2
     enabled: 1
     type: 1
-    radius: 1.35000002
+    radius: 1.5
     angle: 25
     length: 5
     boxX: 1
