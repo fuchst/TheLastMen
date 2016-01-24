@@ -164,13 +164,16 @@ public class LevelManager : MonoBehaviour
         
         //Destroy the levels script/component
         Destroy(levels[currentLevel]);
+
         if (currentLevel < levels.Length)
         {
             //levels[currentLevel + 1].DestroyLevel();
             //Destroy(levels[currentLevel + 1]);
             currentLevel++;
-            s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
-            LoadLevel();
+
+            Debug.Log("Congratz you finished the game");
+            //s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
+            //LoadLevel();
         }
     }
 

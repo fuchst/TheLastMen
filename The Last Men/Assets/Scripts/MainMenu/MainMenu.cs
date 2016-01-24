@@ -2,9 +2,16 @@
 
 public class MainMenu : MonoBehaviour {
 
+    [SerializeField] GameObject Intro;
     [SerializeField] GameObject Instructions;
     [SerializeField] GameObject Main;
     [SerializeField] GameObject Credits;
+
+    public void ShowIntro()
+    {
+        Main.SetActive(false);
+        Intro.SetActive(true);
+    }
     
     public void StartGame()
     {
