@@ -890,12 +890,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e233f6bbdfeac45b832193ec725784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpMax: 100
+  hpMax: 80
   hpCur: 0
-  attackRange: 2
+  attackRange: 4
   damage: 5
   moveSpeed: 12
-  attackSpeed: 1
+  attackSpeed: 2
   fov: 20
   senseRangeSearching: 15
   senseRangeAttack: 5
@@ -1079,6 +1079,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: moveSpeed
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: hp
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackRange
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackSpeed
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
