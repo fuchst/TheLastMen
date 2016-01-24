@@ -12,6 +12,14 @@ public class FlyingEnemy : Enemy {
         base.OnStart();
     }
 
+    protected override void OnFixedUpdate()
+    {
+        base.OnFixedUpdate();
+
+        state.action();
+        Move();
+    }
+
     protected override void Move()
     {
         GetComponent<Animation>().Play();

@@ -13,6 +13,8 @@ public class GroundEnemy : Enemy {
     private float timeSincePosCheck = 0.0f;
     private float minDistanceSincePosCheck = 0.1f;
 
+    private float minDistanceForAction = 100.0f;
+
     private int pathIndex;
     private ArrayList _path;
     public ArrayList path
@@ -44,6 +46,13 @@ public class GroundEnemy : Enemy {
     protected override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
+
+        // Only perform actions if player is in certain reach
+        if(distanceToPlayer < minDistanceForAction)
+        {
+            state.action();
+            Move();
+        }
 
         this.transform.position -= Vector3.Dot(this.transform.position - navGrid.transform.position, navGrid.transform.up) * navGrid.transform.up;
         updateCurrentNode();

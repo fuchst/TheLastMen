@@ -81,9 +81,6 @@ public abstract class Enemy : MonoBehaviour {
             _enemyToPlayer = playerPosition - transform.position;
             _directionToPlayer = enemyToPlayer.normalized;
             _distanceToPlayer = enemyToPlayer.magnitude;
-
-            state.action();
-            Move();
         }
     }
 
