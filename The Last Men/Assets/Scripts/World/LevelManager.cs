@@ -55,6 +55,12 @@ public class LevelManager : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
         }
+        if (!flyingEnemyParent) {
+            flyingEnemyParent = new GameObject("FlyingEnemyParent").transform;
+        }
+        if (!islandParent) {
+            islandParent = new GameObject("IslandParent").transform;
+        }
 
         //Gather island bounds
 		GameObject tmp;

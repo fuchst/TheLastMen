@@ -17,7 +17,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             public float FallingSpeed = 1.5f;   // Speed when "walking" while falling
             public float RunMultiplier = 2.5f;  // Speed when sprinting
 
-            public float JetpackMaxFlightDuration = 5.0f;      //Maximum duration of "nonstop" jetpack thrust duration (resets when landing)
+            //public float JetpackMaxFlightDuration = 5.0f;      //Maximum duration of "nonstop" jetpack thrust duration (resets when landing)
             public float JetpackHorizontalBaseSpeed = 8.0f;    //Base speed for horizontal flight (scaled by flight direction input)
             public float JetpackMaxVerticalSpeed = 8.0f;       //Maximum speed for vertical flight
             public float JetpackVerticalAcceleration = 30.0f;  //Vertical acceleration for the jetpack

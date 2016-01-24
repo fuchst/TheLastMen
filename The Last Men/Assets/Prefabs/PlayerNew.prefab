@@ -51,7 +51,7 @@ GameObject:
   - 23: {fileID: 2361952}
   - 54: {fileID: 5455184}
   - 136: {fileID: 13651424}
-  - 114: {fileID: 11404204}
+  - 114: {fileID: 11465704}
   - 114: {fileID: 11470412}
   - 114: {fileID: 11426022}
   - 145: {fileID: 14581750}
@@ -303,75 +303,6 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
---- !u!114 &11404204
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 168436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d099f3da20bf5834e88fe869815490ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 2081526}
-  movementSettings:
-    ForwardSpeed: 6
-    BackwardSpeed: 3
-    StrafeSpeed: 3
-    FallingSpeed: 1.25
-	RunMultiplier: 2.5
-    JetpackHorizontalBaseSpeed: 8
-    JetpackMaxVerticalSpeed: 8
-    JetpackVerticalAcceleration: 30
-    JetpackFlyInLookingDir: 0
-    changeFOV: 1
-    FOV_regular: 60
-    FOV_flying: 80
-    maxFOVchangeRate: 5
-    minHeightAboveGroundForFOVChange: 2.5
-    heightAboveGroundForMaxFOV: 25
-    heightCheckLayers:
-      serializedVersion: 2
-      m_Bits: 1
-    RunKey: 304
-    JumpForce: 100
-    SlopeCurveModifier:
-      serializedVersion: 2
-      m_Curve:
-      - time: -90
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-      - time: 0
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-      - time: 90
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-    CurrentTargetSpeed: 8
-    m_Hooked: 0
-  mouseLook:
-    XSensitivity: 2
-    YSensitivity: 2
-    clampVerticalRotation: 1
-    MinimumX: -85
-    MaximumX: 85
-    smooth: 1
-    smoothTime: 5
-  advancedSettings:
-    groundCheckDistance: .0149999997
-    stickToGroundHelperDistance: .5
-    slowDownRate: 0
-    airControl: 1
-  swingFloR: 0
 --- !u!114 &11426022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -446,6 +377,76 @@ MonoBehaviour:
   useDepthTexture: 1
   sunShaftsShader: {fileID: 4800000, guid: d3b1c8c1036784176946f5cfbfb7fe4c, type: 3}
   simpleClearShader: {fileID: 4800000, guid: f688f89ed5eb847c5b19c934a0f1e772, type: 3}
+--- !u!114 &11465704
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 168436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d099f3da20bf5834e88fe869815490ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 2081526}
+  movementSettings:
+    ForwardSpeed: 8
+    BackwardSpeed: 4
+    StrafeSpeed: 4
+    FallingSpeed: 1.5
+    RunMultiplier: 2.5
+    JetpackMaxFlightDuration: 5
+    JetpackHorizontalBaseSpeed: 8
+    JetpackMaxVerticalSpeed: 8
+    JetpackVerticalAcceleration: 30
+    JetpackFlyInLookingDir: 0
+    changeFOV: 1
+    FOV_regular: 60
+    FOV_flying: 85
+    maxFOVchangeRate: 7.5
+    minHeightAboveGroundForFOVChange: 2.5
+    heightAboveGroundForMaxFOV: 25
+    heightCheckLayers:
+      serializedVersion: 2
+      m_Bits: 0
+    RunKey: 304
+    JumpForce: 30
+    SlopeCurveModifier:
+      serializedVersion: 2
+      m_Curve:
+      - time: -90
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 90
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    CurrentTargetSpeed: 8
+    m_Hooked: 0
+  mouseLook:
+    XSensitivity: 2
+    YSensitivity: 2
+    clampVerticalRotation: 1
+    MinimumX: -90
+    MaximumX: 90
+    smooth: 0
+    smoothTime: 5
+  advancedSettings:
+    groundCheckDistance: .00999999978
+    stickToGroundHelperDistance: .5
+    slowDownRate: 20
+    airControl: 0
+  swingFloR: 0
 --- !u!114 &11470412
 MonoBehaviour:
   m_ObjectHideFlags: 1
