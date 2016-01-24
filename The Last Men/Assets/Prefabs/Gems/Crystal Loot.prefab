@@ -12,7 +12,7 @@ GameObject:
   - 54: {fileID: 5483054}
   - 114: {fileID: 11463450}
   - 135: {fileID: 13537922}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Crystal Loot
   m_TagString: Crystal
   m_Icon: {fileID: 0}
@@ -29,8 +29,8 @@ GameObject:
   - 4: {fileID: 485762}
   - 33: {fileID: 3391864}
   - 23: {fileID: 2384970}
-  - 64: {fileID: 6457402}
-  m_Layer: 0
+  - 65: {fileID: 6597184}
+  m_Layer: 11
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -110,8 +110,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &6457402
-MeshCollider:
+--- !u!65 &6597184
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -120,8 +120,8 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 1
-  m_Mesh: {fileID: 4300006, guid: 309db8db017484e308a6de0a8e64c11a, type: 3}
+  m_Size: {x: .0368888006, y: .0368887968, z: .0301286969}
+  m_Center: {x: 0, y: 1.07038647e-16, z: -.0150643485}
 --- !u!114 &11463450
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -159,7 +159,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .349999994
+  m_Radius: .5
   m_Center: {x: 0, y: .5, z: 0}
 --- !u!1001 &100100000
 Prefab:
@@ -187,6 +187,34 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_TagString
       value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Center.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Size.z
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
