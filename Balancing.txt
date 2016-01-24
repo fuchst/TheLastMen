@@ -1,5 +1,0 @@
-Must fixes
-
-- Can't kill enemies anymore
-- Shooting at flying enemies result in a lot of errors
-- Flying enemies stick too close to the player and enemies animation seems broken
