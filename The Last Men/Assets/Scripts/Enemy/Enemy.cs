@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public abstract class Enemy : MonoBehaviour {
 
@@ -24,7 +23,18 @@ public abstract class Enemy : MonoBehaviour {
         private set { _player = value; }
     }
 
-    protected CharacterController controller;
+    // Player specific attributes
+    protected Vector3 _playerPosition;
+    public Vector3 playerPosition { get { return _playerPosition; } }
+    protected Vector3 _enemyToPlayer;
+    public Vector3 enemyToPlayer { get { return _enemyToPlayer; } }
+    protected Vector3 _directionToPlayer;
+    public Vector3 directionToPlayer { get { return _directionToPlayer; } }
+    protected float _distanceToPlayer;
+    public float distanceToPlayer { get { return _distanceToPlayer; } }
+
+    protected CharacterController _controller;
+    public CharacterController controller { get { return _controller; } }
 
     protected EnemyState state;
     public EnemyState State
@@ -51,7 +61,7 @@ public abstract class Enemy : MonoBehaviour {
     {
         player = GameObject.FindGameObjectWithTag("Player");
         ChangeState(EnemyState.stateIDs.Idle);
-        controller = GetComponent<CharacterController>();
+        _controller = GetComponent<CharacterController>();
     }
 
     void FixedUpdate()
@@ -67,8 +77,10 @@ public abstract class Enemy : MonoBehaviour {
         }
         else
         {
-            state.action();
-            Move();
+            _playerPosition = player.transform.position;
+            _enemyToPlayer = playerPosition - transform.position;
+            _directionToPlayer = enemyToPlayer.normalized;
+            _distanceToPlayer = enemyToPlayer.magnitude;
         }
     }
 
@@ -86,9 +98,13 @@ public abstract class Enemy : MonoBehaviour {
     protected virtual void OnDeath()
     {
         int idx = Random.Range(0, s_GameManager.Instance.lootTable.Length);
-        GameObject loot = Instantiate(s_GameManager.Instance.lootTable[idx], transform.position, transform.rotation) as GameObject;
+        if (s_GameManager.Instance.lootTable[idx] != null)
+        {
+
+            GameObject loot = Instantiate(s_GameManager.Instance.lootTable[idx], transform.position, transform.rotation) as GameObject;
+        }
         Destroy(this.gameObject);
     }
-
-    protected abstract void ChangeState(EnemyState.stateIDs _stateID);
+	
+    public abstract void ChangeState(EnemyState.stateIDs _stateID);
 }

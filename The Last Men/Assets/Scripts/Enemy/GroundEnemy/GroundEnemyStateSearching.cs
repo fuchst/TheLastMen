@@ -15,20 +15,16 @@ public class GroundEnemyStateSearching : EnemyState {
 
     public override void action()
     {
-        Vector3 playerPos = enemy.player.transform.position;
-        Vector3 dir = (playerPos - this.enemy.transform.position).normalized;
-        float dist = Vector3.Distance(playerPos, enemy.transform.position);
-
-        float angle = Vector3.Angle(dir, enemy.transform.forward);
+        float angle = Vector3.Angle(enemy.directionToPlayer, enemy.transform.forward);
 
         // Change state to Attack if player is in viewfield or close by and on island
-        if((angle < enemy.fov || dist < enemy.senseRangeAttack) && enemy.navGrid.GetClosestNode(enemy.transform.position) != null )
+        if((angle < enemy.fov || enemy.distanceToPlayer < enemy.senseRangeAttack) && enemy.navGrid.GetClosestNode(enemy.transform.position) != null )
         {
-            enemy.SendMessage("ChangeState", EnemyState.stateIDs.Attack);
+            enemy.ChangeState(stateIDs.Attack);
         }
-        else if (dist > enemy.senseRangeSearching)
+        else if (enemy.distanceToPlayer > enemy.senseRangeSearching)
         {
-            enemy.SendMessage("ChangeState", EnemyState.stateIDs.Idle);
+            enemy.ChangeState(stateIDs.Idle);
         }
         else if (enemy.path == null || enemy.path.Count == 0)
         {

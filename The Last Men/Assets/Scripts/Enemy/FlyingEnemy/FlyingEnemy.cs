@@ -12,6 +12,14 @@ public class FlyingEnemy : Enemy {
         base.OnStart();
     }
 
+    protected override void OnFixedUpdate()
+    {
+        base.OnFixedUpdate();
+
+        state.action();
+        Move();
+    }
+
     protected override void Move()
     {
         GetComponent<Animation>().Play();
@@ -41,7 +49,7 @@ public class FlyingEnemy : Enemy {
         moveDirection = evade(moveDirection);
 
         transform.LookAt(transform.position + moveDirection, transform.position.normalized);
-        controller.Move(transform.forward * moveSpeed * Time.deltaTime);
+        _controller.Move(transform.forward * moveSpeed * Time.deltaTime);
     }
 
     private Vector3 evade(Vector3 currentDirection)
@@ -49,7 +57,7 @@ public class FlyingEnemy : Enemy {
         return currentDirection;
     }
 
-    protected override void ChangeState(EnemyState.stateIDs _stateID)
+    public override void ChangeState(EnemyState.stateIDs _stateID)
     {
         if (this.state == null || this.state.getID() != _stateID)
         {

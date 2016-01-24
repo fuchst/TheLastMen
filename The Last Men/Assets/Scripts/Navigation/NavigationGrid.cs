@@ -10,6 +10,8 @@ public class NavigationGrid : MonoBehaviour {
     public SortedList<int, NavigationNode> nodes = new SortedList<int, NavigationNode>();
     public List<int> freeNodeIDs = new List<int>();
 
+    private List<Vector3> obstNodes = new List<Vector3>();
+
     private GameObject island;
     private GameObject[] obstacles;
 
@@ -39,6 +41,7 @@ public class NavigationGrid : MonoBehaviour {
     public void createGrid()
     {
         this.obstacles = Helper.FindChildrenWithTag(island.transform.parent, "Obstacle");
+        //Debug.Log(obstacles.Length);
 
         RaycastHit hit;
 
@@ -70,6 +73,8 @@ public class NavigationGrid : MonoBehaviour {
         }
 
         SetNodeNeighbours(0);
+
+        checkObst();
     }
 
     private void SetNodeNeighbours(int nodeID)
@@ -104,26 +109,19 @@ public class NavigationGrid : MonoBehaviour {
                         nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Free);
                         freeNodeIDs.Add(neighID);
                         nodes[nodeID].neighbours[i].cost = neighbourCost[i];
-                        
+
                         // Check if inside of obstacle
-                        for (int k = 0; k < obstacles.Length; k++)
-                        {
+                        //for (int k = 0; k < obstacles.Length; k++)
+                        //{
                             // Check if node in obst
                             //if (!isInside(GetNodeWorldPos(nodes[neighID]), obstacles[k].gameObject.GetComponent<Collider>()))
                             //{
-                            //    nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Obst);
-                            //    nodes[neighID].neighbours[7 - i].cost = int.MaxValue;
-                            //    nodes[nodeID].neighbours[i].cost = int.MaxValue;
+                                //nodes[neighID].SetNodeType(NavigationNode.nodeTypes.Obst);
+                                //nodes[neighID].neighbours[7 - i].cost = int.MaxValue;
+                                //nodes[nodeID].neighbours[i].cost = int.MaxValue;
                             //}
                             // Check if obst is blocking path
-                            if(Vector3.Distance(GetNodeWorldPos(nodes[neighID]), obstacles[k].transform.position) < stepSize)
-                            {
-                                int[] indices = GetClosestThreeNeighbourIndices(obstacles[k].transform.position);
-                                nodes[neighID].neighbours[indices[0]].cost = int.MaxValue;
-                                nodes[neighID].neighbours[indices[1]].cost = int.MaxValue;
-                                nodes[neighID].neighbours[indices[2]].cost = int.MaxValue;
-                            }
-                        }
+                        //}
                     }
                     else
                     {
@@ -140,6 +138,43 @@ public class NavigationGrid : MonoBehaviour {
                         SetNodeNeighbours(neighID);
                 }             
             }
+        }
+    }
+
+    private void checkObst()
+    {
+        // Save all nodes to later sort them in a meaningful fashion:
+        // 3 4
+        // 1 2
+        List<int> surrNodes = new List<int>();
+
+        for (int i = 0; i < obstacles.Length; i++)
+        {
+            NavigationNode closestNode = GetClosestNode(obstacles[i].transform.position);
+
+            if (Vector3.Distance(GetNodeWorldPos(closestNode), obstacles[i].transform.position) < stepSize)
+            {
+                //Debug.Log("Obst is close");
+
+                surrNodes.Clear();
+                surrNodes.AddRange(GetClosestNeighbourIndices(obstacles[i].transform.position));
+                surrNodes.Sort();
+
+                // The order in which neighbours are updated
+                int[] order = { 1, 2, 4, 3, 0, 1, 6, 7, 4, 3, 5, 6 };
+
+                for (int j = 0; j < 4; j++)
+                {
+                    for (int k = 0; k < 3; k++)
+                    {
+                        nodes[surrNodes[j]].neighbours[order[j*3+k]].cost = int.MaxValue;
+                        //if(!surrNodes.Contains(nodes[surrNodes[j]].neighbours[order[j * 3 + k]].nodeID))
+                        //   Debug.Log("Fuck");
+                    }
+
+                    obstNodes.Add(GetNodeWorldPos(nodes[surrNodes[j]]));
+                }
+            }   
         }
     }
 
@@ -205,6 +240,7 @@ public class NavigationGrid : MonoBehaviour {
                 PathNode successor = successors[i];
                 if (successor != null && !closedlist.Contains(successor))
                 {
+                    // Check if next node can be reached
                     if (nodes[successor.nodeID].nodeType != NavigationNode.nodeTypes.Free || nodes[successor.nodeID].neighbours[7 - i].cost == int.MaxValue)
                     {
                         closedlist.Add(successor);
@@ -212,8 +248,17 @@ public class NavigationGrid : MonoBehaviour {
                     }
 
                     int tentative_cost;
-                    
-                    tentative_cost = curr.m_value.cost + nodes[successor.nodeID].neighbours[7 - i].cost;
+
+                    int neighbour_cost = nodes[successor.nodeID].neighbours[7 - i].cost;
+
+                    if(neighbour_cost != int.MaxValue)
+                    {
+                        tentative_cost = curr.m_value.cost + nodes[successor.nodeID].neighbours[7 - i].cost;
+                    }
+                    else
+                    {
+                        tentative_cost = int.MaxValue;
+                    }
 
                     PriorityQueue<PathNode>.PriorityQueueElement elem;
 
@@ -229,7 +274,14 @@ public class NavigationGrid : MonoBehaviour {
                     {
                         successor.predecessor = curr.m_value;
                         successor.cost = tentative_cost;
-                        openlist.Enqueue(new PriorityQueue<PathNode>.PriorityQueueElement(successor.cost + curr.m_value.cost, successor));
+                        if(tentative_cost != int.MaxValue)
+                        {
+                            openlist.Enqueue(new PriorityQueue<PathNode>.PriorityQueueElement(successor.cost + curr.m_value.cost, successor));
+                        }
+                        else
+                        {
+                            openlist.Enqueue(new PriorityQueue<PathNode>.PriorityQueueElement(successor.cost, successor));
+                        }
                     }
                 }
             }
@@ -249,8 +301,8 @@ public class NavigationGrid : MonoBehaviour {
         float distRight = Vector3.Dot(direction, this.transform.right);
         float distForward = Vector3.Dot(direction, this.transform.forward);
 
-        int indexRight = (int)(distRight / stepSize);
-        int indexForward = (int)(distForward / stepSize);
+        int indexRight = (int)(Mathf.Round(distRight / stepSize));
+        int indexForward = (int)(Mathf.Round(distForward / stepSize));
 
         if(!IndicesOnGrid(indexRight, indexForward))
         {
@@ -264,7 +316,7 @@ public class NavigationGrid : MonoBehaviour {
         }
     }
 
-    public int[] GetClosestThreeNeighbourIndices(Vector3 position)
+    public int[] GetClosestNeighbourIndices(Vector3 position)
     {
         NavigationNode node = GetClosestNode(position);
         Vector3 nodePosition = GetNodeWorldPos(node);
@@ -276,10 +328,17 @@ public class NavigationGrid : MonoBehaviour {
         int forward = (int)Mathf.Sign(Vector3.Dot(direction, transform.forward));
         int right = (int)Mathf.Sign(Vector3.Dot(direction, transform.right));
 
-        int[] indices = new int[3];
-        indices[0] = (right > 0) ? 4 : 3;
-        indices[1] = (forward > 0) ? 1 : 6;
-        indices[2] = (right > 0) ? ((forward > 0) ? 2 : 7) : ((forward > 0) ? 0 : 5);
+        // Directional indices starting from closest node
+        int[] relIndices = new int[3];
+        relIndices[0] = (right > 0) ? 4 : 3;
+        relIndices[1] = (forward > 0) ? 1 : 6;
+        relIndices[2] = (right > 0) ? ((forward > 0) ? 2 : 7) : ((forward > 0) ? 0 : 5);
+
+        int[] indices = new int[4];
+        indices[0] = node.GetID();
+        indices[1] = node.neighbours[relIndices[0]].nodeID;
+        indices[2] = node.neighbours[relIndices[1]].nodeID;
+        indices[3] = node.neighbours[relIndices[2]].nodeID;
 
         return indices;
     }
@@ -323,16 +382,20 @@ public class NavigationGrid : MonoBehaviour {
 
     void OnDrawGizmos()
     {
-        if(Camera.current.name == "MainCamera")
+        if (nodes != null)
         {
-            if (nodes != null)
+            foreach (NavigationNode node in nodes.Values)
             {
-                foreach (NavigationNode node in nodes.Values)
-                {
-                    Gizmos.color = NavigationNode.nodeColors[(int)node.nodeType];
-                    Gizmos.DrawCube(GetNodeWorldPos(node), new Vector3(0.3f, 0.3f, 0.3f));
-                }
+                Gizmos.color = NavigationNode.nodeColors[(int)node.nodeType];
+                Gizmos.DrawCube(GetNodeWorldPos(node), new Vector3(0.3f, 0.3f, 0.3f));
             }
-        }      
+
+            Color[] colors = { Color.blue, Color.green, Color.red, Color.white };
+            for (int i = 0; i < obstNodes.Count; i++)
+            {
+                Gizmos.color = colors[i%4];
+                Gizmos.DrawSphere(obstNodes[i], 1.0f);
+            }
+        }
     }
 }

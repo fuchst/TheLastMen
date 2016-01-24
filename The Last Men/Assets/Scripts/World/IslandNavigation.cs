@@ -16,7 +16,6 @@ public class IslandNavigation : MonoBehaviour {
 
         navGridInstance = (Instantiate(navGridPrefab, this.transform.position, this.transform.rotation) as GameObject).GetComponent<NavigationGrid>();
         navGridInstance.transform.SetParent(transform);
-        navGridInstance.Init();
         
         enemies = new List<GameObject>();
 /*

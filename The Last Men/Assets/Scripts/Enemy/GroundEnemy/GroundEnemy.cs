@@ -7,6 +7,14 @@ public class GroundEnemy : Enemy {
     public NavigationGrid navGrid { get; set; }
     public int currentNodeID;
 
+    // Variables used to control if enemy is stuck
+    private Vector3 oldPosition;
+    private float timeBtwPosChecks = 1.0f;
+    private float timeSincePosCheck = 0.0f;
+    private float minDistanceSincePosCheck = 0.1f;
+
+    private float minDistanceForAction = 100.0f;
+
     private int pathIndex;
     private ArrayList _path;
     public ArrayList path
@@ -31,11 +39,20 @@ public class GroundEnemy : Enemy {
         currentNodeID = navGrid.GetClosestNode(transform.position).GetID();
         navGrid.nodes[currentNodeID].SetNodeType(NavigationNode.nodeTypes.Enemy);
         navGrid.freeNodeIDs.Remove(currentNodeID);
+
+        oldPosition = transform.position;
     }
 
     protected override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
+
+        // Only perform actions if player is in certain reach
+        if(distanceToPlayer < minDistanceForAction)
+        {
+            state.action();
+            Move();
+        }
 
         this.transform.position -= Vector3.Dot(this.transform.position - navGrid.transform.position, navGrid.transform.up) * navGrid.transform.up;
         updateCurrentNode();
@@ -68,12 +85,26 @@ public class GroundEnemy : Enemy {
     {
         if (path != null)
         {
+            // Check if enemy has not moved since last check
+            timeSincePosCheck += Time.fixedDeltaTime;
+            if (timeSincePosCheck > timeBtwPosChecks)
+            {
+                if (Vector3.Distance(oldPosition, transform.position) < minDistanceSincePosCheck)
+                {
+                    path.Clear();
+                }
+
+                oldPosition = transform.position;
+                timeSincePosCheck = 0.0f;
+            }
+
             if (pathIndex < (path.Count - 1))
             {
                 // Check if next node is occupied
                 NavigationNode nextNode = navGrid.nodes[(int)path[pathIndex + 1]];
 
-                if(nextNode.nodeType == NavigationNode.nodeTypes.Enemy)
+                // Set everything up to search for a new path if the next node is currently occupied by another enemy
+                if(nextNode.nodeType == NavigationNode.nodeTypes.Enemy && currentNodeID != nextNode.GetID())
                 {
                     path.Clear();
                 }
@@ -81,12 +112,12 @@ public class GroundEnemy : Enemy {
                 {
                     Vector3 nextNodePos = navGrid.GetNodeWorldPos(nextNode);
 
-                    this.transform.LookAt(nextNodePos, navGrid.transform.up);
+                    transform.LookAt(nextNodePos, navGrid.transform.up);
                     //this.transform.Translate(this.transform.forward * moveSpeed * Time.deltaTime, Space.World);
 
-                    controller.Move(transform.forward * moveSpeed * Time.deltaTime);
+                    _controller.Move(transform.forward * moveSpeed * Time.deltaTime);
 
-                    if (Vector3.Distance(this.transform.position, nextNodePos) < 0.1f)
+                    if (Vector3.Distance(transform.position, nextNodePos) < 0.1f)
                     {
                         pathIndex++;
                     }
@@ -101,21 +132,18 @@ public class GroundEnemy : Enemy {
 
     void OnDrawGizmos()
     {
-        if (Camera.current.name == "MainCamera")
+        if (path != null)
         {
-            if (path != null)
-            {
-                Gizmos.color = new Color(0.0f, 1.0f, 0.0f, 1.0f);
+            Gizmos.color = new Color(0.0f, 1.0f, 0.0f, 1.0f);
 
-                for (int i = 0; i < path.Count - 1; i++)
-                {
-                    Gizmos.DrawLine(navGrid.GetNodeWorldPos(navGrid.nodes[(int)path[i]]), navGrid.GetNodeWorldPos(navGrid.nodes[(int)path[i + 1]]));
-                }
+            for (int i = 0; i < path.Count - 1; i++)
+            {
+                Gizmos.DrawLine(navGrid.GetNodeWorldPos(navGrid.nodes[(int)path[i]]), navGrid.GetNodeWorldPos(navGrid.nodes[(int)path[i + 1]]));
             }
         }
     }
 
-    protected override void ChangeState(EnemyState.stateIDs _stateID)
+    public override void ChangeState(EnemyState.stateIDs _stateID)
     {
         if (this.state == null || this.state.getID() != _stateID)
         {
