@@ -2,7 +2,7 @@
 
 public class FlyingEnemy : Enemy {
 
-    public Vector3 target;
+    public Vector3 target { get; set; }
 
     // Distance after which the enemy stops following the player
     public float maxDistance = 50.0f;

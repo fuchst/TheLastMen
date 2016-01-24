@@ -4,7 +4,8 @@ public abstract class Enemy : MonoBehaviour {
 
     //public Material[] materials;
 
-    public int hp = 100;
+    public int hpMax = 100;
+    [HideInInspector]public int hpCur;
     public float attackRange = 2.0f;
     public int damage = 5;
     public float moveSpeed = 1.0f;
@@ -15,6 +16,12 @@ public abstract class Enemy : MonoBehaviour {
     public float senseRangeSearching = 15.0f;
     // Change state to attack if smaller
     public float senseRangeAttack = 5.0f;
+
+    [SerializeField]protected new Renderer renderer;
+    [SerializeField]protected Color colorFullHealth;
+    [SerializeField]protected Color colorNoHealth;
+    protected HSBColor colorFullHealth_HSB;
+    protected HSBColor colorNoHealth_HSB;
 
     private GameObject _player;
     public GameObject player
@@ -49,7 +56,9 @@ public abstract class Enemy : MonoBehaviour {
 
     protected virtual void OnAwake()
     {
-
+        hpCur = hpMax;
+        colorFullHealth_HSB = HSBColor.FromColor(colorFullHealth);
+        colorNoHealth_HSB = HSBColor.FromColor(colorNoHealth);
     }
 
     void Start()
@@ -88,8 +97,9 @@ public abstract class Enemy : MonoBehaviour {
 
     public void OnHit(int dmg)
     {
-        hp -= dmg;
-        if(hp <= 0)
+        hpCur -= dmg;
+        renderer.material.color = HSBColor.Lerp(colorNoHealth_HSB, colorFullHealth_HSB, (float)hpCur / (float)hpMax).ToColor();
+        if(hpCur <= 0)
         {
             OnDeath();
         }

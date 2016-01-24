@@ -5,7 +5,7 @@ public class FlyingEnemyStateAttack : EnemyState {
     protected FlyingEnemy enemy;
     const stateIDs id = stateIDs.Attack;
 
-    public float timeSinceAttack = 0;
+    public float timeSinceAttack = 10.0f;
 
     public FlyingEnemyStateAttack(Enemy _enemy)
     {
@@ -17,10 +17,10 @@ public class FlyingEnemyStateAttack : EnemyState {
     {
         enemy.target = enemy.playerPosition;
 
+        timeSinceAttack += Time.fixedDeltaTime;
+
         if (enemy.distanceToPlayer < enemy.attackRange)
         {
-            timeSinceAttack += Time.fixedDeltaTime;
-
             if (timeSinceAttack > enemy.attackSpeed)
             {
                 enemy.player.transform.SendMessage("OnHit", enemy.damage);

@@ -5,7 +5,7 @@ public class GroundEnemyStateAttack : EnemyState {
     protected GroundEnemy enemy;
     const stateIDs id = stateIDs.Attack;
 
-    public float timeSinceAttack = 0;
+    public float timeSinceAttack = 10.0f;
 
     public GroundEnemyStateAttack(Enemy _enemy)
     {
@@ -16,12 +16,12 @@ public class GroundEnemyStateAttack : EnemyState {
 
     public override void action()
     {
+        timeSinceAttack += Time.fixedDeltaTime;
+
         if (enemy.distanceToPlayer <= enemy.attackRange)
         {
             enemy.transform.LookAt(enemy.playerPosition, enemy.navGrid.transform.up);
-
-            timeSinceAttack += Time.fixedDeltaTime;
-
+           
             if (timeSinceAttack > enemy.attackSpeed)
             {
                 enemy.player.transform.SendMessage("OnHit", enemy.damage);
@@ -34,7 +34,8 @@ public class GroundEnemyStateAttack : EnemyState {
                 enemy.path.Clear();
             }
         }
-        else if(enemy.distanceToPlayer < 2 * enemy.navGrid.stepSize)
+
+        if (enemy.distanceToPlayer < 2 * enemy.navGrid.stepSize && enemy.distanceToPlayer > 2.5f)
         {
             enemy.transform.LookAt(enemy.playerPosition, enemy.navGrid.transform.up);
             enemy.controller.Move(enemy.transform.forward * enemy.moveSpeed * Time.deltaTime);
