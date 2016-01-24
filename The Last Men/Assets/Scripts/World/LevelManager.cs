@@ -154,27 +154,29 @@ public class LevelManager : MonoBehaviour
 
     public void AdvanceLevel()
     {
-        //player.SetActive(false);
+        Application.LoadLevel(0);
 
-        //Destroy all islands except the bastion
-        while(islandParent.childCount > 1)
-        {
-            Destroy(islandParent.GetChild(1));
-        }
+        ////player.SetActive(false);
+
+        ////Destroy all islands except the bastion
+        //while (islandParent.childCount > 1)
+        //{
+        //    Destroy(islandParent.GetChild(1));
+        //}
         
-        //Destroy the levels script/component
-        Destroy(levels[currentLevel]);
+        ////Destroy the levels script/component
+        //Destroy(levels[currentLevel]);
 
-        if (currentLevel < levels.Length)
-        {
-            //levels[currentLevel + 1].DestroyLevel();
-            //Destroy(levels[currentLevel + 1]);
-            currentLevel++;
+        //if (currentLevel < levels.Length)
+        //{
+        //    //levels[currentLevel + 1].DestroyLevel();
+        //    //Destroy(levels[currentLevel + 1]);
+        //    currentLevel++;
 
-            Debug.Log("Congratz you finished the game");
-            //s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
-            //LoadLevel();
-        }
+            
+        //    s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
+        //    LoadLevel();
+        //}
     }
 
     //Get,Set Methods
