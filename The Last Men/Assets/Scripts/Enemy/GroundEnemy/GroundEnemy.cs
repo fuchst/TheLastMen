@@ -5,7 +5,7 @@ using System;
 public class GroundEnemy : Enemy {
 
     public NavigationGrid navGrid { get; set; }
-    public int currentNodeID;
+    public int currentNodeID { get; set; }
 
     // Variables used to control if enemy is stuck
     private Vector3 oldPosition;

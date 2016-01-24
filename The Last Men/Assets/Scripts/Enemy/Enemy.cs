@@ -5,7 +5,7 @@ public abstract class Enemy : MonoBehaviour {
     //public Material[] materials;
 
     public int hpMax = 100;
-    public int hpCur;
+    [HideInInspector]public int hpCur;
     public float attackRange = 2.0f;
     public int damage = 5;
     public float moveSpeed = 1.0f;
