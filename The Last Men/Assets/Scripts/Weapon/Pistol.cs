@@ -4,7 +4,7 @@ public class Pistol : Weapon
 {
     public Pistol()
     {
-        dmg = 10;
+        dmg = 20;
         magSize = 12;
         magFill = magSize;
         firerate = 0.25f;
