@@ -380,22 +380,22 @@ public class NavigationGrid : MonoBehaviour {
         this.createGrid();
     }
 
-    void OnDrawGizmos()
-    {
-        if (nodes != null)
-        {
-            foreach (NavigationNode node in nodes.Values)
-            {
-                Gizmos.color = NavigationNode.nodeColors[(int)node.nodeType];
-                Gizmos.DrawCube(GetNodeWorldPos(node), new Vector3(0.3f, 0.3f, 0.3f));
-            }
+    //void OnDrawGizmos()
+    //{
+    //    if (nodes != null)
+    //    {
+    //        foreach (NavigationNode node in nodes.Values)
+    //        {
+    //            Gizmos.color = NavigationNode.nodeColors[(int)node.nodeType];
+    //            Gizmos.DrawCube(GetNodeWorldPos(node), new Vector3(0.3f, 0.3f, 0.3f));
+    //        }
 
-            Color[] colors = { Color.blue, Color.green, Color.red, Color.white };
-            for (int i = 0; i < obstNodes.Count; i++)
-            {
-                Gizmos.color = colors[i%4];
-                Gizmos.DrawSphere(obstNodes[i], 1.0f);
-            }
-        }
-    }
+    //        Color[] colors = { Color.blue, Color.green, Color.red, Color.white };
+    //        for (int i = 0; i < obstNodes.Count; i++)
+    //        {
+    //            Gizmos.color = colors[i%4];
+    //            Gizmos.DrawSphere(obstNodes[i], 1.0f);
+    //        }
+    //    }
+    //}
 }

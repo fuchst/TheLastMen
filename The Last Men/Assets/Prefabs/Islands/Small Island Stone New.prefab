@@ -41,6 +41,7 @@ GameObject:
   - 54: {fileID: 5466870}
   - 114: {fileID: 11469044}
   - 114: {fileID: 11447492}
+  - 114: {fileID: 11457844}
   m_Layer: 0
   m_Name: Small Island Stone New
   m_TagString: Island
@@ -313,6 +314,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies: []
+--- !u!114 &11457844
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 110578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa5a349ef86eed241af929e3cb9bffdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallingSpeed: 0
+  priority: 0
 --- !u!114 &11469044
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -338,7 +352,6 @@ MonoBehaviour:
     minEnemiesOnIsland: 0
     minCrystalsOnIsland: 3
     maxSpawnOffSet: {x: .5, y: 0, z: .5}
-  priority: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

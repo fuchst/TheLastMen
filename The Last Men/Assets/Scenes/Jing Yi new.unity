@@ -230,7 +230,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22429348, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 371.5
+      value: 271.5
       objectReference: {fileID: 0}
     - target: {fileID: 22429348, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -254,7 +254,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22412096, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 461
+      value: 361
       objectReference: {fileID: 0}
     - target: {fileID: 22412096, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_SizeDelta.x
@@ -274,7 +274,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22486778, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 550.5
+      value: 450.5
       objectReference: {fileID: 0}
     - target: {fileID: 22486778, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -1892,7 +1892,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &984461173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2116,9 +2116,7 @@ MonoBehaviour:
   islandPrefabs:
     BigIslands:
     - {fileID: 106104, guid: 04fde7499d0984f4fb41b95f336b9a14, type: 2}
-    - {fileID: 106104, guid: 04fde7499d0984f4fb41b95f336b9a14, type: 2}
-    bigIslandWidths:
-    - 0
+    bigIslandWidths: []
     SmallIslands:
     - {fileID: 110578, guid: e01dea6fbd797d246b6e74cd849bc8d0, type: 2}
     - {fileID: 157704, guid: c22f34c5fc981fd43beb4cba59374f62, type: 2}

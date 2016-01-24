@@ -111,7 +111,7 @@ public abstract class Enemy : MonoBehaviour {
         if (s_GameManager.Instance.lootTable[idx] != null)
         {
 
-            GameObject loot = Instantiate(s_GameManager.Instance.lootTable[idx], transform.position, transform.rotation) as GameObject;
+            Instantiate(s_GameManager.Instance.lootTable[idx], transform.position, transform.rotation);
         }
         Destroy(this.gameObject);
     }
