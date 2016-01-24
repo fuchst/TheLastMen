@@ -167,13 +167,12 @@ public class s_GameManager : MonoBehaviour {
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Wood);
         }
-        Debug.Log("Player died");
+        //Debug.Log("Player died");
         
     }
 
     protected void EndGame () {
         //TODO: more elaborate things!
-        Debug.Log("Game over");
-        Application.Quit();
+        Application.LoadLevel(0);
     }
 }
