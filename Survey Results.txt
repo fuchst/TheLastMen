@@ -1,0 +1,32 @@
+Tester 1
+- Kein Feedback beim laden des Levels.
+- Kamera/Spieler wackelt beim stillstehen
+- Beim springen verändert sich kamera zoom/fov. Sehr verwirrend
+- Enemies können gehooked werden
+- Schwarzes Loch kann gegrappelt werden
+- Ziel des Spiels schlecht definiert/nicht erkennbar
+- Motivation/Dringlichkeit/Wettkampf gegen die Zeit Gefühl fehlt
+- Enemies können nicht von der Insel fallen
+- Gehen fühlt sich sehr langsam/träge an
+- Capsule shadow
+- Bullets spawnen nicht aus der Waffe sondern in der mitte des Bildschirms
+- Waffe verschwindet teilweise in der Wand
+- Black Hole sieht ein bisschen langweilig aus
+
+Tester 2
+- Zu viel Text vor dem Start
+- Navigation sehr träge
+- Steckt oft fest
+- Feedback beim einsammeln der Pflanzen
+- Ingame -> Esc -> MainMenu -> StartGame -> Freeze
+- Shotgun macht wenig Sinn (nicht erkennbar mehr dmg als Pistole aus der nähe)
+- Flying Enemies Animationen funktionieren nicht richtig wenn die Flying Enemies den Player angreifen
+
+Tester 3
+- Zu viel Text
+- Man fühlt sich sehr klein (Kamera zu niedrig)
+- Grappling Hook verschwindet man weiß nicht ob man noch am Hook hängt
+
+Tester 4
+- Ziel vom Spiel? Was muss ich tun?
+- Habe Jetpack nie benutzt stattdessen nur gegrappelt
