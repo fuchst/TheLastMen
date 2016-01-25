@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenuDummy.unity
   - enabled: 0
     path: Assets/Scenes/old/JingYi.unity
-  - enabled: 0
-    path: Assets/Scenes/FloW.unity
   - enabled: 1
+    path: Assets/Scenes/FloW.unity
+  - enabled: 0
     path: Assets/Scenes/Jing Yi new.unity

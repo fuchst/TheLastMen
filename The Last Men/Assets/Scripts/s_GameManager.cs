@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using UnityStandardAssets.Characters.FirstPerson;
 
 public class s_GameManager : MonoBehaviour {
@@ -23,18 +24,52 @@ public class s_GameManager : MonoBehaviour {
     public int healthpointsCur = 100;
     public int healthpointsPrev = 100;
     public int healthpointsMax = 100;
+    public int healthRegenerationRateRegular = 0;
+    public int healthRegenerationRateBastion = 10;
     public int survivorsCur = 3;
 
     public float energyCostClimbLayer = 15;
 
     public bool gamePaused = false;
-    public bool playerInBastion = false;
+    protected bool bastionMenu = false;
+    protected bool playerInBastion = false;
 
     public GameObject[] lootTable = new GameObject[1];
 
     private static s_GameManager instance;
 
 	public static s_GameManager Instance { get { return instance; } }
+    
+    public bool PlayerInBastion {
+        get { return playerInBastion; }
+    }
+
+    public bool BastionMenu {
+        get { return bastionMenu; }
+    }
+
+    public void ToggleBastionMenu () {
+        bastionMenu = !bastionMenu;
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.BastionMenu);
+    }
+
+    public void SetPlayerInBastion (bool inBastion) {
+        if(inBastion == playerInBastion) {
+            return;
+        }
+        playerInBastion = inBastion;
+        bastionMenu &= playerInBastion;
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.BastionMenu);
+    }
+
+    protected IEnumerator HealPlayer () {
+        while (enabled) {
+            yield return new WaitForSeconds(1.0f);
+            if (playerInBastion) {
+                HealPlayer(healthRegenerationRateBastion);
+            }
+        }
+    }
 
 	void Awake () {
 		if (instance) {
@@ -54,7 +89,7 @@ public class s_GameManager : MonoBehaviour {
         
         levelManager.LoadLevel();
         InitializePlayerStats();
-        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.All);
+        StartCoroutine(HealPlayer());
     }
 
     void Update () {
@@ -70,7 +105,7 @@ public class s_GameManager : MonoBehaviour {
         woodPlayer_Cur = 0;
     }
 
-    public void SwitchGamePaused () {
+    public void ToggleGamePaused () {
         SetGamePaused(!gamePaused);
     }
 
@@ -148,6 +183,13 @@ public class s_GameManager : MonoBehaviour {
             healthpointsCur = 0;
             KillPlayer();
         }
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Health);
+    }
+
+    public void HealPlayer (int amount) {
+        if (amount < 0)
+            return;
+        healthpointsCur = Mathf.Min(healthpointsCur + amount, healthpointsMax);
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Health);
     }
 

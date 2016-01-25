@@ -6,7 +6,6 @@ public class s_HealingPlant : s_Collectible {
 	[Range(2, 5)] public int healAmount;
 
     protected override void Collect () {
-        s_GameManager.Instance.healthpointsCur += healAmount;
-        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Health);
+        s_GameManager.Instance.HealPlayer(healAmount);
     }
 }

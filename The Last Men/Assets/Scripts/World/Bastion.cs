@@ -36,13 +36,13 @@ public class Bastion : MonoBehaviour
 
     void OnTriggerEnter (Collider other) {
         if (other.CompareTag("Player")) {
-            s_GameManager.Instance.playerInBastion = true;
+            s_GameManager.Instance.SetPlayerInBastion(true);
         }
     }
 
     void OnTriggerExit (Collider other) {
         if (other.CompareTag("Player")) {
-            s_GameManager.Instance.playerInBastion = false;
+            s_GameManager.Instance.SetPlayerInBastion(false);
         }
     }
 }

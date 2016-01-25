@@ -532,9 +532,8 @@ MonoBehaviour:
   senseRangeSearching: 15
   senseRangeAttack: 5
   renderer: {fileID: 2359104}
-  colorFullHealth: {r: 1, g: 1, b: 1, a: 0}
-  colorNoHealth: {r: 0, g: 0, b: 0, a: 0}
-  currentNodeID: 0
+  colorFullHealth: {r: 1, g: 1, b: 1, a: 1}
+  colorNoHealth: {r: 0, g: 0, b: 0, a: 1}
 --- !u!135 &13520018
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -619,6 +618,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: hp
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: colorFullHealth.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: colorNoHealth.a
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

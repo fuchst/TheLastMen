@@ -10,8 +10,8 @@ public class Shotgun : Weapon
         dmg = 5;
         magSize = 4;
         magFill = magSize;
-        firerate = 1;
-        fireDeltaTime = 0;
+        fireInterval = 1;
+        fireCounter = 0;
 
         numBullets = 8;     
         maxSpread = 0.1f;
@@ -34,5 +34,13 @@ public class Shotgun : Weapon
             bullet.GetComponent<Bullet>().damage = dmg;
             bullet.GetComponent<Rigidbody>().AddForce((frame.forward + spreadX + spreadY).normalized * bulletSpeed, ForceMode.Impulse);
         }
+    }
+
+    public override string Description () {
+        return base.Description() + "\n   " + numBullets + " Shots";
+    }
+
+    public override string WeaponName() {
+        return "Shotgun";
     }
 }

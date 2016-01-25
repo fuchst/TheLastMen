@@ -32,6 +32,9 @@ public class FireGrapplingHook : MonoBehaviour
         confJoint = GetComponent<ConfigurableJoint>();
         controller = GetComponent<RigidbodyFirstPersonControllerSpherical>();
         rb = GetComponent<Rigidbody>();
+    }
+
+    void Start () {
         UpdateRopeLength(0.0f, false);
     }
 
@@ -117,5 +120,8 @@ public class FireGrapplingHook : MonoBehaviour
         //return linLim;
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Tool);
     }
-    
+
+    public override string ToString() {
+        return "Length: " + CurrentRopeLength.ToString("0") + "/" + MaximumRopeLength.ToString("0");
+    }
 }

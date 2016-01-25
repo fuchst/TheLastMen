@@ -9,6 +9,7 @@ public enum GUIUpdateEvent {
     Health,
     Tool,
     Pause,
+    BastionMenu,
     Layer,
     All
 }
@@ -29,51 +30,30 @@ public class s_GUIMain : MonoBehaviour {
 	[SerializeField]protected Canvas canvas;
 	protected RectTransform canvasRT;
 
-    [SerializeField]protected CanvasGroup GUI_Ingame;
-    [SerializeField]protected CanvasGroup GUI_PauseMenu;
-    [SerializeField]protected CanvasGroup GUI_BastionMenu;
-    [SerializeField]protected CanvasGroup GUI_LayerChange;
-    [SerializeField]protected CanvasGroup GUI_GameEnd;
+    [SerializeField]protected CanvasGroup GUI_Ingame, GUI_PauseMenu, GUI_BastionMenu, GUI_LayerChange, GUI_GameEnd;
 
 
-	[SerializeField]protected Image iconBastion;
-    [SerializeField]protected Image iconBastionEnergy_Main;
-    [SerializeField]protected Image iconBastionDirection;
-    [SerializeField]protected Image iconBastionFrame;
+	[SerializeField]protected Image iconBastion, iconBastionEnergy_Main, iconBastionDirection, iconBastionFrame;
     [SerializeField]protected RectTransform textBastionDirDisplayParent;
     [SerializeField]protected Text textBastionDirDisplay;
     [SerializeField]protected int screenBorderThreshold = 50;
     [SerializeField]protected float lerpingSpeedFactor = 5.0f;
-    [SerializeField]protected Color colorBastionNear;
-    [SerializeField]protected Color colorBastionFar;
+    [SerializeField]protected Color colorBastionNear, colorBastionFar;
     [Tooltip("color reaches \"far\" value at distances of distanceBastionFar and above")]
     [SerializeField]protected float distanceBastionFar = 250.0f; //color reaches "far" value at distances of distanceBastionFar and above
     
 
-    [SerializeField]protected Image iconPlayerEnergy_Main;
-    [SerializeField]protected Image iconPlayerWood_Main;
-    //[SerializeField]protected Image iconPlayerEnergy_Bastion;
-    //[SerializeField]protected Image iconPlayerWood_Bastion;
-    //[SerializeField]protected Image iconBastionEnergy_Bastion;
-    //[SerializeField]protected Image iconBastionWood_Bastion;
-    [SerializeField]protected Text textPlayerEnergy_Main;
-    [SerializeField]protected Text textPlayerWood_Main;
-    [SerializeField]protected Text textPlayerEnergy_Bastion;
-    [SerializeField]protected Text textPlayerWood_Bastion;
-    [SerializeField]protected Text textBastionEnergy_Bastion;
-    [SerializeField]protected Text textBastionWood_Bastion;
+    [SerializeField]protected Image iconPlayerEnergy_Main, iconPlayerWood_Main;
+    [SerializeField]protected Text textPlayerEnergy_Main, textPlayerWood_Main;
+    [SerializeField]protected Text textPlayerEnergy_Bastion, textPlayerWood_Bastion;
+    [SerializeField]protected Text textBastionEnergy_Bastion, textBastionWood_Bastion;
 
-
-    [SerializeField]protected Image iconArtifacts1_Main; //ancient thrust
-    [SerializeField]protected Image iconArtifacts2_Main; //gravitational freeze
-    [SerializeField]protected ParticleSystem particlesArtifacts1;
-    [SerializeField]protected ParticleSystem particlesArtifacts2;
-    [SerializeField]protected Image iconArtifacts1_Bastion; //ancient thrust
-    [SerializeField]protected Image iconArtifacts2_Bastion; //gravitational freeze
-    [SerializeField]protected Text textArtifacts1_Main;
-    [SerializeField]protected Text textArtifacts2_Main;
-    [SerializeField]protected Text textArtifacts1_Bastion;
-    [SerializeField]protected Text textArtifacts2_Bastion;
+    //artifact type 1 = ancient thrust, artifact type 2 = gravitational freeze
+    [SerializeField]protected Image iconArtifacts1_Main, iconArtifacts2_Main;
+    [SerializeField]protected ParticleSystem particlesArtifacts1, particlesArtifacts2;
+    [SerializeField]protected Image iconArtifacts1_Bastion, iconArtifacts2_Bastion;
+    [SerializeField]protected Text textArtifacts1_Main, textArtifacts2_Main;
+    [SerializeField]protected Text textArtifacts1_Bastion, textArtifacts2_Bastion;
 
 
 	[SerializeField]protected Image iconRemainingTime;
@@ -85,8 +65,9 @@ public class s_GUIMain : MonoBehaviour {
     protected Color damageOverlayColorRegular;
 
 
-    [SerializeField]protected Text currentToolText;
-    [SerializeField]protected Text currentToolDescription;
+    [SerializeField]protected Text currentToolText, currentToolDescription;
+    [SerializeField]protected Image selectedPistol, selectedShotgun;
+    [SerializeField]protected Image iconRope, iconPistol, iconShotgun;
 
     [SerializeField]protected Image iconSkillCooldownBar;
 
@@ -101,6 +82,7 @@ public class s_GUIMain : MonoBehaviour {
     [SerializeField]protected Button buttonStore1Wood;
     [SerializeField]protected Button buttonStore10Wood;
     [SerializeField]protected Button buttonClimbLayer;
+    [SerializeField]protected Button buttonCloseBastionMenu;
 
     [SerializeField]protected Text textSurvivorCount;
 
@@ -130,6 +112,7 @@ public class s_GUIMain : MonoBehaviour {
     //shortcut
     protected s_GameManager game;
     protected FireGrapplingHook hook;
+    protected Combat combat;
 
 	// Use this for initialization
 	void Start () {
@@ -148,6 +131,7 @@ public class s_GUIMain : MonoBehaviour {
         }
 
         hook = playerTransform.GetComponent<FireGrapplingHook>();
+        combat = playerTransform.GetComponent<Combat>();
 
         if (!playerCamera) {
             playerCamera = playerTransform.GetChild(0).GetComponent<Camera>();
@@ -169,6 +153,8 @@ public class s_GUIMain : MonoBehaviour {
         buttonPause.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(true); });
         buttonContinue.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(false); });
         buttonRestart.onClick.AddListener(() => { Application.LoadLevel(Application.loadedLevel); });
+        buttonQuit.onClick.AddListener(() => { Application.LoadLevel(0); });
+        buttonCloseBastionMenu.onClick.AddListener(() => { s_GameManager.Instance.ToggleBastionMenu(); });
 
         buttonTake1Wood.onClick.AddListener(() => { s_GameManager.Instance.TakeWood(1); });
         buttonTake10Wood.onClick.AddListener(() => { s_GameManager.Instance.TakeWood(10); });
@@ -185,26 +171,24 @@ public class s_GUIMain : MonoBehaviour {
     }
 	
 	void Update () {
+        UpdateGUI();
         if(Input.GetKeyDown(KeyCode.Escape)) {
-            game.SwitchGamePaused();
+            game.ToggleGamePaused();
         }
-        //if(game.playerInBastion && Input.GetAxis("Inventory") != 0) {
-        if (game.playerInBastion && Input.GetButtonDown("Inventory")) {
-            GUI_BastionMenu.gameObject.SetActive(!GUI_BastionMenu.gameObject.activeSelf);
-            UpdateCursor();
+        if (game.PlayerInBastion && Input.GetButtonDown("Inventory")) {
+            game.ToggleBastionMenu();
         }
 
         if (!game.gamePaused) {
             
-            #region UpdatePerFrame
+            //UpdatePerFrame
             int remainingTime = (int)Mathf.Max(0, game.endTime - Time.time);
 		    textRemainingTime.text =  remainingTime/60 + ":" + (remainingTime%60).ToString("00");
             iconRemainingTime.fillAmount = (float)remainingTime / game.roundDuration;
-            if (bastionTransform != null)   //JingYi: quickfix to avoid wall of errors after the bastion is destroyed by the black whole and the player is still on a higher island
+            if (bastionTransform != null) //JingYi: quickfix to avoid wall of errors after the bastion is destroyed by the black whole and the player is still on a higher island
             {
                 UpdateBastionDirectionIcon();
             }
-            #endregion
             
             #region TODO: put in proper references!! 
             //iconSkillCooldownBar.fillAmount = (0.1f * Time.time) % 1.0f;
@@ -218,7 +202,7 @@ public class s_GUIMain : MonoBehaviour {
 	}
     
     protected void UpdateCursor () {
-        bool cursorNeeded = game.gamePaused || GUI_BastionMenu.gameObject.activeSelf;
+        bool cursorNeeded = game.gamePaused || game.BastionMenu;
         Cursor.visible = cursorNeeded;
         Cursor.lockState = cursorNeeded ? CursorLockMode.None : CursorLockMode.Locked;
     }
@@ -246,6 +230,9 @@ public class s_GUIMain : MonoBehaviour {
             case GUIUpdateEvent.Pause:
                 UpdatePauseState();
                 break;
+            case GUIUpdateEvent.BastionMenu:
+                UpdateBastionMenuState();
+                break;
             case GUIUpdateEvent.Layer:
                 UpdateLayerState();
                 break;
@@ -256,6 +243,7 @@ public class s_GUIMain : MonoBehaviour {
                 UpdateHealthState();
                 UpdateToolState();
                 UpdatePauseState();
+                UpdateBastionMenuState();
                 UpdateLayerState();
                 break;
         }
@@ -301,11 +289,23 @@ public class s_GUIMain : MonoBehaviour {
     }
 
     protected void UpdateToolState () {
-        if (!hook) {
-            return;
+        //refresh text
+        currentToolText.text = hook.Hooked ? "Rope" : combat.GetCurrentWeaponName();
+        currentToolDescription.text = hook.Hooked ? hook.ToString() : combat.GetCurrentWeaponDescription();
+        bool pistol = combat.ActiveWeaponIndex == 0 ? true : false;
+        //highlight active weapon
+        selectedPistol.enabled = pistol;
+        selectedShotgun.enabled = !pistol;
+        //switch between tool icons
+        if (hook.Hooked) {
+            iconRope.enabled = true;
+            iconPistol.enabled = iconShotgun.enabled = false;
         }
-        currentToolText.enabled = hook.Hooked;
-        currentToolDescription.text = hook.Hooked ? "Length: " + hook.CurrentRopeLength.ToString("0") + "/" + hook.MaximumRopeLength.ToString("0") : "";
+        else {
+            iconRope.enabled = false;
+            iconPistol.enabled = pistol;
+            iconShotgun.enabled = !pistol;
+        }
     }
 
     protected void UpdatePauseState () {
@@ -315,6 +315,13 @@ public class s_GUIMain : MonoBehaviour {
         GUI_PauseMenu.gameObject.SetActive(paused);
         //GUI_PauseMenu.interactable = paused;
         pauseScreenOverlay.CrossFadeAlpha(paused ? 1.0f : 0.0f, 0.5f, true);
+        UpdateCursor();
+    }
+
+    protected void UpdateBastionMenuState () {
+        bool menu = game.BastionMenu;
+        GUI_Ingame.gameObject.SetActive(!menu);
+        GUI_BastionMenu.gameObject.SetActive(menu);
         UpdateCursor();
     }
 

@@ -11,6 +11,15 @@ public class Combat : MonoBehaviour {
     protected int activeWeaponIdx = 0;
     protected GameObject currWeaponModel;
 
+    public string GetCurrentWeaponDescription () {
+        return weapons[activeWeaponIdx].GetComponent<Weapon>().Description();
+    }
+    public string GetCurrentWeaponName () {
+        return weapons[activeWeaponIdx].GetComponent<Weapon>().WeaponName();
+    }
+
+    public int ActiveWeaponIndex { get { return activeWeaponIdx; } }
+
     void Awake()
     {
         Vector3 pos, scale;
@@ -77,7 +86,11 @@ public class Combat : MonoBehaviour {
 
     void Update()
     {
-        
+        if(s_GameManager.Instance.gamePaused || s_GameManager.Instance.BastionMenu)
+        {
+            return; //don't fight in menus!
+        }
+
         if (CrossPlatformInputManager.GetButton("Shoot"))
         {
             Transform frame = this.transform.GetChild(0);

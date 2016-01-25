@@ -7,8 +7,8 @@ public abstract class Weapon : MonoBehaviour {
     protected int magSize;
     protected int magFill;
 
-    protected float firerate;
-    protected float fireDeltaTime;
+    protected float fireInterval;
+    protected float fireCounter;
 
     static protected float bulletSpeed = 50;
     static protected float bulletGravity = 10;
@@ -30,15 +30,15 @@ public abstract class Weapon : MonoBehaviour {
 
     void  Update()
     {
-        fireDeltaTime += Time.deltaTime;
+        fireCounter += Time.deltaTime;
     }
 
     public void shootNVI(Transform frame)
     {
-        if(fireDeltaTime >= firerate && magFill > 0)
+        if(fireCounter >= fireInterval && magFill > 0)
         {
             shoot(frame);
-            fireDeltaTime = 0;
+            fireCounter = 0;
             //magFill--;
         }
     }
@@ -49,4 +49,12 @@ public abstract class Weapon : MonoBehaviour {
     }
 
     protected abstract void shoot(Transform frame);
+
+    public virtual string Description () {
+        return "Fire rate: " + (1.0f/fireInterval).ToString("0.00") + "\n Damage: " + dmg;
+    }
+
+    public virtual string WeaponName () {
+        return "Weapon";
+    }
 }

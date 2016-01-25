@@ -7,8 +7,8 @@ public class Pistol : Weapon
         dmg = 20;
         magSize = 12;
         magFill = magSize;
-        firerate = 0.25f;
-        fireDeltaTime = 0;
+        fireInterval = 0.25f;
+        fireCounter = 0;
     }
 
     public override void OnAwake()
@@ -22,5 +22,9 @@ public class Pistol : Weapon
         bullet.GetComponent<Bullet>().gravity = bulletGravity;
         bullet.GetComponent<Bullet>().damage = dmg;
         bullet.GetComponent<Rigidbody>().AddForce(frame.forward * bulletSpeed, ForceMode.Impulse);
+    }
+
+    public override string WeaponName() {
+        return "Pistol";
     }
 }
