@@ -1,0 +1,23 @@
+1 Person: Plays videogames regularily
+
+Procedure: Person plays game for 10 minutes without any explanation, afterwards missing information is given, player plays 5 min with knowledge about full controls/mechanics etc., then player fills in survey
+
+Notes from Observing:
+
+Procedure in game after first startup:
+- instructions were found independently
+- starts exploring inside bastion, shoots boxes
+- tests out all buttons inside bastion, then goes outside
+- can not find home after some jetpacking around
+- uses hook to grappel to island, uses mouse wheel to get to island, does not use swing mechanic
+- trys to collect wood by shooting trees (wood icon in inventory and HUD suggested this)
+
+Stuff suggested during play:
+- sounds for attacking enemies. Especially flying ones as they attack from angles not visible
+- Game needs to explain what aim is, especially explain artefact mechanic, explain that jetpack uses energy and chrystals replenish, explain hook swinging
+- artefact islands hard to find
+- artefacts of different kinds should look different
+
+
+
+(More suggestions were put into survey text fields)
