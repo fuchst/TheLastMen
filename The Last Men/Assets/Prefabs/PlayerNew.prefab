@@ -57,7 +57,6 @@ GameObject:
   - 145: {fileID: 14581750}
   - 153: {fileID: 15348408}
   - 114: {fileID: 11470848}
-  - 120: {fileID: 12014540}
   - 114: {fileID: 11459600}
   - 82: {fileID: 8287056}
   m_Layer: 0
@@ -318,6 +317,7 @@ MonoBehaviour:
   minRopeLength: 1
   maxRopeLength: 40
   ropeLengthChangingSpeed: 2.5
+  invertLengthChanging: 0
   grapplingHookPrefab: {fileID: 118926, guid: 1d2fb06ba6796734a9c36978948e422d, type: 2}
   cameraTransform: {fileID: 429944}
 --- !u!114 &11459600
@@ -391,23 +391,23 @@ MonoBehaviour:
   cam: {fileID: 2081526}
   movementSettings:
     ForwardSpeed: 8
-    BackwardSpeed: 4
-    StrafeSpeed: 4
+    BackwardSpeed: 4.5
+    StrafeSpeed: 5.5
     FallingSpeed: 1.5
-    RunMultiplier: 2.5
+    RunMultiplier: 2.25
     JetpackHorizontalBaseSpeed: 8
-    JetpackMaxVerticalSpeed: 8
+    JetpackMaxVerticalSpeed: 10
     JetpackVerticalAcceleration: 30
     JetpackFlyInLookingDir: 0
     changeFOV: 1
     FOV_regular: 60
     FOV_flying: 85
-    maxFOVchangeRate: 7.5
-    minHeightAboveGroundForFOVChange: 2.5
-    heightAboveGroundForMaxFOV: 25
+    maxFOVchangeRate: 5
+    minHeightAboveGroundForFOVChange: 3.5
+    heightAboveGroundForMaxFOV: 30
     heightCheckLayers:
       serializedVersion: 2
-      m_Bits: 0
+      m_Bits: 1
     RunKey: 304
     JumpForce: 100
     SlopeCurveModifier:
@@ -436,12 +436,12 @@ MonoBehaviour:
     XSensitivity: 2
     YSensitivity: 2
     clampVerticalRotation: 1
-    MinimumX: -90
-    MaximumX: 90
+    MinimumX: -85
+    MaximumX: 85
     smooth: 0
     smoothTime: 5
   advancedSettings:
-    groundCheckDistance: .00999999978
+    groundCheckDistance: .0199999996
     stickToGroundHelperDistance: .5
     slowDownRate: 20
     airControl: 1
@@ -534,61 +534,6 @@ MonoBehaviour:
   adaptionSpeed: 1
   tonemapper: {fileID: 4800000, guid: 003377fc2620a44939dadde6fe3f8190, type: 3}
   validRenderTextureFormat: 1
---- !u!120 &12014540
-LineRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 168436}
-  m_Enabled: 0
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_Materials:
-  - {fileID: 0}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
-  m_ProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 0, z: 1}
-  m_Parameters:
-    startWidth: .100000001
-    endWidth: .100000001
-    m_StartColor:
-      serializedVersion: 2
-      rgba: 4279374559
-    m_EndColor:
-      serializedVersion: 2
-      rgba: 4280229694
-  m_UseWorldSpace: 1
 --- !u!124 &12433098
 Behaviour:
   m_ObjectHideFlags: 1
@@ -856,11 +801,47 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: advancedSettings.groundCheckDistance
-      value: .0149999997
+      value: .0199999996
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementSettings.JumpForce
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: mouseLook.MinimumX
+      value: -85
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: mouseLook.MaximumX
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.minHeightAboveGroundForFOVChange
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.heightAboveGroundForMaxFOV
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.RunMultiplier
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.ForwardSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.BackwardSpeed
+      value: 4.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.StrafeSpeed
+      value: 5.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: movementSettings.JetpackMaxVerticalSpeed
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

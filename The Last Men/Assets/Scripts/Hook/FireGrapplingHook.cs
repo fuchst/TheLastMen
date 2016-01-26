@@ -123,8 +123,6 @@ public class FireGrapplingHook : MonoBehaviour
             rb.MovePosition(rb.position + Vector3.ClampMagnitude(confJoint.connectedBody.transform.position - transform.position, lengthChange));
             //rb.MovePosition(rb.position + Vector3.ClampMagnitude(confJoint.connectedBody.transform.position - transform.position, oldLength - newLength));
             //rb.AddForce(Vector3.ClampMagnitude(confJoint.connectedBody.transform.position - transform.position, oldDistance - distance), ForceMode.Impulse);
-
-            Debug.Log(oldLength - newLength);
         }
 
         linLim.limit = newLength;

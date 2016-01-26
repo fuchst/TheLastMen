@@ -166,8 +166,7 @@ public class s_GUIMain : MonoBehaviour {
         buttonStore10Energy.onClick.AddListener(() => { s_GameManager.Instance.StoreEnergy(10); });
 
         buttonClimbLayer.onClick.AddListener(() => { s_GameManager.Instance.ClimbLayer(); });
-
-        //damageOverlayColorRegular = damageScreenOverlay.color;
+        
         damageScreenOverlay.CrossFadeColor(damageOverlayColorRegular, 0.0f, true, true);
     }
 	
@@ -288,7 +287,9 @@ public class s_GUIMain : MonoBehaviour {
         iconPlayerHealth.fillAmount = (float)game.healthpointsCur / (float)game.healthpointsMax;
         textSurvivorCount.text = game.survivorsCur.ToString();
         if(game.healthpointsPrev > game.healthpointsCur) {
-            StartCoroutine(FadeDamageOverlay());
+            //StartCoroutine(FadeDamageOverlay());
+            damageScreenOverlay.CrossFadeColor(damageOverlayColorActive, 0.0f, false, true);
+            damageScreenOverlay.CrossFadeColor(damageOverlayColorRegular, 1.0f, false, true);
         }
     }
 
@@ -314,11 +315,13 @@ public class s_GUIMain : MonoBehaviour {
 
     protected void UpdatePauseState () {
         bool paused = game.gamePaused;
-        GUI_Ingame.gameObject.SetActive(!paused);
-        //GUI_Ingame.interactable = !paused;
+        //GUI_Ingame.gameObject.SetActive(!paused);
+        GUI_Ingame.interactable = !paused;
+        GUI_Ingame.alpha = paused ? 0f : 1f;
         GUI_PauseMenu.gameObject.SetActive(paused);
         //GUI_PauseMenu.interactable = paused;
         pauseScreenOverlay.CrossFadeAlpha(paused ? 1.0f : 0.0f, 0.5f, true);
+        //damageScreenOverlay.CrossFadeColor(damageOverlayColorRegular, 0.0f, true, true); //dunno why it is necessary, but well...
         UpdateCursor();
     }
 
@@ -415,7 +418,7 @@ public class s_GUIMain : MonoBehaviour {
         return new Vector2((posScreen.x - 0.5f) * canvasSizeDelta.x, (posScreen.y - 0.5f) * canvasSizeDelta.y);
     }
 
-    protected IEnumerator FadeDamageOverlay () {
+    /*protected IEnumerator FadeDamageOverlay () {
         //fadingIn++;
         damageScreenOverlay.CrossFadeColor(damageOverlayColorActive, 0.0f, false, true);
         //yield return new WaitForSeconds(0.1f);
@@ -427,5 +430,5 @@ public class s_GUIMain : MonoBehaviour {
         //    yield return new WaitForSeconds(1.0f);
         //    damageScreenOverlay.color = damageOverlayColorRegular;
         //}
-    }
+    }*/
 }

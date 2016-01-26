@@ -4,10 +4,10 @@ public class Pistol : Weapon
 {
     public Pistol()
     {
-        dmg = 20;
+        dmg = 15;
         magSize = 12;
         magFill = magSize;
-        fireInterval = 0.25f;
+        fireInterval = 0.3f;
         fireCounter = 0;
     }
 

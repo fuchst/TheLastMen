@@ -13,7 +13,7 @@ public class s_Tree : MonoBehaviour {
 
     public void Hit (int damage) {
         health -= damage;
-        if (health < 0 && destroyed && logPrefab) {
+        if (health < 0 && !destroyed && logPrefab) {
             Burst();
         }
     }

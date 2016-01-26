@@ -2,8 +2,7 @@
 
 public class Deathzone : MonoBehaviour {
 
-	void OnCollisionEnter(Collision collision)
-    {
+	/*void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Player")) {
             s_GameManager.Instance.HurtPlayer(9001); //over 9000 damage will surely kill the player instantly ;)
         }
@@ -11,6 +10,15 @@ public class Deathzone : MonoBehaviour {
         {
             Debug.Log("Crystal destroyed");
             Destroy(collision.gameObject);
+        }
+    }*/
+
+    void OnTriggerEnter (Collider other) {
+        if(other.CompareTag("Player")) {
+            s_GameManager.Instance.HurtPlayer(9001); //over 9000 damage will surely kill the player instantly ;)
+        }
+        else {
+            Destroy(other.gameObject);
         }
     }
 }

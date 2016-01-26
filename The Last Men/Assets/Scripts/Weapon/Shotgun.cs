@@ -7,14 +7,14 @@ public class Shotgun : Weapon
 
     public Shotgun()
     {
-        dmg = 5;
+        dmg = 6;
         magSize = 4;
         magFill = magSize;
         fireInterval = 1;
         fireCounter = 0;
 
         numBullets = 8;     
-        maxSpread = 0.1f;
+        maxSpread = 0.15f;
     }
 
     public override void OnAwake()
