@@ -73,15 +73,8 @@ public class Combat : MonoBehaviour {
         weapons.Add(newWeapon);
     }
 
-    void OnHit(int dmg)
-    {
+    public void OnHit (int dmg) {
         s_GameManager.Instance.HurtPlayer(dmg);
-        /*s_GameManager.Instance.healthpointsCur -= dmg;
-        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Health);
-        if (s_GameManager.Instance.healthpointsCur <= 0)
-        {
-             Debug.Log("Player died");
-        }*/
     }
 
     void Update()

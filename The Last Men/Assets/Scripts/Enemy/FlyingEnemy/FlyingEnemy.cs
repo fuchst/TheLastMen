@@ -28,10 +28,11 @@ public class FlyingEnemy : Enemy {
         Vector3 toTarget = target - transform.position;
 
         // Get direction to target
-        Vector3 direction = toTarget.normalized;
+        //Vector3 direction = toTarget.normalized;
 
         // Get tangent of circle with radius of transform.position
-        Vector3 tangent = Vector3.Cross(Vector3.Cross(-direction, transform.position), transform.position).normalized;
+        //Vector3 tangent = Vector3.Cross(Vector3.Cross(-direction, transform.position), transform.position).normalized;
+        Vector3 tangent = Vector3.Cross(Vector3.Cross(-toTarget, transform.position), transform.position).normalized;
 
         // Height difference of target and transform.position
         float diffHeight = transform.position.magnitude - target.magnitude;

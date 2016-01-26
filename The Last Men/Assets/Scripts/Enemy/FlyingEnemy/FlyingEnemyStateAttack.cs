@@ -23,7 +23,8 @@ public class FlyingEnemyStateAttack : EnemyState {
         {
             if (timeSinceAttack > enemy.attackSpeed)
             {
-                enemy.player.transform.SendMessage("OnHit", enemy.damage);
+                //enemy.player.transform.SendMessage("OnHit", enemy.damage);
+                enemy.PlayerCombat.OnHit(enemy.damage);
                 timeSinceAttack = 0.0f;
             }
         }

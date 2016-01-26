@@ -2,6 +2,7 @@
 
 public abstract class s_Collectible : MonoBehaviour {
 
+    public bool autoDestroyOnCollect = true;
     public float destructionDelay = 2.0f;
 
 	void OnTriggerEnter (Collider other) {
@@ -10,7 +11,9 @@ public abstract class s_Collectible : MonoBehaviour {
             //    Debug.Log(this.GetType() + " on " + gameObject.name + " was collected.");
             //#endif
             Collect();
-            DestroyCollectible();
+            if (autoDestroyOnCollect) {
+                DestroyCollectible();
+            }
         }
     }
 

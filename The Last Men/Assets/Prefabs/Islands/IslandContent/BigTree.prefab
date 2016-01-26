@@ -31,7 +31,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &112202
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,7 +81,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &121860
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,7 +129,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &139052
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,7 +145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &158882
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,6 +156,7 @@ GameObject:
   - 4: {fileID: 438290}
   - 205: {fileID: 20510506}
   - 54: {fileID: 5474552}
+  - 114: {fileID: 11468056}
   m_Layer: 0
   m_Name: BigTree
   m_TagString: Obstacle
@@ -211,7 +212,23 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
+--- !u!1 &183812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 441626}
+  - 135: {fileID: 13555920}
+  m_Layer: 0
+  m_Name: CollisionObject12
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
 --- !u!1 &187828
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,9 +237,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 450426}
-  - 135: {fileID: 13555920}
+  - 136: {fileID: 13673760}
   m_Layer: 0
-  m_Name: CollisionObject12
+  m_Name: CollisionObject13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -303,7 +320,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 105898}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.269907415, y: -1.4904325, z: .565589964}
+  m_LocalPosition: {x: -.119999997, y: -.910000026, z: .0500000007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 438290}
@@ -375,7 +392,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 158882}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 22.3122807, y: 211.19165, z: 11.8717175}
   m_LocalScale: {x: .899999976, y: .899999976, z: .899999976}
   m_Children:
   - {fileID: 472010}
@@ -394,9 +411,22 @@ Transform:
   - {fileID: 498070}
   - {fileID: 455978}
   - {fileID: 411192}
+  - {fileID: 441626}
   - {fileID: 450426}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!4 &441626
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 183812}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.57464862, y: 8.15858173, z: .586578429}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 438290}
+  m_RootOrder: 16
 --- !u!4 &445558
 Transform:
   m_ObjectHideFlags: 1
@@ -428,11 +458,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 187828}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.57464862, y: 8.15858173, z: .586578429}
+  m_LocalPosition: {x: -1.02999997, y: 10.5, z: .550000012}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 438290}
-  m_RootOrder: 16
+  m_RootOrder: 17
 --- !u!4 &451204
 Transform:
   m_ObjectHideFlags: 1
@@ -655,6 +685,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &11468056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 158882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83368e3cb3b155540860feef0a2cee63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundCollider: {fileID: 13509972}
+  health: 100
+  numberOfLogs: 2
+  logPrefab: {fileID: 100146, guid: 605b155c83870b44a929c922eb71cab7, type: 2}
+  leafParticlePrefab: {fileID: 152270, guid: 732ea4fa4fd376344ab32b3cf741e98f, type: 2}
 --- !u!135 &13509972
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -665,7 +711,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2.28295207
+  m_Radius: 1.79999995
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &13512648
 SphereCollider:
@@ -708,7 +754,7 @@ SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 187828}
+  m_GameObject: {fileID: 183812}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -803,6 +849,19 @@ CapsuleCollider:
   m_Radius: .591531515
   m_Height: 10.2911596
   m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &13673760
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 187828}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: .75
+  m_Height: 6
+  m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &13684590
 CapsuleCollider:
@@ -952,6 +1011,10 @@ Prefab:
       propertyPath: m_TagString
       value: Obstacle
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: leafParticlePrefab
+      value: 
+      objectReference: {fileID: 152270, guid: 732ea4fa4fd376344ab32b3cf741e98f, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 158882}

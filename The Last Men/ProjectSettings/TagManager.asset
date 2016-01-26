@@ -30,7 +30,7 @@ TagManager:
   - Hook
   - Player
   - IslandCollider
-  - Crystal
+  - Collectible
   - Bullet
   - 
   - 

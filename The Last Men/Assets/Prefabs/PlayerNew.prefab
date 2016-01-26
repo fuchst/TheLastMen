@@ -444,7 +444,7 @@ MonoBehaviour:
     groundCheckDistance: .00999999978
     stickToGroundHelperDistance: .5
     slowDownRate: 20
-    airControl: 0
+    airControl: 1
   swingFloR: 0
 --- !u!114 &11470412
 MonoBehaviour:

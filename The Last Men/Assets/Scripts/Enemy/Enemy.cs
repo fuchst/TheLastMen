@@ -29,6 +29,13 @@ public abstract class Enemy : MonoBehaviour {
         get { return _player; }
         private set { _player = value; }
     }
+    private Combat _playerCombat;
+    public Combat PlayerCombat
+    {
+        get { return _playerCombat; }
+        private set { _playerCombat = value; }
+    }
+
 
     // Player specific attributes
     protected Vector3 _playerPosition;
@@ -48,7 +55,7 @@ public abstract class Enemy : MonoBehaviour {
     {
         get { return state; }
     }
-
+    
     void Awake()
     {
         OnAwake();
@@ -68,7 +75,9 @@ public abstract class Enemy : MonoBehaviour {
 
     protected virtual void OnStart()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        //player = GameObject.FindGameObjectWithTag("Player");
+        player = LevelManager.Instance.player;
+        PlayerCombat = player.GetComponent<Combat>();
         ChangeState(EnemyState.stateIDs.Idle);
         _controller = GetComponent<CharacterController>();
     }
@@ -82,14 +91,17 @@ public abstract class Enemy : MonoBehaviour {
     {
         if (!player)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
+            //player = GameObject.FindGameObjectWithTag("Player");
+            player = LevelManager.Instance.player;
+            PlayerCombat = player.GetComponent<Combat>();
         }
         else
         {
             _playerPosition = player.transform.position;
             _enemyToPlayer = playerPosition - transform.position;
-            _directionToPlayer = enemyToPlayer.normalized;
+            //_directionToPlayer = enemyToPlayer.normalized;
             _distanceToPlayer = enemyToPlayer.magnitude;
+            _directionToPlayer = enemyToPlayer / _distanceToPlayer; //more efficient, because .normalized computes magnitude again (square root computation)
         }
     }
 
@@ -110,7 +122,6 @@ public abstract class Enemy : MonoBehaviour {
         int idx = Random.Range(0, s_GameManager.Instance.lootTable.Length);
         if (s_GameManager.Instance.lootTable[idx] != null)
         {
-
             Instantiate(s_GameManager.Instance.lootTable[idx], transform.position, transform.rotation);
         }
         Destroy(this.gameObject);

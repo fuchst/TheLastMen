@@ -68,6 +68,9 @@ public class s_GameManager : MonoBehaviour {
             if (playerInBastion) {
                 HealPlayer(healthRegenerationRateBastion);
             }
+            else {
+                HealPlayer(healthRegenerationRateRegular);
+            }
         }
     }
 
@@ -175,21 +178,21 @@ public class s_GameManager : MonoBehaviour {
         }
     }
 
+    public void HealPlayer(int amount) {
+        if (amount <= 0)
+            return;
+        healthpointsCur = Mathf.Min(healthpointsCur + amount, healthpointsMax);
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Health);
+    }
+
     public void HurtPlayer (int damage) {
-        if (damage < 0)
+        if (damage <= 0)
             return;
         healthpointsCur -= damage;
         if (healthpointsCur <= 0) {
             healthpointsCur = 0;
             KillPlayer();
         }
-        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Health);
-    }
-
-    public void HealPlayer (int amount) {
-        if (amount < 0)
-            return;
-        healthpointsCur = Mathf.Min(healthpointsCur + amount, healthpointsMax);
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Health);
     }
 

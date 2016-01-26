@@ -62,7 +62,7 @@ public class s_GUIMain : MonoBehaviour {
 	[SerializeField]protected Text textPlayerHealth;
     [SerializeField]protected Image damageScreenOverlay;
     [SerializeField]protected Color damageOverlayColorActive;
-    protected Color damageOverlayColorRegular;
+    [SerializeField]protected Color damageOverlayColorRegular;
 
 
     [SerializeField]protected Text currentToolText, currentToolDescription;
@@ -152,7 +152,7 @@ public class s_GUIMain : MonoBehaviour {
 
         buttonPause.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(true); });
         buttonContinue.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(false); });
-        buttonRestart.onClick.AddListener(() => { Application.LoadLevel(Application.loadedLevel); });
+        buttonRestart.onClick.AddListener(() => { Application.LoadLevel(Application.loadedLevel); s_GameManager.Instance.SetGamePaused(false); });
         buttonQuit.onClick.AddListener(() => { Application.LoadLevel(0); });
         buttonCloseBastionMenu.onClick.AddListener(() => { s_GameManager.Instance.ToggleBastionMenu(); });
 
@@ -167,7 +167,8 @@ public class s_GUIMain : MonoBehaviour {
 
         buttonClimbLayer.onClick.AddListener(() => { s_GameManager.Instance.ClimbLayer(); });
 
-        damageOverlayColorRegular = damageScreenOverlay.color;
+        //damageOverlayColorRegular = damageScreenOverlay.color;
+        damageScreenOverlay.CrossFadeColor(damageOverlayColorRegular, 0.0f, true, true);
     }
 	
 	void Update () {
@@ -198,9 +199,12 @@ public class s_GUIMain : MonoBehaviour {
         if (game.gamePaused) {
             //show seed in pause menu
         }
+        //come on, would be the coolest cheat mode ever! when you enter it, it displays "God mode entered" on the screen and Thor occasionally throws/drops his hammer onto your current position, and you have to dodge it, in return for unlimited health (for mortal enemies) and time
+        //stealth bushes 
+        //ruin island with survivor and chests; keys as rare drop from enemies
+        //add small, floating/moving rocks to world generation? (more atmospheric)
+    }
 
-	}
-    
     protected void UpdateCursor () {
         bool cursorNeeded = game.gamePaused || game.BastionMenu;
         Cursor.visible = cursorNeeded;
@@ -340,7 +344,7 @@ public class s_GUIMain : MonoBehaviour {
 
         Vector3 testDir = (bastionTransform.position - playerCamera.transform.position).normalized;
         testDir = Vector3.ProjectOnPlane(testDir, playerCamera.transform.forward);
-        Debug.DrawRay(playerCamera.transform.position, testDir * 1000, Color.magenta);
+        //Debug.DrawRay(playerCamera.transform.position, testDir * 1000, Color.magenta);
 
         //if it is behind us, flip position
         if (bastionScreenPos.z < 0) {

@@ -47,6 +47,10 @@ public class Bullet : MonoBehaviour {
                 GameObject bullet = Instantiate(bulletHole, coll.contacts[0].point + coll.contacts[0].normal * 0.05f, Quaternion.FromToRotation(Vector3.up, coll.contacts[0].normal)) as GameObject;
                 bullet.transform.SetParent(coll.transform);
             }
+            else if (coll.transform.CompareTag("Obstacle"))
+            {
+                coll.transform.GetComponent<s_Tree>().Hit(damage);
+            }
 
             Destroy(gameObject);
         }

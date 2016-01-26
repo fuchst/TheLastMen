@@ -100,7 +100,7 @@ public class LevelManager : MonoBehaviour
         levels[currentLevel].LayerHeightOffset = levelVariables[currentLevel].heightOffset;
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
         levels[currentLevel].CreateLevel();
-        s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
+        //s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
 
         if (worldCam != null)
         {
@@ -154,29 +154,33 @@ public class LevelManager : MonoBehaviour
 
     public void AdvanceLevel()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         Application.LoadLevel(0);
-
-        ////player.SetActive(false);
-
-        ////Destroy all islands except the bastion
-        //while (islandParent.childCount > 1)
-        //{
-        //    Destroy(islandParent.GetChild(1));
-        //}
         
-        ////Destroy the levels script/component
-        //Destroy(levels[currentLevel]);
+		/*
+		player.SetActive(false);
 
-        //if (currentLevel < levels.Length)
-        //{
-        //    //levels[currentLevel + 1].DestroyLevel();
-        //    //Destroy(levels[currentLevel + 1]);
-        //    currentLevel++;
+        //Destroy all islands except the bastion
+        while (islandParent.childCount > 1)
+        {
+            Destroy(islandParent.GetChild(1));
+        }
+        
+        //Destroy the levels script/component
+        Destroy(levels[currentLevel]);
+
+        if (currentLevel < levels.Length)
+        {
+            //levels[currentLevel + 1].DestroyLevel();
+            //Destroy(levels[currentLevel + 1]);
+            currentLevel++;
 
             
-        //    s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
-        //    LoadLevel();
-        //}
+            s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
+            LoadLevel();
+        }
+		*/
     }
 
     //Get,Set Methods

@@ -8,6 +8,7 @@ public class FireGrapplingHook : MonoBehaviour
     public float minRopeLength = 2.0f;
     public float maxRopeLength = 50.0f;
     public float ropeLengthChangingSpeed = 2.5f;
+    public bool invertLengthChanging = false;
     public GameObject grapplingHookPrefab;
 
     private bool fired = false;
@@ -20,6 +21,7 @@ public class FireGrapplingHook : MonoBehaviour
     private GrapplingHook grapplingHookScript;
     private RigidbodyFirstPersonControllerSpherical controller;
     private Rigidbody rb;
+    private float ropeLengthChangeOld = 0;
 
     public bool Fired { get { return fired; } }
     public bool Hooked { get { return hooked; } }
@@ -59,9 +61,12 @@ public class FireGrapplingHook : MonoBehaviour
                 RemoveRope();
             }
         }
-        if (hooked && Input.GetAxis("RopeLength") != 0) {
+        if (hooked && (Input.GetAxis("RopeLength") != 0 || ropeLengthChangeOld != 0)) {
             //Debug.Log("rope length axis != 0");
-            float newLength = Mathf.Clamp(CurrentRopeLength + ropeLengthChangingSpeed * Input.GetAxis("RopeLength"), minRopeLength, maxRopeLength);
+            float ropeLengthChangeNew = ropeLengthChangingSpeed * Input.GetAxis("RopeLength") * (invertLengthChanging ? -1 : 1);
+            float ropeLengthChangeTotal = ropeLengthChangeOld + ropeLengthChangeNew;
+            ropeLengthChangeOld = 0;
+            float newLength = Mathf.Clamp(CurrentRopeLength + ropeLengthChangeTotal, minRopeLength, maxRopeLength);
             UpdateRopeLength(newLength);
         }
     }
@@ -101,17 +106,29 @@ public class FireGrapplingHook : MonoBehaviour
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Tool);
     }
 
-    private void UpdateRopeLength (float distance, bool checkConstraint = true) {
+    private void UpdateRopeLength (float newLength, bool checkConstraint = true) {
         SoftJointLimit linLim = confJoint.linearLimit;
-        float oldDistance = linLim.limit;
-        linLim.limit = distance;
-        confJoint.linearLimit = linLim;
-
+        float oldLength = linLim.limit;
+        
         //as the configurable joint does not enforce linear distance limit when limit is changed to less than current actual distance*, so this is done here explicitely
         //(* unless by adding a spring force, which makes it rather bouncy / less controllable, like the regular spring joint)
-        if (checkConstraint && oldDistance > distance){
-            rb.MovePosition(rb.position + Vector3.ClampMagnitude(confJoint.connectedBody.transform.position - transform.position, oldDistance - distance));
+        if (checkConstraint && oldLength > newLength){
+            float lengthChange = oldLength - newLength;
+            if(lengthChange > 0.5f) {
+                ropeLengthChangeOld -= (lengthChange - 0.5f);
+                lengthChange = 0.5f;
+                newLength = oldLength - 0.5f;
+            }
+
+            rb.MovePosition(rb.position + Vector3.ClampMagnitude(confJoint.connectedBody.transform.position - transform.position, lengthChange));
+            //rb.MovePosition(rb.position + Vector3.ClampMagnitude(confJoint.connectedBody.transform.position - transform.position, oldLength - newLength));
+            //rb.AddForce(Vector3.ClampMagnitude(confJoint.connectedBody.transform.position - transform.position, oldDistance - distance), ForceMode.Impulse);
+
+            Debug.Log(oldLength - newLength);
         }
+
+        linLim.limit = newLength;
+        confJoint.linearLimit = linLim;
 
         //SoftJointLimit linLim = new SoftJointLimit();
         //linLim.contactDistance = 0.1f;
