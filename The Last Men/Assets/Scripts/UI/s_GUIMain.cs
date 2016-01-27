@@ -202,6 +202,7 @@ public class s_GUIMain : MonoBehaviour {
         //stealth bushes 
         //ruin island with survivor and chests; keys as rare drop from enemies
         //add small, floating/moving rocks to world generation? (more atmospheric)
+        //rotating sun
     }
 
     protected void UpdateCursor () {

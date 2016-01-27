@@ -463,7 +463,7 @@ GameObject:
   - 92: {fileID: 9282606}
   - 114: {fileID: 11486356}
   m_Layer: 0
-  m_Name: GUICamera
+  m_Name: GUICamera_Ingame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -7,6 +7,16 @@ public class MainMenu : MonoBehaviour {
     [SerializeField] GameObject Main;
     [SerializeField] GameObject Credits;
 
+    void Start () {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        Main.SetActive(true);
+        Intro.SetActive(false);
+        Instructions.SetActive(false);
+        Credits.SetActive(false);
+    }
+
     public void ShowIntro()
     {
         Main.SetActive(false);
