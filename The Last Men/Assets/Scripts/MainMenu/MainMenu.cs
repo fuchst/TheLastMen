@@ -52,6 +52,7 @@ public class MainMenu : MonoBehaviour {
     {
         Instructions.SetActive(false);
         Credits.SetActive(false);
+        Intro.SetActive(false);
         Main.SetActive(true);
     }
 }

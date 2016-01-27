@@ -401,7 +401,7 @@ MonoBehaviour:
     JetpackFlyInLookingDir: 0
     changeFOV: 1
     FOV_regular: 60
-    FOV_flying: 85
+    FOV_flying: 90
     maxFOVchangeRate: 5
     minHeightAboveGroundForFOVChange: 3.5
     heightAboveGroundForMaxFOV: 30
@@ -745,7 +745,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementSettings.FOV_flying
-      value: 80
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: movementSettings.maxFOVchangeRate

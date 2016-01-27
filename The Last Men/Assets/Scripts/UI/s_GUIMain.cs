@@ -30,7 +30,7 @@ public class s_GUIMain : MonoBehaviour {
 	[SerializeField]protected Canvas canvas;
 	protected RectTransform canvasRT;
 
-    [SerializeField]protected CanvasGroup GUI_Ingame, GUI_PauseMenu, GUI_BastionMenu, GUI_LayerChange, GUI_GameEnd;
+    [SerializeField]protected CanvasGroup GUI_Ingame, GUI_PauseMenu, GUI_Controls, GUI_BastionMenu, GUI_LayerChange, GUI_GameEnd;
 
 
 	[SerializeField]protected Image iconBastion, iconBastionEnergy_Main, iconBastionDirection, iconBastionFrame;
@@ -71,16 +71,13 @@ public class s_GUIMain : MonoBehaviour {
 
     [SerializeField]protected Image iconSkillCooldownBar;
 
+    [SerializeField]protected Image pauseScreenOverlay;
     [SerializeField]protected Button buttonPause;
-
-    [SerializeField]protected Button buttonTake1Energy;
-    [SerializeField]protected Button buttonTake10Energy;
-    [SerializeField]protected Button buttonStore1Energy;
-    [SerializeField]protected Button buttonStore10Energy;
-    [SerializeField]protected Button buttonTake1Wood;
-    [SerializeField]protected Button buttonTake10Wood;
-    [SerializeField]protected Button buttonStore1Wood;
-    [SerializeField]protected Button buttonStore10Wood;
+    [SerializeField]protected Button buttonContinue, buttonControls, buttonRestart, buttonQuit;
+    [SerializeField]protected Button buttonReturn;
+    
+    [SerializeField]protected Button buttonTake1Energy, buttonTake10Energy, buttonStore1Energy, buttonStore10Energy;
+    [SerializeField]protected Button buttonTake1Wood, buttonTake10Wood, buttonStore1Wood, buttonStore10Wood;
     [SerializeField]protected Button buttonClimbLayer;
     [SerializeField]protected Button buttonCloseBastionMenu;
 
@@ -94,10 +91,6 @@ public class s_GUIMain : MonoBehaviour {
     [SerializeField]protected Transform playerTransform;
 	[SerializeField]protected Camera playerCamera;
 
-    [SerializeField]protected Image pauseScreenOverlay;
-    [SerializeField]protected Button buttonContinue;
-    [SerializeField]protected Button buttonRestart;
-    [SerializeField]protected Button buttonQuit;
     //[SerializeField]protected Button buttonSeed;
     [SerializeField]protected InputField seedPause;
     [SerializeField]protected InputField seedGameEnd;
@@ -152,6 +145,8 @@ public class s_GUIMain : MonoBehaviour {
 
         buttonPause.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(true); });
         buttonContinue.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(false); });
+        buttonControls.onClick.AddListener(() => { s_GUIMain.Instance.GUI_Controls.gameObject.SetActive(true); });
+        buttonReturn.onClick.AddListener(() => { s_GUIMain.Instance.GUI_Controls.gameObject.SetActive(false); });
         buttonRestart.onClick.AddListener(() => { Application.LoadLevel(Application.loadedLevel); s_GameManager.Instance.SetGamePaused(false); });
         buttonQuit.onClick.AddListener(() => { Application.LoadLevel(0); });
         buttonCloseBastionMenu.onClick.AddListener(() => { s_GameManager.Instance.ToggleBastionMenu(); });
@@ -203,6 +198,7 @@ public class s_GUIMain : MonoBehaviour {
         //ruin island with survivor and chests; keys as rare drop from enemies
         //add small, floating/moving rocks to world generation? (more atmospheric)
         //rotating sun
+        //finish survivor display!
     }
 
     protected void UpdateCursor () {
@@ -322,7 +318,7 @@ public class s_GUIMain : MonoBehaviour {
         GUI_PauseMenu.gameObject.SetActive(paused);
         //GUI_PauseMenu.interactable = paused;
         pauseScreenOverlay.CrossFadeAlpha(paused ? 1.0f : 0.0f, 0.5f, true);
-        //damageScreenOverlay.CrossFadeColor(damageOverlayColorRegular, 0.0f, true, true); //dunno why it is necessary, but well...
+        if (!paused) { GUI_Controls.gameObject.SetActive(false); }
         UpdateCursor();
     }
 

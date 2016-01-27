@@ -10,6 +10,8 @@ public class FlyingEnemy : Enemy {
     protected override void OnStart()
     {
         base.OnStart();
+        GetComponent<Animation>().wrapMode = WrapMode.Loop;
+        GetComponent<Animation>().Play();
     }
 
     protected override void OnFixedUpdate()
@@ -22,7 +24,7 @@ public class FlyingEnemy : Enemy {
 
     protected override void Move()
     {
-        GetComponent<Animation>().Play();
+        //GetComponent<Animation>().Play();
 
         // Get vector to target
         Vector3 toTarget = target - transform.position;

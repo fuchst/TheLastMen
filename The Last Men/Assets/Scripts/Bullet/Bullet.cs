@@ -14,9 +14,9 @@ public class Bullet : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate () {
-        Vector3 gravityDir = -transform.position.normalized;
+        //Vector3 gravityDir = -transform.position.normalized;
 
-        GetComponent<Rigidbody>().AddForce(gravityDir * gravity, ForceMode.Acceleration);
+        //GetComponent<Rigidbody>().AddForce(gravityDir * gravity, ForceMode.Acceleration);
 
         ttl -= Time.deltaTime;
 
