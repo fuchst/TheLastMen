@@ -108,7 +108,7 @@ public class s_GUIMain : MonoBehaviour {
     protected Combat combat;
 
 	// Use this for initialization
-	void Start () {
+	public void InitGUI () {
         //If we are in a test level and we dont have a GameManager
         if(s_GameManager.Instance == null) {
             enabled = false;
@@ -166,39 +166,40 @@ public class s_GUIMain : MonoBehaviour {
     }
 	
 	void Update () {
-        UpdateGUI();
-        if(Input.GetKeyDown(KeyCode.Escape)) {
-            game.ToggleGamePaused();
-        }
-        if (game.PlayerInBastion && Input.GetButtonDown("Inventory")) {
-            game.ToggleBastionMenu();
-        }
+		if (LevelManager.Instance.levelLoaded == true) {
+			UpdateGUI ();
+			if (Input.GetKeyDown (KeyCode.Escape)) {
+				game.ToggleGamePaused ();
+			}
+			if (game.PlayerInBastion && Input.GetButtonDown ("Inventory")) {
+				game.ToggleBastionMenu ();
+			}
 
-        if (!game.gamePaused) {
+			if (!game.gamePaused) {
             
-            //UpdatePerFrame
-            int remainingTime = (int)Mathf.Max(0, game.endTime - Time.time);
-		    textRemainingTime.text =  remainingTime/60 + ":" + (remainingTime%60).ToString("00");
-            iconRemainingTime.fillAmount = (float)remainingTime / game.roundDuration;
-            if (bastionTransform != null) //JingYi: quickfix to avoid wall of errors after the bastion is destroyed by the black whole and the player is still on a higher island
-            {
-                UpdateBastionDirectionIcon();
-            }
+				//UpdatePerFrame
+				int remainingTime = (int)Mathf.Max (0, game.endTime - Time.time);
+				textRemainingTime.text = remainingTime / 60 + ":" + (remainingTime % 60).ToString ("00");
+				iconRemainingTime.fillAmount = (float)remainingTime / game.roundDuration;
+				if (bastionTransform != null) { //JingYi: quickfix to avoid wall of errors after the bastion is destroyed by the black whole and the player is still on a higher island
+					UpdateBastionDirectionIcon ();
+				}
             
-            #region TODO: put in proper references!! 
-            //iconSkillCooldownBar.fillAmount = (0.1f * Time.time) % 1.0f;
-            #endregion
+				#region TODO: put in proper references!! 
+				//iconSkillCooldownBar.fillAmount = (0.1f * Time.time) % 1.0f;
+				#endregion
 
-        }
-        if (game.gamePaused) {
-            //show seed in pause menu
-        }
-        //come on, would be the coolest cheat mode ever! when you enter it, it displays "God mode entered" on the screen and Thor occasionally throws/drops his hammer onto your current position, and you have to dodge it, in return for unlimited health (for mortal enemies) and time
-        //stealth bushes 
-        //ruin island with survivor and chests; keys as rare drop from enemies
-        //add small, floating/moving rocks to world generation? (more atmospheric)
-        //rotating sun
-        //finish survivor display!
+			}
+			if (game.gamePaused) {
+				//show seed in pause menu
+			}
+			//come on, would be the coolest cheat mode ever! when you enter it, it displays "God mode entered" on the screen and Thor occasionally throws/drops his hammer onto your current position, and you have to dodge it, in return for unlimited health (for mortal enemies) and time
+			//stealth bushes 
+			//ruin island with survivor and chests; keys as rare drop from enemies
+			//add small, floating/moving rocks to world generation? (more atmospheric)
+			//rotating sun
+			//finish survivor display!
+		}
     }
 
     protected void UpdateCursor () {

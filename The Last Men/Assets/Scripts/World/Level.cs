@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class Level : MonoBehaviour
 {
+
     public int Cycles { get; set; }
     public float Radius { get; set; }
     public int ArtifactCount { get; set; }
@@ -16,6 +17,11 @@ public class Level : MonoBehaviour
     private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
     private SortedDictionary<string, Island> grapplingIslandDictionary = new SortedDictionary<string, Island>();
     private int maxDistanceToBastion = 0;
+	
+	//Init game world
+	private int currentStage;
+	[SerializeField] private float timePerStage = 10f;
+	private float stageCounter;
 
     public void CreateLevel()
     {
@@ -30,8 +36,29 @@ public class Level : MonoBehaviour
         InstantiateIslands();
     }
 
+	public void InitLevelCreation(){
+		//Init camera rot
+		LevelManager.Instance.worldCam.gameObject.transform.position = new Vector3 (Radius * 2.0f, 0, 0);
+		LevelManager.Instance.worldCam.gameObject.transform.LookAt (Vector3.zero);
+		currentStage = 1;
+		stageCounter = 0;
+	}
+
     void Update()
     {
+		if (currentStage > -1) {
+			stageCounter += Time.deltaTime;
+			if(stageCounter > timePerStage){
+				switch (currentStage){
+				case 1:
+					IcoSphere(Radius, Cycles, ref islandDictionary);
+					SetupBastionAndDistances();
+					MarkArtifactPaths();
+				case 2:
+
+				}
+			}
+		}
         if (LevelManager.Instance.ShowPaths == true)
         {
             foreach (Island island in islandDictionary.Values)

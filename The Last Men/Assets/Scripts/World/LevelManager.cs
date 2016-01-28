@@ -9,6 +9,7 @@ public class LevelManager : MonoBehaviour
     public LevelVariables[] levelVariables = new LevelVariables[3];
     public Transform flyingEnemyParent;
     public Transform islandParent;
+	[HideInInspector] public bool levelLoaded = false;
     
     [SerializeField] private int rngSeed = 1337;
     [SerializeField] private bool showPaths = false;
@@ -17,7 +18,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject blackHole;
     private static LevelManager instance;
     
-    private Camera worldCam;
+	public Camera worldCam;
     private Level[] levels;
     private int currentLevel = 0;
 
@@ -84,7 +85,9 @@ public class LevelManager : MonoBehaviour
 		islandPrefabs.artifactIslandWidth = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
 		Destroy(tmp);
 
-        worldCam = Camera.main;
+		if (worldCam == null) {
+			worldCam = Camera.main;
+		}
         PlaceFlyingEnemy.flyingEnemyParent = flyingEnemyParent;
         levels = new Level[levelVariables.Length];
         Random.seed = rngSeed;
@@ -99,27 +102,31 @@ public class LevelManager : MonoBehaviour
         levels[currentLevel].ArtifactCount = levelVariables[currentLevel].numberOfArtifacts;
         levels[currentLevel].LayerHeightOffset = levelVariables[currentLevel].heightOffset;
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
-        levels[currentLevel].CreateLevel();
+
+		levels [currentLevel].InitLevelCreation ();
+
+        //levels[currentLevel].CreateLevel();
+
         //s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
 
-        if (worldCam != null)
-        {
-            Destroy(worldCam.gameObject);
-        }
-        StartLevel();
+        //if (worldCam != null){ Destroy(worldCam.gameObject); }
+       // StartLevel();
     }
 
     public void StartLevel()
     {
+		s_GUIMain.Instance.InitGUI ();
         if (currentLevel == 0)
         {
             player = Instantiate(playerPrefab, GetPlayerSpawnPos(), Quaternion.identity) as GameObject;
+
         }
         else
         {
             //player.transform.position = GetPlayerSpawnPos();
             //player.SetActive(true);
         }
+		levelLoaded = true;
     }
 
     public Vector3 GetPlayerSpawnPos () {
