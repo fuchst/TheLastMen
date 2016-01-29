@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 
 public enum GUIUpdateEvent {
     Energy,
@@ -147,7 +146,7 @@ public class s_GUIMain : MonoBehaviour {
         buttonContinue.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(false); });
         buttonControls.onClick.AddListener(() => { s_GUIMain.Instance.GUI_Controls.gameObject.SetActive(true); });
         buttonReturn.onClick.AddListener(() => { s_GUIMain.Instance.GUI_Controls.gameObject.SetActive(false); });
-        buttonRestart.onClick.AddListener(() => { Application.LoadLevel(Application.loadedLevel); s_GameManager.Instance.SetGamePaused(false); });
+        buttonRestart.onClick.AddListener(() => { LevelManager.Instance.RestartLevel(); });
         buttonQuit.onClick.AddListener(() => { Application.LoadLevel(0); });
         buttonCloseBastionMenu.onClick.AddListener(() => { s_GameManager.Instance.ToggleBastionMenu(); });
 
@@ -163,11 +162,14 @@ public class s_GUIMain : MonoBehaviour {
         buttonClimbLayer.onClick.AddListener(() => { s_GameManager.Instance.ClimbLayer(); });
         
         damageScreenOverlay.CrossFadeColor(damageOverlayColorRegular, 0.0f, true, true);
+
+        GUI_Ingame.gameObject.SetActive(true);
     }
 	
 	void Update () {
-		if (LevelManager.Instance.GetGameState == LevelManager.GameState.Playing) {
-			UpdateGUI ();
+		if (LevelManager.Instance.gameState == LevelManager.GameState.Playing) {
+
+            UpdateGUI ();
 			if (Input.GetKeyDown (KeyCode.Escape)) {
 				game.ToggleGamePaused ();
 			}
@@ -328,6 +330,12 @@ public class s_GUIMain : MonoBehaviour {
         GUI_Ingame.gameObject.SetActive(!menu);
         GUI_BastionMenu.gameObject.SetActive(menu);
         UpdateCursor();
+    }
+
+    public void HideAllMenus()
+    {
+        GUI_Ingame.gameObject.SetActive(false);
+        GUI_BastionMenu.gameObject.SetActive(false);
     }
 
     protected void UpdateLayerState () {

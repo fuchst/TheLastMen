@@ -20,7 +20,7 @@ public class s_HoveringGUI : MonoBehaviour {
     }
 	
 	void Update () {
-        if (LevelManager.Instance.GetGameState == LevelManager.GameState.Playing)
+        if (LevelManager.Instance.gameState == LevelManager.GameState.Playing)
         {
             UpdateAppearance();
         }

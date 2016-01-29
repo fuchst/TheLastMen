@@ -22,20 +22,8 @@ public class Level : MonoBehaviour
     
     public void CreateLevel()
     {
-        //Init camera rot
-        LevelManager.Instance.worldCam.gameObject.transform.position = new Vector3(Radius * 2.0f, 0, 0);
-        LevelManager.Instance.worldCam.gameObject.transform.LookAt(Vector3.zero);
         creatingLevel = true;
         StartCoroutine(CreateLevelOverTime());
-        //IcoSphere(Radius, Cycles, ref islandDictionary);
-        //SetupBastionAndDistances();
-        //SetupArtifacts();
-        //MarkArtifactPaths();
-        //DestroyUnneededIslands();
-        //SetupLayers();
-        //SetupGrapplingIslands();
-        //SyncFallingSpeedWithTimer();
-        //InstantiateIslands();
     }
 
     IEnumerator CreateLevelOverTime()
@@ -59,7 +47,8 @@ public class Level : MonoBehaviour
         yield return new WaitForSeconds(LevelManager.Instance.createLevelCoroutineCounter);
         InstantiateIslands();
 
-        //LevelManager.Instance.StartLevel();
+        yield return new WaitForSeconds(LevelManager.Instance.createLevelCoroutineCounter);
+        LevelManager.Instance.StartLevel();
     }
 
     IEnumerator WaitSeconds(float waitTime)
@@ -343,6 +332,13 @@ public class Level : MonoBehaviour
         {
             Bastion bastionScript = LevelManager.Instance.bastion.GetComponent<Bastion>();
             bastionScript.RebaseBastion(islandDictionary[0].position);
+
+            Vector3 spawnPos = LevelManager.Instance.bastion.transform.FindChild("Spawn").transform.position;
+            spawnPos += spawnPos.normalized;
+            LevelManager.Instance.playerSpawnPos = spawnPos;
+            
+            LevelManager.Instance.player.transform.position = spawnPos;
+            LevelManager.Instance.player.SetActive(true);
         }
     }
 

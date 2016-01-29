@@ -36,7 +36,7 @@ public class FireGrapplingHook : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void Start () {
+    public void Init () {
         UpdateRopeLength(0.0f, false);
     }
 

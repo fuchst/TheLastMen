@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
     public enum GameState { Loading, Playing };
-    
+
+    public GameState gameState = GameState.Loading;
     public GameObject playerPrefab;
     public bool showPaths;
     public GameObject bastion;
@@ -15,7 +17,7 @@ public class LevelManager : MonoBehaviour
     public Transform islandParent;
     public Vector3 playerSpawnPos;
 
-    public float createLevelCoroutineCounter;
+    public float createLevelCoroutineCounter = 2.0f;
 
     [SerializeField]
     private int rngSeed = 1337;
@@ -28,9 +30,11 @@ public class LevelManager : MonoBehaviour
     private static LevelManager instance;
 
     public Camera worldCam;
+    public Camera playerCam;
+
     private Level[] levels;
     private int currentLevel = 0;
-    private GameState gameState = GameState.Loading;
+    
 
     void Awake()
     {
@@ -106,6 +110,10 @@ public class LevelManager : MonoBehaviour
         PlaceFlyingEnemy.flyingEnemyParent = flyingEnemyParent;
         levels = new Level[levelVariables.Length];
         Random.seed = rngSeed;
+
+        //Init camera rot
+        worldCam.gameObject.transform.position = new Vector3(levelVariables[currentLevel].radius * 2.0f, 0, 0);
+        worldCam.gameObject.transform.LookAt(Vector3.zero);
     }
 
     public void LoadLevel()
@@ -117,7 +125,7 @@ public class LevelManager : MonoBehaviour
         levels[currentLevel].ArtifactCount = levelVariables[currentLevel].numberOfArtifacts;
         levels[currentLevel].LayerHeightOffset = levelVariables[currentLevel].heightOffset;
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
-
+        
         levels[currentLevel].CreateLevel();
     }
 
@@ -125,20 +133,50 @@ public class LevelManager : MonoBehaviour
     {
         s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
 
-        if (worldCam != null) { Destroy(worldCam.gameObject); }
+        //Change to player cam
+        worldCam.enabled = false;
 
-        if (currentLevel == 0)
+        //First time inits
+        if(currentLevel == 0)
         {
+            playerCam = player.transform.FindChild("MainCamera").GetComponent<Camera>();
             s_GUIMain.Instance.InitGUI();
-            player.transform.FindChild("MainCamera").GetComponent<Camera>().enabled = true;
+            bastion.GetComponentInChildren<s_HoveringGUI>().InitGUI();
+            player.GetComponent<FireGrapplingHook>().Init();
         }
+        else
+        {
+            s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
+            s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.BastionMenu);
+        }
+        player.SetActive(true);
+        playerCam.enabled = true;
+
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
+        //Init scripts
+        
+
+        gameState = GameState.Playing;
+
+        //if (worldCam != null) {
+        //    Destroy(worldCam.gameObject);
+        //}
+
+        //    s_GUIMain.Instance.InitGUI();
+        //    player.transform.FindChild("MainCamera").GetComponent<Camera>().enabled = true;
+
+        //if (currentLevel == 0)
+        //{
+        //    s_GUIMain.Instance.InitGUI();
+        //    player.transform.FindChild("MainCamera").GetComponent<Camera>().enabled = true;
+        //}
         //else
         //{
         //    player.transform.position = GetPlayerSpawnPos();
         //    player.SetActive(true);
         //}
-        bastion.GetComponentInChildren<s_HoveringGUI>().InitGUI();
-        gameState = GameState.Playing;
+        //bastion.GetComponentInChildren<s_HoveringGUI>().InitGUI();
+        //gameState = GameState.Playing;
     }
 
     //public Vector3 GetPlayerSpawnPos()
@@ -172,35 +210,56 @@ public class LevelManager : MonoBehaviour
         public float artifactIslandWidth;
     }
 
+    public void RestartLevel()
+    {
+        gameState = GameState.Loading;
+        Application.LoadLevel(Application.loadedLevel);
+        s_GameManager.Instance.SetGamePaused(false);
+    }
+
+
     public void AdvanceLevel()
     {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        Application.LoadLevel(0);
+        //If go to menu instead
+        //Cursor.visible = true;
+        //Cursor.lockState = CursorLockMode.None;
+        //Application.LoadLevel(0);
 
-        /*
+        gameState = GameState.Loading;
+        playerCam.enabled = false;
 		player.SetActive(false);
 
-        //Destroy all islands except the bastion
-        while (islandParent.childCount > 1)
+        currentLevel++;
+        worldCam.gameObject.transform.position = new Vector3(levelVariables[currentLevel].radius * 2.0f, 0, 0);
+        worldCam.gameObject.transform.LookAt(Vector3.zero);
+        worldCam.enabled = true;
+
+        Destroy(flyingEnemyParent.gameObject);
+        flyingEnemyParent = (new GameObject("FlyingEnemyParent") as GameObject).transform;
+
+        List<GameObject> children = new List<GameObject>();
+        foreach (Transform child in islandParent)
         {
-            Destroy(islandParent.GetChild(1));
+            children.Add(child.gameObject);
+
         }
-        
-        //Destroy the levels script/component
+        children.RemoveAt(0);   //we dont want to destroy our bastion
+        children.ForEach(child => Destroy(child));
+
         Destroy(levels[currentLevel]);
 
         if (currentLevel < levels.Length)
         {
-            //levels[currentLevel + 1].DestroyLevel();
-            //Destroy(levels[currentLevel + 1]);
-            currentLevel++;
-
-            
-            s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
             LoadLevel();
         }
-		*/
+
+        //make this only when level is done loading
+        //s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
+
+        ////Destroy the levels script/component
+        //Destroy(levels[currentLevel]);
+
+
     }
 
     //Get,Set Methods
@@ -210,5 +269,4 @@ public class LevelManager : MonoBehaviour
     public float IslandFallingSpeed { get { return islandFallingSpeed; } set { islandFallingSpeed = value; } }
     public int RngSeed { get { return rngSeed; } }
     public GameObject BlackHole { get { return blackHole; } }
-    public GameState GetGameState { get { return gameState; } }
 }

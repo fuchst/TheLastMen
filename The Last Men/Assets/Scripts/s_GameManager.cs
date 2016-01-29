@@ -53,6 +53,13 @@ public class s_GameManager : MonoBehaviour {
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.BastionMenu);
     }
 
+    private void HideAllMenus()
+    {
+        bastionMenu = false;
+        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.BastionMenu);
+
+    }
+
     public void SetPlayerInBastion (bool inBastion) {
         if(inBastion == playerInBastion) {
             return;
@@ -159,11 +166,13 @@ public class s_GameManager : MonoBehaviour {
         if (energyBastion_Cur < energyCostClimbLayer)
             return;
         energyBastion_Cur -= energyCostClimbLayer;
-        Debug.Log("Advancing to next level");
         ResetLevelClock();
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
+
+        bastionMenu = false;
+        s_GUIMain.Instance.HideAllMenus();
+
         LevelManager.Instance.AdvanceLevel();
-        s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
     }
 
     protected void ResetLevelClock () {

@@ -35,12 +35,21 @@ public class Bastion : MonoBehaviour
     }
 
     void OnTriggerEnter (Collider other) {
+        if(LevelManager.Instance.gameState == LevelManager.GameState.Loading)
+        {
+            return;
+        }
         if (other.CompareTag("Player")) {
             s_GameManager.Instance.SetPlayerInBastion(true);
         }
     }
 
     void OnTriggerExit (Collider other) {
+        if (LevelManager.Instance.gameState == LevelManager.GameState.Loading)
+        {
+            return;
+        }
+
         if (other.CompareTag("Player")) {
             s_GameManager.Instance.SetPlayerInBastion(false);
         }
