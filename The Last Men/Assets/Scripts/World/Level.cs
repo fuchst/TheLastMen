@@ -290,13 +290,14 @@ public class Level : MonoBehaviour
         //Gather all the variables we will need
         Vector3 bastionPosition = islandDictionary[0].position;
         Vector3 blackHolePosition = LevelManager.Instance.BlackHole.transform.position;
-        float blackHoleRadius = LevelManager.Instance.BlackHole.transform.localScale.x;
+        float blackHoleRadius = LevelManager.Instance.BlackHole.GetComponent<MeshRenderer>().bounds.extents.x;
         float bastionRadius = LevelManager.Instance.islandPrefabs.bastionWidth; //Width is not correct but nobody got time for that
         float roundTime = s_GameManager.Instance.roundDuration;
 
         //Calc new fallingspeed
         float distance = Vector3.Distance(bastionPosition, blackHolePosition);
-        distance -= bastionRadius + blackHoleRadius;
+        distance -= blackHoleRadius;
+        distance -= bastionRadius;
         float newFallingSpeed = distance / roundTime;
 
         //If new falling speed is too fast make it smaller and make black hole bigger

@@ -5,17 +5,17 @@ public class LevelManager : MonoBehaviour
 {
     public enum GameState { Loading, Playing };
 
-    public GameState gameState = GameState.Loading;
+    [HideInInspector] public GameState gameState = GameState.Loading;
     public GameObject playerPrefab;
     public bool showPaths;
-    public GameObject bastion;
-    public GameObject player;
+    [HideInInspector] public GameObject bastion;
+    [HideInInspector] public GameObject player;
     public IslandPrefabs islandPrefabs;
     public LevelVariables[] levelVariables = new LevelVariables[3];
 
-    public Transform flyingEnemyParent;
-    public Transform islandParent;
-    public Vector3 playerSpawnPos;
+    [HideInInspector] public Transform flyingEnemyParent;
+    [HideInInspector] public Transform islandParent;
+    [HideInInspector] public Vector3 playerSpawnPos;
 
     public float createLevelCoroutineCounter = 2.0f;
 
@@ -23,19 +23,17 @@ public class LevelManager : MonoBehaviour
     private int rngSeed = 1337;
     [SerializeField]
     private float maxFallingSpeed = 0.2f;
-    [SerializeField]
     private float islandFallingSpeed = 2.0f;
     [SerializeField]
     private GameObject blackHole;
     private static LevelManager instance;
 
-    public Camera worldCam;
-    public Camera playerCam;
+    [HideInInspector] public Camera worldCam;
+    [HideInInspector] public Camera playerCam;
 
     private Level[] levels;
     private int currentLevel = 0;
     
-
     void Awake()
     {
         if (instance) { Destroy(this); }
@@ -157,6 +155,7 @@ public class LevelManager : MonoBehaviour
         
 
         gameState = GameState.Playing;
+        s_GameManager.Instance.LevelLoaded();
 
         //if (worldCam != null) {
         //    Destroy(worldCam.gameObject);

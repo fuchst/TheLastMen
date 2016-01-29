@@ -98,6 +98,12 @@ public class s_GameManager : MonoBehaviour {
         ResetLevelClock();
         
         levelManager.LoadLevel();
+        
+    }
+
+    public void LevelLoaded()
+    {
+        ResetLevelClock();
         InitializePlayerStats();
         StartCoroutine(HealPlayer());
     }

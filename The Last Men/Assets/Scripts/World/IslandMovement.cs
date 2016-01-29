@@ -18,7 +18,10 @@ public class IslandMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        rigidbody.MovePosition(transform.position - transform.up * Time.deltaTime * fallingSpeed);
+        if (LevelManager.Instance.gameState == LevelManager.GameState.Playing)
+        {
+            rigidbody.MovePosition(transform.position - transform.up * Time.deltaTime * fallingSpeed);
+        }
     }
 
     void OnTriggerEnter(Collider collider)
