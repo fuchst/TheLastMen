@@ -2,25 +2,35 @@
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] protected GameObject playerPrefab;
+    public enum GameState { Loading, Playing };
+    
+    public GameObject playerPrefab;
+    public bool showPaths;
     public GameObject bastion;
     public GameObject player;
     public IslandPrefabs islandPrefabs;
     public LevelVariables[] levelVariables = new LevelVariables[3];
+
     public Transform flyingEnemyParent;
     public Transform islandParent;
-	[HideInInspector] public bool levelLoaded = false;
-    
-    [SerializeField] private int rngSeed = 1337;
-    [SerializeField] private bool showPaths = false;
-    [SerializeField] private float maxFallingSpeed = 0.2f;
-    [SerializeField] private float islandFallingSpeed = 2.0f;
-    [SerializeField] private GameObject blackHole;
+    public Vector3 playerSpawnPos;
+
+    public float createLevelCoroutineCounter;
+
+    [SerializeField]
+    private int rngSeed = 1337;
+    [SerializeField]
+    private float maxFallingSpeed = 0.2f;
+    [SerializeField]
+    private float islandFallingSpeed = 2.0f;
+    [SerializeField]
+    private GameObject blackHole;
     private static LevelManager instance;
-    
-	public Camera worldCam;
+
+    public Camera worldCam;
     private Level[] levels;
     private int currentLevel = 0;
+    private GameState gameState = GameState.Loading;
 
     void Awake()
     {
@@ -56,38 +66,43 @@ public class LevelManager : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
         }
-        if (!flyingEnemyParent) {
+        if (!flyingEnemyParent)
+        {
             flyingEnemyParent = new GameObject("FlyingEnemyParent").transform;
         }
-        if (!islandParent) {
+        if (!islandParent)
+        {
             islandParent = new GameObject("IslandParent").transform;
         }
 
         //Gather island bounds
-		GameObject tmp;
-		islandPrefabs.bigIslandWidths = new float[islandPrefabs.BigIslands.Length];
-		for (int i = 0; i< islandPrefabs.bigIslandWidths.Length; i++) {
-			tmp = Instantiate(islandPrefabs.BigIslands[i], new Vector3(0,0,0), Quaternion.identity) as GameObject;
-			islandPrefabs.bigIslandWidths[i] = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
-			Destroy(tmp);
-		}
-		islandPrefabs.smallIslandWidths = new float[islandPrefabs.SmallIslands.Length];
-		for (int i = 0; i< islandPrefabs.smallIslandWidths.Length; i++) {
-			tmp = Instantiate(islandPrefabs.SmallIslands[i], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-			islandPrefabs.smallIslandWidths[i] = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
-			Destroy(tmp);
-		}
+        GameObject tmp;
+        islandPrefabs.bigIslandWidths = new float[islandPrefabs.BigIslands.Length];
+        for (int i = 0; i < islandPrefabs.bigIslandWidths.Length; i++)
+        {
+            tmp = Instantiate(islandPrefabs.BigIslands[i], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            islandPrefabs.bigIslandWidths[i] = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
+            Destroy(tmp);
+        }
+        islandPrefabs.smallIslandWidths = new float[islandPrefabs.SmallIslands.Length];
+        for (int i = 0; i < islandPrefabs.smallIslandWidths.Length; i++)
+        {
+            tmp = Instantiate(islandPrefabs.SmallIslands[i], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+            islandPrefabs.smallIslandWidths[i] = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
+            Destroy(tmp);
+        }
 
-		tmp = Instantiate(islandPrefabs.Bastion, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-		islandPrefabs.bastionWidth = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
-		Destroy(tmp);
-		tmp = Instantiate(islandPrefabs.AritfactIsland, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-		islandPrefabs.artifactIslandWidth = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
-		Destroy(tmp);
+        tmp = Instantiate(islandPrefabs.Bastion, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        islandPrefabs.bastionWidth = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
+        Destroy(tmp);
+        tmp = Instantiate(islandPrefabs.AritfactIsland, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        islandPrefabs.artifactIslandWidth = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
+        Destroy(tmp);
 
-		if (worldCam == null) {
-			worldCam = Camera.main;
-		}
+        if (worldCam == null)
+        {
+            worldCam = Camera.main;
+        }
         PlaceFlyingEnemy.flyingEnemyParent = flyingEnemyParent;
         levels = new Level[levelVariables.Length];
         Random.seed = rngSeed;
@@ -103,37 +118,35 @@ public class LevelManager : MonoBehaviour
         levels[currentLevel].LayerHeightOffset = levelVariables[currentLevel].heightOffset;
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
 
-		levels [currentLevel].InitLevelCreation ();
-
-        //levels[currentLevel].CreateLevel();
-
-        //s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
-
-        //if (worldCam != null){ Destroy(worldCam.gameObject); }
-       // StartLevel();
+        levels[currentLevel].CreateLevel();
     }
 
     public void StartLevel()
     {
-		s_GUIMain.Instance.InitGUI ();
+        s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
+
+        if (worldCam != null) { Destroy(worldCam.gameObject); }
+
         if (currentLevel == 0)
         {
-            player = Instantiate(playerPrefab, GetPlayerSpawnPos(), Quaternion.identity) as GameObject;
-
+            s_GUIMain.Instance.InitGUI();
+            player.transform.FindChild("MainCamera").GetComponent<Camera>().enabled = true;
         }
-        else
-        {
-            //player.transform.position = GetPlayerSpawnPos();
-            //player.SetActive(true);
-        }
-		levelLoaded = true;
+        //else
+        //{
+        //    player.transform.position = GetPlayerSpawnPos();
+        //    player.SetActive(true);
+        //}
+        bastion.GetComponentInChildren<s_HoveringGUI>().InitGUI();
+        gameState = GameState.Playing;
     }
 
-    public Vector3 GetPlayerSpawnPos () {
-        Vector3 spawnPos = levels[currentLevel].GetBasePosition();
-        spawnPos += spawnPos.normalized;
-        return spawnPos;
-    }
+    //public Vector3 GetPlayerSpawnPos()
+    //{
+    //    Vector3 spawnPos = levels[currentLevel].GetBasePosition();
+    //    spawnPos += spawnPos.normalized;
+    //    return spawnPos;
+    //}
 
     [System.Serializable]
     public struct LevelVariables
@@ -150,13 +163,13 @@ public class LevelManager : MonoBehaviour
     public class IslandPrefabs
     {
         public GameObject[] BigIslands;
-		public float[] bigIslandWidths;
+        public float[] bigIslandWidths;
         public GameObject[] SmallIslands;
-		public float[] smallIslandWidths;
+        public float[] smallIslandWidths;
         public GameObject Bastion;
-		public float bastionWidth;
+        public float bastionWidth;
         public GameObject AritfactIsland;
-		public float artifactIslandWidth;
+        public float artifactIslandWidth;
     }
 
     public void AdvanceLevel()
@@ -164,8 +177,8 @@ public class LevelManager : MonoBehaviour
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         Application.LoadLevel(0);
-        
-		/*
+
+        /*
 		player.SetActive(false);
 
         //Destroy all islands except the bastion
@@ -195,7 +208,7 @@ public class LevelManager : MonoBehaviour
     public int CurLvl { get { return currentLevel; } }
     public float MaxFallingSpeed { get { return maxFallingSpeed; } }
     public float IslandFallingSpeed { get { return islandFallingSpeed; } set { islandFallingSpeed = value; } }
-    public bool ShowPaths { get { return showPaths; } }
     public int RngSeed { get { return rngSeed; } }
     public GameObject BlackHole { get { return blackHole; } }
+    public GameState GetGameState { get { return gameState; } }
 }

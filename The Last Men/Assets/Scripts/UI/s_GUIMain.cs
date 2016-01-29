@@ -166,7 +166,7 @@ public class s_GUIMain : MonoBehaviour {
     }
 	
 	void Update () {
-		if (LevelManager.Instance.levelLoaded == true) {
+		if (LevelManager.Instance.GetGameState == LevelManager.GameState.Playing) {
 			UpdateGUI ();
 			if (Input.GetKeyDown (KeyCode.Escape)) {
 				game.ToggleGamePaused ();

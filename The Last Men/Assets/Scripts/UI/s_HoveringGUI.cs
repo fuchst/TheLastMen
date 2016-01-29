@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class s_HoveringGUI : MonoBehaviour {
 
@@ -12,8 +11,7 @@ public class s_HoveringGUI : MonoBehaviour {
     protected RectTransform rectTrans;
     protected Transform player;
     
-    // Use this for initialization
-    void Start () {
+    public void InitGUI () {
         if (RenderMode.WorldSpace != canvas.renderMode) {
             enabled = false;
         }
@@ -21,10 +19,11 @@ public class s_HoveringGUI : MonoBehaviour {
         player = LevelManager.Instance.player.transform;
     }
 	
-	// Update is called once per frame
 	void Update () {
-        UpdateAppearance();
-        
+        if (LevelManager.Instance.GetGameState == LevelManager.GameState.Playing)
+        {
+            UpdateAppearance();
+        }
 	}
 
     protected void UpdateAppearance () {

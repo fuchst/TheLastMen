@@ -1,65 +1,75 @@
 ﻿using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections;
 
 public class Level : MonoBehaviour
 {
-
     public int Cycles { get; set; }
     public float Radius { get; set; }
     public int ArtifactCount { get; set; }
     public float DestructionLevel { get; set; }
     public float LayerHeightOffset { get; set; }
 
-    [HideInInspector] public float grapplingIslandExtraheight;
+    [HideInInspector]
+    public float grapplingIslandExtraheight;
 
     private enum IslandType { None, Bastion, Path, Artifact, Grappling, Small };
     private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
     private SortedDictionary<string, Island> grapplingIslandDictionary = new SortedDictionary<string, Island>();
     private int maxDistanceToBastion = 0;
-	
-	//Init game world
-	private int currentStage;
-	[SerializeField] private float timePerStage = 10f;
-	private float stageCounter;
-
+    private bool creatingLevel = false;
+    
     public void CreateLevel()
     {
+        //Init camera rot
+        LevelManager.Instance.worldCam.gameObject.transform.position = new Vector3(Radius * 2.0f, 0, 0);
+        LevelManager.Instance.worldCam.gameObject.transform.LookAt(Vector3.zero);
+        creatingLevel = true;
+        StartCoroutine(CreateLevelOverTime());
+        //IcoSphere(Radius, Cycles, ref islandDictionary);
+        //SetupBastionAndDistances();
+        //SetupArtifacts();
+        //MarkArtifactPaths();
+        //DestroyUnneededIslands();
+        //SetupLayers();
+        //SetupGrapplingIslands();
+        //SyncFallingSpeedWithTimer();
+        //InstantiateIslands();
+    }
+
+    IEnumerator CreateLevelOverTime()
+    {
+        yield return new WaitForSeconds(LevelManager.Instance.createLevelCoroutineCounter);
+        LevelManager.Instance.showPaths = true;
         IcoSphere(Radius, Cycles, ref islandDictionary);
         SetupBastionAndDistances();
         SetupArtifacts();
         MarkArtifactPaths();
+
+        yield return new WaitForSeconds(LevelManager.Instance.createLevelCoroutineCounter);
         DestroyUnneededIslands();
+
+        yield return new WaitForSeconds(LevelManager.Instance.createLevelCoroutineCounter);
         SetupLayers();
         SetupGrapplingIslands();
         SyncFallingSpeedWithTimer();
+        InstantiateBastionAndPlayer();
+
+        yield return new WaitForSeconds(LevelManager.Instance.createLevelCoroutineCounter);
         InstantiateIslands();
+
+        //LevelManager.Instance.StartLevel();
     }
 
-	public void InitLevelCreation(){
-		//Init camera rot
-		LevelManager.Instance.worldCam.gameObject.transform.position = new Vector3 (Radius * 2.0f, 0, 0);
-		LevelManager.Instance.worldCam.gameObject.transform.LookAt (Vector3.zero);
-		currentStage = 1;
-		stageCounter = 0;
-	}
+    IEnumerator WaitSeconds(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+    }
 
     void Update()
     {
-		if (currentStage > -1) {
-			stageCounter += Time.deltaTime;
-			if(stageCounter > timePerStage){
-				switch (currentStage){
-				case 1:
-					IcoSphere(Radius, Cycles, ref islandDictionary);
-					SetupBastionAndDistances();
-					MarkArtifactPaths();
-				case 2:
-
-				}
-			}
-		}
-        if (LevelManager.Instance.ShowPaths == true)
+        if (LevelManager.Instance.showPaths == true || creatingLevel == true)
         {
             foreach (Island island in islandDictionary.Values)
             {
@@ -312,6 +322,30 @@ public class Level : MonoBehaviour
         LevelManager.Instance.IslandFallingSpeed = newFallingSpeed;
     }
 
+    private void InstantiateBastionAndPlayer()
+    {
+        if (LevelManager.Instance.bastion == null)
+        {
+            //Bastion
+            GameObject bastion = Instantiate(LevelManager.Instance.islandPrefabs.Bastion, islandDictionary[0].position, Quaternion.identity) as GameObject;
+            LevelManager.Instance.bastion = bastion;
+            bastion.name = "Bastion";
+            bastion.transform.up = bastion.transform.position;
+            bastion.transform.parent = LevelManager.Instance.islandParent;
+            
+            //Player
+            Vector3 spawnPos = LevelManager.Instance.bastion.transform.FindChild("Spawn").transform.position;
+            spawnPos += spawnPos.normalized;
+            LevelManager.Instance.playerSpawnPos = spawnPos;
+            LevelManager.Instance.player = Instantiate(LevelManager.Instance.playerPrefab, spawnPos, Quaternion.identity) as GameObject;
+        }
+        else //Bastion already exists
+        {
+            Bastion bastionScript = LevelManager.Instance.bastion.GetComponent<Bastion>();
+            bastionScript.RebaseBastion(islandDictionary[0].position);
+        }
+    }
+
     private void InstantiateIslands()
     {
         LevelManager.IslandPrefabs islandPrefabs = LevelManager.Instance.islandPrefabs;
@@ -322,17 +356,7 @@ public class Level : MonoBehaviour
             switch (item.Value.islandType)
             {
                 case IslandType.Bastion:
-                    if (LevelManager.Instance.bastion == null)
-                    {
-                        islandGameObject = Instantiate(islandPrefabs.Bastion, item.Value.position, Quaternion.identity) as GameObject;
-                        LevelManager.Instance.bastion = islandGameObject;
-                    }
-                    else //Bastion already exists
-                    {
-                        islandGameObject = null;
-                        Bastion bastionScript = LevelManager.Instance.bastion.GetComponent<Bastion>();
-                        bastionScript.RebaseBastion(item.Value.position);
-                    }
+                    islandGameObject = null;
                     break;
                 case IslandType.Artifact:
                     islandGameObject = Instantiate(islandPrefabs.AritfactIsland, item.Value.position, Quaternion.identity) as GameObject;
@@ -380,10 +404,10 @@ public class Level : MonoBehaviour
         }
     }
 
-    public Vector3 GetBasePosition()
-    {
-        return LevelManager.Instance.bastion.transform.FindChild("Spawn").transform.position;
-    }
+    //public Vector3 GetBasePosition()
+    //{
+    //    return LevelManager.Instance.bastion.transform.FindChild("Spawn").transform.position;
+    //}
 
     struct TriangleIndices
     {
