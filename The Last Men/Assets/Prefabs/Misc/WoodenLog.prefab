@@ -12,7 +12,7 @@ GameObject:
   - 54: {fileID: 5419358}
   - 114: {fileID: 11429512}
   - 136: {fileID: 13633754}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: WoodenLog
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_Layer
-      value: 11
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
