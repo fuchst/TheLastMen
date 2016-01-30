@@ -322,11 +322,10 @@ public class Level : MonoBehaviour
             bastion.name = "Bastion";
             bastion.transform.up = bastion.transform.position;
             bastion.transform.parent = LevelManager.Instance.islandParent;
-            
+
             //Player
-            Vector3 spawnPos = LevelManager.Instance.bastion.transform.FindChild("Spawn").transform.position;
-            spawnPos += spawnPos.normalized;
-            LevelManager.Instance.playerSpawnPos = spawnPos;
+            Vector3 spawnPos = LevelManager.Instance.UpdatePlayerSpawnPos();
+
             LevelManager.Instance.player = Instantiate(LevelManager.Instance.playerPrefab, spawnPos, Quaternion.identity) as GameObject;
         }
         else //Bastion already exists
@@ -334,10 +333,8 @@ public class Level : MonoBehaviour
             Bastion bastionScript = LevelManager.Instance.bastion.GetComponent<Bastion>();
             bastionScript.RebaseBastion(islandDictionary[0].position);
 
-            Vector3 spawnPos = LevelManager.Instance.bastion.transform.FindChild("Spawn").transform.position;
-            spawnPos += spawnPos.normalized;
-            LevelManager.Instance.playerSpawnPos = spawnPos;
-            
+            Vector3 spawnPos = LevelManager.Instance.UpdatePlayerSpawnPos();
+
             LevelManager.Instance.player.transform.position = spawnPos;
             LevelManager.Instance.player.SetActive(true);
         }

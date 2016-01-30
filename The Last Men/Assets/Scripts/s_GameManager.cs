@@ -222,7 +222,8 @@ public class s_GameManager : MonoBehaviour {
             //TODO: reset upgrades
             //reset some stuff in controller? 
             //levelManager.player.GetComponent<RigidbodyFirstPersonControllerSpherical>();
-            levelManager.player.transform.position = levelManager.playerSpawnPos;
+            levelManager.UpdatePlayerSpawnPos();
+            levelManager.player.transform.position = levelManager.UpdatePlayerSpawnPos();
             InitializePlayerStats();
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Wood);
