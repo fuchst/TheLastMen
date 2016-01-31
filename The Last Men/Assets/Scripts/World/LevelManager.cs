@@ -19,13 +19,11 @@ public class LevelManager : MonoBehaviour
 
     public float createLevelCoroutineCounter = 2.0f;
 
-    [SerializeField]
-    private int rngSeed = 1337;
-    [SerializeField]
-    private float maxFallingSpeed = 0.2f;
+    [SerializeField] private bool menuIsInSameLevel;
+    [SerializeField] private int rngSeed = 1337;
+    [SerializeField] private float maxFallingSpeed = 0.2f;
+    [SerializeField] private GameObject blackHole;
     private float islandFallingSpeed = 2.0f;
-    [SerializeField]
-    private GameObject blackHole;
     private static LevelManager instance;
 
     [HideInInspector] public Camera worldCam;
@@ -107,6 +105,7 @@ public class LevelManager : MonoBehaviour
         }
         PlaceFlyingEnemy.flyingEnemyParent = flyingEnemyParent;
         levels = new Level[levelVariables.Length];
+        
         Random.seed = rngSeed;
 
         //Init camera rot
@@ -123,8 +122,15 @@ public class LevelManager : MonoBehaviour
         levels[currentLevel].ArtifactCount = levelVariables[currentLevel].numberOfArtifacts;
         levels[currentLevel].LayerHeightOffset = levelVariables[currentLevel].heightOffset;
         levels[currentLevel].grapplingIslandExtraheight = levelVariables[currentLevel].grapplingIslandExtraHeight;
-        
-        levels[currentLevel].CreateLevel();
+
+        if (menuIsInSameLevel == false)
+        {
+            levels[currentLevel].CreateLevel();
+        }
+        else
+        {
+            levels[currentLevel].CreateLevelInstant();
+        }
     }
 
     public void StartLevel()
@@ -216,7 +222,6 @@ public class LevelManager : MonoBehaviour
         s_GameManager.Instance.SetGamePaused(false);
     }
 
-
     public void AdvanceLevel()
     {
         //If go to menu instead
@@ -257,8 +262,6 @@ public class LevelManager : MonoBehaviour
 
         ////Destroy the levels script/component
         //Destroy(levels[currentLevel]);
-
-
     }
 
     //Get,Set Methods

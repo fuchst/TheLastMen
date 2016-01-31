@@ -639,7 +639,7 @@ MonoBehaviour:
     - {fileID: 123032, guid: a1c10d726e978a046bbc846267be2a0c, type: 2}
     enemies: []
     crystals:
-    - {fileID: 100000, guid: 87b70b92195974d9dacc05039e07b8cf, type: 2}
+    - {fileID: 138016, guid: c0c5831a238da1b4dae31b77b628b727, type: 2}
     chanceToSpawnATree: .75
     chanceToSpawnABush: .75
     minEnemiesOnIsland: 0
@@ -680,6 +680,10 @@ Prefab:
       propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spawnSettings.crystals.Array.data[0]
+      value: 
+      objectReference: {fileID: 138016, guid: c0c5831a238da1b4dae31b77b628b727, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 157704}
