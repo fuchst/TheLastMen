@@ -175,8 +175,8 @@ public class s_GameManager : MonoBehaviour {
         if (energyBastion_Cur < energyCostClimbLayer)
             return;
         energyBastion_Cur -= energyCostClimbLayer;
-        ResetLevelClock();
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
+        ResetLevelClock();
 
         bastionMenu = false;
         s_GUIMain.Instance.HideAllMenus();
@@ -216,6 +216,7 @@ public class s_GameManager : MonoBehaviour {
 
     protected void KillPlayer () {
         survivorsCur--;
+        ResetUpgrades();
         if(survivorsCur <= 0) {
             survivorsCur = 0;
             EndGame();
@@ -232,6 +233,10 @@ public class s_GameManager : MonoBehaviour {
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Wood);
         }
         //Debug.Log("Player died");
+        
+    }
+
+    protected void ResetUpgrades () {
         
     }
 

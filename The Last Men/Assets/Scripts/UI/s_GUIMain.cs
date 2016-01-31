@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UI.Extensions;
+using System.Collections.Generic;
 
 public enum GUIUpdateEvent {
     Energy,
@@ -42,11 +43,14 @@ public class s_GUIMain : MonoBehaviour {
 	[SerializeField]protected Canvas canvas;
 	protected RectTransform canvasRT;
 
-    [SerializeField]protected CanvasGroup GUI_Ingame, GUI_PauseMenu, GUI_Controls, GUI_BastionMenu, GUI_LayerChange, GUI_GameEnd;
+    [SerializeField]protected CanvasGroup GUI_Ingame, GUI_StatsBarTop, GUI_PauseMenu, GUI_Controls, GUI_BastionMenu, GUI_LayerChange, GUI_GameEnd;
 
     public Sprite iconEnergy, iconWood, iconArtifact1, iconArtifact2, iconKey, iconHealingPlant, iconSurvivor;
     [SerializeField]protected RectTransform startPointForPopupMessages;
     [SerializeField]protected GameObject popupMessagePrefab;
+    [SerializeField]protected RectTransform survivorsDisplayParent;
+    [SerializeField]protected GameObject survivorDisplayElementPrefab;
+    protected List<GameObject> survivorDisplayElements;
 
     [SerializeField]protected Image iconBastion, iconBastionEnergy_Main, iconBastionDirection, iconBastionFrame;
     [SerializeField]protected RectTransform textBastionDirDisplayParent;
@@ -73,7 +77,7 @@ public class s_GUIMain : MonoBehaviour {
     [SerializeField]protected Image iconDistanceToBlackHole;
 	[SerializeField]protected Text textDistanceToBlackHole;
 
-	[SerializeField]protected Image iconPlayerHealth;
+	[SerializeField]protected Image iconPlayerHealth, iconPlayerHealthSurvivor;
 	[SerializeField]protected Text textPlayerHealth;
     [SerializeField]protected Image damageScreenOverlay;
     [SerializeField]protected Color damageOverlayColorActive;
@@ -189,7 +193,11 @@ public class s_GUIMain : MonoBehaviour {
 
         textRemainingTimeOutline = textRemainingTime.GetComponent<NicerOutline>();
 
+        survivorDisplayElements = new List<GameObject>(5);
+
         GUI_Ingame.gameObject.SetActive(true);
+        GUI_Ingame.interactable = true;
+        GUI_Ingame.alpha = 1f;
     }
 
     protected float ComputeDistanceToBlackHole () {
@@ -364,9 +372,26 @@ public class s_GUIMain : MonoBehaviour {
 
     protected void UpdateHealthState () {
         textPlayerHealth.text = game.healthpointsCur.ToString();
-        iconPlayerHealth.fillAmount = (float)game.healthpointsCur / (float)game.healthpointsMax;
+        iconPlayerHealthSurvivor.fillAmount = iconPlayerHealth.fillAmount = (float)game.healthpointsCur / (float)game.healthpointsMax;
         textSurvivorCount.text = game.survivorsCur.ToString();
-        if(game.healthpointsPrev > game.healthpointsCur) {
+
+        if (survivorDisplayElements.Count != game.survivorsCur - 1) {
+            while (survivorDisplayElements.Count < game.survivorsCur - 1) {
+                GameObject newElement = Instantiate(survivorDisplayElementPrefab) as GameObject;
+                RectTransform rect = newElement.GetComponent<RectTransform>();
+                rect.SetParent(survivorsDisplayParent);
+                rect.localScale = Vector3.one;
+                rect.anchoredPosition3D = Vector3.zero;
+                survivorDisplayElements.Add(newElement);
+            }
+            while (survivorDisplayElements.Count > game.survivorsCur - 1) {
+                GameObject oldElement = survivorDisplayElements[survivorDisplayElements.Count - 1];
+                survivorDisplayElements.Remove(oldElement);
+                Destroy(oldElement);
+            }
+        }
+        
+        if (game.healthpointsPrev > game.healthpointsCur) {
             //StartCoroutine(FadeDamageOverlay());
             damageScreenOverlay.CrossFadeColor(damageOverlayColorActive, 0.0f, false, true);
             damageScreenOverlay.CrossFadeColor(damageOverlayColorRegular, 1.0f, false, true);
@@ -407,14 +432,18 @@ public class s_GUIMain : MonoBehaviour {
 
     protected void UpdateBastionMenuState () {
         bool menu = game.BastionMenu;
-        GUI_Ingame.gameObject.SetActive(!menu);
+        //GUI_Ingame.gameObject.SetActive(!menu);
+        GUI_Ingame.interactable = !menu;
+        GUI_Ingame.alpha = menu ? 0f : 1f;
         GUI_BastionMenu.gameObject.SetActive(menu);
         UpdateCursor();
     }
 
     public void HideAllMenus()
     {
-        GUI_Ingame.gameObject.SetActive(false);
+        //GUI_Ingame.gameObject.SetActive(false);
+        GUI_Ingame.interactable = false;
+        GUI_Ingame.alpha = 0f;
         GUI_BastionMenu.gameObject.SetActive(false);
     }
 
