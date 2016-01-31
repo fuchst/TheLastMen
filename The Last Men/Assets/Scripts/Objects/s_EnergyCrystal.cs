@@ -17,6 +17,7 @@ public class s_EnergyCrystal : s_Collectible {
         if(game.energyPlayer_Cur + energyLootMin <= game.energyPlayer_Max) {
             game.energyPlayer_Cur = Mathf.Min(game.energyPlayer_Cur + energyLootCur, game.energyPlayer_Max);
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
+            s_GUIMain.Instance.SpawnPopupMessage(GUIPopupMessage.Energy);
             DestroyCollectible();
         }
     }

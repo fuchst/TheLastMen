@@ -213,7 +213,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!1001 &371976545
 Prefab:
   m_ObjectHideFlags: 0
@@ -251,7 +251,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 471734, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 22473632, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchorMin.y
@@ -383,7 +383,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22429348, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 858
+      value: 171.5
       objectReference: {fileID: 0}
     - target: {fileID: 22429348, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -407,7 +407,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22412096, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 960
+      value: 273.5
       objectReference: {fileID: 0}
     - target: {fileID: 22412096, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_SizeDelta.x
@@ -427,7 +427,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22486778, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 1062
+      value: 375.5
       objectReference: {fileID: 0}
     - target: {fileID: 22486778, guid: eab15e22656d1c84bb4f564a5b855040, type: 2}
       propertyPath: m_AnchoredPosition.y
@@ -1066,6 +1066,52 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04fde7499d0984f4fb41b95f336b9a14, type: 2}
   m_IsPrefabParent: 0
+--- !u!1001 &1312981815
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 483672, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -87.4348145
+      objectReference: {fileID: 0}
+    - target: {fileID: 483672, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 177.37175
+      objectReference: {fileID: 0}
+    - target: {fileID: 483672, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -4.30435371
+      objectReference: {fileID: 0}
+    - target: {fileID: 483672, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 483672, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 483672, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 483672, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 483672, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 108816, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
+  m_IsPrefabParent: 0
 --- !u!4 &1326799570 stripped
 Transform:
   m_PrefabParentObject: {fileID: 425410, guid: 04fde7499d0984f4fb41b95f336b9a14, type: 2}
@@ -1127,10 +1173,14 @@ MonoBehaviour:
   healthRegenerationRateRegular: 0
   healthRegenerationRateBastion: 10
   survivorsCur: 3
+  amountOfKeys: 0
   energyCostClimbLayer: 35
   gamePaused: 0
-  lootTable:
+  lootTableRegular:
   - {fileID: 148070, guid: a92e92df45cb43c4685a8271a4476589, type: 2}
+  lootTableRare:
+  - {fileID: 106198, guid: 05e049c54b9088d4b9aab243aeb4db66, type: 2}
+  rareLootChance: .100000001
   roundDuration: 300
   endTime: 0
 --- !u!114 &1378452263
@@ -1159,6 +1209,7 @@ MonoBehaviour:
     - {fileID: 110578, guid: e01dea6fbd797d246b6e74cd849bc8d0, type: 2}
     - {fileID: 157704, guid: c22f34c5fc981fd43beb4cba59374f62, type: 2}
     - {fileID: 112710, guid: 3418147356d3de34a902b7b22aec2294, type: 2}
+    - {fileID: 108816, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
     smallIslandWidths:
     - 0
     Bastion: {fileID: 177492, guid: 4c9c67fc7c0207e4b9827ba4cb4dfedb, type: 2}

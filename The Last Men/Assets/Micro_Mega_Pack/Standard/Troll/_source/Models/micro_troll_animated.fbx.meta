@@ -1,0 +1,1869 @@
+fileFormatVersion: 2
+guid: 63f06471e80ce5248b88e8cbdba01b4f
+timeCreated: 1454191841
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: body_troll
+    100002: butt_troll
+    100004: ear_left
+    100006: ear_right
+    100008: eyebrow_l_troll
+    100010: eyebrow_r_troll
+    100012: face_troll
+    100014: fingers_01_left_troll
+    100016: fingers_01_right_troll
+    100018: fingers_02_left_troll
+    100020: fingers_02_right_troll
+    100022: fingers_03_left_troll
+    100024: fingers_03_right_troll
+    100026: hair_01
+    100028: hair_02
+    100030: hair_03
+    100032: head_troll
+    100034: jaw
+    100036: left_arm_troll
+    100038: left_hand_troll
+    100040: left_shoulder_troll
+    100042: micro_troll_alpha
+    100044: //RootNode
+    100046: micro_troll_mesh
+    100048: mouth_corner_left
+    100050: mouth_corner_right
+    100052: right_arm_troll
+    100054: right_hand_troll
+    100056: right_shoulder_troll
+    100058: root
+    100060: sideburn_left
+    100062: sideburn_right
+    100064: staff
+    100066: thumb_01_left_troll
+    100068: thumb_01_right_troll
+    100070: thumb_02_left_troll
+    100072: thumb_02_right_troll
+    400000: body_troll
+    400002: butt_troll
+    400004: ear_left
+    400006: ear_right
+    400008: eyebrow_l_troll
+    400010: eyebrow_r_troll
+    400012: face_troll
+    400014: fingers_01_left_troll
+    400016: fingers_01_right_troll
+    400018: fingers_02_left_troll
+    400020: fingers_02_right_troll
+    400022: fingers_03_left_troll
+    400024: fingers_03_right_troll
+    400026: hair_01
+    400028: hair_02
+    400030: hair_03
+    400032: head_troll
+    400034: jaw
+    400036: left_arm_troll
+    400038: left_hand_troll
+    400040: left_shoulder_troll
+    400042: micro_troll_alpha
+    400044: //RootNode
+    400046: micro_troll_mesh
+    400048: mouth_corner_left
+    400050: mouth_corner_right
+    400052: right_arm_troll
+    400054: right_hand_troll
+    400056: right_shoulder_troll
+    400058: root
+    400060: sideburn_left
+    400062: sideburn_right
+    400064: staff
+    400066: thumb_01_left_troll
+    400068: thumb_01_right_troll
+    400070: thumb_02_left_troll
+    400072: thumb_02_right_troll
+    4300000: micro_troll_alpha
+    4300002: micro_troll_mesh
+    7400000: troll_idle
+    7400002: Take 0010
+    7400004: troll_block
+    7400006: troll_hit_front
+    7400008: troll_hit_left
+    7400010: troll_hit_right
+    7400012: troll_attack
+    7400014: troll_panic
+    7400016: troll_roar
+    7400018: troll_walk_start
+    7400020: troll_walk
+    7400022: troll_walk_end
+    7400024: troll_die
+    7400026: troll_talk
+    7400028: troll_laugh
+    7400030: troll_searching
+    7400032: troll_attack_multi
+    7400034: troll_spawn
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: micro_troll_alpha
+    13700002: micro_troll_mesh
+  materials:
+    importMaterials: 1
+    materialName: 2
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: troll_idle
+      takeName: Take 001
+      firstFrame: 120
+      lastFrame: 239
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_block
+      takeName: Take 001
+      firstFrame: 358
+      lastFrame: 387
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_hit_front
+      takeName: Take 001
+      firstFrame: 387
+      lastFrame: 406
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_hit_left
+      takeName: Take 001
+      firstFrame: 406
+      lastFrame: 425
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_hit_right
+      takeName: Take 001
+      firstFrame: 425
+      lastFrame: 444
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_attack
+      takeName: Take 001
+      firstFrame: 444
+      lastFrame: 483
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_panic
+      takeName: Take 001
+      firstFrame: 542
+      lastFrame: 601
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_roar
+      takeName: Take 001
+      firstFrame: 660
+      lastFrame: 714
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_walk_start
+      takeName: Take 001
+      firstFrame: 714
+      lastFrame: 722
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_walk
+      takeName: Take 001
+      firstFrame: 762
+      lastFrame: 802
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_walk_end
+      takeName: Take 001
+      firstFrame: 842
+      lastFrame: 851
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_die
+      takeName: Take 001
+      firstFrame: 851
+      lastFrame: 893
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_talk
+      takeName: Take 001
+      firstFrame: 894
+      lastFrame: 1013
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_laugh
+      takeName: Take 001
+      firstFrame: 1070
+      lastFrame: 1127
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_searching
+      takeName: Take 001
+      firstFrame: 1303
+      lastFrame: 1422
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_attack_multi
+      takeName: Take 001
+      firstFrame: 1541
+      lastFrame: 1620
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: troll_spawn
+      takeName: Take 001
+      firstFrame: 1620
+      lastFrame: 1679
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_troll_alpha
+        weight: 1
+      - path: micro_troll_mesh
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_troll
+        weight: 1
+      - path: root/butt_troll/body_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/ear_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_l_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/eyebrow_r_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/face_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/hair_01/hair_02/hair_03
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/jaw
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/mouth_corner_right
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_left
+        weight: 1
+      - path: root/butt_troll/body_troll/head_troll/sideburn_right
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/fingers_01_left_troll/fingers_02_left_troll/fingers_03_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/staff
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/left_shoulder_troll/left_arm_troll/left_hand_troll/thumb_01_left_troll/thumb_02_left_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/fingers_01_right_troll/fingers_02_right_troll/fingers_03_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll
+        weight: 1
+      - path: root/butt_troll/body_troll/right_shoulder_troll/right_arm_troll/right_hand_troll/thumb_01_right_troll/thumb_02_right_troll
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

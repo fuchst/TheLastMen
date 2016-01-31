@@ -10,6 +10,7 @@ public class s_WoodenLog : s_Collectible {
         if(s_GameManager.Instance.woodPlayer_Cur < s_GameManager.Instance.woodPlayer_Max) {
             s_GameManager.Instance.woodPlayer_Cur++;
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Wood);
+            s_GUIMain.Instance.SpawnPopupMessage(GUIPopupMessage.Wood);
             DestroyCollectible();
         }
     }

@@ -17,10 +17,14 @@ public class s_Artifact : s_Collectible {
     }
 
 	protected override void Collect () {
-        if(artifactType == 1)
+        if (artifactType == 1) {
             s_GameManager.Instance.artifact1CountCur++;
-        else if(artifactType == 2)
+            s_GUIMain.Instance.SpawnPopupMessage(GUIPopupMessage.Artifact1);
+        }
+        else if (artifactType == 2) {
             s_GameManager.Instance.artifact2CountCur++;
+            s_GUIMain.Instance.SpawnPopupMessage(GUIPopupMessage.Artifact2);
+        }
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Artifact);
     }
 }

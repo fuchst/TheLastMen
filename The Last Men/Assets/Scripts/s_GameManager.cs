@@ -27,6 +27,7 @@ public class s_GameManager : MonoBehaviour {
     public int healthRegenerationRateRegular = 0;
     public int healthRegenerationRateBastion = 10;
     public int survivorsCur = 3;
+    public int amountOfKeys = 0;
 
     public float energyCostClimbLayer = 15;
 
@@ -34,7 +35,9 @@ public class s_GameManager : MonoBehaviour {
     protected bool bastionMenu = false;
     protected bool playerInBastion = false;
 
-    public GameObject[] lootTable = new GameObject[1];
+    public GameObject[] lootTableRegular = new GameObject[1];
+    public GameObject[] lootTableRare = new GameObject[1];
+    [Range(0.0f, 1.0f)]public float rareLootChance = 0.1f;
 
     private static s_GameManager instance;
 
@@ -230,6 +233,17 @@ public class s_GameManager : MonoBehaviour {
         }
         //Debug.Log("Player died");
         
+    }
+
+    public GameObject RetrieveLoot () {
+        if ( Random.value < rareLootChance) {
+            //rare loot
+            return lootTableRare[Random.Range(0, lootTableRare.Length)];
+        }
+        else {
+            //regular loot
+            return lootTableRegular[Random.Range(0, lootTableRegular.Length)];
+        }
     }
 
     protected void EndGame () {

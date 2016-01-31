@@ -129,7 +129,7 @@ public class LevelManager : MonoBehaviour
 
     public void StartLevel()
     {
-        s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
+        //s_GameManager.Instance.artifactCountMax = levelVariables[currentLevel].numberOfArtifacts;
 
         //Change to player cam
         worldCam.enabled = false;

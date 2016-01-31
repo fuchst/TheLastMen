@@ -23,6 +23,8 @@ public abstract class Enemy : MonoBehaviour {
     protected HSBColor colorFullHealth_HSB;
     protected HSBColor colorNoHealth_HSB;
 
+    protected bool alive;
+
     private GameObject _player;
     public GameObject player
     {
@@ -64,6 +66,7 @@ public abstract class Enemy : MonoBehaviour {
     protected virtual void OnAwake()
     {
         hpCur = hpMax;
+        alive = true;
         colorFullHealth_HSB = HSBColor.FromColor(colorFullHealth);
         colorNoHealth_HSB = HSBColor.FromColor(colorNoHealth);
     }
@@ -107,22 +110,19 @@ public abstract class Enemy : MonoBehaviour {
 
     protected abstract void Move();
 
-    public void OnHit(int dmg)
-    {
+    public void OnHit (int dmg) {
         hpCur -= dmg;
         renderer.material.color = HSBColor.Lerp(colorNoHealth_HSB, colorFullHealth_HSB, (float)hpCur / (float)hpMax).ToColor();
-        if(hpCur <= 0)
-        {
+        if(alive && hpCur <= 0) {
+            alive = false;
             OnDeath();
         }
     }
 
-    protected virtual void OnDeath()
-    {
-        int idx = Random.Range(0, s_GameManager.Instance.lootTable.Length);
-        if (s_GameManager.Instance.lootTable[idx] != null)
-        {
-            Instantiate(s_GameManager.Instance.lootTable[idx], transform.position, transform.rotation);
+    protected virtual void OnDeath() {
+        GameObject loot = s_GameManager.Instance.RetrieveLoot();
+        if (loot){
+            Instantiate(loot, transform.position, transform.rotation);
         }
         Destroy(this.gameObject);
     }

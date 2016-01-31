@@ -1611,7 +1611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fallingSpeed: 0
-  priority: 2
+  priority: 3
 --- !u!135 &13554736
 SphereCollider:
   m_ObjectHideFlags: 1

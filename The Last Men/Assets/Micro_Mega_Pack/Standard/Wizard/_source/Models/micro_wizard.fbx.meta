@@ -1,0 +1,1631 @@
+fileFormatVersion: 2
+guid: 9b2d7c4b3b5d48447af06a36855ad0e8
+timeCreated: 1452351452
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: body_wizard
+    100002: brows_wizard
+    100004: butt_wizard
+    100006: eye_l_wizard
+    100008: eye_r_wizard
+    100010: hair_01_wizard
+    100012: hair_02_wizard
+    100014: hair_03_wizard
+    100016: hair_04_wizard
+    100018: hat_01_wizard
+    100020: hat_02_wizard
+    100022: hat_03_wizard
+    100024: head_wizard
+    100026: left_arm_wizard
+    100028: left_finger_01_wizard
+    100030: left_finger_02_wizard
+    100032: left_hand_wizard
+    100034: left_shoulder_wizard
+    100036: left_thumb_wizard
+    100038: //RootNode
+    100040: micro_wizard
+    100042: micro_wizard_alpha
+    100044: right_arm_wizard
+    100046: right_finger_01_wizard
+    100048: right_finger_02_wizard
+    100050: right_hand_wizard
+    100052: right_shoulder_wizard
+    100054: right_thumb_wizard
+    100056: robes_back_wizard
+    100058: robes_front_wizard
+    100060: robes_left_wizard
+    100062: robes_right_wizard
+    100064: root
+    400000: body_wizard
+    400002: brows_wizard
+    400004: butt_wizard
+    400006: eye_l_wizard
+    400008: eye_r_wizard
+    400010: hair_01_wizard
+    400012: hair_02_wizard
+    400014: hair_03_wizard
+    400016: hair_04_wizard
+    400018: hat_01_wizard
+    400020: hat_02_wizard
+    400022: hat_03_wizard
+    400024: head_wizard
+    400026: left_arm_wizard
+    400028: left_finger_01_wizard
+    400030: left_finger_02_wizard
+    400032: left_hand_wizard
+    400034: left_shoulder_wizard
+    400036: left_thumb_wizard
+    400038: //RootNode
+    400040: micro_wizard
+    400042: micro_wizard_alpha
+    400044: right_arm_wizard
+    400046: right_finger_01_wizard
+    400048: right_finger_02_wizard
+    400050: right_hand_wizard
+    400052: right_shoulder_wizard
+    400054: right_thumb_wizard
+    400056: robes_back_wizard
+    400058: robes_front_wizard
+    400060: robes_left_wizard
+    400062: robes_right_wizard
+    400064: root
+    4300000: micro_wizard
+    4300002: micro_wizard_alpha
+    7400000: wizard_bind
+    7400002: wizard_idle
+    7400004: wizard_block
+    7400006: wizard_hit_front
+    7400008: wizard_hit_left
+    7400010: wizard_hit_right
+    7400012: wizard_attack
+    7400014: wizard_panic
+    7400016: wizard_die
+    7400018: wizard_talk
+    7400020: wizard_laugh
+    7400022: wizard_potion_spell
+    7400024: wizard_potion_sniff
+    7400026: wizard_potion_drink
+    7400028: wizard_stroke_beard
+    7400030: wizard_walk
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: micro_wizard
+    13700002: micro_wizard_alpha
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: wizard_bind
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 5
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_idle
+      takeName: Take 001
+      firstFrame: 10
+      lastFrame: 70
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_block
+      takeName: Take 001
+      firstFrame: 80
+      lastFrame: 104
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_hit_front
+      takeName: Take 001
+      firstFrame: 110
+      lastFrame: 130
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_hit_left
+      takeName: Take 001
+      firstFrame: 140
+      lastFrame: 160
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_hit_right
+      takeName: Take 001
+      firstFrame: 170
+      lastFrame: 190
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_attack
+      takeName: Take 001
+      firstFrame: 200
+      lastFrame: 230
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_panic
+      takeName: Take 001
+      firstFrame: 240
+      lastFrame: 288
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_die
+      takeName: Take 001
+      firstFrame: 290
+      lastFrame: 338
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_talk
+      takeName: Take 001
+      firstFrame: 340
+      lastFrame: 376
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_laugh
+      takeName: Take 001
+      firstFrame: 380
+      lastFrame: 405
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_potion_spell
+      takeName: Take 001
+      firstFrame: 410
+      lastFrame: 494
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_potion_sniff
+      takeName: Take 001
+      firstFrame: 500
+      lastFrame: 560
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_potion_drink
+      takeName: Take 001
+      firstFrame: 570
+      lastFrame: 618
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_stroke_beard
+      takeName: Take 001
+      firstFrame: 630
+      lastFrame: 678
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: wizard_walk
+      takeName: Take 001
+      firstFrame: 680
+      lastFrame: 704
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: micro_wizard
+        weight: 1
+      - path: micro_wizard_alpha
+        weight: 1
+      - path: root
+        weight: 1
+      - path: root/butt_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/brows_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_l_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/eye_r_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hair_01_wizard/hair_02_wizard/hair_03_wizard/hair_04_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/head_wizard/hat_01_wizard/hat_02_wizard/hat_03_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_finger_01_wizard/left_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/left_shoulder_wizard/left_arm_wizard/left_hand_wizard/left_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_finger_01_wizard/right_finger_02_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/right_shoulder_wizard/right_arm_wizard/right_hand_wizard/right_thumb_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_back_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_front_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_left_wizard
+        weight: 1
+      - path: root/butt_wizard/body_wizard/robes_right_wizard
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -4,8 +4,9 @@ public abstract class s_Collectible : MonoBehaviour {
 
     public bool autoDestroyOnCollect = true;
     public float destructionDelay = 2.0f;
+    public GameObject collectParticleEffect;
 
-	void OnTriggerEnter (Collider other) {
+    void OnTriggerEnter (Collider other) {
         if (other.CompareTag("Player")){
             //#if UNITY_EDITOR
             //    Debug.Log(this.GetType() + " on " + gameObject.name + " was collected.");

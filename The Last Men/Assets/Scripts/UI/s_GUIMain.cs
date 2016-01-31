@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UI.Extensions;
 
 public enum GUIUpdateEvent {
     Energy,
     Wood,
+    Key,
     Artifact,
     Health,
     Tool,
@@ -11,6 +13,17 @@ public enum GUIUpdateEvent {
     BastionMenu,
     Layer,
     All
+}
+
+public enum GUIPopupMessage {
+    Energy,
+    Wood,
+    Key,
+    Artifact1,
+    Artifact2,
+    Healing,
+    Survivor,
+    Layer
 }
 
 public class s_GUIMain : MonoBehaviour {
@@ -31,8 +44,11 @@ public class s_GUIMain : MonoBehaviour {
 
     [SerializeField]protected CanvasGroup GUI_Ingame, GUI_PauseMenu, GUI_Controls, GUI_BastionMenu, GUI_LayerChange, GUI_GameEnd;
 
+    public Sprite iconEnergy, iconWood, iconArtifact1, iconArtifact2, iconKey, iconHealingPlant, iconSurvivor;
+    [SerializeField]protected RectTransform startPointForPopupMessages;
+    [SerializeField]protected GameObject popupMessagePrefab;
 
-	[SerializeField]protected Image iconBastion, iconBastionEnergy_Main, iconBastionDirection, iconBastionFrame;
+    [SerializeField]protected Image iconBastion, iconBastionEnergy_Main, iconBastionDirection, iconBastionFrame;
     [SerializeField]protected RectTransform textBastionDirDisplayParent;
     [SerializeField]protected Text textBastionDirDisplay;
     [SerializeField]protected int screenBorderThreshold = 50;
@@ -83,8 +99,10 @@ public class s_GUIMain : MonoBehaviour {
     [SerializeField]protected Text textSurvivorCount;
     [SerializeField]protected Image iconRemainingTime;
     [SerializeField]protected Text textRemainingTime;
-    
-	[SerializeField]protected Image iconCurrentLayer;
+    protected NicerOutline textRemainingTimeOutline;
+    [SerializeField]protected Image iconKeys;
+
+    [SerializeField]protected Image iconCurrentLayer;
     [SerializeField]protected Text textCurrentLayer;
     [SerializeField]protected Text textClimbLayer;
 
@@ -169,6 +187,8 @@ public class s_GUIMain : MonoBehaviour {
         
         damageScreenOverlay.CrossFadeColor(damageOverlayColorRegular, 0.0f, true, true);
 
+        textRemainingTimeOutline = textRemainingTime.GetComponent<NicerOutline>();
+
         GUI_Ingame.gameObject.SetActive(true);
     }
 
@@ -188,23 +208,15 @@ public class s_GUIMain : MonoBehaviour {
 			}
 
 			if (!game.gamePaused) {
-            
-				//UpdatePerFrame
-				int remainingTime = (int)Mathf.Max (0, game.endTime - Time.time);
-				textRemainingTime.text = remainingTime / 60 + ":" + (remainingTime % 60).ToString ("00");
-				iconRemainingTime.fillAmount = (float)remainingTime / game.roundDuration;
-                float curDistanceToBlackHole = ComputeDistanceToBlackHole();
-                iconDistanceToBlackHole.fillAmount = curDistanceToBlackHole / initialDistanceToBlackHole;
-                textDistanceToBlackHole.text = curDistanceToBlackHole.ToString("0.0") + "m";
+
+                UpdatePerFrame();
 
                 if (bastionTransform != null) { //JingYi: quickfix to avoid wall of errors after the bastion is destroyed by the black whole and the player is still on a higher island
 					UpdateBastionDirectionIcon ();
 				}
             
-				#region TODO: put in proper references!! 
 				//iconSkillCooldownBar.fillAmount = (0.1f * Time.time) % 1.0f;
-				#endregion
-
+			
 			}
 			if (game.gamePaused) {
 				//show seed in pause menu
@@ -224,6 +236,52 @@ public class s_GUIMain : MonoBehaviour {
         Cursor.lockState = cursorNeeded ? CursorLockMode.None : CursorLockMode.Locked;
     }
 
+    protected void UpdatePerFrame () {
+        int remainingTime = (int)Mathf.Max(0, game.endTime - Time.time);
+        textRemainingTime.text = remainingTime / 60 + ":" + (remainingTime % 60).ToString("00");
+        float percRemainingTime = remainingTime / game.roundDuration;
+        float lerpFactor = percRemainingTime > 0.4f ? 0 : (1.0f - 2.5f*percRemainingTime) + 0.5f * Mathf.PingPong(Time.time / (0.4f + 9*percRemainingTime), 1.0f);
+        textRemainingTimeOutline.effectColor = Color.Lerp(Color.white, Color.red, lerpFactor);
+        iconRemainingTime.fillAmount = (float)remainingTime / game.roundDuration;
+        float curDistanceToBlackHole = ComputeDistanceToBlackHole();
+        iconDistanceToBlackHole.fillAmount = curDistanceToBlackHole / initialDistanceToBlackHole;
+        textDistanceToBlackHole.text = curDistanceToBlackHole.ToString("0.0") + "m";
+    }
+
+    public void SpawnPopupMessage (GUIPopupMessage popupType) {
+        Sprite icon = null;
+        switch (popupType) {
+            case GUIPopupMessage.Energy:
+                icon = iconEnergy;
+                break;
+            case GUIPopupMessage.Wood:
+                icon = iconWood;
+                break;
+            case GUIPopupMessage.Key:
+                icon = iconKey;
+                break;
+            case GUIPopupMessage.Artifact1:
+                icon = iconArtifact1;
+                break;
+            case GUIPopupMessage.Artifact2:
+                icon = iconArtifact2;
+                break;
+            case GUIPopupMessage.Healing:
+                icon = iconHealingPlant;
+                break;
+            case GUIPopupMessage.Survivor:
+                icon = iconSurvivor;
+                break;
+            case GUIPopupMessage.Layer:
+                break;
+        }
+
+        if (icon) {
+            GameObject popupMsg = Instantiate(popupMessagePrefab) as GameObject;
+            popupMsg.GetComponent<s_GUIPopupMessage>().Initialize(startPointForPopupMessages, icon);
+        }
+    }
+
     public void UpdateGUI (GUIUpdateEvent updateType = GUIUpdateEvent.All) {
         if (!game) {
             game = s_GameManager.Instance;
@@ -234,6 +292,9 @@ public class s_GUIMain : MonoBehaviour {
                 break;
             case GUIUpdateEvent.Wood:
                 UpdateWoodState();
+                break;
+            case GUIUpdateEvent.Key:
+                UpdateKeyState();
                 break;
             case GUIUpdateEvent.Artifact:
                 UpdateArtifactState();
@@ -256,6 +317,7 @@ public class s_GUIMain : MonoBehaviour {
             case GUIUpdateEvent.All:
                 UpdateEnergyState();
                 UpdateWoodState();
+                UpdateKeyState();
                 UpdateArtifactState();
                 UpdateHealthState();
                 UpdateToolState();
@@ -282,6 +344,10 @@ public class s_GUIMain : MonoBehaviour {
         textPlayerWood_Bastion.text = textPlayerWood_Main.text = game.woodPlayer_Cur.ToString("0");
 
         textBastionWood_Bastion.text = game.woodBastion_Cur.ToString("0");
+    }
+
+    protected void UpdateKeyState () {
+        iconKeys.enabled = game.amountOfKeys > 0;
     }
 
     protected void UpdateArtifactState () {
