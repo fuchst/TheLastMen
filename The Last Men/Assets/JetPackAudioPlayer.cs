@@ -16,6 +16,7 @@ public class JetPackAudioPlayer : MonoBehaviour {
     {
         if (jetpacking && !audio.isPlaying)
         {
+            audio.clip = jetpackSounds[Random.Range(0, jetpackSounds.Count)];
             audio.Play();
         }
         else if(audio.isPlaying && !jetpacking)

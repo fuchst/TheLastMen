@@ -18,6 +18,7 @@ public class RopeAudioPlayer : MonoBehaviour {
     {
         if (hooked && !audio.isPlaying)
         {
+            audio.clip = ropeSounds[Random.Range(0, ropeSounds.Count)];
             audio.Play();
         }
         else if (audio.isPlaying && !hooked)
