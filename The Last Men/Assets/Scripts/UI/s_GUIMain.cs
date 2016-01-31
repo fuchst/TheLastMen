@@ -54,10 +54,10 @@ public class s_GUIMain : MonoBehaviour {
     [SerializeField]protected Text textArtifacts1_Main, textArtifacts2_Main;
     [SerializeField]protected Text textArtifacts1_Bastion, textArtifacts2_Bastion;
 
+    [SerializeField]protected Image iconDistanceToBlackHole;
+	[SerializeField]protected Text textDistanceToBlackHole;
 
-	[SerializeField]protected Image iconRemainingTime;
-    [SerializeField]protected Text textRemainingTime;
-    [SerializeField]protected Image iconPlayerHealth;
+	[SerializeField]protected Image iconPlayerHealth;
 	[SerializeField]protected Text textPlayerHealth;
     [SerializeField]protected Image damageScreenOverlay;
     [SerializeField]protected Color damageOverlayColorActive;
@@ -81,7 +81,9 @@ public class s_GUIMain : MonoBehaviour {
     [SerializeField]protected Button buttonCloseBastionMenu;
 
     [SerializeField]protected Text textSurvivorCount;
-
+    [SerializeField]protected Image iconRemainingTime;
+    [SerializeField]protected Text textRemainingTime;
+    
 	[SerializeField]protected Image iconCurrentLayer;
     [SerializeField]protected Text textCurrentLayer;
     [SerializeField]protected Text textClimbLayer;
@@ -99,6 +101,8 @@ public class s_GUIMain : MonoBehaviour {
     protected bool offscreen = false;
     protected int min, maxX, maxY;
 
+    protected float initialDistanceToBlackHole;
+    protected float correctionOffset;
     //protected int fadingIn = 0;
 
     //shortcut
@@ -141,6 +145,8 @@ public class s_GUIMain : MonoBehaviour {
         maxX = Screen.width - screenBorderThreshold;
         maxY = Screen.height - screenBorderThreshold;
 
+        correctionOffset = 0.5f * (24 + LevelManager.Instance.BlackHole.transform.localScale.x); //accounts for scale of black hole and bastion
+        initialDistanceToBlackHole = ComputeDistanceToBlackHole();
 
         buttonPause.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(true); });
         buttonContinue.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(false); });
@@ -165,8 +171,12 @@ public class s_GUIMain : MonoBehaviour {
 
         GUI_Ingame.gameObject.SetActive(true);
     }
-	
-	void Update () {
+
+    protected float ComputeDistanceToBlackHole () {
+        return Vector3.Distance(LevelManager.Instance.BlackHole.transform.position, bastionTransform.position) - correctionOffset;
+    }
+
+    void Update () {
 		if (LevelManager.Instance.gameState == LevelManager.GameState.Playing) {
 
             UpdateGUI ();
@@ -183,7 +193,11 @@ public class s_GUIMain : MonoBehaviour {
 				int remainingTime = (int)Mathf.Max (0, game.endTime - Time.time);
 				textRemainingTime.text = remainingTime / 60 + ":" + (remainingTime % 60).ToString ("00");
 				iconRemainingTime.fillAmount = (float)remainingTime / game.roundDuration;
-				if (bastionTransform != null) { //JingYi: quickfix to avoid wall of errors after the bastion is destroyed by the black whole and the player is still on a higher island
+                float curDistanceToBlackHole = ComputeDistanceToBlackHole();
+                iconDistanceToBlackHole.fillAmount = curDistanceToBlackHole / initialDistanceToBlackHole;
+                textDistanceToBlackHole.text = curDistanceToBlackHole.ToString("0.0") + "m";
+
+                if (bastionTransform != null) { //JingYi: quickfix to avoid wall of errors after the bastion is destroyed by the black whole and the player is still on a higher island
 					UpdateBastionDirectionIcon ();
 				}
             

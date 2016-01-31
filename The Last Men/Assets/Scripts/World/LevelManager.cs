@@ -215,6 +215,13 @@ public class LevelManager : MonoBehaviour
         public float artifactIslandWidth;
     }
 
+    public Vector3 UpdatePlayerSpawnPos () {
+        Vector3 spawnPos = bastion.transform.FindChild("Spawn").transform.position;
+        spawnPos += spawnPos.normalized;
+        playerSpawnPos = spawnPos;
+        return spawnPos;
+    }
+
     public void RestartLevel()
     {
         gameState = GameState.Loading;
