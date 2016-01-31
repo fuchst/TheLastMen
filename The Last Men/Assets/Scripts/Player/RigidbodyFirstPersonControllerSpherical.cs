@@ -173,10 +173,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (!movementSettings.m_Hooked && CrossPlatformInputManager.GetButtonDown("Jetpack") && !m_Fly && s_GameManager.Instance.energyPlayer_Cur > 0) // && m_JetpackCurFlightDuration < movementSettings.JetpackMaxFlightDuration
             {
                 m_Fly = true;
+                audio.UpdateJetpackState(true);
             }
             else if (m_Fly && CrossPlatformInputManager.GetButtonUp("Jetpack"))
             {
                 m_Fly = false;
+                audio.UpdateJetpackState(false);
             }
         }
 
@@ -222,9 +224,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float Fly (Vector2 input) {
             if (s_GameManager.Instance.energyPlayer_Cur <= 0) {
                 m_Fly = false;
+                audio.UpdateJetpackState(false);
                 return 0;
             }
-
+            //audio.UpdateJetpackState(true);
             float curRunMultiplier = movementSettings.Running ? movementSettings.RunMultiplier : 1;
             Vector3 desiredMove, force = Vector3.zero;
             if (movementSettings.JetpackFlyInLookingDir) {
@@ -539,6 +542,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         public void SetHooked(bool hooked)
         {
             movementSettings.m_Hooked = hooked;
+            audio.UpdateHookState(hooked);
             m_Fly = !hooked && m_Fly;
 /*#if !MOBILE_INPUT
             movementSettings.m_RunningLock = hooked;
