@@ -22205,8 +22205,9 @@ MonoBehaviour:
     bastionWidth: 0
     AritfactIsland: {fileID: 197784, guid: c5677bf1733b15841aa9949ff568e7c2, type: 2}
     artifactIslandWidth: 0
-    UniqueSmallIslands:
+    UniqueArtifacts:
     - {fileID: 108816, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
+    UniqueSmallIslands: []
   levelVariables:
   - radius: 200
     cycles: 0

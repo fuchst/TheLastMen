@@ -371,6 +371,7 @@ public class Level : MonoBehaviour
         LevelManager.IslandPrefabs islandPrefabs = LevelManager.Instance.islandPrefabs;
 
         //Big islands
+        int uniqueArifacts = LevelManager.Instance.islandPrefabs.UniqueArtifacts.Length;
         int bigIsland = 0;
         foreach (KeyValuePair<int, Island> item in islandDictionary)
         {
@@ -381,7 +382,14 @@ public class Level : MonoBehaviour
                     islandGameObject = null;
                     break;
                 case IslandType.Artifact:
-                    islandGameObject = Instantiate(islandPrefabs.AritfactIsland, item.Value.position, Quaternion.identity) as GameObject;
+                    if(uniqueArifacts > 0)
+                    {
+                        islandGameObject = Instantiate(islandPrefabs.UniqueArtifacts[uniqueArifacts-1], item.Value.position, Quaternion.identity) as GameObject;
+                    }
+                    else
+                    {
+                        islandGameObject = Instantiate(islandPrefabs.AritfactIsland, item.Value.position, Quaternion.identity) as GameObject;
+                    }
                     break;
                 default:
                     islandGameObject = Instantiate(islandPrefabs.BigIslands[bigIsland], item.Value.position, Quaternion.identity) as GameObject;
