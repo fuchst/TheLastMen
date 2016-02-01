@@ -5,13 +5,19 @@ using System.Collections.Generic;
 public class AudioPlayer : MonoBehaviour {
 
     [SerializeField]protected List<AudioClip> footstepSounds;
+    public AudioClip jetpackSound;
     protected bool walking = false;
+    protected bool jetpacking = false;
     protected float speed = 0.0f;
     protected new AudioSource audio;
+    protected JetPackAudioPlayer jetpackAudio;
+    protected RopeAudioPlayer ropeAudio;
 
     void Awake () {
         audio = GetComponent<AudioSource>();
         audio.volume = 0.5f;
+        jetpackAudio = GetComponentInChildren<JetPackAudioPlayer>();
+        ropeAudio = GetComponentInChildren<RopeAudioPlayer>();
     }
 	
 	void Update () {
@@ -31,5 +37,15 @@ public class AudioPlayer : MonoBehaviour {
         speed = 0.33f + 0.65f * Mathf.Log(speed);
         audio.pitch = speed;
         //Debug.Log(speed);
+    }
+
+    public void UpdateJetpackState( bool jetpacking)
+    {
+        jetpackAudio.UpdateJetpackState(jetpacking);
+    }
+
+    public void UpdateHookState(bool hooked)
+    {
+        ropeAudio.UpdateRopeState(hooked);
     }
 }

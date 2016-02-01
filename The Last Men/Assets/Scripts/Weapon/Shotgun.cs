@@ -4,6 +4,7 @@ public class Shotgun : Weapon
 {
     private int numBullets;
     private float maxSpread;
+    protected new AudioSource audio;
 
     public Shotgun()
     {
@@ -19,6 +20,7 @@ public class Shotgun : Weapon
 
     public override void OnAwake()
     {
+        audio = GetComponent<AudioSource>();
         base.OnAwake();
     }
 
@@ -34,6 +36,7 @@ public class Shotgun : Weapon
             bullet.GetComponent<Bullet>().damage = dmg;
             bullet.GetComponent<Rigidbody>().AddForce((frame.forward + spreadX + spreadY).normalized * bulletSpeed, ForceMode.Impulse);
         }
+        audio.Play();
     }
 
     public override string Description () {

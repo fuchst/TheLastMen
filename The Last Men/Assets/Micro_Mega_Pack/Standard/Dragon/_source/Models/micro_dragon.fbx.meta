@@ -3,9 +3,64 @@ guid: e5b3c514437d42b49af17b91a81a8b92
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
+    100000: micro_dragon
+    100002: //RootNode
+    100004: micro_dragon_clean:body_drag
+    100006: micro_dragon_clean:brows_drag
+    100008: micro_dragon_clean:eyes
+    100010: micro_dragon_clean:eyes_drag
+    100012: micro_dragon_clean:head_drag
+    100014: micro_dragon_clean:left_arm_drag
+    100016: micro_dragon_clean:left_shoulder_drag
+    100018: micro_dragon_clean:left_wing_drag
+    100020: micro_dragon_clean:right_arm_drag
+    100022: micro_dragon_clean:right_shoulder_drag
+    100024: micro_dragon_clean:right_wing_drag
+    100026: micro_dragon_clean:root_drag
+    100028: micro_dragon_clean:snout_drag
+    100030: micro_dragon_clean:tail_drag
+    100032: micro_dragon_clean:tongue
+    400000: //RootNode
+    400002: micro_dragon
+    400004: micro_dragon_clean:body_drag
+    400006: micro_dragon_clean:brows_drag
+    400008: micro_dragon_clean:eyes
+    400010: micro_dragon_clean:eyes_drag
+    400012: micro_dragon_clean:head_drag
+    400014: micro_dragon_clean:left_arm_drag
+    400016: micro_dragon_clean:left_shoulder_drag
+    400018: micro_dragon_clean:left_wing_drag
+    400020: micro_dragon_clean:right_arm_drag
+    400022: micro_dragon_clean:right_shoulder_drag
+    400024: micro_dragon_clean:right_wing_drag
+    400026: micro_dragon_clean:root_drag
+    400028: micro_dragon_clean:snout_drag
+    400030: micro_dragon_clean:tail_drag
+    400032: micro_dragon_clean:tongue
     4300000: micro_dragon
     4300002: micro_dragon_clean:tongue
     4300004: micro_dragon_clean:eyes
+    7400000: dragon_bind
+    7400002: dragon_idle
+    7400004: dragon_bite
+    7400006: dragon_hit_front
+    7400008: dragon_hit_left
+    7400010: dragon_hit_right
+    7400012: dragon_panic
+    7400014: dragon_swoop_down
+    7400016: dragon_loop_da_loop
+    7400018: dragon_land_on_ground
+    7400020: dragon_die
+    7400022: dragon_stirr_on_ground
+    7400024: dragon_take_off
+    7400026: dragon_attack_repeatedly
+    7400028: dragon_dizzy
+    7400030: dragon_talk
+    7400032: dragon_laugh
+    11100000: //RootNode
+    13700000: micro_dragon
+    13700002: micro_dragon_clean:eyes
+    13700004: micro_dragon_clean:tongue
   materials:
     importMaterials: 1
     materialName: 1

@@ -18,18 +18,30 @@ public class Level : MonoBehaviour
     private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
     private SortedDictionary<string, Island> grapplingIslandDictionary = new SortedDictionary<string, Island>();
     private int maxDistanceToBastion = 0;
-    private bool creatingLevel = false;
     
-    public void CreateLevel()
+    public void CreateLevelInstant()
     {
-        creatingLevel = true;
-        StartCoroutine(CreateLevelOverTime());
+        IcoSphere(Radius, Cycles, ref islandDictionary);
+        SetupBastionAndDistances();
+        SetupArtifacts();
+        MarkArtifactPaths();
+        DestroyUnneededIslands();
+        SetupLayers();
+        SetupGrapplingIslands();
+        SyncFallingSpeedWithTimer();
+        InstantiateBastionAndPlayer();
+        InstantiateIslands();
     }
 
+    public void CreateLevel()
+    {
+        StartCoroutine(CreateLevelOverTime());
+    }
+    
     IEnumerator CreateLevelOverTime()
     {
         yield return new WaitForSeconds(LevelManager.Instance.createLevelCoroutineCounter);
-        LevelManager.Instance.showPaths = true;
+        //LevelManager.Instance.showPaths = true;
         IcoSphere(Radius, Cycles, ref islandDictionary);
         SetupBastionAndDistances();
         SetupArtifacts();
@@ -58,7 +70,7 @@ public class Level : MonoBehaviour
 
     void Update()
     {
-        if (LevelManager.Instance.showPaths == true || creatingLevel == true)
+        if (LevelManager.Instance.showPaths == true)
         {
             foreach (Island island in islandDictionary.Values)
             {

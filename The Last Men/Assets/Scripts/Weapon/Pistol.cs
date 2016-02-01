@@ -2,6 +2,8 @@
 
 public class Pistol : Weapon
 {
+    protected new AudioSource audio;
+
     public Pistol()
     {
         dmg = 12;
@@ -13,6 +15,7 @@ public class Pistol : Weapon
 
     public override void OnAwake()
     {
+        audio = GetComponent<AudioSource>();
         base.OnAwake();
     }
 
@@ -22,6 +25,7 @@ public class Pistol : Weapon
         bullet.GetComponent<Bullet>().gravity = bulletGravity;
         bullet.GetComponent<Bullet>().damage = dmg;
         bullet.GetComponent<Rigidbody>().AddForce(frame.forward * bulletSpeed, ForceMode.Impulse);
+        audio.Play();
     }
 
     public override string WeaponName() {

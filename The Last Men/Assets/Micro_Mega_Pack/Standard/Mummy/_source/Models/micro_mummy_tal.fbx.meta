@@ -3,8 +3,63 @@ guid: d5fa938d038d95041a0d03f8ff9da7b6
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
+    100000: body_mummy
+    100002: butt_mummy
+    100004: eye_l_mummy
+    100006: eyes
+    100008: face_mummy
+    100010: head_mummy
+    100012: left_arm_mummy
+    100014: left_hand_mummy
+    100016: left_shoulder_mummy
+    100018: //RootNode
+    100020: right_arm_mummy
+    100022: right_hand_mummy
+    100024: right_shoulder_mummy
+    100026: root_mummy
+    100028: tal
+    400000: body_mummy
+    400002: butt_mummy
+    400004: eye_l_mummy
+    400006: eyes
+    400008: face_mummy
+    400010: head_mummy
+    400012: left_arm_mummy
+    400014: left_hand_mummy
+    400016: left_shoulder_mummy
+    400018: //RootNode
+    400020: right_arm_mummy
+    400022: right_hand_mummy
+    400024: right_shoulder_mummy
+    400026: root_mummy
+    400028: tal
     4300000: eyes
     4300002: tal
+    7400000: mummy_bind
+    7400002: mummy_idle1
+    7400004: mummy_idle2
+    7400006: mummy_walk
+    7400008: mummy_bite
+    7400010: mummy_hit_front
+    7400012: mummy_hit_left
+    7400014: mummy_hit_right
+    7400016: mummy_panic
+    7400018: mummy_jump
+    7400020: mummy_fly_up_loop
+    7400022: mummy_trans_fall
+    7400024: mummy_fall_idle
+    7400026: mummy_land
+    7400028: mummy_die
+    7400030: mummy_stir_on_ground
+    7400032: mummy_getup
+    7400034: mummy_attack_repeatedly
+    7400036: mummy_dizzy
+    7400038: mummy_talk
+    7400040: mummy_laugh
+    7400042: mummy_walk
+    11100000: //RootNode
+    13700000: eyes
+    13700002: tal
   materials:
     importMaterials: 1
     materialName: 1

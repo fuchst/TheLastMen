@@ -25,7 +25,16 @@ public class MainMenu : MonoBehaviour {
     
     public void StartGame()
     {
-        Application.LoadLevel(1);
+        if (LevelManager.Instance != null)
+        {
+            Intro.SetActive(false);
+            LevelManager.Instance.StartLevel();
+
+        }
+        else
+        {
+            Application.LoadLevel(1);
+        }
     }
 
     public void EndGame()
