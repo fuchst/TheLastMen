@@ -31,8 +31,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             get { return xAngle; }
         }
 
-        public void Init(Transform character, Transform camera)
-        {
+        public void Init(Transform character, Transform camera) {
             m_CharacterTargetRot = character.localRotation;
             m_CameraTargetRot = camera.localRotation;
             m_helper = new GameObject("helper").transform;
@@ -43,8 +42,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
 
-        public void LookRotation(Transform character, Transform camera)
-        {
+        public void LookRotation(Transform character, Transform camera) {
+            //don't rotate unnecessarily when not out in the wild
+            if (s_GameManager.Instance.gamePaused || s_GameManager.Instance.BastionMenu) {
+                return;
+            }
+
             float yRot = CrossPlatformInputManager.GetAxis("Mouse X") * XSensitivity;
             float xRot = CrossPlatformInputManager.GetAxis("Mouse Y") * YSensitivity;
 
@@ -121,8 +124,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             character.localRotation = m_CharacterTargetRot;
         }
 
-        Quaternion ClampRotationAroundXAxis(Quaternion q)
-        {
+        Quaternion ClampRotationAroundXAxis(Quaternion q) {
             q.x /= q.w;
             q.y /= q.w;
             q.z /= q.w;

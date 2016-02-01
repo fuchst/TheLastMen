@@ -51,6 +51,12 @@ public class s_GUIMain : MonoBehaviour {
     [SerializeField]protected RectTransform survivorsDisplayParent;
     [SerializeField]protected GameObject survivorDisplayElementPrefab;
     protected List<GameObject> survivorDisplayElements;
+    [SerializeField]protected RectTransform upgradesDisplayParent;
+    [SerializeField]protected GameObject upgradeDisplayElementPrefab;
+    protected List<GameObject> upgradeDisplayElements;
+    [SerializeField]protected Text upgradeProgress, upgradeCostEnergy, upgradeCostWood, upgradeDescription; 
+    [SerializeField]protected Button upgradeButton;
+    protected s_GameManager.UpgradeSettings.UpgradeTypes upgradeTypeSelected;
 
     [SerializeField]protected Image iconBastion, iconBastionEnergy_Main, iconBastionDirection, iconBastionFrame;
     [SerializeField]protected RectTransform textBastionDirDisplayParent;
@@ -194,7 +200,10 @@ public class s_GUIMain : MonoBehaviour {
         textRemainingTimeOutline = textRemainingTime.GetComponent<NicerOutline>();
 
         survivorDisplayElements = new List<GameObject>(5);
+        upgradeDisplayElements = new List<GameObject>(8);
+        InitializeUpgradeGUI();
 
+        GUI_StatsBarTop.gameObject.SetActive(true);
         GUI_Ingame.gameObject.SetActive(true);
         GUI_Ingame.interactable = true;
         GUI_Ingame.alpha = 1f;
@@ -290,6 +299,35 @@ public class s_GUIMain : MonoBehaviour {
         }
     }
 
+    protected void InitializeUpgradeGUI () {
+        ToggleGroup toggleGroup = upgradesDisplayParent.GetComponent<ToggleGroup>();
+        foreach (KeyValuePair<s_GameManager.UpgradeSettings.UpgradeTypes, s_GameManager.UpgradeSettings.UpgradeObject> element in game.upgradeSettings.upgrades) {
+            GameObject newElement = Instantiate(upgradeDisplayElementPrefab) as GameObject;
+            newElement.GetComponent<s_UpgradeElement>().Initialize(upgradesDisplayParent, toggleGroup, element.Key, element.Value.name);
+            
+            upgradeDisplayElements.Add(newElement);
+        }
+        SwitchSelectedUpgrade(s_GameManager.UpgradeSettings.UpgradeTypes.PistolDamage);
+    }
+
+    public void SwitchSelectedUpgrade (s_GameManager.UpgradeSettings.UpgradeTypes upgradeType) {
+        upgradeTypeSelected = upgradeType;
+        s_GameManager.UpgradeSettings.UpgradeObject upgradeObj = game.upgradeSettings.upgrades[upgradeTypeSelected];
+        //update costs, description and "0/3" display
+        upgradeProgress.text = upgradeObj.progress_cur + " / " + upgradeObj.progress_max;
+        upgradeCostEnergy.text = upgradeObj.cost_energy.ToString("0.0");
+        upgradeCostWood.text = upgradeObj.cost_wood.ToString();
+        upgradeDescription.text = upgradeObj.description;
+        //enable/disable upgrade buy button
+        upgradeButton.interactable = s_GameManager.Instance.CheckUpgradeAvailability(upgradeTypeSelected);
+        //set appropriate upgrade type
+        upgradeButton.onClick.RemoveAllListeners();
+        upgradeButton.onClick.AddListener(() => { s_GameManager.Instance.BuyUpgrade(upgradeTypeSelected); });
+
+    }
+
+
+
     public void UpdateGUI (GUIUpdateEvent updateType = GUIUpdateEvent.All) {
         if (!game) {
             game = s_GameManager.Instance;
@@ -345,6 +383,9 @@ public class s_GUIMain : MonoBehaviour {
 
         buttonClimbLayer.interactable = game.energyBastion_Cur >= game.energyCostClimbLayer;
         textClimbLayer.text = game.energyCostClimbLayer.ToString("0");
+        
+        //enable/disable upgrade buy button
+        upgradeButton.interactable = s_GameManager.Instance.CheckUpgradeAvailability(upgradeTypeSelected);
     }
 
     protected void UpdateWoodState () {
@@ -352,6 +393,9 @@ public class s_GUIMain : MonoBehaviour {
         textPlayerWood_Bastion.text = textPlayerWood_Main.text = game.woodPlayer_Cur.ToString("0");
 
         textBastionWood_Bastion.text = game.woodBastion_Cur.ToString("0");
+
+        //enable/disable upgrade buy button
+        upgradeButton.interactable = s_GameManager.Instance.CheckUpgradeAvailability(upgradeTypeSelected);
     }
 
     protected void UpdateKeyState () {
@@ -380,8 +424,9 @@ public class s_GUIMain : MonoBehaviour {
                 GameObject newElement = Instantiate(survivorDisplayElementPrefab) as GameObject;
                 RectTransform rect = newElement.GetComponent<RectTransform>();
                 rect.SetParent(survivorsDisplayParent);
-                rect.localScale = Vector3.one;
                 rect.anchoredPosition3D = Vector3.zero;
+                rect.localRotation = Quaternion.identity;
+                rect.localScale = Vector3.one;
                 survivorDisplayElements.Add(newElement);
             }
             while (survivorDisplayElements.Count > game.survivorsCur - 1) {

@@ -22,7 +22,7 @@ GameObject:
   - 114: {fileID: 11414070}
   - 82: {fileID: 8297312}
   m_Layer: 0
-  m_Name: PlayerNew
+  m_Name: PlayerNew_old
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -249,6 +249,7 @@ MonoBehaviour:
   minRopeLength: 1
   maxRopeLength: 40
   ropeLengthChangingSpeed: 2.5
+  invertLengthChanging: 0
   grapplingHookPrefab: {fileID: 118926, guid: 1d2fb06ba6796734a9c36978948e422d, type: 2}
   cameraTransform: {fileID: 0}
 --- !u!114 &11454010
