@@ -14,7 +14,7 @@ public class Level : MonoBehaviour
     [HideInInspector]
     public float grapplingIslandExtraheight;
 
-    private enum IslandType { None, Bastion, Path, Artifact, Grappling, Small };
+    private enum IslandType { None, Bastion, Path, Artifact, Grappling, Small, Unique };
     private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
     private SortedDictionary<string, Island> grapplingIslandDictionary = new SortedDictionary<string, Island>();
     private int maxDistanceToBastion = 0;
@@ -28,6 +28,7 @@ public class Level : MonoBehaviour
         DestroyUnneededIslands();
         SetupLayers();
         SetupGrapplingIslands();
+        SetSmallUniqueIslands();
         SyncFallingSpeedWithTimer();
         InstantiateBastionAndPlayer();
         InstantiateIslands();
@@ -47,8 +48,8 @@ public class Level : MonoBehaviour
         SetupArtifacts();
         MarkArtifactPaths();
 
-        yield return new WaitForSeconds(LevelManager.Instance.createLevelCoroutineCounter);
         DestroyUnneededIslands();
+        SetSmallUniqueIslands();
 
         yield return new WaitForSeconds(LevelManager.Instance.createLevelCoroutineCounter);
         SetupLayers();
@@ -297,6 +298,19 @@ public class Level : MonoBehaviour
         }
     }
 
+    private void SetSmallUniqueIslands()
+    {
+        for(int i = 0; i < LevelManager.Instance.islandPrefabs.UniqueSmallIslands.Length; i++)
+        {
+            int j = Random.Range(0, grapplingIslandDictionary.Count);
+            while(grapplingIslandDictionary.Values.ElementAt(j).islandType == IslandType.Unique)
+            {
+                j = Random.Range(0, grapplingIslandDictionary.Count);
+            }
+            grapplingIslandDictionary.Values.ElementAt(j).islandType = IslandType.Unique;
+        }
+    }
+
     private void SyncFallingSpeedWithTimer()
     {
         //Gather all the variables we will need
@@ -355,6 +369,8 @@ public class Level : MonoBehaviour
     private void InstantiateIslands()
     {
         LevelManager.IslandPrefabs islandPrefabs = LevelManager.Instance.islandPrefabs;
+
+        //Big islands
         int bigIsland = 0;
         foreach (KeyValuePair<int, Island> item in islandDictionary)
         {
@@ -380,12 +396,21 @@ public class Level : MonoBehaviour
                 islandGameObject.transform.parent = LevelManager.Instance.islandParent;
             }
         }
+
+        //Small islands
+        int uniqueCounter = 0;
         int smallIsland = 0;
         foreach (KeyValuePair<string, Island> item in grapplingIslandDictionary)
         {
             GameObject islandGameObject;
             switch (item.Value.islandType)
             {
+                case IslandType.Unique:
+                    islandGameObject = Instantiate(islandPrefabs.UniqueSmallIslands[uniqueCounter], item.Value.position, Quaternion.identity) as GameObject;
+                    smallIsland++;
+                    uniqueCounter++;
+                    smallIsland %= islandPrefabs.SmallIslands.Length;
+                    break;
                 case IslandType.Grappling:
                 case IslandType.Small:
                 //default:

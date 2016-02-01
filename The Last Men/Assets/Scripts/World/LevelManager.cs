@@ -213,6 +213,7 @@ public class LevelManager : MonoBehaviour
         public float bastionWidth;
         public GameObject AritfactIsland;
         public float artifactIslandWidth;
+        public GameObject[] UniqueSmallIslands;
     }
 
     public Vector3 UpdatePlayerSpawnPos () {

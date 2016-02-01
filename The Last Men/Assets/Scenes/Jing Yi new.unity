@@ -13498,6 +13498,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoDestroyOnCollect: 1
   destructionDelay: 2
+  collectParticleEffect: {fileID: 0}
+  collectSounds: []
 --- !u!1 &806111936
 GameObject:
   m_ObjectHideFlags: 0
@@ -22163,10 +22165,14 @@ MonoBehaviour:
   healthRegenerationRateRegular: 0
   healthRegenerationRateBastion: 10
   survivorsCur: 3
+  amountOfKeys: 0
   energyCostClimbLayer: 15
   gamePaused: 0
-  lootTable:
-  - {fileID: 148070, guid: a92e92df45cb43c4685a8271a4476589, type: 2}
+  lootTableRegular:
+  - {fileID: 0}
+  lootTableRare:
+  - {fileID: 0}
+  rareLootChance: .100000001
   roundDuration: 300
   endTime: 0
 --- !u!114 &1378452263
@@ -22199,6 +22205,8 @@ MonoBehaviour:
     bastionWidth: 0
     AritfactIsland: {fileID: 197784, guid: c5677bf1733b15841aa9949ff568e7c2, type: 2}
     artifactIslandWidth: 0
+    UniqueSmallIslands:
+    - {fileID: 108816, guid: c1e456e0aa2045443a8d861890fa7100, type: 2}
   levelVariables:
   - radius: 200
     cycles: 0
@@ -32537,11 +32545,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 2066787160}
   GUI_Ingame: {fileID: 1236234288}
+  GUI_StatsBarTop: {fileID: 0}
   GUI_PauseMenu: {fileID: 1121530343}
   GUI_Controls: {fileID: 1103104852}
   GUI_BastionMenu: {fileID: 836831813}
   GUI_LayerChange: {fileID: 1723519240}
   GUI_GameEnd: {fileID: 598574804}
+  iconEnergy: {fileID: 0}
+  iconWood: {fileID: 0}
+  iconArtifact1: {fileID: 0}
+  iconArtifact2: {fileID: 0}
+  iconKey: {fileID: 0}
+  iconHealingPlant: {fileID: 0}
+  iconSurvivor: {fileID: 0}
+  startPointForPopupMessages: {fileID: 0}
+  popupMessagePrefab: {fileID: 0}
+  survivorsDisplayParent: {fileID: 0}
+  survivorDisplayElementPrefab: {fileID: 0}
+  upgradesDisplayParent: {fileID: 0}
+  upgradeDisplayElementPrefab: {fileID: 0}
+  upgradeProgress: {fileID: 0}
+  upgradeCostEnergy: {fileID: 0}
+  upgradeCostWood: {fileID: 0}
+  upgradeDescription: {fileID: 0}
+  upgradeButton: {fileID: 0}
   iconBastion: {fileID: 517928520}
   iconBastionEnergy_Main: {fileID: 823371364}
   iconBastionDirection: {fileID: 2052195375}
@@ -32574,6 +32601,7 @@ MonoBehaviour:
   iconDistanceToBlackHole: {fileID: 897249613}
   textDistanceToBlackHole: {fileID: 2113273172}
   iconPlayerHealth: {fileID: 2137517069}
+  iconPlayerHealthSurvivor: {fileID: 0}
   textPlayerHealth: {fileID: 1482834269}
   damageScreenOverlay: {fileID: 1809253481}
   damageOverlayColorActive: {r: 1, g: 0, b: 0, a: .752941191}
@@ -32606,6 +32634,7 @@ MonoBehaviour:
   textSurvivorCount: {fileID: 750935492}
   iconRemainingTime: {fileID: 1745995915}
   textRemainingTime: {fileID: 1794605899}
+  iconKeys: {fileID: 0}
   iconCurrentLayer: {fileID: 0}
   textCurrentLayer: {fileID: 1800336094}
   textClimbLayer: {fileID: 305736485}
@@ -32991,8 +33020,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoDestroyOnCollect: 1
   destructionDelay: 2
+  collectParticleEffect: {fileID: 0}
   energyLootMin: 3
   energyLootMax: 7
+  collectSounds: []
 --- !u!1 &2005969948
 GameObject:
   m_ObjectHideFlags: 0
