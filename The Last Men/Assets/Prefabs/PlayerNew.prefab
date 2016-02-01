@@ -119,7 +119,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 168436}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -147.271149, y: 4.55621719, z: -78.5847244}
+  m_LocalPosition: {x: -149.341934, y: 5.87294149, z: -79.5079727}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 429944}
@@ -532,7 +532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jetpackSounds:
-  - {fileID: 8300000, guid: 8d3c2228f70acb641940a5063829e2fd, type: 3}
+  - {fileID: 8300000, guid: bac1a860a9ceab442b25060be8abf193, type: 3}
 --- !u!114 &11459600
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -760,7 +760,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ropeSounds:
-  - {fileID: 8300000, guid: 2a1fcb14e21a48b46ab97e09f7c5a00f, type: 3}
+  - {fileID: 8300000, guid: 7fb98a291e4b0614db6f56ddc4a1893a, type: 3}
 --- !u!124 &12433098
 Behaviour:
   m_ObjectHideFlags: 1
