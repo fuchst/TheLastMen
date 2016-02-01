@@ -46,16 +46,16 @@ Material:
     m_Floats:
       data:
         first:
+          name: _Emission
+        second: 0
+      data:
+        first:
           name: _ReflectionStrength
         second: 1
       data:
         first:
           name: _EnvironmentLight
         second: 1.5
-      data:
-        first:
-          name: _Emission
-        second: 0
       data:
         first:
           name: _IndexOfRefraction
@@ -71,11 +71,11 @@ Material:
         second: {r: .365987629, g: .365987629, b: .365987629, a: 1}
       data:
         first:
-          name: _RefractTex_ST
+          name: _MainTex_ST
         second: {r: 1, g: 1, b: 0, a: 0}
       data:
         first:
-          name: _MainTex_ST
+          name: _RefractTex_ST
         second: {r: 1, g: 1, b: 0, a: 0}
       data:
         first:

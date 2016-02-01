@@ -1,71 +1,74 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &112116
+--- !u!1 &178154
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 462822}
-  - 33: {fileID: 3328550}
-  - 23: {fileID: 2348638}
+  - 4: {fileID: 478418}
+  - 114: {fileID: 11473532}
+  - 54: {fileID: 5483544}
+  - 114: {fileID: 11455550}
+  - 135: {fileID: 13571788}
+  - 82: {fileID: 8289516}
   m_Layer: 0
-  m_Name: crystal
+  m_Name: Crystal Shard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &138016
+--- !u!1 &195294
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 473730}
-  - 114: {fileID: 11404648}
-  - 135: {fileID: 13542110}
-  - 82: {fileID: 8247550}
+  - 4: {fileID: 490146}
+  - 33: {fileID: 3382974}
+  - 23: {fileID: 2341804}
+  - 64: {fileID: 6482306}
   m_Layer: 0
-  m_Name: Crystal
+  m_Name: CrystalShard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &462822
+--- !u!4 &478418
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 112116}
-  m_LocalRotation: {x: -5.96046448e-08, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: .600000024, y: .600000024, z: .600000024}
-  m_Children: []
-  m_Father: {fileID: 473730}
-  m_RootOrder: 0
---- !u!4 &473730
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138016}
+  m_GameObject: {fileID: 178154}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -150.395218, y: 4.93729687, z: -82.0562515}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 462822}
+  - {fileID: 490146}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2348638
+--- !u!4 &490146
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195294}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -7.75, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_Children: []
+  m_Father: {fileID: 478418}
+  m_RootOrder: 0
+--- !u!23 &2341804
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 112116}
+  m_GameObject: {fileID: 195294}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -73,7 +76,7 @@ MeshRenderer:
   - {fileID: 2100000, guid: cc0fbefc5138472449dc51d6b01b7baf, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
+  m_UseLightProbes: 0
   m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
@@ -86,19 +89,46 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
---- !u!33 &3328550
+--- !u!33 &3382974
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 112116}
-  m_Mesh: {fileID: 4300000, guid: b84994e7556ab6a4a963c0b858496e55, type: 3}
---- !u!82 &8247550
+  m_GameObject: {fileID: 195294}
+  m_Mesh: {fileID: 4300004, guid: 3cbfcb6f075f181409b79bc6156e0d55, type: 3}
+--- !u!54 &5483544
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178154}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!64 &6482306
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195294}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Convex: 1
+  m_Mesh: {fileID: 4300004, guid: 3cbfcb6f075f181409b79bc6156e0d55, type: 3}
+--- !u!82 &8289516
 AudioSource:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138016}
+  m_GameObject: {fileID: 178154}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
@@ -163,12 +193,25 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
---- !u!114 &11404648
+--- !u!114 &11455550
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138016}
+  m_GameObject: {fileID: 178154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca2be9fea48b8004380d2949b2dbe68f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  factor: 1
+  startDelay: 0
+--- !u!114 &11473532
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178154}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c0aebbf7ddce0cc4e905b3d1307ef9eb, type: 3}
@@ -176,18 +219,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoDestroyOnCollect: 0
   destructionDelay: 2
-  collectParticleEffect: {fileID: 100026, guid: 53f2cd516c7103e46831ea5bdb360a4e,
-    type: 2}
+  collectParticleEffect: {fileID: 0}
   energyLootMin: 3
   energyLootMax: 7
   collectSounds:
   - {fileID: 8300000, guid: a39d865873ee0b8498e95ca0e1f45cf4, type: 3}
---- !u!135 &13542110
+--- !u!135 &13571788
 SphereCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 138016}
+  m_GameObject: {fileID: 178154}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
@@ -206,30 +248,10 @@ Prefab:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_LocalScale.x
-      value: .600000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_LocalScale.y
-      value: .600000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: m_LocalScale.z
-      value: .600000024
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: autoDestroyOnCollect
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
       propertyPath: collectSounds.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: a39d865873ee0b8498e95ca0e1f45cf4, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 138016}
+  m_RootGameObject: {fileID: 178154}
   m_IsPrefabParent: 1

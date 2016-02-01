@@ -11,7 +11,7 @@ GameObject:
   - 33: {fileID: 3334956}
   - 23: {fileID: 2353538}
   m_Layer: 0
-  m_Name: BetterCrystal
+  m_Name: CrystalShard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
