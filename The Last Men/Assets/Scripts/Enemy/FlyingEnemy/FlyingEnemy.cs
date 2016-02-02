@@ -7,15 +7,20 @@ public class FlyingEnemy : Enemy {
     // Distance after which the enemy stops following the player
     public float maxDistance = 50.0f;
 
+    protected new Animation animation;
     protected new AudioSource audio;
-
 
     protected override void OnStart()
     {
         base.OnStart();
-        GetComponent<Animation>().wrapMode = WrapMode.Loop;
+        
+        animation = GetComponent<Animation>();
+        animation.wrapMode = WrapMode.Loop;
         GetComponent<Animation>().Play();
+
         audio = GetComponent<AudioSource>();
+        audio.loop = true;
+        audio.Play();
     }
 
     protected override void OnFixedUpdate()
@@ -75,7 +80,6 @@ public class FlyingEnemy : Enemy {
                     break;
                 case EnemyState.stateIDs.Attack:
                     state = new FlyingEnemyStateAttack(this);
-                    audio.Play();
                     break;
                 default:
                     Debug.LogError("False enemy state provided");

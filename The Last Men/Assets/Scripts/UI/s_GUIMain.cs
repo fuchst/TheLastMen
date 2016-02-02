@@ -248,9 +248,13 @@ public class s_GUIMain : MonoBehaviour {
     }
 
     protected void UpdateCursor () {
+#if UNITY_EDITOR
+        Cursor.visible = true;
+#else
         bool cursorNeeded = game.gamePaused || game.BastionMenu;
         Cursor.visible = cursorNeeded;
         Cursor.lockState = cursorNeeded ? CursorLockMode.None : CursorLockMode.Locked;
+#endif
     }
 
     protected void UpdatePerFrame () {

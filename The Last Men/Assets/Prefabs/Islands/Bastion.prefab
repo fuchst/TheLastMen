@@ -505,7 +505,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 463784}
-  - 135: {fileID: 13575320}
+  - 65: {fileID: 6588026}
   m_Layer: 10
   m_Name: IslandCollider
   m_TagString: IslandCollision
@@ -1809,7 +1809,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 140808}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.70000005, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 453874}
@@ -3958,6 +3958,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.04410541, y: 1.04410541, z: 1.04410541}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &6588026
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140808}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 47, y: 25, z: 47}
+  m_Center: {x: 0, y: 4.17000008, z: 0}
 --- !u!65 &6599464
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -4456,18 +4468,6 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 13
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &13575320
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 140808}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 24
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &19855010
 ParticleSystem:
