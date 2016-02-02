@@ -52,10 +52,11 @@ public class GroundEnemy : Enemy {
         {
             state.action();
             Move();
+
+            updateCurrentNode();
         }
 
         this.transform.position -= Vector3.Dot(this.transform.position - navGrid.transform.position, navGrid.transform.up) * navGrid.transform.up;
-        updateCurrentNode();
     }
 
     void updateCurrentNode()
@@ -122,10 +123,6 @@ public class GroundEnemy : Enemy {
                         pathIndex++;
                     }
                 }
-            }
-            else
-            {
-                path.Clear();
             }
         }
     }

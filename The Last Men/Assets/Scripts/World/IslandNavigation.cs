@@ -9,6 +9,9 @@ public class IslandNavigation : MonoBehaviour {
     private GameObject navGridPrefab;
     public NavigationGrid navGridInstance { get; set; }
 
+    private bool enemiesActive = false;
+    private static float minDistance = Mathf.Pow(100.0f, 2);
+
     void Awake()
     {
         navGridPrefab = Resources.Load("NavGrid") as GameObject;
@@ -39,6 +42,27 @@ public class IslandNavigation : MonoBehaviour {
 */
     }
 
+    void Update()
+    {
+        GameObject player = LevelManager.Instance.player;
+        float distanceToPlayer = (transform.position - player.transform.position).sqrMagnitude;
+
+        if (distanceToPlayer > minDistance && enemiesActive == true)
+        {
+            foreach (GameObject e in enemies)
+            {
+                e.SetActive(false);
+            }
+        }
+        else if(distanceToPlayer <= minDistance && enemiesActive == false)
+        {
+            foreach (GameObject e in enemies)
+            {
+                e.SetActive(true);
+            }
+        }
+    }
+
     public void SpawnEnemies(Transform parent, Stack<KeyValuePair<GameObject, Vector3>> enemiesWithSpawnPositions)
     {
 		while (enemiesWithSpawnPositions.Count > 0) {
@@ -46,6 +70,7 @@ public class IslandNavigation : MonoBehaviour {
 			GameObject enemy = Instantiate (enemyWithSpawnPos.Key, enemyWithSpawnPos.Value, Quaternion.identity) as GameObject;
 			enemy.transform.parent = parent;
 			enemy.GetComponent<GroundEnemy>().navGrid = navGridInstance;
+            enemies.Add(enemy);
 		}
     }
 
