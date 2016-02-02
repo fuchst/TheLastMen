@@ -23558,7 +23558,7 @@ MonoBehaviour:
   lootTableRare:
   - {fileID: 0}
   rareLootChance: .100000001
-  roundDuration: 60
+  roundDuration: 600
   endTime: 0
 --- !u!114 &1378452263
 MonoBehaviour:
