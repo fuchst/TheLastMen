@@ -227,9 +227,8 @@ GameObject:
   - 111: {fileID: 11105762}
   - 114: {fileID: 11436798}
   - 135: {fileID: 13518644}
-  - 54: {fileID: 5451286}
-  - 143: {fileID: 14352244}
   - 82: {fileID: 8273264}
+  - 143: {fileID: 14313978}
   m_Layer: 0
   m_Name: FlyingEnemy
   m_TagString: Enemy
@@ -848,21 +847,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 165206}
   m_Mesh: {fileID: 4300008, guid: cf5d1237219ea3848bda6ea93a37ea60, type: 3}
---- !u!54 &5451286
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 154580}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: .0500000007
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!82 &8273264
 AudioSource:
   m_ObjectHideFlags: 1
@@ -1110,7 +1094,7 @@ SkinnedMeshRenderer:
     m_Center: {x: -1.00647724, y: -.132773697, z: .251787096}
     m_Extent: {x: 1.00995743, y: .494253695, z: .713095665}
   m_DirtyAABB: 0
---- !u!143 &14352244
+--- !u!143 &14313978
 CharacterController:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1169,6 +1153,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: colorNoHealth.a
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: panLevelCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
