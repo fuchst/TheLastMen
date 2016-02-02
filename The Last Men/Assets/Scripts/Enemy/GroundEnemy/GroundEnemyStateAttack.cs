@@ -36,7 +36,7 @@ public class GroundEnemyStateAttack : EnemyState {
             }
         }
 
-        if (enemy.distanceToPlayer < 2 * enemy.navGrid.stepSize && enemy.distanceToPlayer > 2.5f)
+        if (enemy.distanceToPlayer < 2 * enemy.navGrid.stepSize && enemy.distanceToPlayer > enemy.attackRange * 0.9f)
         {
             enemy.transform.LookAt(enemy.playerPosition, enemy.navGrid.transform.up);
             enemy.controller.Move(enemy.transform.forward * enemy.moveSpeed * Time.deltaTime);
