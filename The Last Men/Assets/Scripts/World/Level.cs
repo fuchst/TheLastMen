@@ -31,6 +31,17 @@ public class Level : MonoBehaviour
         SyncFallingSpeedWithTimer();
         InstantiateBastionAndPlayer();
         InstantiateIslands();
+        
+        if(LevelManager.Instance.CurLvl > 0)
+        {
+            StartCoroutine(WaitAndStartLevel());
+        }
+    }
+
+    IEnumerator WaitAndStartLevel()
+    {
+        yield return new WaitForSeconds(LevelManager.Instance.createLevelCoroutineCounter);
+        LevelManager.Instance.StartLevel();
     }
 
     public void CreateLevel()

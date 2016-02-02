@@ -157,9 +157,7 @@ public class LevelManager : MonoBehaviour
         playerCam.enabled = true;
 
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Layer);
-        //Init scripts
         
-
         gameState = GameState.Playing;
         s_GameManager.Instance.LevelLoaded();
 
