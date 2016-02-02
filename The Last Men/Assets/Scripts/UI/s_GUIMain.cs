@@ -323,7 +323,6 @@ public class s_GUIMain : MonoBehaviour {
         //set appropriate upgrade type
         upgradeButton.onClick.RemoveAllListeners();
         upgradeButton.onClick.AddListener(() => { s_GameManager.Instance.BuyUpgrade(upgradeTypeSelected); });
-
     }
 
 
@@ -375,7 +374,7 @@ public class s_GUIMain : MonoBehaviour {
     }
 
     protected void UpdateEnergyState () {
-        iconPlayerEnergy_Main.fillAmount = game.energyPlayer_Cur / game.energyPlayer_Max;
+        iconPlayerEnergy_Main.fillAmount = game.energyPlayer_Cur / game.EnergyPlayerMax;
         textPlayerEnergy_Bastion.text = textPlayerEnergy_Main.text = game.energyPlayer_Cur.ToString("0.0");
 
         iconBastionEnergy_Main.fillAmount = game.energyBastion_Cur / game.energyBastion_Max;
@@ -389,7 +388,7 @@ public class s_GUIMain : MonoBehaviour {
     }
 
     protected void UpdateWoodState () {
-        iconPlayerWood_Main.fillAmount = game.woodPlayer_Cur / game.woodPlayer_Max;
+        iconPlayerWood_Main.fillAmount = game.woodPlayer_Cur / game.WoodPlayerMax;
         textPlayerWood_Bastion.text = textPlayerWood_Main.text = game.woodPlayer_Cur.ToString("0");
 
         textBastionWood_Bastion.text = game.woodBastion_Cur.ToString("0");

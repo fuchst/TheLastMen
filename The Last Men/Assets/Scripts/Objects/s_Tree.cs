@@ -19,7 +19,19 @@ public class s_Tree : MonoBehaviour {
     }
 
     protected void Burst () {
+        s_GameManager.UpgradeSettings.UpgradeObject harvest = s_GameManager.Instance.upgradeSettings.upgrades[s_GameManager.UpgradeSettings.UpgradeTypes.ResourceHarvesting];
         destroyed = true;
+        int tmp = 0;
+
+        //have a chance on additional logs based on upgrades
+        for(int i = 0; i < numberOfLogs; i++) {
+            if (Random.value < harvest.progress_cur * harvest.stepSize) {
+                tmp++;
+            }
+        }
+
+        numberOfLogs += tmp;
+
         for(int i = 0; i < numberOfLogs; i++) {
             Instantiate(logPrefab, transform.position + (2.75f + 4.5f*i) * transform.up, Quaternion.identity);
         }

@@ -12,7 +12,7 @@ public class s_WoodenLog : s_Collectible {
     }
 
 	protected override void Collect () {
-        if(s_GameManager.Instance.woodPlayer_Cur < s_GameManager.Instance.woodPlayer_Max) {
+        if(s_GameManager.Instance.woodPlayer_Cur < s_GameManager.Instance.WoodPlayerMax) {
             s_GameManager.Instance.woodPlayer_Cur++;
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Wood);
             s_GUIMain.Instance.SpawnPopupMessage(GUIPopupMessage.Wood);

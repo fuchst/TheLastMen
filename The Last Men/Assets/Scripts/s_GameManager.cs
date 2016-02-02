@@ -56,7 +56,7 @@ public class s_GameManager : MonoBehaviour {
             upgrades.Add(UpgradeTypes.ShotgunBullets,
                 new UpgradeObject(UpgradeTypes.ShotgunBullets, 2, false, 3, 15.0f, "Shotgun Bullets", "Augment the shotgun barrel for additional ammo.\n\n(+2 bullets per shot)"));
             upgrades.Add(UpgradeTypes.ArmourValue,
-                new UpgradeObject(UpgradeTypes.ArmourValue, 0.1f, false, 5, 7.5f, "Armour Value", "Craft some makeshift armour for yourself.\n\n(+10% damage protection)"));
+                new UpgradeObject(UpgradeTypes.ArmourValue, 0.2f, false, 5, 7.5f, "Armour Value", "Craft some makeshift armour for yourself.\n\n(+10% damage protection)"));
             upgrades.Add(UpgradeTypes.InventoryCapacity,
                 new UpgradeObject(UpgradeTypes.InventoryCapacity, 0.2f, true, 3, 5.0f, "Inventory Size", "Construct and mount a bigger backpack.\n\n(+20% inventory size for wood/energy)"));
             upgrades.Add(UpgradeTypes.ResourceHarvesting,
@@ -151,15 +151,17 @@ public class s_GameManager : MonoBehaviour {
     public int artifactCountMax = 10;
 
     public float energyPlayer_Cur = 10;
-    public float energyPlayer_Max = 100;
+    [SerializeField]protected float energyPlayer_Max = 100;
     public float energyBastion_Cur = 0;
     public float energyBastion_Max = 100;
-
+    public float EnergyPlayerMax { get { return energyPlayer_Max * (1 + inventoryCapacity.progress_cur * inventoryCapacity.stepSize); } }
+    
     public float woodPlayer_Cur = 0;
     public float woodBastion_Cur = 0;
-    public float woodPlayer_Max = 10;
+    [SerializeField]protected float woodPlayer_Max = 10;
     public float woodBastion_Max = 10;
-    
+    public float WoodPlayerMax { get { return woodPlayer_Max * (1 + inventoryCapacity.progress_cur * inventoryCapacity.stepSize); } }
+
     public int healthpointsCur = 100;
     public int healthpointsPrev = 100;
     public int healthpointsMax = 100;
@@ -167,6 +169,8 @@ public class s_GameManager : MonoBehaviour {
     public int healthRegenerationRateBastion = 10;
     public int survivorsCur = 3;
     public int amountOfKeys = 0;
+    protected UpgradeSettings.UpgradeObject playerArmour;
+    protected UpgradeSettings.UpgradeObject inventoryCapacity;
 
     public float energyCostClimbLayer = 15;
 
@@ -258,7 +262,9 @@ public class s_GameManager : MonoBehaviour {
         ResetLevelClock();
         
         levelManager.LoadLevel();
-        
+
+        playerArmour = upgradeSettings.upgrades[UpgradeSettings.UpgradeTypes.ArmourValue];
+        inventoryCapacity = upgradeSettings.upgrades[UpgradeSettings.UpgradeTypes.InventoryCapacity];
     }
 
     public void LevelLoaded()
@@ -302,7 +308,7 @@ public class s_GameManager : MonoBehaviour {
     }
 
     public void TakeEnergy (float amount) {
-        amount = Mathf.Min(Mathf.Min(energyBastion_Cur, amount), energyPlayer_Max - energyPlayer_Cur);
+        amount = Mathf.Min(Mathf.Min(energyBastion_Cur, amount), EnergyPlayerMax - energyPlayer_Cur);
         if(amount > 0) {
             energyPlayer_Cur += amount;
             energyBastion_Cur -= amount;
@@ -320,7 +326,7 @@ public class s_GameManager : MonoBehaviour {
     }
 
     public void TakeWood (float amount) {
-        amount = Mathf.Min(Mathf.Min(woodBastion_Cur, amount), woodPlayer_Max - woodPlayer_Cur);
+        amount = Mathf.Min(Mathf.Min(woodBastion_Cur, amount), WoodPlayerMax - woodPlayer_Cur);
         if(amount > 0) {
             woodPlayer_Cur += amount;
             woodBastion_Cur -= amount;
@@ -363,7 +369,7 @@ public class s_GameManager : MonoBehaviour {
     public void HurtPlayer (int damage) {
         if (damage <= 0)
             return;
-        healthpointsCur -= damage;
+        healthpointsCur -= damage * (int)(1 - playerArmour.progress_cur * playerArmour.stepSize);
         if (healthpointsCur <= 0) {
             healthpointsCur = 0;
             KillPlayer();

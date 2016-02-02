@@ -24,7 +24,7 @@ public class GrapplingHook : MonoBehaviour
         float distance = Vector3.Distance(player.position, transform.position);
 
         //Check distance to player
-        if(distance > fireGrapplingHook.maxRopeLength + 1)
+        if(distance > fireGrapplingHook.MaximumRopeLength + 1)
         {
             fireGrapplingHook.RemoveRope();
             //Destroy(gameObject);

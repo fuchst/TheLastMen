@@ -21,12 +21,13 @@ public class FireGrapplingHook : MonoBehaviour
     private GrapplingHook grapplingHookScript;
     private RigidbodyFirstPersonControllerSpherical controller;
     private Rigidbody rb;
+    private s_GameManager.UpgradeSettings.UpgradeObject ropeLength;
     private float ropeLengthChangeOld = 0;
 
     public bool Fired { get { return fired; } }
     public bool Hooked { get { return hooked; } }
     public float CurrentRopeLength { get { return confJoint.linearLimit.limit; } }
-    public float MaximumRopeLength { get { return maxRopeLength; } }
+    public float MaximumRopeLength { get { return maxRopeLength + ropeLength.progress_cur * ropeLength.stepSize; } }
 
     void Awake()
     {
@@ -38,6 +39,7 @@ public class FireGrapplingHook : MonoBehaviour
 
     public void Init () {
         UpdateRopeLength(0.0f, false);
+        ropeLength = s_GameManager.Instance.upgradeSettings.upgrades[s_GameManager.UpgradeSettings.UpgradeTypes.RopeLength];
     }
 
     void Update()
@@ -66,7 +68,7 @@ public class FireGrapplingHook : MonoBehaviour
             float ropeLengthChangeNew = ropeLengthChangingSpeed * Input.GetAxis("RopeLength") * (invertLengthChanging ? -1 : 1);
             float ropeLengthChangeTotal = ropeLengthChangeOld + ropeLengthChangeNew;
             ropeLengthChangeOld = 0;
-            float newLength = Mathf.Clamp(CurrentRopeLength + ropeLengthChangeTotal, minRopeLength, maxRopeLength);
+            float newLength = Mathf.Clamp(CurrentRopeLength + ropeLengthChangeTotal, minRopeLength, MaximumRopeLength);
             UpdateRopeLength(newLength);
         }
     }

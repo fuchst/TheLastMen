@@ -19,8 +19,11 @@ public class s_EnergyCrystal : s_Collectible {
 
     protected override void Collect () {
         s_GameManager game = s_GameManager.Instance;
-        if(game.energyPlayer_Cur + energyLootMin <= game.energyPlayer_Max) {
-            game.energyPlayer_Cur = Mathf.Min(game.energyPlayer_Cur + energyLootCur, game.energyPlayer_Max);
+        s_GameManager.UpgradeSettings.UpgradeObject harvest = game.upgradeSettings.upgrades[s_GameManager.UpgradeSettings.UpgradeTypes.ResourceHarvesting];
+        energyLootCur *= (1 + harvest.progress_cur * harvest.stepSize);
+        float maxEnergy = game.EnergyPlayerMax;
+        if(game.energyPlayer_Cur + energyLootMin <= maxEnergy) {
+            game.energyPlayer_Cur = Mathf.Min(game.energyPlayer_Cur + energyLootCur, maxEnergy);
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
             s_GUIMain.Instance.SpawnPopupMessage(GUIPopupMessage.Energy);
             if (collectSounds.Count > 0) {

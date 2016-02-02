@@ -118,6 +118,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private Vector3 m_PlayerToHook = Vector3.zero;
 
         private new AudioPlayer audio;
+        private s_GameManager.UpgradeSettings.UpgradeObject jetpackSpeed;
+        private s_GameManager.UpgradeSettings.UpgradeObject airGliding;
 
         public Vector3 Velocity
         {
@@ -159,6 +161,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             mouseLook.Init(transform, cam.transform);
             //m_swingimpulse = true;
             audio = GetComponent<AudioPlayer>();
+            jetpackSpeed = s_GameManager.Instance.upgradeSettings.upgrades[s_GameManager.UpgradeSettings.UpgradeTypes.JetpackSpeed];
+            airGliding = s_GameManager.Instance.upgradeSettings.upgrades[s_GameManager.UpgradeSettings.UpgradeTypes.AirGliding];
         }
         
         private void Update()
@@ -212,9 +216,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float SkyDive (Vector2 input) {
             //TODO: insert code for slightly influencing movement direction when falling/ungrounded
             Vector3 desiredMove = cam.transform.forward * input.y + cam.transform.right * input.x;
-            desiredMove *= movementSettings.FallingSpeed;
+            desiredMove *= movementSettings.FallingSpeed * (1 + airGliding.progress_cur * airGliding.stepSize);
             float horVel = Vector3.ProjectOnPlane(m_RigidBody.velocity, transform.up).magnitude;
-            if (horVel < movementSettings.FallingSpeed)
+            if (horVel < movementSettings.FallingSpeed * (1 + airGliding.progress_cur * airGliding.stepSize))
             {
                 m_RigidBody.AddForce(5 * Time.fixedDeltaTime * desiredMove, ForceMode.VelocityChange);
             }
@@ -240,7 +244,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 modifiedInput.y *= modifiedInput.y > 0 ? 1.5f : 0.25f;
                 desiredMove = transform.forward * input.y + transform.right * input.x;
             }
-            float curJetpackSpeed = movementSettings.JetpackHorizontalBaseSpeed * curRunMultiplier;
+            float curJetpackSpeed = movementSettings.JetpackHorizontalBaseSpeed * (curRunMultiplier + jetpackSpeed.progress_cur * jetpackSpeed.stepSize);
             desiredMove *= curJetpackSpeed;
 
             Vector3 horVel = Vector3.ProjectOnPlane(m_RigidBody.velocity, transform.up);
@@ -260,7 +264,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             //compute the "upwards" (away from world center) speed - compare current upwards direction vector with the projected velocity component-wise
             //for computing a meaningful factor, you need to pick a component (if possible) that is not 0 for both vectors - (velUp.x != 0 && upV.x != 0) or shorter (velUp.x * upV.x != 0)
             float factorUp = (velUp.x * upV.x != 0) ? (velUp.x / upV.x) : ((velUp.y * upV.y != 0) ? (velUp.y / upV.y) : ((velUp.z * upV.z != 0) ? (velUp.z / upV.z) : 0));
-            float maxUpSpeed = movementSettings.JetpackMaxVerticalSpeed * curRunMultiplier;
+            float maxUpSpeed = movementSettings.JetpackMaxVerticalSpeed * (curRunMultiplier + jetpackSpeed.progress_cur * jetpackSpeed.stepSize);
             float upDelta = Mathf.Min(+movementSettings.JetpackVerticalAcceleration * Time.fixedDeltaTime, maxUpSpeed - factorUp);
             //m_RigidBody.velocity += upV * upDelta;
             //energyCost += Mathf.Max (upDelta, 0);

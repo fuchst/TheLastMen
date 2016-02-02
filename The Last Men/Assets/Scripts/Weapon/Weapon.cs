@@ -3,7 +3,7 @@
 public abstract class Weapon : MonoBehaviour {
     // Variables
     protected int dmg;
-
+    
     protected int magSize;
     protected int magFill;
 
@@ -50,8 +50,10 @@ public abstract class Weapon : MonoBehaviour {
 
     protected abstract void shoot(Transform frame);
 
+    protected abstract int Damage();
+
     public virtual string Description () {
-        return "Fire rate: " + (1.0f/fireInterval).ToString("0.00") + "\n Damage: " + dmg;
+        return "Fire rate: " + (1.0f/fireInterval).ToString("0.00") + "\n Damage: " + Damage();
     }
 
     public virtual string WeaponName () {
