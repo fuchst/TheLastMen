@@ -85,7 +85,7 @@ public abstract class Enemy : MonoBehaviour {
         _controller = GetComponent<CharacterController>();
     }
 
-    void FixedUpdate()
+    void Update()
     {
         OnFixedUpdate();
     }
