@@ -11,8 +11,7 @@ public class Level : MonoBehaviour
     public float DestructionLevel { get; set; }
     public float LayerHeightOffset { get; set; }
 
-    [HideInInspector]
-    public float grapplingIslandExtraheight;
+    [HideInInspector] public float grapplingIslandExtraheight;
 
     private enum IslandType { None, Bastion, Path, Artifact, Grappling, Small, Unique };
     private SortedDictionary<int, Island> islandDictionary = new SortedDictionary<int, Island>();
@@ -317,7 +316,7 @@ public class Level : MonoBehaviour
         Vector3 bastionPosition = islandDictionary[0].position;
         Vector3 blackHolePosition = LevelManager.Instance.BlackHole.transform.position;
         float blackHoleRadius = LevelManager.Instance.BlackHole.GetComponent<MeshRenderer>().bounds.extents.x;
-        float bastionRadius = LevelManager.Instance.islandPrefabs.bastionWidth; //Width is not correct but nobody got time for that
+        float bastionRadius = 10.0f;
         float roundTime = s_GameManager.Instance.roundDuration;
 
         //Calc new fallingspeed
@@ -331,8 +330,11 @@ public class Level : MonoBehaviour
         {
             newFallingSpeed = LevelManager.Instance.MaxFallingSpeed;
             float newDistanceToBlackHole = newFallingSpeed * roundTime;
-            float newRadius = blackHoleRadius + distance - newDistanceToBlackHole;
-            Vector3 newScale = new Vector3(newRadius, newRadius, newRadius);
+            
+            newDistanceToBlackHole += bastionRadius;
+            float newRadius = Vector3.Distance(bastionPosition, blackHolePosition) - newDistanceToBlackHole;
+
+            Vector3 newScale = new Vector3(newRadius*2.0f, newRadius*2.0f, newRadius*2.0f);
             LevelManager.Instance.BlackHole.transform.localScale = newScale;
         }
         LevelManager.Instance.IslandFallingSpeed = newFallingSpeed;
@@ -385,6 +387,7 @@ public class Level : MonoBehaviour
                     if(uniqueArifacts > 0)
                     {
                         islandGameObject = Instantiate(islandPrefabs.UniqueArtifacts[uniqueArifacts-1], item.Value.position, Quaternion.identity) as GameObject;
+                        uniqueArifacts--;
                     }
                     else
                     {
