@@ -17,8 +17,5 @@ public class Deathzone : MonoBehaviour {
         if(other.CompareTag("Player")) {
             s_GameManager.Instance.HurtPlayer(9001); //over 9000 damage will surely kill the player instantly ;)
         }
-        else {
-            Destroy(other.gameObject);
-        }
     }
 }
