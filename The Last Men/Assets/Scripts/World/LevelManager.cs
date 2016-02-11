@@ -22,11 +22,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private bool menuIsInSameLevel;
     [SerializeField] private int rngSeed = 1337;
     [SerializeField] private float maxFallingSpeed = 0.2f;
+    [SerializeField] private int maxFlyingEnemiesPerLevel = 25;
     [SerializeField] private GameObject blackHole;
+    [SerializeField] private GameObject levelParticles;
     private float islandFallingSpeed = 2.0f;
     private static LevelManager instance;
 
-    [HideInInspector] public Camera worldCam;
+    //[HideInInspector] public Camera worldCam;
+    public Camera worldCam;
     [HideInInspector] public Camera playerCam;
 
     private Level[] levels;
@@ -82,6 +85,7 @@ public class LevelManager : MonoBehaviour
         {
             tmp = Instantiate(islandPrefabs.BigIslands[i], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             islandPrefabs.bigIslandWidths[i] = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
+            tmp.SetActive(false);
             Destroy(tmp);
         }
         islandPrefabs.smallIslandWidths = new float[islandPrefabs.SmallIslands.Length];
@@ -89,14 +93,17 @@ public class LevelManager : MonoBehaviour
         {
             tmp = Instantiate(islandPrefabs.SmallIslands[i], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
             islandPrefabs.smallIslandWidths[i] = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
+            tmp.SetActive(false);
             Destroy(tmp);
         }
 
         tmp = Instantiate(islandPrefabs.Bastion, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         islandPrefabs.bastionWidth = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
+        tmp.SetActive(false);
         Destroy(tmp);
         tmp = Instantiate(islandPrefabs.AritfactIsland, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
         islandPrefabs.artifactIslandWidth = tmp.GetComponentInChildren<Collider>().bounds.extents.x;
+        tmp.SetActive(false);
         Destroy(tmp);
 
         if (worldCam == null)
@@ -105,8 +112,13 @@ public class LevelManager : MonoBehaviour
         }
         PlaceFlyingEnemy.flyingEnemyParent = flyingEnemyParent;
         levels = new Level[levelVariables.Length];
-        
-        Random.seed = rngSeed;
+
+        if (s_GameManager.Instance.useRandomSeed) {
+            Random.seed = (int)System.DateTime.UtcNow.Ticks;
+        }
+        else {
+            Random.seed = rngSeed;
+        }    
 
         //Init camera rot
         worldCam.gameObject.transform.position = new Vector3(levelVariables[currentLevel].radius * 2.0f, 0, 0);
@@ -160,6 +172,10 @@ public class LevelManager : MonoBehaviour
         
         gameState = GameState.Playing;
         s_GameManager.Instance.LevelLoaded();
+
+        if (levelParticles) {
+            Instantiate(levelParticles, Vector3.zero, Quaternion.identity);
+        }
 
         //if (worldCam != null) {
         //    Destroy(worldCam.gameObject);
@@ -247,6 +263,8 @@ public class LevelManager : MonoBehaviour
 
         Destroy(flyingEnemyParent.gameObject);
         flyingEnemyParent = (new GameObject("FlyingEnemyParent") as GameObject).transform;
+        PlaceFlyingEnemy.currentFlyingEnemies = 0; //reset enemy count after enemies are destroyed!
+        PlaceFlyingEnemy.maxFlyingEnemies = maxFlyingEnemiesPerLevel + 5 * currentLevel; //slightly increase limit in later layers to account for bigger level size
 
         List<GameObject> children = new List<GameObject>();
         foreach (Transform child in islandParent)

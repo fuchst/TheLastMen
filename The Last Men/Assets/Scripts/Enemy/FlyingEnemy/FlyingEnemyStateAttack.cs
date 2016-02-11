@@ -21,10 +21,11 @@ public class FlyingEnemyStateAttack : EnemyState {
 
         if (enemy.distanceToPlayer < enemy.attackRange)
         {
-            if (timeSinceAttack > enemy.attackSpeed)
+            if (timeSinceAttack > enemy.attackInterval)
             {
                 //enemy.player.transform.SendMessage("OnHit", enemy.damage);
                 enemy.PlayerCombat.OnHit(enemy.damage);
+                enemy.MakeAttackSound();
                 timeSinceAttack = 0.0f;
             }
         }

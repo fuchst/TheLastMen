@@ -30,23 +30,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &101496
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 224: {fileID: 22432038}
-  - 222: {fileID: 22210820}
-  - 114: {fileID: 11400690}
-  m_Layer: 5
-  m_Name: Image_Survivors
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &101834
 GameObject:
   m_ObjectHideFlags: 1
@@ -1028,7 +1011,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &154512
 GameObject:
   m_ObjectHideFlags: 1
@@ -1530,7 +1513,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 455622}
-  - 114: {fileID: 11464164}
   - 54: {fileID: 5478084}
   - 114: {fileID: 11402274}
   - 136: {fileID: 13647190}
@@ -1667,7 +1649,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 480032}
-  - 114: {fileID: 11460534}
   - 54: {fileID: 5463354}
   - 114: {fileID: 11420878}
   - 135: {fileID: 13514496}
@@ -1970,23 +1951,6 @@ GameObject:
   - 4: {fileID: 458030}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &196386
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 224: {fileID: 22455732}
-  - 222: {fileID: 22280872}
-  - 114: {fileID: 11428424}
-  m_Layer: 5
-  m_Name: Image_Monsters
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3405,33 +3369,6 @@ Animation:
   m_PlayAutomatically: 1
   m_AnimatePhysics: 0
   m_CullingType: 1
---- !u!114 &11400690
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 101496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 22661f78ce2d1a94b8b50bf27535d78c, type: 3}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
 --- !u!114 &11402274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3738,8 +3675,8 @@ MonoBehaviour:
     to come. The world is being slowly devoured by a black hole. If humanity is not
     wiped out by the monsters\r, it is only a matter of time until the last human
     fortress is soaked in by the black hole. \n\nEven in this dark and despair times,\r
-    the best scientist of the survivors are working together in search for a way to
-    save humanity. \n\nYour job is to explore the wild shattered world,\r looking
+    the best scientists of the survivors are working together in search for a way
+    to save humanity. \n\nYour job is to explore the wild shattered world,\r looking
     for resources to keep the civilization alive and gather probes for the scientists.
     \n"
 --- !u!114 &11409414
@@ -4492,33 +4429,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 3abcc544f83c8d1478aa1216cd073f4b, type: 3}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
---- !u!114 &11428424
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 196386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 22661f78ce2d1a94b8b50bf27535d78c, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5387,21 +5297,6 @@ MonoBehaviour:
   m_Text: 'Start Game
 
 '
---- !u!114 &11460534
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 181186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0aebbf7ddce0cc4e905b3d1307ef9eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  autoDestroyOnCollect: 1
-  destructionDelay: 2
-  energyLootMin: 3
-  energyLootMax: 7
 --- !u!114 &11461246
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5461,19 +5356,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11464164
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 175354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53d041c4760dece49ae70e48cf99926b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  autoDestroyOnCollect: 1
-  destructionDelay: 2
 --- !u!114 &11464176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11758,12 +11640,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 190418}
---- !u!222 &22210820
-CanvasRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 101496}
 --- !u!222 &22211196
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -12016,12 +11892,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 105508}
---- !u!222 &22280872
-CanvasRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 196386}
 --- !u!222 &22282820
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -12404,23 +12274,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: .5, y: .5}
---- !u!224 &22432038
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 101496}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 22432492}
-  m_RootOrder: 5
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: .5, y: .5}
 --- !u!224 &22432492
 RectTransform:
   m_ObjectHideFlags: 1
@@ -12436,8 +12289,6 @@ RectTransform:
   - {fileID: 22475392}
   - {fileID: 22408830}
   - {fileID: 22402514}
-  - {fileID: 22432038}
-  - {fileID: 22455732}
   - {fileID: 22435640}
   m_Father: {fileID: 22483724}
   m_RootOrder: 4
@@ -12498,7 +12349,7 @@ RectTransform:
   - {fileID: 488712}
   - {fileID: 477772}
   m_Father: {fileID: 22432492}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -12788,23 +12639,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 400}
   m_SizeDelta: {x: 275, y: 90}
   m_Pivot: {x: .5, y: 1}
---- !u!224 &22455732
-RectTransform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 196386}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 22432492}
-  m_RootOrder: 6
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: .5, y: .5}
 --- !u!224 &22457992
 RectTransform:
   m_ObjectHideFlags: 1

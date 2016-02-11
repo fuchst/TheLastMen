@@ -8,9 +8,16 @@ public class s_HoveringGUI : MonoBehaviour {
     [Range(0.0f, 1.0f)][SerializeField]protected float fadeOutStart = 0.75f;
     [Range(0.0f, 1.0f)][SerializeField]protected float regularOpacity = 1.0f;
 
+    [SerializeField]protected bool initializeExternally = true;
     protected RectTransform rectTrans;
     protected Transform player;
     
+    void Start () {
+        if (!initializeExternally) {
+            InitGUI();
+        }
+    }
+
     public void InitGUI () {
         if (RenderMode.WorldSpace != canvas.renderMode) {
             enabled = false;

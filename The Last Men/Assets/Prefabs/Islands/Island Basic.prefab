@@ -1538,7 +1538,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106104}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 16000
   m_Drag: 0
   m_AngularDrag: .0500000007
   m_UseGravity: 0
@@ -1612,6 +1612,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallingSpeed: 0
   priority: 3
+  islandTriggerCollider: {fileID: 13554736}
+  destructionEffectPrefab: {fileID: 119912, guid: 4b15cd35d68bfa947a749de80d519ebd,
+    type: 2}
 --- !u!135 &13554736
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -1667,6 +1670,18 @@ Prefab:
       propertyPath: spawnSettings.crystals.Array.data[0]
       value: 
       objectReference: {fileID: 138016, guid: c0c5831a238da1b4dae31b77b628b727, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Mass
+      value: 16000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: destructionSoundPrefab
+      value: 
+      objectReference: {fileID: 119912, guid: 4b15cd35d68bfa947a749de80d519ebd, type: 2}
+    - target: {fileID: 0}
+      propertyPath: destructionEffectPrefab
+      value: 
+      objectReference: {fileID: 119912, guid: 4b15cd35d68bfa947a749de80d519ebd, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 106104}

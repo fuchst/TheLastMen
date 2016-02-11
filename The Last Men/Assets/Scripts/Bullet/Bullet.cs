@@ -5,12 +5,12 @@ public class Bullet : MonoBehaviour {
     public float gravity { get; set; }
     public int damage { get; set; }
 
-    public float destDistMax = 1000.0f;
-    public float destDistMin = 10.0f;
+    //public float destDistMax = 1000.0f;
+    //public float destDistMin = 10.0f;
 
     public float ttl = 15.0f;
-
     public GameObject bulletHole;
+    protected bool hitAlready = false;
 
     // Update is called once per frame
     void FixedUpdate () {
@@ -25,34 +25,52 @@ public class Bullet : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        if(!(transform.position.magnitude < destDistMax && transform.position.magnitude > destDistMin))
-        {
-            Destroy(gameObject);
-        }
+        //if(!(transform.position.magnitude < destDistMax && transform.position.magnitude > destDistMin)) {
+        //    Destroy(gameObject);
+        //}
     }
 
-    void OnCollisionEnter(Collision coll)
-    {
+    void OnTriggerEnter (Collider other) {
+        if (hitAlready || other.CompareTag("Bullet")) {
+            return;
+        }
+
+        if (other.CompareTag("Enemy")) {
+            //coll.transform.SendMessage("OnHit", damage);
+            other.GetComponent<Enemy>().OnHit(damage);
+        }
+        /*else if (other.CompareTag("Island")) {
+            GameObject bullet = Instantiate(bulletHole, coll.contacts[0].point + coll.contacts[0].normal * 0.05f, Quaternion.FromToRotation(Vector3.up, coll.contacts[0].normal)) as GameObject;
+            bullet.transform.SetParent(coll.transform);
+        }*/
+        else if (other.CompareTag("Obstacle")) {
+            other.GetComponent<s_Tree>().Hit(damage);
+        }
+
+        hitAlready = true;
+        Destroy(gameObject);
+    }
+
+    void OnCollisionEnter (Collision coll) {
         // Debug.Log("Hit" + other.tag);
 
-        if(!coll.transform.CompareTag("Bullet"))
-        {
-            if(coll.transform.CompareTag("Enemy"))
-            {
-                //coll.transform.SendMessage("OnHit", damage);
-                coll.transform.GetComponent<Enemy>().OnHit(damage);
-            }
-            else if(coll.transform.CompareTag("Island"))
-            {
-                GameObject bullet = Instantiate(bulletHole, coll.contacts[0].point + coll.contacts[0].normal * 0.05f, Quaternion.FromToRotation(Vector3.up, coll.contacts[0].normal)) as GameObject;
-                bullet.transform.SetParent(coll.transform);
-            }
-            else if (coll.transform.CompareTag("Obstacle"))
-            {
-                coll.transform.GetComponent<s_Tree>().Hit(damage);
-            }
-
-            Destroy(gameObject);
+        if (hitAlready || coll.transform.CompareTag("Bullet")) {
+            return;
         }
+
+        if (coll.transform.CompareTag("Enemy")) {
+            //coll.transform.SendMessage("OnHit", damage);
+            coll.transform.GetComponent<Enemy>().OnHit(damage);
+        }
+        else if (coll.transform.CompareTag("Island")) {
+            GameObject bullet = Instantiate(bulletHole, coll.contacts[0].point + coll.contacts[0].normal * 0.05f, Quaternion.FromToRotation(Vector3.up, coll.contacts[0].normal)) as GameObject;
+            bullet.transform.SetParent(coll.transform);
+        }
+        else if (coll.transform.CompareTag("Obstacle")) {
+            coll.transform.GetComponent<s_Tree>().Hit(damage);
+        }
+
+        hitAlready = true;
+        Destroy(gameObject);
     }
 }

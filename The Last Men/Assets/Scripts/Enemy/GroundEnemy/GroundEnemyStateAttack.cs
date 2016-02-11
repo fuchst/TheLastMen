@@ -22,10 +22,11 @@ public class GroundEnemyStateAttack : EnemyState {
         {
             enemy.transform.LookAt(enemy.playerPosition, enemy.navGrid.transform.up);
            
-            if (timeSinceAttack > enemy.attackSpeed)
+            if (timeSinceAttack > enemy.attackInterval)
             {
                 //enemy.player.transform.SendMessage("OnHit", enemy.damage);
                 enemy.PlayerCombat.OnHit(enemy.damage);
+                enemy.MakeAttackSound();
                 timeSinceAttack = 0.0f;
                 enemy.GetComponent<Animation>().Play();
             }

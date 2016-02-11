@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public abstract class s_Collectible : MonoBehaviour {
 
     public bool autoDestroyOnCollect = true;
     public float destructionDelay = 2.0f;
     public GameObject collectParticleEffect;
+    protected new AudioSource audio;
+    [SerializeField]protected List<AudioClip> collectSounds;
 
     void OnTriggerEnter (Collider other) {
         if (other.CompareTag("Player")){

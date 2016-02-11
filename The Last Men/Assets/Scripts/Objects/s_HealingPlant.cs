@@ -7,6 +7,7 @@ public class s_HealingPlant : s_Collectible {
 
     void Awake () {
         autoDestroyOnCollect = false;
+        audio = GetComponent<AudioSource>();
     }
 
     protected override void Collect () {
@@ -15,6 +16,10 @@ public class s_HealingPlant : s_Collectible {
             s_GUIMain.Instance.SpawnPopupMessage(GUIPopupMessage.Healing);
             if (collectParticleEffect) {
                 Instantiate(collectParticleEffect, transform.position, transform.rotation);
+            }
+            if (collectSounds.Count > 0) {
+                audio.clip = collectSounds[Random.Range(0, collectSounds.Count)];
+                audio.Play();
             }
             DestroyCollectible();
         }

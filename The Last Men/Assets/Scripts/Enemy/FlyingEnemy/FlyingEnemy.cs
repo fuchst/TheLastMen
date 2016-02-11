@@ -8,7 +8,6 @@ public class FlyingEnemy : Enemy {
     public float maxDistance = 50.0f;
 
     protected new Animation animation;
-    protected new AudioSource audio;
 
     protected override void OnStart()
     {
@@ -17,10 +16,6 @@ public class FlyingEnemy : Enemy {
         animation = GetComponent<Animation>();
         animation.wrapMode = WrapMode.Loop;
         GetComponent<Animation>().Play();
-
-        audio = GetComponent<AudioSource>();
-        audio.loop = true;
-        audio.Play();
     }
 
     protected override void OnFixedUpdate()
@@ -52,7 +47,7 @@ public class FlyingEnemy : Enemy {
         float angle = Mathf.Abs(Vector3.Angle(target, transform.position));
 
         // Get distance on circle
-        float distance = 2.0f * transform.position.magnitude * Mathf.PI * angle / 180.0f;
+        float distance = 2.0f * transform.position.magnitude * angle * Mathf.Deg2Rad;
 
         // Calculate move direction
         Vector3 moveDirection = (tangent - diffHeight / distance * transform.up).normalized;
@@ -60,15 +55,21 @@ public class FlyingEnemy : Enemy {
         // Alter flight path incase of obstacles
         moveDirection = evade(moveDirection);
 
+        //transform.LookAt(transform.position + moveDirection, transform.position.normalized);
+        Quaternion oldLookAt = transform.rotation;
         transform.LookAt(transform.position + moveDirection, transform.position.normalized);
-        _controller.Move(transform.forward * moveSpeed * Time.deltaTime);
+
+        transform.rotation = Quaternion.Slerp(oldLookAt, transform.rotation, 5f * Time.fixedDeltaTime);
+
+        float curMoveSpeed = (target != player.transform.position) ? moveSpeed : Mathf.Min(0.25f*toTarget.sqrMagnitude, moveSpeed);
+        _controller.Move(transform.forward * curMoveSpeed * Time.deltaTime);
     }
 
     private Vector3 evade(Vector3 currentDirection)
     {
         return currentDirection;
     }
-
+    
     public override void ChangeState(EnemyState.stateIDs _stateID)
     {
         if (this.state == null || this.state.getID() != _stateID)

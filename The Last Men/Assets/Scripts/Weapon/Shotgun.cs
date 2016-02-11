@@ -9,13 +9,13 @@ public class Shotgun : Weapon
 
     public Shotgun()
     {
-        dmg = 6;
+        dmg = 7;
         magSize = 4;
         magFill = magSize;
         fireInterval = 1;
         fireCounter = 0;
 
-        numBullets = 8;     
+        numBullets = 9;     
         maxSpread = 0.15f;
     }
 
@@ -23,6 +23,10 @@ public class Shotgun : Weapon
     {
         audio = GetComponent<AudioSource>();
         base.OnAwake();
+    }
+
+    void Start () {
+        shotgunUpgradeObj = s_GameManager.Instance.upgradeSettings.upgrades[s_GameManager.UpgradeSettings.UpgradeTypes.ShotgunBullets];
     }
 
     protected override void shoot(Transform frame)
@@ -45,6 +49,9 @@ public class Shotgun : Weapon
     }
 
     protected int NumBullets () {
+        if (null == shotgunUpgradeObj) {
+            shotgunUpgradeObj = s_GameManager.Instance.upgradeSettings.upgrades[s_GameManager.UpgradeSettings.UpgradeTypes.ShotgunBullets];
+        }
         return numBullets + (int)(shotgunUpgradeObj.progress_cur * shotgunUpgradeObj.stepSize);
     }
 

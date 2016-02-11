@@ -6,8 +6,6 @@ public class s_EnergyCrystal : s_Collectible {
 	public float energyLootMin = 3;
     public float energyLootMax = 7;
     protected float energyLootCur;
-    protected new AudioSource audio;
-    [SerializeField]protected List<AudioClip> collectSounds;
 
     void Awake () {
         autoDestroyOnCollect = false;

@@ -14,7 +14,7 @@ public class GroundEnemy : Enemy {
     private float minDistanceSincePosCheck = 0.1f;
 
     private float minDistanceForAction = 100.0f;
-
+    
     private int pathIndex;
     private ArrayList _path;
     public ArrayList path

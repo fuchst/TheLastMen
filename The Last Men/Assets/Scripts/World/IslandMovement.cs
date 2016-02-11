@@ -4,7 +4,9 @@ public class IslandMovement : MonoBehaviour
 {
     public float fallingSpeed = 0;
     public int priority = 0;
-    private float extraSpeedFactorOnCollision = 5.0f;
+    [SerializeField]protected Collider islandTriggerCollider;
+    [SerializeField]protected GameObject destructionEffectPrefab;
+    private float extraSpeedFactorOnCollision = 25.0f;
     new private Rigidbody rigidbody;
 
     void Awake()
@@ -28,15 +30,30 @@ public class IslandMovement : MonoBehaviour
     {
         if (collider.gameObject.layer == LayerMask.NameToLayer("IslandCollider"))
         {
-            string tag = collider.gameObject.tag;
-            switch (tag)
-            {
+            switch (collider.tag) {
                 case "IslandCollision":
                     //Debug.Log(this.gameObject.name + "Collided with" + collider.gameObject.transform.parent.gameObject.name);
                     IslandMovement islandMovement = collider.transform.parent.GetComponent<IslandMovement>();
                     if (islandMovement != null && islandMovement.priority >= priority)
                     {
-                        fallingSpeed *= extraSpeedFactorOnCollision;
+                        //fallingSpeed *= extraSpeedFactorOnCollision;
+                        rigidbody.isKinematic = false;
+                        gameObject.AddComponent<s_CentralGravity>().factor = 0.5f;
+                        /*foreach (Transform child in transform) {
+                            Collider[] cols = child.GetComponents<Collider>();
+                            foreach (Collider col in cols) {
+                                col.enabled = false;
+                            }
+                        }
+
+                        islandTriggerCollider.enabled = true;*/
+                        islandTriggerCollider.tag = "Untagged";
+
+                        //Debug.Log("ddd");
+                        //Debug.Break();
+                        Instantiate(destructionEffectPrefab, transform.position, transform.rotation);
+
+                        enabled = false;
                     }
                     break;
                 case "Deathzone":

@@ -227,8 +227,8 @@ GameObject:
   - 111: {fileID: 11105762}
   - 114: {fileID: 11436798}
   - 135: {fileID: 13518644}
-  - 82: {fileID: 8273264}
   - 143: {fileID: 14313978}
+  - 82: {fileID: 8273264}
   m_Layer: 0
   m_Name: FlyingEnemy
   m_TagString: Enemy
@@ -858,17 +858,17 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 51245b958009f844d9d7618cc8f47c94, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: .5
-  m_Pitch: .699999988
+  m_Volume: 1
+  m_Pitch: 1
   Loop: 1
   Mute: 0
   Spatialize: 0
-  Priority: 100
+  Priority: 150
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 10
+  MaxDistance: 150
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -876,9 +876,14 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - time: 0
-      value: 1
+      value: 1.10000002
       inSlope: 0
       outSlope: 0
+      tangentMode: 0
+    - time: .337771922
+      value: .988846421
+      inSlope: -1.12921
+      outSlope: -1.12921
       tangentMode: 0
     - time: 1
       value: 0
@@ -945,19 +950,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0e233f6bbdfeac45b832193ec725784, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpMax: 80
+  hpMax: 75
   hpCur: 0
   attackRange: 4
   damage: 5
   moveSpeed: 12
-  attackSpeed: 2
+  attackInterval: 2
   fov: 20
   senseRangeSearching: 15
   senseRangeAttack: 5
   renderer: {fileID: 2323406}
   colorFullHealth: {r: 1, g: 1, b: 1, a: 1}
   colorNoHealth: {r: 0, g: 0, b: 0, a: 1}
-  maxDistance: 50
+  attackSoundPrefab: {fileID: 111004, guid: f8413f363965d704aba1bc2e9ca6037e, type: 2}
+  deathEffectPrefab: {fileID: 187486, guid: 94f686f02fe4e9d4d97725c33138aaa8, type: 2}
+  maxDistance: 40
 --- !u!135 &13518644
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -965,10 +972,10 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 154580}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .5
+  m_Radius: .529999971
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!137 &13734950
 SkinnedMeshRenderer:
@@ -1119,6 +1126,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_UseGravity
       value: 0
       objectReference: {fileID: 0}
@@ -1165,6 +1176,94 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackSoundPrefab
+      value: 
+      objectReference: {fileID: 111004, guid: f8413f363965d704aba1bc2e9ca6037e, type: 2}
+    - target: {fileID: 0}
+      propertyPath: spreadCustomCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rolloffMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: MaxDistance
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].time
+      value: .17830351
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].value
+      value: .993735313
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].inSlope
+      value: .0353169814
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].outSlope
+      value: .0353169814
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].value
+      value: 1.10000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].time
+      value: .571428478
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Priority
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: deathEffectPrefab
+      value: 
+      objectReference: {fileID: 187486, guid: 94f686f02fe4e9d4d97725c33138aaa8, type: 2}
+    - target: {fileID: 0}
+      propertyPath: maxDistance
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: reverbZoneMixCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: hpMax
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackInterval
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

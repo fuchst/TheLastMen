@@ -326,8 +326,9 @@ public class Level : MonoBehaviour
         //Gather all the variables we will need
         Vector3 bastionPosition = islandDictionary[0].position;
         Vector3 blackHolePosition = LevelManager.Instance.BlackHole.transform.position;
-        float blackHoleRadius = LevelManager.Instance.BlackHole.GetComponent<MeshRenderer>().bounds.extents.x;
-        float bastionRadius = 10.0f;
+        //float blackHoleRadius = LevelManager.Instance.BlackHole.GetComponent<MeshRenderer>().bounds.extents.x;
+        float blackHoleRadius = 0.5f * LevelManager.Instance.BlackHole.transform.localScale.x;
+        float bastionRadius = 12.0f;
         float roundTime = s_GameManager.Instance.roundDuration;
 
         //Calc new fallingspeed
@@ -343,10 +344,10 @@ public class Level : MonoBehaviour
             float newDistanceToBlackHole = newFallingSpeed * roundTime;
             
             newDistanceToBlackHole += bastionRadius;
-            float newRadius = Vector3.Distance(bastionPosition, blackHolePosition) - newDistanceToBlackHole;
+            float newBlackHoleRadius = Vector3.Distance(bastionPosition, blackHolePosition) - newDistanceToBlackHole;
 
-            Vector3 newScale = new Vector3(newRadius*2.0f, newRadius*2.0f, newRadius*2.0f);
-            LevelManager.Instance.BlackHole.transform.localScale = newScale;
+            Vector3 newBlackHoleScale = new Vector3(newBlackHoleRadius*2.0f, newBlackHoleRadius*2.0f, newBlackHoleRadius*2.0f);
+            LevelManager.Instance.BlackHole.transform.localScale = newBlackHoleScale;
         }
         LevelManager.Instance.IslandFallingSpeed = newFallingSpeed;
     }
@@ -381,6 +382,7 @@ public class Level : MonoBehaviour
 
     private void InstantiateIslands()
     {
+        int totalIslandCount = 0;
         LevelManager.IslandPrefabs islandPrefabs = LevelManager.Instance.islandPrefabs;
 
         //Big islands
@@ -416,6 +418,7 @@ public class Level : MonoBehaviour
                 islandGameObject.name = item.Key.ToString() + item.Value.islandType.ToString();
                 islandGameObject.transform.up = islandGameObject.transform.position;
                 islandGameObject.transform.parent = LevelManager.Instance.islandParent;
+                totalIslandCount++;
             }
         }
 
@@ -454,7 +457,10 @@ public class Level : MonoBehaviour
             islandGameObject.name = item.Key + item.Value.islandType.ToString();
             islandGameObject.transform.up = islandGameObject.transform.position;
             islandGameObject.transform.parent = LevelManager.Instance.islandParent;
+            totalIslandCount++;
         }
+
+        Debug.Log(totalIslandCount);
     }
 
     //public Vector3 GetBasePosition()

@@ -17,7 +17,12 @@ public class RopeAudioPlayer : MonoBehaviour {
     }
 
     void Update () {
-        audio.volume = Mathf.Min(0.5f, 0.05f * controller.Velocity.magnitude);
+        if (s_GameManager.Instance.gamePaused && audio.isPlaying) {
+            audio.Stop();
+            return;
+        }
+
+        audio.volume = Mathf.Min(0.9f, 0.075f * controller.Velocity.magnitude);
         if (hooked && !audio.isPlaying)
         {
             audio.clip = ropeSounds[Random.Range(0, ropeSounds.Count)];

@@ -277,7 +277,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Fly = false;
             }*/
 
-            return 2.0f * Time.fixedDeltaTime * (force + (upDelta > 0 ? upV * upDelta : Vector3.zero)).magnitude;
+            float energyCost = 2.0f * Time.fixedDeltaTime * (force + (upDelta > 0 ? upV * upDelta : Vector3.zero)).magnitude;
+            audio.UpdateJetpackForce(energyCost * (0.9f + 0.1f * curRunMultiplier)); //more acustical difference
+            //Debug.Log(energyCost);
+            return energyCost;
         }
 
         private float Swing (Vector2 input) {

@@ -8,6 +8,7 @@ public class s_LockedArtifact : s_Artifact {
 	// Use this for initialization
 	void Awake () {
         autoDestroyOnCollect = false;
+        audio = GetComponent<AudioSource>();
     }
 	
     void OnTriggerEnter (Collider other) {
@@ -29,6 +30,10 @@ public class s_LockedArtifact : s_Artifact {
 
 	protected override void Collect () {
         if (unlocked) {
+            if(collectSounds.Count > 0) {
+                audio.clip = collectSounds[Random.Range(0, collectSounds.Count)];
+                audio.Play();
+            }
             artifactType = Random.Range(1, 3); //3 is exclusive to the range for int!
             if (artifactType == 1) {
                 s_GameManager.Instance.artifact1CountCur++;

@@ -313,7 +313,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173706}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -3.3599999, z: -.709999979}
+  m_LocalPosition: {x: -0, y: -3, z: -.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 469006}
@@ -391,7 +391,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 112710}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 2000
   m_Drag: 0
   m_AngularDrag: .0500000007
   m_UseGravity: 0
@@ -463,6 +463,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallingSpeed: 0
   priority: -1
+  islandTriggerCollider: {fileID: 13590028}
+  destructionEffectPrefab: {fileID: 173028, guid: 4c0b688d553b6b1438e68de7a294739d,
+    type: 2}
 --- !u!114 &11443836
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -484,7 +487,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 6
+  m_Radius: 6.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
@@ -501,6 +504,18 @@ Prefab:
       propertyPath: spawnSettings.crystals.Array.data[0]
       value: 
       objectReference: {fileID: 138016, guid: c0c5831a238da1b4dae31b77b628b727, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Mass
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: destructionSoundPrefab
+      value: 
+      objectReference: {fileID: 173028, guid: 4c0b688d553b6b1438e68de7a294739d, type: 2}
+    - target: {fileID: 0}
+      propertyPath: destructionEffectPrefab
+      value: 
+      objectReference: {fileID: 173028, guid: 4c0b688d553b6b1438e68de7a294739d, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 112710}

@@ -10,6 +10,7 @@ public class s_Survivor : s_Collectible {
 
     void Start () {
         playerTransform = LevelManager.Instance.player.transform;
+        audio = GetComponent<AudioSource>();
     }
 
     void Update () {
@@ -29,12 +30,17 @@ public class s_Survivor : s_Collectible {
         s_GameManager.Instance.survivorsCur++;
         s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Health);
         s_GUIMain.Instance.SpawnPopupMessage(GUIPopupMessage.Survivor);
+        Bastion.Instance.UpdateSurvivors();
         s_GameManager.Instance.ConsumeEnergy(5.0f);
 
         Animation anim = GetComponent<Animation>();
         anim.clip = animationOnCollect;
         anim.wrapMode = WrapMode.Once;
         anim.Play();
+        if (collectSounds.Count > 0) {
+            audio.clip = collectSounds[Random.Range(0, collectSounds.Count)];
+            audio.Play();
+        }
         if (collectParticleEffect) {
             Instantiate(collectParticleEffect, transform.position, transform.rotation);
         }

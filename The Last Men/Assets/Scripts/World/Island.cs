@@ -70,13 +70,14 @@ public class Island : MonoBehaviour
                 if (Random.Range(0.0f, 1.0f) <= spawnSettings.chanceToSpawnATree)
                 {
                     int treeType = Random.Range(0, spawnSettings.trees.Length);
-                    Vector3 position = spawnPos.position + new Vector3(
-                        Random.Range(-spawnSettings.maxSpawnOffSet.x, spawnSettings.maxSpawnOffSet.x),
+                    Vector3 spawnOffset = new Vector3(
+                        spawnSettings.maxSpawnOffSet.x * Random.Range(-1.0f, 1.0f),
                         0,
-                        Random.Range(-spawnSettings.maxSpawnOffSet.z, spawnSettings.maxSpawnOffSet.z));
+                        spawnSettings.maxSpawnOffSet.z * Random.Range(-1.0f, 1.0f));
                     Quaternion rotation = Quaternion.Euler(new Vector3(0, Random.Range(0, 360), 0));
-                    GameObject tree = Instantiate(spawnSettings.trees[treeType], position, Quaternion.identity) as GameObject;
+                    GameObject tree = Instantiate(spawnSettings.trees[treeType], spawnPos.position, Quaternion.identity) as GameObject;
                     tree.transform.parent = spawnSettings.objectParent;
+                    tree.transform.localPosition += spawnOffset; //offset in local space -> takes into object account rotation
                     tree.transform.localRotation = rotation;
                 }
             }

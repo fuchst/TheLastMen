@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 public class Deathzone : MonoBehaviour {
+    public LayerMask collectibleLayer;
 
 	/*void OnCollisionEnter(Collision collision) {
         if (collision.gameObject.CompareTag("Player")) {
@@ -17,7 +18,7 @@ public class Deathzone : MonoBehaviour {
         if(other.CompareTag("Player")) {
             s_GameManager.Instance.HurtPlayer(9001); //over 9000 damage will surely kill the player instantly ;)
         }
-        else {
+        else if(other.gameObject.layer == collectibleLayer.value) {
             Destroy(other.gameObject);
         }
     }

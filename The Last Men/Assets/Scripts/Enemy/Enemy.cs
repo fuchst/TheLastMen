@@ -9,9 +9,9 @@ public abstract class Enemy : MonoBehaviour {
     public float attackRange = 2.0f;
     public int damage = 5;
     public float moveSpeed = 1.0f;
-    public float attackSpeed = 1.0f;
+    public float attackInterval = 1.0f;
 
-    public float fov = 20.0f;
+    public float fov = 30.0f;
     // Change state to searching if smaller
     public float senseRangeSearching = 15.0f;
     // Change state to attack if smaller
@@ -24,6 +24,10 @@ public abstract class Enemy : MonoBehaviour {
     protected HSBColor colorNoHealth_HSB;
 
     protected bool alive;
+
+    protected new AudioSource audio;
+    [SerializeField]protected GameObject attackSoundPrefab;
+    [SerializeField]protected GameObject deathEffectPrefab;
 
     private GameObject _player;
     public GameObject player
@@ -85,6 +89,12 @@ public abstract class Enemy : MonoBehaviour {
         _controller = GetComponent<CharacterController>();
     }
 
+    void OnEnable () {
+        audio = GetComponent<AudioSource>();
+        audio.loop = true;
+        audio.Play();
+    }
+
     void Update()
     {
         OnFixedUpdate();
@@ -110,20 +120,31 @@ public abstract class Enemy : MonoBehaviour {
 
     protected abstract void Move();
 
+    public void MakeAttackSound () {
+        Instantiate(attackSoundPrefab, transform.position, transform.rotation);
+    }
+
     public void OnHit (int dmg) {
         hpCur -= dmg;
+        //Debug.Log("I got hit with " + dmg + " damage! I only have " + hpCur + " remaining health now, but once, I was powerful, with " + hpMax + " health...");
         renderer.material.color = HSBColor.Lerp(colorNoHealth_HSB, colorFullHealth_HSB, (float)hpCur / (float)hpMax).ToColor();
         if(alive && hpCur <= 0) {
             alive = false;
             OnDeath();
         }
+        else {
+            ChangeState(EnemyState.stateIDs.Attack);
+        }
     }
 
     protected virtual void OnDeath() {
+        s_GameManager.Instance.enemyKillCount++;
         GameObject loot = s_GameManager.Instance.RetrieveLoot();
         if (loot){
             Instantiate(loot, transform.position, transform.rotation);
         }
+
+        Instantiate(deathEffectPrefab, transform.position, transform.rotation);
         Destroy(this.gameObject);
     }
 	

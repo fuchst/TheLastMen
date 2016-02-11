@@ -167,7 +167,7 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -219,10 +219,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoDestroyOnCollect: 0
   destructionDelay: 2
-  energyLootMin: 3
-  energyLootMax: 7
+  collectParticleEffect: {fileID: 0}
   collectSounds:
   - {fileID: 8300000, guid: a39d865873ee0b8498e95ca0e1f45cf4, type: 3}
+  energyLootMin: 3
+  energyLootMax: 7
 --- !u!135 &13537922
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -293,6 +294,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: autoDestroyOnCollect
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

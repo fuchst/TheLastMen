@@ -12,6 +12,7 @@ GameObject:
   - 23: {fileID: 2310916}
   - 64: {fileID: 6414586}
   - 114: {fileID: 11403054}
+  - 82: {fileID: 8245992}
   m_Layer: 0
   m_Name: Healing Plant
   m_TagString: Untagged
@@ -76,6 +77,76 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 4300006, guid: 658399bb66bee87448e40cecaa5758f8, type: 3}
+--- !u!82 &8245992
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131984}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: .5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!114 &11403054
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -91,6 +162,8 @@ MonoBehaviour:
   destructionDelay: 2
   collectParticleEffect: {fileID: 139884, guid: 78e2c0c3e95b5184f8a0a062eb0e61bc,
     type: 2}
+  collectSounds:
+  - {fileID: 8300000, guid: c54bc46245753564b9e63212d1524b49, type: 3}
   healAmount: 5
 --- !u!1001 &100100000
 Prefab:
@@ -99,6 +172,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: collectSounds.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -127,6 +204,14 @@ Prefab:
       propertyPath: collectParticleEffect
       value: 
       objectReference: {fileID: 139884, guid: 78e2c0c3e95b5184f8a0a062eb0e61bc, type: 2}
+    - target: {fileID: 0}
+      propertyPath: collectSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: c54bc46245753564b9e63212d1524b49, type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_Volume
+      value: .5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 131984}

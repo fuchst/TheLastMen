@@ -11,7 +11,7 @@ Done - Islands: on collision with black hole or other islands, no destruction ta
 
 
 FEATURES
-- GUI: show health, time, layer in bastion menu; update survivor display during game - FloW
+DONE - GUI: show health, time, layer in bastion menu; update survivor display during game - FloW
 DONE - GUI: show controls ingame
 DONE - GUI: Main Menu - FloW
 DONE - GUI: Controls display in menu - FloW

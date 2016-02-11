@@ -9,8 +9,8 @@ public class IslandNavigation : MonoBehaviour {
     private GameObject navGridPrefab;
     public NavigationGrid navGridInstance { get; set; }
 
-    private bool enemiesActive = false;
-    private static float minDistance = Mathf.Pow(100.0f, 2);
+    private bool enemiesActive = true;
+    private static float minDistance = Mathf.Pow(75.0f, 2);
 
     void Awake()
     {
@@ -19,7 +19,8 @@ public class IslandNavigation : MonoBehaviour {
 
         navGridInstance = (Instantiate(navGridPrefab, this.transform.position, this.transform.rotation) as GameObject).GetComponent<NavigationGrid>();
         navGridInstance.transform.SetParent(transform);
-        
+        //Debug.Log(enemiesActive);
+              
         enemies = new List<GameObject>();
 /*
         for(int i = 0; i < 10; i++)
@@ -44,23 +45,35 @@ public class IslandNavigation : MonoBehaviour {
 
     void Update()
     {
+        //if (enemiesActive) {
+        //    Debug.Log(enemiesActive);
+        //}
         GameObject player = LevelManager.Instance.player;
         float distanceToPlayer = (transform.position - player.transform.position).sqrMagnitude;
 
-        if (distanceToPlayer > minDistance && enemiesActive == true)
-        {
-            foreach (GameObject e in enemies)
-            {
+        if ((distanceToPlayer <= minDistance) != enemiesActive) {
+            enemiesActive = !enemiesActive;
+
+            //remove all null entries before traversing the enemy list
+            enemies.RemoveAll(element => null == element);
+
+            foreach (GameObject e in enemies) {
+                e.SetActive(enemiesActive);
+            }
+        }
+
+        /*if (distanceToPlayer > minDistance && enemiesActive) {
+            foreach (GameObject e in enemies) {
                 e.SetActive(false);
             }
+            enemiesActive = false;
         }
-        else if(distanceToPlayer <= minDistance && enemiesActive == false)
-        {
-            foreach (GameObject e in enemies)
-            {
+        else if(distanceToPlayer <= minDistance && !enemiesActive) {
+            foreach (GameObject e in enemies) {
                 e.SetActive(true);
             }
-        }
+            enemiesActive = true;
+        }*/
     }
 
     public void SpawnEnemies(Transform parent, Stack<KeyValuePair<GameObject, Vector3>> enemiesWithSpawnPositions)

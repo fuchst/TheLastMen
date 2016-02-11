@@ -18,6 +18,7 @@ TagManager:
   - 'Spawn: Bush'
   - IslandCollision
   - Crystal
+  - Sun
   layers:
   - Default
   - TransparentFX

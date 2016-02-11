@@ -3,6 +3,9 @@ using System.Collections;
 
 public class s_Tree : MonoBehaviour {
     [SerializeField]protected Collider groundCollider;
+    [SerializeField]protected AudioClip soundHit;
+    [SerializeField]protected GameObject soundDestroyPrefab;
+    protected new AudioSource audio;
 
     [SerializeField]protected int health = 100;
     [SerializeField]protected int numberOfLogs = 1;
@@ -11,14 +14,22 @@ public class s_Tree : MonoBehaviour {
 
     protected bool destroyed = false;
 
+    void Awake () {
+        audio = GetComponent<AudioSource>();
+    }
+
     public void Hit (int damage) {
         health -= damage;
+        audio.clip = soundHit;
+        audio.Play();
         if (health < 0 && !destroyed && logPrefab) {
             Burst();
         }
     }
 
     protected void Burst () {
+        Instantiate(soundDestroyPrefab, transform.position, transform.rotation);
+
         s_GameManager.UpgradeSettings.UpgradeObject harvest = s_GameManager.Instance.upgradeSettings.upgrades[s_GameManager.UpgradeSettings.UpgradeTypes.ResourceHarvesting];
         destroyed = true;
         int tmp = 0;

@@ -86,6 +86,7 @@ public class s_GUIMain : MonoBehaviour {
 	[SerializeField]protected Image iconPlayerHealth, iconPlayerHealthSurvivor;
 	[SerializeField]protected Text textPlayerHealth;
     [SerializeField]protected Image damageScreenOverlay;
+    [SerializeField]protected Image deathScreenOverlay;
     [SerializeField]protected Color damageOverlayColorActive;
     [SerializeField]protected Color damageOverlayColorRegular;
 
@@ -158,7 +159,13 @@ public class s_GUIMain : MonoBehaviour {
         combat = playerTransform.GetComponent<Combat>();
 
         if (!playerCamera) {
-            playerCamera = playerTransform.GetChild(0).GetComponent<Camera>();
+            //playerCamera = playerTransform.GetChild(0).GetComponent<Camera>();
+            foreach (Transform child in playerTransform) {
+                if (child.CompareTag("MainCamera")) {
+                    playerCamera = child.gameObject.GetComponent<Camera>();
+                    break;
+                }
+            }
         }
 
 		/*if(!bastionTransform){
@@ -173,15 +180,12 @@ public class s_GUIMain : MonoBehaviour {
         maxX = Screen.width - screenBorderThreshold;
         maxY = Screen.height - screenBorderThreshold;
 
-        correctionOffset = 0.5f * (24 + LevelManager.Instance.BlackHole.transform.localScale.x); //accounts for scale of black hole and bastion
-        initialDistanceToBlackHole = ComputeDistanceToBlackHole();
-
         buttonPause.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(true); });
         buttonContinue.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(false); });
         buttonControls.onClick.AddListener(() => { s_GUIMain.Instance.GUI_Controls.gameObject.SetActive(true); });
         buttonReturn.onClick.AddListener(() => { s_GUIMain.Instance.GUI_Controls.gameObject.SetActive(false); });
         buttonRestart.onClick.AddListener(() => { LevelManager.Instance.RestartLevel(); });
-        buttonQuit.onClick.AddListener(() => { Application.LoadLevel(0); });
+        buttonQuit.onClick.AddListener(() => { s_GameManager.Instance.SetGamePaused(false); Application.LoadLevel(0); });
         buttonCloseBastionMenu.onClick.AddListener(() => { s_GameManager.Instance.ToggleBastionMenu(); });
 
         buttonTake1Wood.onClick.AddListener(() => { s_GameManager.Instance.TakeWood(1); });
@@ -196,6 +200,7 @@ public class s_GUIMain : MonoBehaviour {
         buttonClimbLayer.onClick.AddListener(() => { s_GameManager.Instance.ClimbLayer(); });
         
         damageScreenOverlay.CrossFadeColor(damageOverlayColorRegular, 0.0f, true, true);
+        deathScreenOverlay.CrossFadeColor(Color.clear, 0.0f, true, true);
 
         textRemainingTimeOutline = textRemainingTime.GetComponent<NicerOutline>();
 
@@ -258,7 +263,7 @@ public class s_GUIMain : MonoBehaviour {
     }
 
     protected void UpdatePerFrame () {
-        int remainingTime = (int)Mathf.Max(0, game.endTime - Time.time);
+        int remainingTime = (int)Mathf.Max(0, game.RemainingTime);
         textRemainingTime.text = remainingTime / 60 + ":" + (remainingTime % 60).ToString("00");
         float percRemainingTime = remainingTime / game.roundDuration;
         float lerpFactor = percRemainingTime > 0.4f ? 0 : (1.0f - 2.5f*percRemainingTime) + 0.5f * Mathf.PingPong(Time.time / (0.4f + 9*percRemainingTime), 1.0f);
@@ -432,14 +437,18 @@ public class s_GUIMain : MonoBehaviour {
                 rect.localScale = Vector3.one;
                 survivorDisplayElements.Add(newElement);
             }
-            while (survivorDisplayElements.Count > game.survivorsCur - 1) {
+            while (survivorDisplayElements.Count > Mathf.Max(0, game.survivorsCur - 1)) {
                 GameObject oldElement = survivorDisplayElements[survivorDisplayElements.Count - 1];
                 survivorDisplayElements.Remove(oldElement);
                 Destroy(oldElement);
             }
         }
         
-        if (game.healthpointsPrev > game.healthpointsCur) {
+        if(0 == game.healthpointsCur) {
+            deathScreenOverlay.CrossFadeColor(Color.black, 0.0f, false, true);
+            deathScreenOverlay.CrossFadeColor(Color.clear, 3.0f, false, true);
+        }
+        else if (game.healthpointsPrev > game.healthpointsCur) {
             //StartCoroutine(FadeDamageOverlay());
             damageScreenOverlay.CrossFadeColor(damageOverlayColorActive, 0.0f, false, true);
             damageScreenOverlay.CrossFadeColor(damageOverlayColorRegular, 1.0f, false, true);
@@ -487,17 +496,18 @@ public class s_GUIMain : MonoBehaviour {
         UpdateCursor();
     }
 
-    public void HideAllMenus()
-    {
+    protected void UpdateLayerState () {
+        textCurrentLayer.text = "Layer " + (LevelManager.Instance.CurLvl + 1);
+        seedPause.text = LevelManager.Instance.RngSeed.ToString();
+        correctionOffset = 0.5f * (0.5f * 24 + 0.5f * LevelManager.Instance.BlackHole.transform.localScale.x); //accounts for scale of black hole and bastion
+        initialDistanceToBlackHole = ComputeDistanceToBlackHole();
+    }
+
+    public void HideAllMenus() {
         //GUI_Ingame.gameObject.SetActive(false);
         GUI_Ingame.interactable = false;
         GUI_Ingame.alpha = 0f;
         GUI_BastionMenu.gameObject.SetActive(false);
-    }
-
-    protected void UpdateLayerState () {
-        textCurrentLayer.text = "Layer " + (LevelManager.Instance.CurLvl + 1);
-        seedPause.text = LevelManager.Instance.RngSeed.ToString();
     }
 
     //TODO: possibly change color, transparency, size?

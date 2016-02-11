@@ -169,18 +169,21 @@ public class s_GameManager : MonoBehaviour {
     public int healthRegenerationRateBastion = 10;
     public int survivorsCur = 3;
     public int amountOfKeys = 0;
+    public int enemyKillCount = 0;
     protected UpgradeSettings.UpgradeObject playerArmour;
     protected UpgradeSettings.UpgradeObject inventoryCapacity;
 
     public float energyCostClimbLayer = 15;
 
+    public bool useRandomSeed = true;
     public bool gamePaused = false;
     protected bool bastionMenu = false;
     protected bool playerInBastion = false;
 
     public GameObject[] lootTableRegular = new GameObject[1];
     public GameObject[] lootTableRare = new GameObject[1];
-    [Range(0.0f, 1.0f)]public float rareLootChance = 0.1f;
+    [SerializeField][Range(0.0f, 1.0f)]protected float rareLootChance = 0.1f;
+    protected int inverseRareLootChance;
 
     private static s_GameManager instance;
 
@@ -241,7 +244,7 @@ public class s_GameManager : MonoBehaviour {
     
     public bool CheckUpgradeAvailability (UpgradeSettings.UpgradeTypes upgradeType) {
         UpgradeSettings.UpgradeObject upgradeObj = upgradeSettings.upgrades[upgradeType];
-        return upgradeObj.progress_max > upgradeObj.progress_cur && energyBastion_Cur > upgradeObj.cost_energy && woodBastion_Cur > upgradeObj.cost_wood;
+        return upgradeObj.progress_cur < upgradeObj.progress_max && energyBastion_Cur >= upgradeObj.cost_energy && woodBastion_Cur >= upgradeObj.cost_wood;
     }
 
     public void BuyUpgrade (UpgradeSettings.UpgradeTypes upgradeType) {
@@ -252,11 +255,13 @@ public class s_GameManager : MonoBehaviour {
             woodBastion_Cur -= upgradeObj.cost_wood;
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Wood);
+            s_GUIMain.Instance.SwitchSelectedUpgrade(upgradeType);
         }
     }
 
     public float roundDuration = 300.0f;
-	public float endTime;
+	protected float endTime;
+    public float RemainingTime { get { return endTime - Time.time; } }
 
 	void Start () {
         ResetLevelClock();
@@ -265,6 +270,8 @@ public class s_GameManager : MonoBehaviour {
 
         playerArmour = upgradeSettings.upgrades[UpgradeSettings.UpgradeTypes.ArmourValue];
         inventoryCapacity = upgradeSettings.upgrades[UpgradeSettings.UpgradeTypes.InventoryCapacity];
+
+        inverseRareLootChance = (int) (1.0f / rareLootChance);
     }
 
     public void LevelLoaded()
@@ -380,27 +387,34 @@ public class s_GameManager : MonoBehaviour {
     protected void KillPlayer () {
         survivorsCur--;
         upgradeSettings.ResetUpgrades();
+
         if(survivorsCur <= 0) {
             survivorsCur = 0;
             EndGame();
         }
         else {
+            s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Health);
             levelManager.player.GetComponent<FireGrapplingHook>().RemoveRope();
             //TODO: reset upgrades
             //reset some stuff in controller? 
             //levelManager.player.GetComponent<RigidbodyFirstPersonControllerSpherical>();
             levelManager.UpdatePlayerSpawnPos();
             levelManager.player.transform.position = levelManager.UpdatePlayerSpawnPos();
+            levelManager.player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            levelManager.player.GetComponent<AudioPlayer>().PlayDeathSound();
             InitializePlayerStats();
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Energy);
             s_GUIMain.Instance.UpdateGUI(GUIUpdateEvent.Wood);
+            Bastion.Instance.UpdateSurvivors();
         }
         //Debug.Log("Player died");
-        
+
     }
 
     public GameObject RetrieveLoot () {
-        if ( Random.value < rareLootChance) {
+        //if ( Random.value < rareLootChance) {
+        // if rate loot chance is 1/10, then every 10th enemy will drop rare loot - more deterministic (otherwise, it may happen to get 3 keys in a row, or no key in 20 kills)
+        if (enemyKillCount % inverseRareLootChance == inverseRareLootChance-1) {
             //rare loot
             return lootTableRare[Random.Range(0, lootTableRare.Length)];
         }
